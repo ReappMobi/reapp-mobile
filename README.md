@@ -1,4 +1,5 @@
 # Reapp
+
 Uma rede social livre que conecta pessoas as ONGs.
 
 ## Novos commits
@@ -14,14 +15,17 @@ Os novos commits que têm o potencial de impactar o projeto, como adição de fu
 `test` (teste/experimento): utilizado para experimentar fora de um problema/tarefa específica.
 
 #### Exemplos
-Você precisa adicionar, refatorar ou remover uma funcionalidade: 
+
+Você precisa adicionar, refatorar ou remover uma funcionalidade:
+
 - `git branch feature/create-new-button-component`
 
 Você precisa corrigir um bug:
+
 - `git branch bugfix/button-not-working-iphone`
 
-
 Você precisa realizar experimentos:
+
 - `git branch test/apply-new-hover-effect`
 
 ## Rodando Localmente
@@ -49,4 +53,3 @@ Rodando o projeto
 ```bash
   npm run start
 ```
-
