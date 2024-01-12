@@ -16,6 +16,7 @@ const Colors = {
   text_light: '#F1F2F3',
   text_gray: '#A9A9AA',
   text_white: '#ffffff',
+  input_background: '#f4f5f2',
 };
 
 export default Colors;
