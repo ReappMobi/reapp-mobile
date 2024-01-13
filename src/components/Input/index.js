@@ -3,7 +3,14 @@ import { TextInput, StyleSheet } from 'react-native';
 
 import Colors from '../../constants/Colors';
 
-function Input({ placeholder, maxLength, inputMode, value, onChangeText }) {
+function Input({
+  placeholder,
+  maxLength,
+  inputMode,
+  value,
+  onChangeText,
+  secureTextEntry,
+}) {
   return (
     <TextInput
       style={styles.input}
@@ -13,6 +20,7 @@ function Input({ placeholder, maxLength, inputMode, value, onChangeText }) {
       inputMode={inputMode}
       value={value}
       onChangeText={onChangeText}
+      secureTextEntry={secureTextEntry}
     />
   );
 }
