@@ -1,3 +1,4 @@
+import Ionicons from '@expo/vector-icons/Ionicons';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
@@ -23,7 +24,14 @@ function SplashScreen() {
           parceiros com instituições beneficentes. Vamos começar?
         </Text>
 
-        <Button>Continuar</Button>
+        <Button backgroundColor="white" variant="medium">
+          <Text style={styles.text}>Continuar</Text>
+          <Ionicons
+            name="chevron-forward"
+            size={24}
+            color={Colors.text_neutral}
+          />
+        </Button>
       </View>
     </View>
   );
@@ -65,5 +73,11 @@ const styles = StyleSheet.create({
     fontFamily: 'poppins-medium',
     fontSize: 16,
     justifyContent: 'flex-start',
+  },
+
+  text: {
+    fontSize: 16,
+    fontFamily: 'poppins-regular',
+    color: Colors.text_neutral,
   },
 });
