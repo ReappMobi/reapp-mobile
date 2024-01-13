@@ -1,7 +1,6 @@
 import { useFonts } from 'expo-font';
 import * as Splash from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 Splash.preventAutoHideAsync()
@@ -16,15 +15,6 @@ export default function App() {
     'poppins-regular': require('./src/assets/fonts/Poppins-Regular.ttf'),
     'poppins-medium': require('./src/assets/fonts/Poppins-Medium.ttf'),
   });
-
-  useEffect(() => {
-    async function hideSplashScreen() {
-      await Splash.hideAsync();
-    }
-    if (fontsLoaded) {
-      hideSplashScreen();
-    }
-  }, [fontsLoaded]);
 
   if (!fontsLoaded) {
     return null;
