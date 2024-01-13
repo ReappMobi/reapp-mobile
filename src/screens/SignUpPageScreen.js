@@ -1,9 +1,8 @@
+import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native';
 
-import ButtonFacebookSignUp from '../components/ButtonFacebookSignUp';
-import ButtonGoogleSignUp from '../components/ButtonGoogleSignUp';
-import ConfirmButton from '../components/ConfirmButton';
+import Button from '../components/Button';
 import Input from '../components/Input';
 import Colors from '../constants/Colors';
 
@@ -18,8 +17,26 @@ function SignUpPageScreen() {
         <View style={styles.main}>
           <View style={styles.signUpForm}>
             <View style={styles.signUpGoogleFacebook}>
-              <ButtonFacebookSignUp />
-              <ButtonGoogleSignUp />
+              <Button
+                variant="small"
+                backgroundColor={Colors.color_third_light}
+              >
+                <Ionicons
+                  name="logo-facebook"
+                  size={24}
+                  color={Colors.text_neutral}
+                />
+              </Button>
+              <Button
+                variant="small"
+                backgroundColor={Colors.color_third_light}
+              >
+                <Ionicons
+                  name="logo-google"
+                  size={24}
+                  color={Colors.text_neutral}
+                />
+              </Button>
             </View>
 
             <Text style={styles.signUpEmailText}>
@@ -58,7 +75,9 @@ function SignUpPageScreen() {
             </View>
 
             <View style={styles.buttonConfirm}>
-              <ConfirmButton />
+              <Button variant="large" backgroundColor={Colors.color_primary}>
+                <Text style={styles.textButton}>Cadastrar</Text>
+              </Button>
             </View>
 
             <Text style={styles.loginText}>
@@ -128,5 +147,11 @@ const styles = StyleSheet.create({
   label: {
     fontFamily: 'poppins-regular',
     fontSize: 16,
+  },
+
+  textButton: {
+    fontFamily: 'poppins-medium',
+    fontSize: 16,
+    color: Colors.text_white,
   },
 });
