@@ -52,8 +52,6 @@ const styles = StyleSheet.create({
     gap: 32,
   },
 
-  illustration: {},
-
   introduction: {
     fontFamily: 'poppins-medium',
     fontSize: 16,
