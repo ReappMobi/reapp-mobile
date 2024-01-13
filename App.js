@@ -1,13 +1,6 @@
 import { useFonts } from 'expo-font';
-import * as Splash from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-
-Splash.preventAutoHideAsync()
-  .then((result) =>
-    console.log(`SplashScreen.preventAutoHideAsync() succeeded: ${result}`)
-  )
-  .catch(console.warn);
 
 export default function App() {
   const [fontsLoaded] = useFonts({
