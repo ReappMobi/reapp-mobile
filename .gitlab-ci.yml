@@ -1,21 +1,13 @@
-# We're pulling and installing node into our virtual container, neat!
 image: node
 
-stage:
- # I just want to lint, so I will create a "lint" stage
- - lint
+stages:
+  - lint
 
-# Lets name our Job eslint, because that's what it's doing.
 eslint:
- # tell eslint what stage it is. (This could also be build or test for example)
- stage: lint
-
- # What scripts do we want to run?
- script:
-    # install eslint
+  stage: lint
+  script:
     - |
-      npm i eslint \
-      eslint-plugin-prettier
-
-    # Run eslint
+      npm install eslint \
+      eslint-config-prettier
+      
     - node_modules/eslint/bin/eslint.js . --max-warnings=0
