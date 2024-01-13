@@ -1,3 +1,4 @@
+import Ionicons from '@expo/vector-icons/Ionicons';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
@@ -23,8 +24,22 @@ function SignUpSplashScreen() {
           </Text>
 
           <View style={styles.buttons}>
-            <Button>Sou doador</Button>
-            <Button>Sou Instituição</Button>
+            <Button backgroundColor={Colors.color_white}>
+              <Text style={styles.buttonText}>Sou doador</Text>
+              <Ionicons
+                name="chevron-forward"
+                size={24}
+                color={Colors.text_neutral}
+              />
+            </Button>
+            <Button backgroundColor={Colors.color_white}>
+              <Text style={styles.buttonText}>Sou doador</Text>
+              <Ionicons
+                name="chevron-forward"
+                size={24}
+                color={Colors.text_neutral}
+              />
+            </Button>
           </View>
         </View>
       </View>
@@ -75,5 +90,11 @@ const styles = StyleSheet.create({
 
   buttons: {
     gap: 16,
+  },
+
+  buttonText: {
+    fontSize: 16,
+    fontFamily: 'poppins-regular',
+    color: Colors.text_neutral,
   },
 });
