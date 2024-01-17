@@ -4,11 +4,12 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import SplashScreenImage from '../assets/images/SplashScreenImage.svg';
 import Button from '../components/Button';
+import ScreenContainer from '../components/ScreenContainer';
 import Colors from '../constants/Colors';
 
 function SplashScreen() {
   return (
-    <View style={styles.SplashScreen}>
+    <ScreenContainer>
       <View style={styles.header}>
         <Text style={styles.title}>REAPP</Text>
       </View>
@@ -33,21 +34,13 @@ function SplashScreen() {
           />
         </Button>
       </View>
-    </View>
+    </ScreenContainer>
   );
 }
 
 export default SplashScreen;
 
 const styles = StyleSheet.create({
-  SplashScreen: {
-    flex: 1,
-    flexDirection: 'column',
-    marginTop: 30,
-    padding: 16,
-    backgroundColor: Colors.color_white,
-  },
-
   header: {
     justifyContent: 'flex-start',
     flexDirection: 'column',
@@ -66,8 +59,6 @@ const styles = StyleSheet.create({
     padding: 8,
     gap: 32,
   },
-
-  illustration: {},
 
   introduction: {
     fontFamily: 'poppins-medium',
