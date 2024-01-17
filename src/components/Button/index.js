@@ -4,11 +4,12 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import Colors from '../../constants/Colors';
 
-function Button({ children }) {
+function Button({ startIcon, children, endIcon, ...props }) {
   return (
     <View style={styles.button}>
+      {startIcon}
       <Text style={styles.text}>{children}</Text>
-      <Ionicons name="chevron-forward" size={24} color="black" />
+      {endIcon}
     </View>
   );
 }
