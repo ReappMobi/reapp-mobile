@@ -18,8 +18,8 @@ export default Button;
 const styles = StyleSheet.create({
   button: {
     backgroundColor: Colors.color_white,
-    width: 250,
-    height: 56,
+    maxwidth: 250,
+    minHeight: 56,
     elevation: 4,
     borderRadius: 6,
     borderWidth: 2,
@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    color: Colors.text_neutral,
     padding: 16,
     gap: 10,
     shadowColor: '#000',
