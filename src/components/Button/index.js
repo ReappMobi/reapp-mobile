@@ -3,7 +3,14 @@ import { View, StyleSheet, Pressable } from 'react-native';
 
 import Colors from '../../constants/Colors';
 
-function Button({ variant = 'medium', children, backgroundColor, startIcon, endIcon, ...props}) {
+function Button({
+  variant = 'medium',
+  children,
+  backgroundColor,
+  startIcon,
+  endIcon,
+  ...props
+}) {
   return (
     <View
       style={[styles.gridItem, variantStyles[variant], { backgroundColor }]}
