@@ -1,78 +1,95 @@
 import React from 'react';
-import { View, StyleSheet, Pressable } from 'react-native';
+import { Text, StyleSheet, Pressable } from 'react-native';
 
 import Colors from '../../constants/Colors';
 
-function Button({
-  variant = 'medium',
+const handlePress = ({ pressed, variant, backgroundColor, size, style }) => {
+  const _styles = styles(backgroundColor);
+  return [
+    _styles.button,
+    _styles[variant],
+    pressed && _styles[variant].pressed,
+    _styles.sizes[size],
+    style,
+  ];
+};
+
+export default function Button({
+  variant = 'contained',
+  backgroundColor = Colors.color_white,
   children,
-  backgroundColor,
   startIcon,
   endIcon,
-  ...props
+  size = 'medium',
+  style = {},
 }) {
   return (
-    <View
-      style={[styles.gridItem, variantStyles[variant], { backgroundColor }]}
+    <Pressable
+      style={({ pressed }) =>
+        handlePress({ pressed, variant, backgroundColor, size, style })
+      }
+      android_ripple={{ color: backgroundColor || 'rgba(0,0,0,0.2)' }}
     >
-      <Pressable
-        style={({ pressed }) =>
-          pressed ? [styles.button, styles.pressed] : styles.button
-        }
-        android_ripple={{ color: Colors.color_gray }}
-      >
-        {startIcon}
-        <View style={styles.innerContainer}>{children}</View>
-        {startIcon}
-      </Pressable>
-    </View>
+      {startIcon}
+      <Text style={styles.content}> {children} </Text>
+      {endIcon}
+    </Pressable>
   );
 }
 
-export default Button;
-
-const styles = StyleSheet.create({
-  gridItem: {
-    elevation: 4,
-    borderRadius: 6,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
+const styles = (backgroundColor) =>
+  StyleSheet.create({
+    button: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: 16,
+      borderRadius: 6,
+      backgroundColor,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    overflow: 'hidden',
-  },
 
-  button: {
-    flex: 1,
-  },
+    content: {
+      fontFamily: 'poppins-medium',
+    },
 
-  innerContainer: {
-    flex: 1,
-    padding: 16,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+    text: {
+      backgroundColor: 'transparent',
+    },
 
-  pressed: {
-    opacity: 0.5,
-  },
-});
+    contained: {
+      elevation: 4,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      pressed: {
+        opacity: 0.7,
+      },
+    },
 
-const variantStyles = StyleSheet.create({
-  small: {
-    width: 56,
-    height: 56,
-  },
-  medium: {
-    width: 250,
-    height: 56,
-  },
-  large: {
-    width: '100%',
-    height: 56,
-  },
-});
+    outlined: {
+      borderWidth: 1,
+      borderColor: backgroundColor,
+      borderRadius: 6,
+      backgroundColor: 'transparent',
+      transition: 'all 0.3s ease-in-out',
+      pressed: {
+        opactiy: 0.5,
+      },
+    },
+
+    sizes: {
+      small: {
+        padding: 8,
+      },
+      medium: {
+        padding: 16,
+      },
+      large: {
+        padding: 24,
+      },
+    },
+  });
