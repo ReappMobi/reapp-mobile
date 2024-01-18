@@ -23,6 +23,7 @@ export default function Button({
   endIcon,
   size = 'medium',
   style = {},
+  styleText = {},
 }) {
   return (
     <Pressable
@@ -32,7 +33,7 @@ export default function Button({
       android_ripple={{ color: backgroundColor || 'rgba(0,0,0,0.2)' }}
     >
       {startIcon}
-      <Text style={styles.content}> {children} </Text>
+      <Text style={[styles().content, styleText]}> {children} </Text>
       {endIcon}
     </Pressable>
   );
