@@ -67,4 +67,9 @@ const styles = {
     gap: 24,
     justifyContent: 'space-evenly',
   },
+  buttonText: {
+    fontFamily: 'poppins-medium',
+    fontSize: 16,
+    color: Colors.text_neutral,
+  },
 };
