@@ -4,11 +4,12 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import SignUpSplashScreenImage from '../assets/images/SignUpSplashScreenImage.svg';
 import Button from '../components/Button';
+import ScreenContainer from '../components/ScreenContainer';
 import Colors from '../constants/Colors';
 
-function SignUpSplashScreen() {
+export default function SignUpSplashScreen() {
   return (
-    <View style={styles.SignUpSplash}>
+    <ScreenContainer>
       <View style={styles.header}>
         <Text style={styles.title}>REAPP</Text>
       </View>
@@ -49,11 +50,9 @@ function SignUpSplashScreen() {
           </View>
         </View>
       </View>
-    </View>
+    </ScreenContainer>
   );
 }
-
-export default SignUpSplashScreen;
 
 const styles = StyleSheet.create({
   SignUpSplash: {
