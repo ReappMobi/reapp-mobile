@@ -24,21 +24,27 @@ function SignUpSplashScreen() {
           </Text>
 
           <View style={styles.buttons}>
-            <Button backgroundColor={Colors.color_white}>
+            <Button
+              endIcon={
+                <Ionicons
+                  name="chevron-forward"
+                  size={24}
+                  color={Colors.text_neutral}
+                />
+              }
+            >
               <Text style={styles.buttonText}>Sou doador</Text>
-              <Ionicons
-                name="chevron-forward"
-                size={24}
-                color={Colors.text_neutral}
-              />
             </Button>
-            <Button backgroundColor={Colors.color_white}>
-              <Text style={styles.buttonText}>Sou doador</Text>
-              <Ionicons
-                name="chevron-forward"
-                size={24}
-                color={Colors.text_neutral}
-              />
+            <Button
+              endIcon={
+                <Ionicons
+                  name="chevron-forward"
+                  size={24}
+                  color={Colors.text_neutral}
+                />
+              }
+            >
+              <Text style={styles.buttonText}>Sou Instituição</Text>
             </Button>
           </View>
         </View>

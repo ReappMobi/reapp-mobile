@@ -17,20 +17,14 @@ function SignUpPageScreen() {
         <View style={styles.main}>
           <View style={styles.signUpForm}>
             <View style={styles.signUpGoogleFacebook}>
-              <Button
-                variant="small"
-                backgroundColor={Colors.color_third_light}
-              >
+              <Button backgroundColor={Colors.color_third_light}>
                 <Ionicons
                   name="logo-facebook"
                   size={24}
                   color={Colors.text_neutral}
                 />
               </Button>
-              <Button
-                variant="small"
-                backgroundColor={Colors.color_third_light}
-              >
+              <Button size="small" backgroundColor={Colors.color_third_light}>
                 <Ionicons
                   name="logo-google"
                   size={24}
@@ -75,7 +69,7 @@ function SignUpPageScreen() {
             </View>
 
             <View style={styles.buttonConfirm}>
-              <Button variant="large" backgroundColor={Colors.color_primary}>
+              <Button backgroundColor={Colors.color_primary}>
                 <Text style={styles.textButton}>Cadastrar</Text>
               </Button>
             </View>
