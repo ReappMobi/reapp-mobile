@@ -39,6 +39,6 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     color: Colors.text_gray,
     fontSize: 16,
-    fontFamily: 'poppins-regular',
+    fontFamily: 'regular',
   },
 });
