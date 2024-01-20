@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import Colors from '../constants/Colors';
+import Colors from '../../constants/Colors';
 
 export const styles = StyleSheet.create({
   SignUpSplash: {
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
 
   title: {
     color: Colors.text_primary,
-    fontFamily: 'poppins-bold',
+    fontFamily: 'bold',
     fontSize: 24,
   },
 
@@ -36,18 +36,13 @@ export const styles = StyleSheet.create({
   },
 
   introduceText: {
-    fontFamily: 'poppins-bold',
+    fontFamily: 'bold',
     fontSize: 16,
     color: Colors.text_dark,
   },
 
   buttons: {
     gap: 16,
-  },
-
-  buttonText: {
-    fontSize: 16,
-    fontFamily: 'poppins-regular',
-    color: Colors.text_neutral,
+    width: 250,
   },
 });
