@@ -38,7 +38,7 @@ export default function DonationScreen() {
 
 const styles = {
   headerTitle: {
-    fontFamily: 'poppins-bold',
+    fontFamily: 'bold',
     fontSize: 24,
     textTransform: 'uppercase',
     color: Colors.color_primary,
@@ -49,7 +49,7 @@ const styles = {
     width: '100%',
   },
   sectionTitle: {
-    fontFamily: 'poppins-bold',
+    fontFamily: 'bold',
     fontSize: 20,
     color: Colors.text_dark,
     textAlign: 'center',
@@ -68,7 +68,7 @@ const styles = {
     justifyContent: 'space-evenly',
   },
   buttonText: {
-    fontFamily: 'poppins-medium',
+    fontFamily: 'medium',
     fontSize: 16,
     color: Colors.text_neutral,
   },

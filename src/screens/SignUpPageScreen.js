@@ -24,7 +24,7 @@ function SignUpPageScreen() {
                   color={Colors.text_neutral}
                 />
               </Button>
-              <Button size="small" backgroundColor={Colors.color_third_light}>
+              <Button backgroundColor={Colors.color_third_light}>
                 <Ionicons
                   name="logo-google"
                   size={24}
@@ -68,11 +68,13 @@ function SignUpPageScreen() {
               />
             </View>
 
-            <View style={styles.buttonConfirm}>
-              <Button backgroundColor={Colors.color_primary}>
-                <Text style={styles.textButton}>Cadastrar</Text>
-              </Button>
-            </View>
+            <Button
+              backgroundColor={Colors.color_primary}
+              styleText={{ color: Colors.text_light }}
+              style={{ justifyContent: 'center' }}
+            >
+              Cadastrar
+            </Button>
 
             <Text style={styles.loginText}>
               Já possui uma conta?{' '}
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
 
   title: {
     color: Colors.text_primary,
-    fontFamily: 'poppins-bold',
+    fontFamily: 'bold',
     fontSize: 24,
   },
 
@@ -121,14 +123,14 @@ const styles = StyleSheet.create({
   },
 
   signUpEmailText: {
-    fontFamily: 'poppins-medium',
+    fontFamily: 'medium',
     fontSize: 12,
     textAlign: 'center',
   },
 
   loginText: {
     textAlign: 'center',
-    fontFamily: 'poppins-regular',
+    fontFamily: 'regular',
     fontSize: 15,
     color: Colors.text_dark,
   },
@@ -139,13 +141,7 @@ const styles = StyleSheet.create({
   },
 
   label: {
-    fontFamily: 'poppins-regular',
+    fontFamily: 'regular',
     fontSize: 16,
-  },
-
-  textButton: {
-    fontFamily: 'poppins-medium',
-    fontSize: 16,
-    color: Colors.text_white,
   },
 });

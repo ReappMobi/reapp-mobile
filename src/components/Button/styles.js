@@ -12,7 +12,8 @@ export const styles = (backgroundColor) =>
     },
 
     content: {
-      fontFamily: 'poppins-medium',
+      fontFamily: 'medium',
+      fontSize: 16,
     },
 
     text: {
