@@ -25,13 +25,18 @@ function SplashScreen() {
           parceiros com instituições beneficentes. Vamos começar?
         </Text>
 
-        <Button backgroundColor="white" variant="medium">
-          <Text style={styles.text}>Continuar</Text>
-          <Ionicons
-            name="chevron-forward"
-            size={24}
-            color={Colors.text_neutral}
-          />
+        <Button
+          backgroundColor="white"
+          endIcon={
+            <Ionicons
+              name="chevron-forward"
+              size={24}
+              color={Colors.text_neutral}
+            />
+          }
+          style={{ width: 250 }}
+        >
+          Continuar
         </Button>
       </View>
     </ScreenContainer>
@@ -48,7 +53,7 @@ const styles = StyleSheet.create({
 
   title: {
     color: Colors.text_primary,
-    fontFamily: 'poppins-bold',
+    fontFamily: 'bold',
     fontSize: 24,
   },
 
@@ -61,14 +66,14 @@ const styles = StyleSheet.create({
   },
 
   introduction: {
-    fontFamily: 'poppins-medium',
+    fontFamily: 'medium',
     fontSize: 16,
     justifyContent: 'flex-start',
   },
 
   text: {
     fontSize: 16,
-    fontFamily: 'poppins-regular',
+    fontFamily: 'regular',
     color: Colors.text_neutral,
   },
 });

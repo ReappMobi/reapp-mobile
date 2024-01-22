@@ -1,13 +1,10 @@
 import { useFonts } from 'expo-font';
 
+import { fonts } from './src/constants/Fonts';
 import SplashScreen from './src/screens/SplashScreen';
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
-    'poppins-bold': require('./src/assets/fonts/Poppins-Bold.ttf'),
-    'poppins-regular': require('./src/assets/fonts/Poppins-Regular.ttf'),
-    'poppins-medium': require('./src/assets/fonts/Poppins-Medium.ttf'),
-  });
+  const [fontsLoaded] = useFonts(fonts);
 
   if (!fontsLoaded) {
     return null;

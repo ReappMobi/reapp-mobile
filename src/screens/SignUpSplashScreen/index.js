@@ -2,11 +2,11 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import SignUpSplashScreenImage from '../assets/images/SignUpSplashScreenImage.svg';
-import Button from '../components/Button';
-import ScreenContainer from '../components/ScreenContainer';
-import Colors from '../constants/Colors';
-import { styles } from '../styles';
+import { styles } from './styles';
+import SignUpSplashScreenImage from '../../assets/images/SignUpSplashScreenImage.svg';
+import Button from '../../components/Button';
+import ScreenContainer from '../../components/ScreenContainer';
+import Colors from '../../constants/Colors';
 
 export default function SignUpSplashScreen() {
   return (
@@ -35,7 +35,7 @@ export default function SignUpSplashScreen() {
                 />
               }
             >
-              <Text style={styles.buttonText}>Sou doador</Text>
+              Sou doador
             </Button>
             <Button
               endIcon={
@@ -46,7 +46,7 @@ export default function SignUpSplashScreen() {
                 />
               }
             >
-              <Text style={styles.buttonText}>Sou Instituição</Text>
+              Sou Instituição
             </Button>
           </View>
         </View>
