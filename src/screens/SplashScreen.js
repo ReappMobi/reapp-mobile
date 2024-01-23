@@ -4,15 +4,21 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import SplashScreenImage from '../assets/images/SplashScreenImage.svg';
 import Button from '../components/Button';
+import Header from '../components/Header';
 import ScreenContainer from '../components/ScreenContainer';
 import Colors from '../constants/Colors';
 
 function SplashScreen() {
   return (
     <ScreenContainer>
-      <View style={styles.header}>
-        <Text style={styles.title}>REAPP</Text>
-      </View>
+      <Header
+        color={Colors.text_neutral}
+        leftComponent={
+          <Text className="text-2xl uppercase font-bold text-color_secundary">
+            reapp
+          </Text>
+        }
+      />
 
       <View style={styles.main}>
         <SplashScreenImage
