@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native';
 
 export default function ScreenContainer({ children }) {
   return (
-    <SafeAreaView className="flex-1 pt-12 px-4">
+    <SafeAreaView className="flex-1 px-4 pt-12">
       {children}
       <StatusBar style="auto" />
     </SafeAreaView>

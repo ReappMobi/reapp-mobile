@@ -14,7 +14,7 @@ function SplashScreen() {
       <Header
         color={Colors.text_neutral}
         leftComponent={
-          <Text className="text-2xl uppercase font-bold text-color_secundary">
+          <Text className="text-2xl font-bold uppercase text-color_secundary">
             reapp
           </Text>
         }
