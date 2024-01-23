@@ -2,10 +2,10 @@ import React from 'react';
 import { View } from 'react-native';
 
 type Props = {
-  leftComponent: JSX.Element;
-  rightComponent: JSX.Element;
-  centerComponent: JSX.Element;
-  color: string;
+  leftComponent?: JSX.Element;
+  rightComponent?: JSX.Element;
+  centerComponent?: JSX.Element;
+  color?: string;
 };
 
 export default function Header({
