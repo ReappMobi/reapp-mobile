@@ -1,7 +1,16 @@
 import React from 'react';
-import { TextInput, StyleSheet } from 'react-native';
+import { TextInput, InputModeOptions } from 'react-native';
 
 import Colors from '../../constants/Colors';
+
+type InputProps = {
+  placeholder?: string;
+  maxLength?: number;
+  inputMode?: InputModeOptions;
+  value?: string;
+  onChangeText?: (text: string) => void;
+  secureTextEntry?: boolean;
+};
 
 function Input({
   placeholder,
@@ -10,10 +19,12 @@ function Input({
   value,
   onChangeText,
   secureTextEntry,
-}) {
+}: InputProps) {
   return (
     <TextInput
-      style={styles.input}
+      className="boder-1 font-regular min-h-14 w-full rounded border 
+                    border-text_secondary bg-input_background px-2 py-4 
+                    text-base text-text_gray"
       placeholder={placeholder}
       placeholderTextColor={Colors.text_gray}
       maxLength={maxLength}
@@ -26,19 +37,3 @@ function Input({
 }
 
 export default Input;
-
-const styles = StyleSheet.create({
-  input: {
-    backgroundColor: Colors.input_background,
-    width: '100%',
-    height: 56,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: Colors.text_secondary,
-    paddingHorizontal: 8,
-    paddingVertical: 16,
-    color: Colors.text_gray,
-    fontSize: 16,
-    fontFamily: 'regular',
-  },
-});
