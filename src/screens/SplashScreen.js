@@ -33,14 +33,14 @@ function SplashScreen() {
 
         <Button
           backgroundColor="white"
+          customStyles="justify-center gap-x-1"
           endIcon={
             <Ionicons
               name="chevron-forward"
-              size={24}
-              color={Colors.text_neutral}
+              size={20}
+              color={Colors.text_primary}
             />
           }
-          style={{ width: 250 }}
         >
           Continuar
         </Button>
