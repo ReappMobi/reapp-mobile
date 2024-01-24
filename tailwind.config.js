@@ -23,6 +23,12 @@ module.exports = {
         text_white: '#ffffff',
         input_background: '#f4f5f2',
       },
+
+      fontFamily: {
+        _regular: ['Poppins-Regular', 'sans-serif'],
+        _medium: ['Poppins-Medium', 'sans-serif'],
+        _bold: ['Poppins-Bold', 'sans-serif'],
+      },
     },
   },
   plugins: [],
