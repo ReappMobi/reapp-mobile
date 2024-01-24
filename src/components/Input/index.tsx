@@ -22,8 +22,8 @@ function Input({
 }: InputProps) {
   return (
     <TextInput
-      className="boder-1 font-regular min-h-14 w-full rounded border 
-                    border-text_secondary bg-input_background px-2 py-4 
+      className="boder-1 min-h-14 w-full rounded border border-text_secondary 
+                    bg-input_background px-2 py-4 font-_regular 
                     text-base text-text_gray"
       placeholder={placeholder}
       placeholderTextColor={Colors.text_gray}
