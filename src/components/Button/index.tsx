@@ -11,6 +11,7 @@ type ButtonProps = {
   children: React.ReactNode;
   customStyles?: string;
   textColor?: string;
+  textSize?: string;
   onPress?: () => void;
 };
 
@@ -21,8 +22,9 @@ export default function Button({
   endIcon,
   children,
   customStyles,
-  onPress,
   textColor,
+  textSize,
+  onPress,
 }: ButtonProps) {
   return (
     <Pressable
@@ -34,7 +36,9 @@ export default function Button({
       onPress={onPress}
     >
       {startIcon}
-      <Text className={`font-_medium text-base ${textColor}`}>{children}</Text>
+      <Text className={`font-medium ${textSize || 'text-base'} ${textColor}`}>
+        {children}
+      </Text>
       {endIcon}
     </Pressable>
   );
