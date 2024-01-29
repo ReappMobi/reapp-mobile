@@ -1,4 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { StackActions } from '@react-navigation/native';
+import { useNavigation } from 'expo-router';
 import React from 'react';
 import { View, Text } from 'react-native';
 
@@ -9,11 +11,12 @@ import ScreenContainer from '../components/ScreenContainer';
 import Colors from '../constants/Colors';
 
 export default function SplashScreen() {
+  const navigation = useNavigation<StackNavigationProp<any>>();
   return (
     <ScreenContainer>
       <Header
         leftComponent={
-          <Text className="text-2xl font-bold uppercase text-text_primary">
+          <Text className="font-_bold text-2xl uppercase text-text_primary">
             reapp
           </Text>
         }
@@ -21,7 +24,7 @@ export default function SplashScreen() {
 
       <View className="items-center justify-center gap-y-8">
         <SplashScreenImage width={256} height={183} />
-        <Text className="text-base font-medium">
+        <Text className="font-_medium text-base">
           Somos uma organização que busca facilitar o encontro de doadores e
           parceiros com instituições beneficentes. Vamos começar?
         </Text>
@@ -34,6 +37,9 @@ export default function SplashScreen() {
               color={Colors.text_primary}
             />
           }
+          onPress={() => {
+            navigation.dispatch(StackActions.push('SignupSplash'));
+          }}
         >
           Continuar
         </Button>
