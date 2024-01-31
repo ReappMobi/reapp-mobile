@@ -11,7 +11,7 @@ import Colors from '../../constants/Colors';
 export default function SignUpSplashScreen() {
   return (
     <ScreenContainer>
-      <View>
+      <View className="py-4">
         <Header
           leftComponent={
             <Text className="font-_bold text-2xl uppercase text-text_primary">
@@ -19,47 +19,45 @@ export default function SignUpSplashScreen() {
             </Text>
           }
         />
-      </View>
 
-      <View className="items-center justify-center gap-8">
-        <View>
+        <View className="items-center justify-center gap-8">
           <SignUpSplashScreenImage width={256} height={274.96} />
-        </View>
 
-        <View className="items-center gap-y-4">
-          <Text className="text-text-dark text-center font-_bold text-base">
-            Obrigado por escolher ser juntar a nós
-          </Text>
+          <View className="items-center gap-y-4">
+            <Text className="text-text-dark text-center font-_bold text-base">
+              Obrigado por escolher ser juntar a nós
+            </Text>
 
-          <View className="gap-y-4">
-            <View>
-              <Button
-                endIcon={
-                  <Ionicons
-                    name="chevron-forward"
-                    size={24}
-                    color={Colors.text_neutral}
-                  />
-                }
-                customStyles="w-64 justify-center"
-              >
-                Sou doador
-              </Button>
-            </View>
+            <View className="gap-y-4">
+              <View>
+                <Button
+                  endIcon={
+                    <Ionicons
+                      name="chevron-forward"
+                      size={24}
+                      color={Colors.text_neutral}
+                    />
+                  }
+                  customStyles="w-64 justify-center"
+                >
+                  Sou doador
+                </Button>
+              </View>
 
-            <View>
-              <Button
-                endIcon={
-                  <Ionicons
-                    name="chevron-forward"
-                    size={24}
-                    color={Colors.text_neutral}
-                  />
-                }
-                customStyles="w-64 justify-center"
-              >
-                Sou Instituição
-              </Button>
+              <View>
+                <Button
+                  endIcon={
+                    <Ionicons
+                      name="chevron-forward"
+                      size={24}
+                      color={Colors.text_neutral}
+                    />
+                  }
+                  customStyles="w-64 justify-center"
+                >
+                  Sou Instituição
+                </Button>
+              </View>
             </View>
           </View>
         </View>
