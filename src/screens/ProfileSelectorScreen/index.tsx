@@ -10,7 +10,7 @@ import Header from '../../components/Header';
 import ScreenContainer from '../../components/ScreenContainer';
 import Colors from '../../constants/Colors';
 
-export default function SignUpSplashScreen() {
+export default function ProfileSelectorScreen() {
   const navigation = useNavigation();
   return (
     <ScreenContainer>
