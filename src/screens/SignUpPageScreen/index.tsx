@@ -12,7 +12,7 @@ function SignUpPageScreen() {
   return (
     <ScrollView>
       <ScreenContainer>
-        <View>
+        <View className="py-4">
           <Header
             leftComponent={
               <Text className="font-_bold text-2xl uppercase text-text_primary">
