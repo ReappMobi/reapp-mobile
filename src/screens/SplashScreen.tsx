@@ -11,7 +11,7 @@ import ScreenContainer from '../components/ScreenContainer';
 import Colors from '../constants/Colors';
 
 export default function SplashScreen() {
-  const navigation = useNavigation<StackNavigationProp<any>>();
+  const navigation = useNavigation();
   return (
     <ScreenContainer>
       <Header
