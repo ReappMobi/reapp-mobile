@@ -4,14 +4,14 @@ import { useNavigation } from 'expo-router';
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import SplashScreenImage from '../assets/images/SplashScreenImage.svg';
-import Button from '../components/Button';
-import Header from '../components/Header';
-import ScreenContainer from '../components/ScreenContainer';
-import Colors from '../constants/Colors';
+import Button from '../.././../components/Button';
+import SplashScreenImage from '../../../assets/images/SplashScreenImage.svg';
+import Header from '../../../components/Header';
+import ScreenContainer from '../../../components/ScreenContainer';
+import Colors from '../../../constants/Colors';
 
-export default function SplashScreen() {
-  const navigation = useNavigation<StackNavigationProp<any>>();
+export default function WelcomeScreen() {
+  const navigation = useNavigation();
   return (
     <ScreenContainer>
       <View className="py-4">

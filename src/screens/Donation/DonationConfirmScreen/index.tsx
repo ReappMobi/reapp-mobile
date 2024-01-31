@@ -2,9 +2,9 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import DonationConfirmScreenImage from '../../assets/images/DonationConfirmScreenImage.svg';
-import Header from '../../components/Header';
-import Colors from '../../constants/Colors';
+import DonationConfirmScreenImage from '../../../assets/images/DonationConfirmScreenImage.svg';
+import Header from '../../../components/Header';
+import Colors from '../../../constants/Colors';
 
 type DonationConfirmScreenProps = {
   name?: string;
