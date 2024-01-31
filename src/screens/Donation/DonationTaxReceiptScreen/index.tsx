@@ -2,11 +2,11 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import DonationTaxReceiptImage from '../../assets/images/DonationTaxReceiptImage.svg';
-import Button from '../../components/Button';
-import Header from '../../components/Header';
-import ScreenContainer from '../../components/ScreenContainer';
-import Colors from '../../constants/Colors';
+import DonationTaxReceiptImage from '../../../assets/images/DonationTaxReceiptImage.svg';
+import Button from '../../../components/Button';
+import Header from '../../../components/Header';
+import ScreenContainer from '../../../components/ScreenContainer';
+import Colors from '../../../constants/Colors';
 
 function DonationTaxReceiptScreen() {
   return (
