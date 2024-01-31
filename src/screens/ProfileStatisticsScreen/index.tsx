@@ -27,11 +27,27 @@ function ProfileStatisticsScreen() {
       title: 'Patrocínio Esportivo',
       subtitle: 'Equipamento esportivo para a equipe juvenil de futebol',
     },
+    {
+      title: 'Equipamentos para Escolas',
+      subtitle: '15 kits de ciências para escolas locais',
+    },
+    {
+      title: 'Apoio a Alimentação',
+      subtitle: '500 kg de alimentos para o banco alimentar da cidade',
+    },
+    {
+      title: 'Roupas para o Inverno',
+      subtitle: '300 casacos e agasalhos para moradores de rua',
+    },
+    {
+      title: 'Patrocínio Esportivo',
+      subtitle: 'Equipamento esportivo para a equipe juvenil de futebol',
+    },
   ];
 
   return (
     <ScreenContainer>
-      <View className="gap-8">
+      <View className="flex-1 gap-8 pt-4">
         <View>
           <HeaderStatisticsProfile
             name="Gabriel Bastos"
@@ -45,18 +61,16 @@ function ProfileStatisticsScreen() {
           Minhas doações
         </Text>
 
-        <View>
-          <FlatList
-            data={donations}
-            renderItem={({ item }) => (
-              <DonationInformationItem
-                title={item.title}
-                subtitle={item.subtitle}
-                image="https://aacd.org.br/wp-content/uploads/2019/10/aacd-doacao.jpg"
-              />
-            )}
-          />
-        </View>
+        <FlatList
+          data={donations}
+          renderItem={({ item }) => (
+            <DonationInformationItem
+              title={item.title}
+              subtitle={item.subtitle}
+              image="https://aacd.org.br/wp-content/uploads/2019/10/aacd-doacao.jpg"
+            />
+          )}
+        />
       </View>
     </ScreenContainer>
   );
