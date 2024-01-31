@@ -36,7 +36,7 @@ export default function Button({
       onPress={onPress}
     >
       {startIcon}
-      <Text className={`font-medium ${textSize || 'text-base'} ${textColor}`}>
+      <Text className={`font-_medium ${textSize || 'text-base'} ${textColor}`}>
         {children}
       </Text>
       {endIcon}
