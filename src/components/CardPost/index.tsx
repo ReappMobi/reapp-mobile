@@ -41,11 +41,14 @@ function CardPost({
   const handleCommentPress = () => {};
 
   return (
-    <View className="w-full gap-y-2.5 bg-white p-4">
+    <View className="w-full bg-white p-4">
       <View>
-        <View className="flex-row items-center gap-x-2">
-          <View className="h-8 w-8 rounded-lg">
-            <Image className="h-full w-full" source={require(userImagePath)} />
+        <View className="mb-2.5 flex-row items-center gap-x-2">
+          <View className="h-8 w-8">
+            <Image
+              className="h-full w-full rounded-lg"
+              source={{ uri: userImagePath }}
+            />
           </View>
 
           <Text className="font-_medium text-base text-text_neutral">
@@ -56,11 +59,11 @@ function CardPost({
         <View />
       </View>
 
-      <View className="h-56 w-full">
-        <Image className="h-full w-full" source={require(imagePath)} />
+      <View className="mb-2.5 h-56 w-full">
+        <Image className="h-full w-full" source={{ uri: imagePath }} />
       </View>
 
-      <View>
+      <View className="mb-2.5">
         <Text className="font-_regular text-base text-text_neutral">
           {description}
         </Text>
