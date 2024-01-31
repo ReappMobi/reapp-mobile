@@ -1,4 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { StackActions } from '@react-navigation/native';
+import { useNavigation } from 'expo-router';
 import React from 'react';
 import { View, Text } from 'react-native';
 
@@ -9,6 +11,7 @@ import ScreenContainer from '../../components/ScreenContainer';
 import Colors from '../../constants/Colors';
 
 export default function SignUpSplashScreen() {
+  const navigation = useNavigation();
   return (
     <ScreenContainer>
       <View>
@@ -42,6 +45,11 @@ export default function SignUpSplashScreen() {
                   />
                 }
                 customStyles="w-64 justify-center"
+                onPress={() => {
+                  navigation.dispatch(
+                    StackActions.push('Signup', { isDonor: true })
+                  );
+                }}
               >
                 Sou doador
               </Button>
@@ -54,6 +62,11 @@ export default function SignUpSplashScreen() {
                     name="chevron-forward"
                     size={24}
                     color={Colors.text_neutral}
+                    onPress={() => {
+                      navigation.dispatch(
+                        StackActions.push('Signup', { isDonor: false })
+                      );
+                    }}
                   />
                 }
                 customStyles="w-64 justify-center"
