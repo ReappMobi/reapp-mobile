@@ -4,11 +4,11 @@ import { useNavigation } from 'expo-router';
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import SignUpSplashScreenImage from '../../assets/images/SignUpSplashScreenImage.svg';
-import Button from '../../components/Button';
-import Header from '../../components/Header';
-import ScreenContainer from '../../components/ScreenContainer';
-import Colors from '../../constants/Colors';
+import SignUpSplashScreenImage from '../../../assets/images/SignUpSplashScreenImage.svg';
+import Button from '../../../components/Button';
+import Header from '../../../components/Header';
+import ScreenContainer from '../../../components/ScreenContainer';
+import Colors from '../../../constants/Colors';
 
 export default function ProfileSelectorScreen() {
   const navigation = useNavigation();
