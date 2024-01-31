@@ -19,7 +19,7 @@ function DonationConfirmScreen({
 }: DonationConfirmScreenProps) {
   return (
     <View className="flex-1">
-      <View className="items-center bg-color_primary px-4 pb-4 pt-12">
+      <View className="items-center bg-color_primary px-4 pb-4 pt-4">
         <Header
           leftComponent={
             <Ionicons name="chevron-back" size={24} color={Colors.text_white} />
@@ -42,8 +42,8 @@ function DonationConfirmScreen({
         </View>
       </View>
 
-      <View className="mt-8 flex-1 items-center bg-white">
-        <View className="items-center gap-y-4 bg-white">
+      <View className="mt-8 flex-1 items-center">
+        <View className="items-center gap-y-4">
           <Text className="font-_medium text-base text-text_gray">{date}</Text>
           <Text className="text-text-neutral font-_bold text-xl">{name}</Text>
           <Text className="font-_regular text-xl">{value}</Text>
