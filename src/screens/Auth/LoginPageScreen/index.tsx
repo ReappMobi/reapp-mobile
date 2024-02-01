@@ -1,4 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
+import { StackActions } from '@react-navigation/native';
+import { useNavigation } from 'expo-router';
 import React from 'react';
 import { View, ScrollView, Text } from 'react-native';
 
@@ -9,6 +11,7 @@ import ScreenContainer from '../../../components/ScreenContainer';
 import Colors from '../../../constants/Colors';
 
 function LoginPageScreen() {
+  const navigation = useNavigation();
   return (
     <ScrollView>
       <ScreenContainer>
@@ -58,7 +61,12 @@ function LoginPageScreen() {
               <Input placeholder="Digite sua senha" secureTextEntry />
             </View>
 
-            <Text className="text-base text-text_primary underline underline-offset-1">
+            <Text
+              className="text-base text-text_primary underline underline-offset-1"
+              onPress={() => {
+                navigation.dispatch(StackActions.push('ForgetPasswordScreen'));
+              }}
+            >
               Esqueci minha senha
             </Text>
 
@@ -73,7 +81,12 @@ function LoginPageScreen() {
 
             <Text className="text-center font-_regular text-base">
               Não possui conta?{' '}
-              <Text className="text-base text-text_primary underline underline-offset-1">
+              <Text
+                className="text-base text-text_primary underline underline-offset-1"
+                onPress={() => {
+                  navigation.dispatch(StackActions.push('SignupSplash'));
+                }}
+              >
                 Cadastre-se
               </Text>
             </Text>
