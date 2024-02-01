@@ -3,7 +3,7 @@ import React from 'react';
 
 import {
   ProfileSelectorScreen,
-  SignUpPageScreen,
+  SignUpUserPageScreen,
   WelcomeScreen,
 } from '../screens/Auth';
 
@@ -13,7 +13,7 @@ export function AuthNavigator() {
     <Stack.Navigator screenOptions={{ header: null, headerShown: false }}>
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="SignupSplash" component={ProfileSelectorScreen} />
-      <Stack.Screen name="Signup" component={SignUpPageScreen} />
+      <Stack.Screen name="Signup" component={SignUpUserPageScreen} />
     </Stack.Navigator>
   );
 }
