@@ -45,7 +45,7 @@ export default function ProfileSelectorScreen() {
                 customStyles="w-64 justify-center"
                 onPress={() => {
                   navigation.dispatch(
-                    StackActions.push('Signup', { isDonor: true })
+                    StackActions.push('SignUpDonor', { isDonor: true })
                   );
                 }}
               >
@@ -62,7 +62,9 @@ export default function ProfileSelectorScreen() {
                     color={Colors.text_neutral}
                     onPress={() => {
                       navigation.dispatch(
-                        StackActions.push('Signup', { isDonor: false })
+                        StackActions.push('SignUpInstitution', {
+                          isDonor: false,
+                        })
                       );
                     }}
                   />
