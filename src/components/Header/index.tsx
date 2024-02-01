@@ -16,7 +16,7 @@ export default function Header({
 }: Props) {
   return (
     <View
-      className={`min-h-[56] w-full flex-row items-center justify-between p-4 bg-[${color}]`}
+      className={`min-h-[56] w-full flex-row items-center justify-between  bg-[${color}]`}
     >
       {leftComponent || <View />}
       {centerComponent || <View />}
