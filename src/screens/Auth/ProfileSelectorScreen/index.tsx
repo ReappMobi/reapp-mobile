@@ -60,16 +60,16 @@ export default function ProfileSelectorScreen() {
                     name="chevron-forward"
                     size={24}
                     color={Colors.text_neutral}
-                    onPress={() => {
-                      navigation.dispatch(
-                        StackActions.push('SignUpInstitution', {
-                          isDonor: false,
-                        })
-                      );
-                    }}
                   />
                 }
                 customStyles="w-64 justify-center"
+                onPress={() => {
+                  navigation.dispatch(
+                    StackActions.push('SignUpInstitution', {
+                      isDonor: false,
+                    })
+                  );
+                }}
               >
                 Sou Instituição
               </Button>
