@@ -1,5 +1,5 @@
 import ProfileSelectorScreen from './ProfileSelectorScreen';
-import SignUpUserPageScreen from './SignUpUserPageScreen';
+import SignUpPageScreen from './SignUpPageScreen';
 import WelcomeScreen from './WelcomeScreen';
 
-export { ProfileSelectorScreen, SignUpUserPageScreen, WelcomeScreen };
+export { ProfileSelectorScreen, SignUpPageScreen, WelcomeScreen };
