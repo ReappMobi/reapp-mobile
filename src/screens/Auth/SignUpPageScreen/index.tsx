@@ -1,4 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
+import { StackActions } from '@react-navigation/native';
+import { useNavigation } from 'expo-router';
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 
@@ -10,6 +12,7 @@ import Colors from '../../../constants/Colors';
 
 function SignUpPageScreen({ route }) {
   const { isDonor } = route.params;
+  const navigation = useNavigation();
 
   return (
     <ScrollView>
@@ -102,7 +105,12 @@ function SignUpPageScreen({ route }) {
 
             <Text className="text-center font-_regular text-base">
               Já possui uma conta?{' '}
-              <Text className="text-base text-text_primary underline underline-offset-1">
+              <Text
+                className="text-base text-text_primary underline underline-offset-1"
+                onPress={() => {
+                  navigation.dispatch(StackActions.push('LoginScreen'));
+                }}
+              >
                 Entrar
               </Text>
             </Text>
