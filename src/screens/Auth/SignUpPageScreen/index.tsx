@@ -88,9 +88,9 @@ function SignUpPageScreen() {
               </Button>
             </View>
 
-            <Text className="text-center font-_regular">
+            <Text className="text-center font-_regular text-base">
               Já possui uma conta?{' '}
-              <Text className="text-text_primary underline underline-offset-1">
+              <Text className="text-base text-text_primary underline underline-offset-1">
                 Entrar
               </Text>
             </Text>
