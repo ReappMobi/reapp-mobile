@@ -1,3 +1,5 @@
+import { StackActions } from '@react-navigation/native';
+import { useNavigation } from 'expo-router';
 import React from 'react';
 import { View, Text } from 'react-native';
 
@@ -8,6 +10,7 @@ import Input from '../../../components/Input';
 import ScreenContainer from '../../../components/ScreenContainer';
 
 function ForgetPasswordScreen() {
+  const navigation = useNavigation();
   return (
     <ScreenContainer>
       <View className="py-4">
@@ -42,6 +45,11 @@ function ForgetPasswordScreen() {
             <Button
               customStyles="bg-color_primary w-full justify-center"
               textColor="text-text_light"
+              onPress={() => {
+                navigation.dispatch(
+                  StackActions.push('ForgetPasswordResetScreen')
+                );
+              }}
             >
               Enviar email
             </Button>
