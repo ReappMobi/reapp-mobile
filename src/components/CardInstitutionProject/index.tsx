@@ -1,6 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import React from 'react';
-import { View, Text, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, Pressable } from 'react-native';
 
 import Colors from '../../constants/Colors';
 import Button from '../Button';
@@ -10,6 +10,8 @@ type CardInstitutionProjectProps = {
   title?: string;
   description?: string;
   textButton?: string;
+  isFavoriteCard?: boolean;
+  onPressLike?: () => void;
   onPress?: () => void;
 };
 
@@ -18,12 +20,33 @@ function CardInstitutionProject({
   title,
   description,
   textButton,
+  isFavoriteCard,
+  onPressLike,
   onPress,
 }: CardInstitutionProjectProps) {
+  const [isLiked, setIsLiked] = useState(true);
+
+  const handleLikePress = () => {
+    setIsLiked(!isLiked);
+    onPressLike && onPressLike();
+  };
+
   return (
     <View className="w-full rounded-md bg-white p-4 shadow-xl">
-      <View className="mb-2.5 h-56 w-full">
+      <View className="relative mb-2.5 h-56 w-full">
         <Image className="h-full w-full" source={{ uri: imagePath }} />
+
+        {isFavoriteCard && (
+          <View className="absolute right-3 top-3">
+            <Pressable onPress={handleLikePress}>
+              <Ionicons
+                name={isLiked ? 'heart-sharp' : 'heart-outline'}
+                size={34}
+                color="red"
+              />
+            </Pressable>
+          </View>
+        )}
       </View>
 
       <View className="mb-2.5">
