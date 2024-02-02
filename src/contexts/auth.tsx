@@ -1,17 +1,18 @@
 import React, { createContext, useState } from 'react';
 
+import { IUser } from '../mocks/user-data';
 import * as auth from '../services/auth';
 
 interface AuthContextData {
   signed: boolean;
-  user: object | null;
+  user: IUser | null;
   signIn(): Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState<object | null>(null);
+  const [user, setUser] = useState<IUser | null>(null);
 
   async function signIn() {
     const response = await auth.SignIn();
