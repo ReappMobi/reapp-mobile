@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, FlatList } from 'react-native';
 
 import {
@@ -6,56 +6,30 @@ import {
   HeaderStatisticsProfile,
   ScreenContainer,
 } from '../../components';
+import AuthContext from '../../contexts/auth';
+import { getDonations } from '../../services/user';
 
 function ProfileStatisticsScreen() {
-  const donations = [
-    {
-      title: 'Doação de Livros',
-      subtitle: '200 livros de literatura para a biblioteca municipal',
-    },
-    {
-      title: 'Equipamentos para Escolas',
-      subtitle: '15 kits de ciências para escolas locais',
-    },
-    {
-      title: 'Apoio a Alimentação',
-      subtitle: '500 kg de alimentos para o banco alimentar da cidade',
-    },
-    {
-      title: 'Roupas para o Inverno',
-      subtitle: '300 casacos e agasalhos para moradores de rua',
-    },
-    {
-      title: 'Patrocínio Esportivo',
-      subtitle: 'Equipamento esportivo para a equipe juvenil de futebol',
-    },
-    {
-      title: 'Equipamentos para Escolas',
-      subtitle: '15 kits de ciências para escolas locais',
-    },
-    {
-      title: 'Apoio a Alimentação',
-      subtitle: '500 kg de alimentos para o banco alimentar da cidade',
-    },
-    {
-      title: 'Roupas para o Inverno',
-      subtitle: '300 casacos e agasalhos para moradores de rua',
-    },
-    {
-      title: 'Patrocínio Esportivo',
-      subtitle: 'Equipamento esportivo para a equipe juvenil de futebol',
-    },
-  ];
+  const { user } = useContext(AuthContext);
+  const [donations, setDonations] = useState([]);
 
-  return (
+  useEffect(() => {
+    getDonations().then((response) => {
+      setDonations(response);
+    });
+  });
+
+  return donations.length === 0 ? (
+    <Text>Carregando...</Text>
+  ) : (
     <ScreenContainer>
       <View className="flex-1 gap-8 pt-4">
         <View>
           <HeaderStatisticsProfile
-            name="Gabriel Bastos"
-            donationsQty={10}
-            followingQty={10}
-            image="https://media.licdn.com/dms/image/D4D03AQEoi_Vob6ydUg/profile-displayphoto-shrink_400_400/0/1679452346440?e=2147483647&v=beta&t=K7GSewyacawx6DLqfhmqcAdkPBkcZgOH1KdAjikRqJA"
+            name={user.name}
+            donationsQty={user.donations}
+            followingQty={user.following}
+            image={user.profileImage}
           />
         </View>
 
