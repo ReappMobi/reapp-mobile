@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, Text, FlatList } from 'react-native';
 
-import DonationInformationItem from '../../components/DonationInformationItem';
-import HeaderStatisticsProfile from '../../components/HeaderStatisticsProfile';
-import ScreenContainer from '../../components/ScreenContainer';
+import {
+  DonationInformationItem,
+  HeaderStatisticsProfile,
+  ScreenContainer,
+} from '../../components';
 
 function ProfileStatisticsScreen() {
   const donations = [

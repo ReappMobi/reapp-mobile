@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, Text, FlatList } from 'react-native';
 
-import CardPost from '../../components/CardPost';
-import HeaderStatisticsProfile from '../../components/HeaderStatisticsProfile';
-import ScreenContainer from '../../components/ScreenContainer';
+import {
+  CardPost,
+  HeaderStatisticsProfile,
+  ScreenContainer,
+} from '../../components';
 
 function ProfileSavedScreen() {
   const saved = [

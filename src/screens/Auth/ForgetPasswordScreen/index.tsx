@@ -4,10 +4,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 import ForgetPasswordImage from '../../../assets/images/ForgetPassowordImage.svg';
-import Button from '../../../components/Button';
-import Header from '../../../components/Header';
-import Input from '../../../components/Input';
-import ScreenContainer from '../../../components/ScreenContainer';
+import { Button, Header, Input, ScreenContainer } from '../../../components';
 
 function ForgetPasswordScreen() {
   const navigation = useNavigation();

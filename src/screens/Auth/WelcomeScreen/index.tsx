@@ -4,10 +4,8 @@ import { useNavigation } from 'expo-router';
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import Button from '../.././../components/Button';
 import SplashScreenImage from '../../../assets/images/SplashScreenImage.svg';
-import Header from '../../../components/Header';
-import ScreenContainer from '../../../components/ScreenContainer';
+import { Button, Header, ScreenContainer } from '../../../components';
 import Colors from '../../../constants/Colors';
 
 export default function WelcomeScreen() {
