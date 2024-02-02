@@ -8,6 +8,7 @@ import {
   LoginPageScreen,
   ForgetPasswordResetScreen,
   ForgetPasswordScreen,
+  IdentityVerificationScreen,
 } from '../screens/Auth';
 
 const Stack = createNativeStackNavigator();
@@ -19,6 +20,10 @@ export function AuthNavigator() {
       <Stack.Screen name="SignUpDonor" component={SignUpPageScreen} />
       <Stack.Screen name="SignUpInstitution" component={SignUpPageScreen} />
       <Stack.Screen name="LoginScreen" component={LoginPageScreen} />
+      <Stack.Screen
+        name="IdentityVerificationScreen"
+        component={IdentityVerificationScreen}
+      />
       <Stack.Screen
         name="ForgetPasswordScreen"
         component={ForgetPasswordScreen}
