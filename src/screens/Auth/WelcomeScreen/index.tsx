@@ -37,7 +37,7 @@ export default function WelcomeScreen() {
               />
             }
             onPress={() => {
-              navigation.dispatch(StackActions.push('SignupSplash'));
+              navigation.dispatch(StackActions.push('LoginScreen'));
             }}
           >
             Continuar
