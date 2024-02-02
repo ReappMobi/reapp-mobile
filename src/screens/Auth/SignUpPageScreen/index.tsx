@@ -95,6 +95,11 @@ function SignUpPageScreen({ route }) {
               <Button
                 customStyles="bg-color_primary w-full justify-center"
                 textColor="text-text_light"
+                onPress={() => {
+                  navigation.dispatch(
+                    StackActions.push('IdentityVerificationScreen')
+                  );
+                }}
               >
                 Cadastrar
               </Button>
