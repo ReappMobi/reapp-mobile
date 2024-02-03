@@ -3,9 +3,8 @@ import { StackActions } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
 import React from 'react';
 import { View, ScrollView, Text } from 'react-native';
-
-import { Button, Header, Input, ScreenContainer } from '../../../components';
-import Colors from '../../../constants/Colors';
+import { Button, Header, Input, ScreenContainer } from 'src/components';
+import Colors from 'src/constants/Colors';
 
 function LoginPageScreen() {
   const navigation = useNavigation();

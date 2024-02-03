@@ -2,9 +2,8 @@ import { StackActions } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
 import React from 'react';
 import { View, Text } from 'react-native';
-
-import ForgetPasswordImage from '../../../assets/images/ForgetPassowordImage.svg';
-import { Button, Header, Input, ScreenContainer } from '../../../components';
+import ForgetPasswordImage from 'src/assets/images/ForgetPassowordImage.svg';
+import { Button, Header, Input, ScreenContainer } from 'src/components';
 
 function ForgetPasswordScreen() {
   const navigation = useNavigation();

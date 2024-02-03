@@ -2,9 +2,8 @@ import { StackActions } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
 import React from 'react';
 import { Text, View } from 'react-native';
-
-import IdentifyVerifyIllustation from '../../../assets/images/IdentityVerifyIlustration.svg';
-import { ScreenContainer, Header, Input, Button } from '../../../components';
+import IdentifyVerifyIllustation from 'src/assets/images/IdentityVerifyIlustration.svg';
+import { ScreenContainer, Header, Input, Button } from 'src/components';
 
 export default function IdentityVerificationScreen() {
   const navigation = useNavigation();

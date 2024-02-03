@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-
-import { Button, Header, Input, ScreenContainer } from '../../../components';
+import { Button, Header, Input, ScreenContainer } from 'src/components';
 
 function ForgetPasswordResetScreen() {
   return (

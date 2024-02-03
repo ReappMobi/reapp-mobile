@@ -1,8 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-
-import CheckCodeScreenImage from '../../../assets/images/CheckCodeScreenImage.svg';
-import { ScreenContainer, Header, Input, Button } from '../../../components';
+import CheckCodeScreenImage from 'src/assets/images/CheckCodeScreenImage.svg';
+import { ScreenContainer, Header, Input, Button } from 'src/components';
 
 export default function CheckCodeScreen() {
   //TODO: Change verificationNumber to the actual number
