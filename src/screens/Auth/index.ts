@@ -1,3 +1,4 @@
+import CheckCodeScreen from './CheckCodeScreen';
 import ForgetPasswordResetScreen from './ForgetPasswordResetScreen';
 import ForgetPasswordScreen from './ForgetPasswordScreen';
 import IdentityVerificationScreen from './IdentityVerificationScreen';
@@ -14,4 +15,5 @@ export {
   ForgetPasswordResetScreen,
   ForgetPasswordScreen,
   IdentityVerificationScreen,
+  CheckCodeScreen,
 };
