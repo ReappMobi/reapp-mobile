@@ -1,14 +1,13 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList } from 'react-native';
-
 import {
   ScreenContainer,
   Header,
   CardInstitutionProject,
-} from '../../components';
-import Colors from '../../constants/Colors';
-import { getFavoritesInstitutions } from '../../services/user';
+} from 'src/components';
+import Colors from 'src/constants/Colors';
+import { getFavoritesInstitutions } from 'src/services/user';
 
 function FavoritePage() {
   const [favoritesInstitutions, setFavoritesInstitutions] = useState([]);
