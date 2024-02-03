@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, FlatList } from 'react-native';
-
 import {
   CardPost,
   HeaderStatisticsProfile,
   ScreenContainer,
-} from '../../components';
-import AuthContext from '../../contexts/auth';
-import { getSavedPosts } from '../../services/user';
+} from 'src/components';
+import AuthContext from 'src/contexts/auth';
+import { getSavedPosts } from 'src/services/user';
 
 function ProfileSavedScreen() {
   const { user } = useContext(AuthContext);

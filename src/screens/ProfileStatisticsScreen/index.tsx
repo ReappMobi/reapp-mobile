@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, FlatList } from 'react-native';
-
 import {
   DonationInformationItem,
   HeaderStatisticsProfile,
   ScreenContainer,
-} from '../../components';
-import AuthContext from '../../contexts/auth';
-import { getDonations } from '../../services/user';
+} from 'src/components';
+import AuthContext from 'src/contexts/auth';
+import { getDonations } from 'src/services/user';
 
 function ProfileStatisticsScreen() {
   const { user } = useContext(AuthContext);
