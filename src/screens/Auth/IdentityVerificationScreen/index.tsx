@@ -1,3 +1,5 @@
+import { StackActions } from '@react-navigation/native';
+import { useNavigation } from 'expo-router';
 import React from 'react';
 import { Text, View } from 'react-native';
 
@@ -5,6 +7,7 @@ import IdentifyVerifyIllustation from '../../../assets/images/IdentityVerifyIlus
 import { ScreenContainer, Header, Input, Button } from '../../../components';
 
 export default function IdentityVerificationScreen() {
+  const navigation = useNavigation();
   return (
     <ScreenContainer>
       <Header
@@ -25,6 +28,9 @@ export default function IdentityVerificationScreen() {
           <Button
             customStyles="w-full mt-4 p-5 justify-center bg-color_primary"
             textColor="text-text_light"
+            onPress={() => {
+              navigation.dispatch(StackActions.push('CheckCodeScreen'));
+            }}
           >
             Enviar código
           </Button>
