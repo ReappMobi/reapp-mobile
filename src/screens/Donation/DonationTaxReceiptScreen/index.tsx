@@ -1,10 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { View, Text } from 'react-native';
-
-import DonationTaxReceiptImage from '../../../assets/images/DonationTaxReceiptImage.svg';
-import { Button, Header, ScreenContainer } from '../../../components';
-import Colors from '../../../constants/Colors';
+import DonationTaxReceiptImage from 'src/assets/images/DonationTaxReceiptImage.svg';
+import { Button, Header, ScreenContainer } from 'src/components';
+import Colors from 'src/constants/Colors';
 
 function DonationTaxReceiptScreen() {
   return (

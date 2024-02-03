@@ -1,9 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import { View, Text } from 'react-native';
-
-import DonationScreenImaget from '../../../assets/images/DonationScreenImage.svg';
-import { Button, Header, ScreenContainer } from '../../../components';
-import Colors from '../../../constants/Colors';
+import DonationScreenImaget from 'src/assets/images/DonationScreenImage.svg';
+import { Button, Header, ScreenContainer } from 'src/components';
+import Colors from 'src/constants/Colors';
 
 export default function DonationScreen() {
   return (
