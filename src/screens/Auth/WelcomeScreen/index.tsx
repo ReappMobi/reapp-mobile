@@ -3,10 +3,9 @@ import { StackActions } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
 import React from 'react';
 import { View, Text } from 'react-native';
-
-import SplashScreenImage from '../../../assets/images/SplashScreenImage.svg';
-import { Button, Header, ScreenContainer } from '../../../components';
-import Colors from '../../../constants/Colors';
+import SplashScreenImage from 'src/assets/images/SplashScreenImage.svg';
+import { Button, Header, ScreenContainer } from 'src/components';
+import Colors from 'src/constants/Colors';
 
 export default function WelcomeScreen() {
   const navigation = useNavigation();
