@@ -118,3 +118,48 @@ export const userSavedPosts: IUserSavedPost[] = [
     timeAgo: '5 days ago',
   },
 ];
+
+export interface IUserFavoriteInstitution {
+  id: number;
+  imageUrl: string;
+  nameInstitution: string;
+}
+
+export const userFavoritesInstitutions: IUserFavoriteInstitution[] = [
+  {
+    id: 1,
+    imageUrl:
+      'https://zenklub.com.br/blog/wp-content/uploads/2018/02/kristy-kravchenko-2902.jpg',
+    nameInstitution: 'Casa da Amizade',
+  },
+  {
+    id: 2,
+    imageUrl:
+      'https://zenklub.com.br/blog/wp-content/uploads/2018/02/kristy-kravchenko-2902.jpg',
+    nameInstitution: 'Associação de Ajuda Humanitária',
+  },
+  {
+    id: 3,
+    imageUrl:
+      'https://zenklub.com.br/blog/wp-content/uploads/2018/02/kristy-kravchenko-2902.jpg',
+    nameInstitution: 'Instituto de Apoio à Educação',
+  },
+  {
+    id: 4,
+    imageUrl:
+      'https://zenklub.com.br/blog/wp-content/uploads/2018/02/kristy-kravchenko-2902.jpg',
+    nameInstitution: 'Fundação da Solidariedade',
+  },
+  {
+    id: 5,
+    imageUrl:
+      'https://zenklub.com.br/blog/wp-content/uploads/2018/02/kristy-kravchenko-2902.jpg',
+    nameInstitution: 'Centro de Ação Comunitária',
+  },
+  {
+    id: 6,
+    imageUrl:
+      'https://zenklub.com.br/blog/wp-content/uploads/2018/02/kristy-kravchenko-2902.jpg',
+    nameInstitution: 'Associação para o Bem-Estar Social',
+  },
+];

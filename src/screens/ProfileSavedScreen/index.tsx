@@ -40,8 +40,8 @@ function ProfileSavedScreen() {
             data={savedPosts}
             renderItem={({ item }) => (
               <CardPost
-                imagePath={item.imagePath}
-                userImagePath={item.userImagePath}
+                imagePath={item.postImageUrl}
+                userImagePath={item.userImageUrl}
                 nameInstitution={item.nameInstitution}
                 description={item.description}
                 timeAgo={item.timeAgo}
