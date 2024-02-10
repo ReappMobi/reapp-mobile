@@ -1,6 +1,6 @@
 export const variantStyles = {
   default:
-    'min-h-[56] text-base rounded-md flex-row justify-between items-center active:opacity-70 w-3/4',
+    'text-base rounded-md flex-row justify-between items-center active:opacity-70 w-full',
   contained: 'bg-color_white',
   text: 'bg-transparent  active:underline',
   outlined: 'bg-transparent border b-2',
