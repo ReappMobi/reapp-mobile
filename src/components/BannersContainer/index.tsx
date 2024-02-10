@@ -29,7 +29,7 @@ export default function BannersContainer({ banners }: BannersContainerProps) {
           setActiveIndex(Math.floor(event.nativeEvent.contentOffset.x / 370));
         }}
         scrollEventThrottle={16}
-        className="h-56 w-screen gap-4 pl-4"
+        className="w-screen gap-x-4"
       />
       <View className="flex-row gap-4">
         {banners.map((_, index) => (
