@@ -1,13 +1,16 @@
 import { Ionicons } from '@expo/vector-icons';
 import { StackActions } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, ScrollView, Text } from 'react-native';
 import { Button, Header, Input, ScreenContainer } from 'src/components';
 import Colors from 'src/constants/Colors';
+import AuthContext from 'src/contexts/auth';
 
 function LoginPageScreen() {
+  const auth = useContext(AuthContext);
   const navigation = useNavigation();
+
   return (
     <ScrollView>
       <ScreenContainer>
@@ -70,6 +73,9 @@ function LoginPageScreen() {
               <Button
                 customStyles="bg-color_primary w-full justify-center"
                 textColor="text-text_light"
+                onPress={() => {
+                  auth.signIn();
+                }}
               >
                 Entrar
               </Button>
