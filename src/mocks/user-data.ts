@@ -13,8 +13,7 @@ export const user: IUser = {
   email: 'reapp_admin@reapp.com',
   following: 4,
   donations: 4,
-  profileImage:
-    'https://media.licdn.com/dms/image/D4D03AQEoi_Vob6ydUg/profile-displayphoto-shrink_400_400/0/1679452346440?e=2147483647&v=beta&t=K7GSewyacawx6DLqfhmqcAdkPBkcZgOH1KdAjikRqJA',
+  profileImage: 'https://placehold.co/600x400/png',
 };
 
 export interface IUserDonation {
