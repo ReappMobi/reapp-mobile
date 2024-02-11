@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
-import { View, TextInput, Pressable, Keyboard, Text } from 'react-native';
+import React, { memo } from 'react';
+import { View, TextInput, Pressable, Keyboard } from 'react-native';
 
 type SearchInputProps = {
   clicked?: boolean;
@@ -9,20 +9,16 @@ type SearchInputProps = {
   setClicked?: (value: boolean) => void;
 };
 
-function SearchInput({
+const SearchInput = ({
   clicked,
   searchPhrase,
   setSearchPhrase,
   setClicked,
-}: SearchInputProps) {
+}: SearchInputProps) => {
   return (
-    <View className="mt-12 flex-row items-center justify-center">
-      <View
-        className={`min-h-14 flex-row items-center justify-between rounded border border-text_secondary bg-input_background px-2 py-4 ${
-          clicked ? 'w-9/12' : 'w-full'
-        }`}
-      >
-        <View className="flex-1">
+    <View className="flex-row items-center justify-center">
+      <View className="min-h-14 w-full flex-row items-center justify-between rounded border border-text_secondary bg-input_background px-2 py-4">
+        <View>
           <TextInput
             placeholder="O que você está procurando?"
             value={searchPhrase}
@@ -35,24 +31,24 @@ function SearchInput({
         </View>
 
         <View className="ml-3">
-          <Ionicons name="search-outline" size={24} color="black" />
+          {!clicked && (
+            <Ionicons name="search-outline" size={24} color="black" />
+          )}
+          {clicked && (
+            <Pressable
+              onPress={() => {
+                Keyboard.dismiss();
+                setClicked(false);
+                setSearchPhrase('');
+              }}
+            >
+              <Ionicons name="close" size={24} color="black" />
+            </Pressable>
+          )}
         </View>
       </View>
-
-      {clicked && (
-        <View className="ml-3">
-          <Pressable
-            onPress={() => {
-              Keyboard.dismiss();
-              setClicked(false);
-            }}
-          >
-            <Text className="text-base text-color_redsh">Cancelar</Text>
-          </Pressable>
-        </View>
-      )}
     </View>
   );
-}
+};
 
-export default SearchInput;
+export default memo(SearchInput);
