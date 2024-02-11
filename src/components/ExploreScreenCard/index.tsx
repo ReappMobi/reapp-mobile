@@ -4,7 +4,7 @@ import { View, Text, Image, Pressable, TouchableOpacity } from 'react-native';
 
 type ExploreScreenCardProps = {
   imageUrl?: string;
-  nameInstitution?: string;
+  title?: string;
   isFavoritedInitial?: boolean;
   isFollowInitial?: boolean;
   isInstitution?: boolean;
@@ -16,7 +16,7 @@ type ExploreScreenCardProps = {
 
 const ExploreScreenCard = ({
   imageUrl,
-  nameInstitution,
+  title,
   isFavoritedInitial,
   isFollowInitial,
   isInstitution,
@@ -40,7 +40,11 @@ const ExploreScreenCard = ({
 
   return (
     <TouchableOpacity onPress={onPressCard}>
-      <View className="h-48 w-32 justify-between rounded-md border border-color_gray bg-white p-2">
+      <View
+        className={`${
+          isInstitution ? 'h-48' : 'h-40'
+        } w-32 justify-between rounded-md border border-color_gray bg-white p-2`}
+      >
         <View className="items-end justify-end">
           <Pressable onPress={handleFavoritePress}>
             <Ionicons
@@ -51,15 +55,11 @@ const ExploreScreenCard = ({
           </Pressable>
         </View>
 
-        <View className="gap-y-2">
-          <View className="h-16 w-full">
-            <Image className="h-full w-full" source={{ uri: imageUrl }} />
-          </View>
-
-          <Text className="text-center font-_medium text-xs">
-            {nameInstitution}
-          </Text>
+        <View className="h-16 w-full">
+          <Image className="h-full w-full" source={{ uri: imageUrl }} />
         </View>
+
+        <Text className="text-center font-_medium text-xs">{title}</Text>
 
         {isInstitution && (
           <View className="flex-row items-center justify-between">
