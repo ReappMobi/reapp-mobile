@@ -6,7 +6,6 @@ import {
   Header,
   CardInstitutionProject,
 } from 'src/components';
-import Colors from 'src/constants/Colors';
 import { getFavoritesInstitutions } from 'src/services/user';
 
 function FavoritePage() {
@@ -20,11 +19,8 @@ function FavoritePage() {
 
   return (
     <ScreenContainer>
-      <View className="flex-1 gap-y-4 pt-4">
+      <View className="flex-1 gap-y-4 py-4 pt-4">
         <Header
-          leftComponent={
-            <Ionicons name="chevron-back" size={24} color={Colors.text_dark} />
-          }
           centerComponent={
             <View className="flex-row items-center gap-x-2">
               <Text className="font-_bold text-base">Favoritas</Text>
