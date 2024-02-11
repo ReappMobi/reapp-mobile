@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Colors from 'src/constants/Colors';
 import ExploreProjectsScreen from 'src/screens/Explore/ExploreProjectsScreen';
 import ExploreScreen from 'src/screens/Explore/ExploreScreen';
+import FavoritePage from 'src/screens/FavoritePage';
 import HomeScreen from 'src/screens/HomeScreen';
 
 const Explore = () => {
@@ -48,6 +49,19 @@ export function AppNavigator() {
           tabBarShowLabel: false,
           tabBarIcon: ({ size, color }) => (
             <Octicons name="search" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Favorite"
+        component={FavoritePage}
+        options={{
+          tabBarActiveTintColor: Colors.color_primary,
+          tabBarInactiveTintColor: Colors.text_neutral,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ size, color }) => (
+            <Octicons name="heart" size={size} color={color} />
           ),
         }}
       />
