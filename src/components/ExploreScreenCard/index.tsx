@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { View, Text, Image, Pressable, TouchableOpacity } from 'react-native';
 
 type ExploreScreenCardProps = {
@@ -14,7 +14,7 @@ type ExploreScreenCardProps = {
   onPressCard?: () => void;
 };
 
-function ExploreScreenCard({
+const ExploreScreenCard = ({
   imageUrl,
   nameInstitution,
   isFavoritedInitial,
@@ -24,7 +24,7 @@ function ExploreScreenCard({
   onPressFollow,
   onPressInfo,
   onPressCard,
-}: ExploreScreenCardProps) {
+}: ExploreScreenCardProps) => {
   const [isFavorited, setIsFavorited] = useState(isFavoritedInitial);
   const [isFollow, setIsFollow] = useState(isFollowInitial);
 
@@ -40,7 +40,7 @@ function ExploreScreenCard({
 
   return (
     <TouchableOpacity onPress={onPressCard}>
-      <View className="w-28 gap-y-1 rounded-md border border-color_gray bg-white p-2">
+      <View className="h-48 w-32 justify-between rounded-md border border-color_gray bg-white p-2">
         <View className="items-end justify-end">
           <Pressable onPress={handleFavoritePress}>
             <Ionicons
@@ -65,7 +65,7 @@ function ExploreScreenCard({
           <View className="flex-row items-center justify-between">
             <TouchableOpacity onPress={handleFollowPress}>
               <Ionicons
-                name={isFollow ? 'remove' : 'add'}
+                name={isFollow ? 'close' : 'add'}
                 size={27}
                 color="black"
               />
@@ -79,6 +79,6 @@ function ExploreScreenCard({
       </View>
     </TouchableOpacity>
   );
-}
+};
 
-export default ExploreScreenCard;
+export default memo(ExploreScreenCard);
