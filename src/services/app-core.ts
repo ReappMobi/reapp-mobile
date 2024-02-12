@@ -1,9 +1,12 @@
 import { institutionCategories } from 'src/mocks/app-InstitutionCategory-data';
 import { banners } from 'src/mocks/app-banners-data';
+import { donationsByEixo } from 'src/mocks/app-donationEixo-data';
+import { donationsBySegment } from 'src/mocks/app-donationSegment-data';
 import { institutions } from 'src/mocks/app-institution-data';
 import { allPosts } from 'src/mocks/app-posts-data';
 import { projects } from 'src/mocks/app-projects-data';
 import { projectCategories } from 'src/mocks/app-projectsCategory-data';
+import { totalValueDonation } from 'src/mocks/app-totalValueDonation-data';
 
 export async function getSharedCampaigns() {
   setTimeout(() => {
@@ -45,4 +48,25 @@ export async function getProjectCategories() {
     console.log('fetchin project categories...');
   }, 5000);
   return projectCategories;
+}
+
+export async function getDonationsByEixo() {
+  setTimeout(() => {
+    console.log('fetchin donations by eixo...');
+  }, 5000);
+  return donationsByEixo;
+}
+
+export async function getDonationsBySegment() {
+  setTimeout(() => {
+    console.log('fetchin donations by segment...');
+  }, 5000);
+  return donationsBySegment;
+}
+
+export async function getTotalValueDonation() {
+  setTimeout(() => {
+    console.log('fetchin donations total value...');
+  }, 5000);
+  return totalValueDonation;
 }
