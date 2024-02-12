@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useState } from 'react';
 
 import { IUser } from '../mocks/user-data';
@@ -17,8 +18,9 @@ export function AuthProvider({ children }) {
 
   async function signIn() {
     const response = await auth.SignIn();
-
     setUser(response.user);
+    await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
+    await AsyncStorage.setItem('@RNAuth:token', response.token);
   }
 
   function signOut() {
