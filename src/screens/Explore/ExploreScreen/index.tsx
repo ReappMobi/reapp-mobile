@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   View,
   Text,
-  SectionList,
   FlatList,
   TouchableOpacity,
   ScrollView,
@@ -167,43 +166,34 @@ function ExploreScreen({ navigation }) {
               </TouchableOpacity>
             </ScrollView>
 
-            {!clicked && (
-              <SectionList
-                sections={data}
-                keyExtractor={(item, index) => item.id.toString()}
-                renderItem={({ item }) => null}
-                renderSectionHeader={({ section: { category, data } }) => (
-                  <>
-                    <Text className="mb-2 font-_medium text-base">
-                      {category.category} ({data.length}){' '}
-                    </Text>
-                    <FlatList
-                      data={data}
-                      horizontal
-                      renderItem={({ item }) => (
-                        <RenderItem
-                          nameInstitution={item.nameInstitution}
-                          imageUrl={item.imageUrl}
-                        />
-                      )}
-                      keyExtractor={(item) => item.id.toString()}
-                      showsHorizontalScrollIndicator={false}
-                      ItemSeparatorComponent={() => <View className="w-3" />}
-                      className="mb-2.5"
-                    />
-                  </>
-                )}
-              />
-            )}
+            {!clicked &&
+              data.map(({ category, data }, index) => (
+                <View key={index}>
+                  <Text className="mb-2 font-_medium text-base">
+                    {category.category} ({data.length}){' '}
+                  </Text>
 
-            {clicked && (
-              <FlatList
-                data={institutions}
-                renderItem={RenderCardSearch}
-                keyExtractor={(item) => item.id.toString()}
-                className="mt-4"
-              />
-            )}
+                  <FlatList
+                    data={data}
+                    horizontal
+                    renderItem={({ item }) => (
+                      <RenderItem
+                        nameInstitution={item.nameInstitution}
+                        imageUrl={item.imageUrl}
+                      />
+                    )}
+                    keyExtractor={(item) => item.id.toString()}
+                    showsHorizontalScrollIndicator={false}
+                    ItemSeparatorComponent={() => <View className="w-3" />}
+                    className="mb-2.5"
+                  />
+                </View>
+              ))}
+
+            {clicked &&
+              institutions.map((item) => (
+                <RenderCardSearch item={item} key={item.id} />
+              ))}
           </View>
         </ScreenContainer>
       </ScrollView>
