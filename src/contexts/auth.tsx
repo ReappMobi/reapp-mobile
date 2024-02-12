@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useEffect, useState } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 
 import { IUser } from '../mocks/user-data';
 import * as auth from '../services/auth';
@@ -15,6 +16,7 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState<IUser | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadStorageData() {
@@ -24,6 +26,8 @@ export function AuthProvider({ children }) {
       if (storagedUser && storagedToken) {
         setUser(JSON.parse(storagedUser));
       }
+
+      setLoading(false);
     }
 
     loadStorageData();
@@ -40,6 +44,14 @@ export function AuthProvider({ children }) {
     AsyncStorage.clear().then(() => {
       setUser(null);
     });
+  }
+
+  if (loading) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <ActivityIndicator size="large" color="#666" />
+      </View>
+    );
   }
 
   return (
