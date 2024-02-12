@@ -1,4 +1,4 @@
-import { Octicons } from '@expo/vector-icons';
+import { Octicons, FontAwesome5 } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Colors from 'src/constants/Colors';
@@ -6,6 +6,7 @@ import ExploreProjectsScreen from 'src/screens/Explore/ExploreProjectsScreen';
 import ExploreScreen from 'src/screens/Explore/ExploreScreen';
 import FavoritePage from 'src/screens/FavoritePage';
 import HomeScreen from 'src/screens/HomeScreen';
+import TransparencyScreen from 'src/screens/TransparencyScreen';
 
 const Explore = () => {
   const ExploreStack = createStackNavigator();
@@ -62,6 +63,19 @@ export function AppNavigator() {
           tabBarShowLabel: false,
           tabBarIcon: ({ size, color }) => (
             <Octicons name="heart" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Transparency"
+        component={TransparencyScreen}
+        options={{
+          tabBarActiveTintColor: Colors.color_primary,
+          tabBarInactiveTintColor: Colors.text_neutral,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ size, color }) => (
+            <FontAwesome5 name="money-bill-alt" size={size} color={color} />
           ),
         }}
       />
