@@ -5,7 +5,6 @@ import { ScreenContainer, Header } from 'src/components';
 import {
   getDonationsByEixo,
   getDonationsBySegment,
-  getTotalValueDonation,
 } from 'src/services/app-core';
 
 function TransparencyScreen() {
@@ -16,11 +15,45 @@ function TransparencyScreen() {
   useEffect(() => {
     (async () => {
       const donationsByEixoData = await getDonationsByEixo();
-      setDonationsByEixo(donationsByEixoData);
+      const formattedDonationsByEixo = donationsByEixoData.map((donation) => ({
+        ...donation,
+        value: donation.value.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }),
+      }));
+      setDonationsByEixo(formattedDonationsByEixo);
       const donationsBySegmentData = await getDonationsBySegment();
-      setDonationsBySegment(donationsBySegmentData);
-      const totalValueDonationsData = await getTotalValueDonation();
-      setTotalValueDonations(totalValueDonationsData.total);
+      const formattedDonationsBySegment = donationsBySegmentData.map(
+        (donation) => ({
+          ...donation,
+          value: donation.value.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }),
+        })
+      );
+
+      setDonationsBySegment(formattedDonationsBySegment);
+      const totalValueDonationsData = donationsByEixoData.reduce(
+        (accumulator, currentValue) => {
+          return accumulator + currentValue.value;
+        },
+        0
+      );
+
+      setTotalValueDonations(
+        totalValueDonationsData.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+      );
     })();
   }, []);
 
@@ -44,7 +77,7 @@ function TransparencyScreen() {
                 Total de doações até o momento
               </Text>
               <Text className="font-_medium text-base text-text_neutral">
-                R$ {totalValueDonations}
+                {totalValueDonations}
               </Text>
             </View>
             <View>
@@ -63,7 +96,7 @@ function TransparencyScreen() {
                   {item.eixo}
                 </Text>
                 <Text className="font-_medium text-base text-text_neutral">
-                  R$ {item.value}
+                  {item.value}
                 </Text>
               </View>
             ))}
@@ -80,7 +113,7 @@ function TransparencyScreen() {
                   {item.segment}
                 </Text>
                 <Text className="font-_medium text-base text-text_neutral">
-                  R$ {item.value}
+                  {item.value}
                 </Text>
               </View>
             ))}
