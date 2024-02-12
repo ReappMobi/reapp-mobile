@@ -6,7 +6,6 @@ import { institutions } from 'src/mocks/app-institution-data';
 import { allPosts } from 'src/mocks/app-posts-data';
 import { projects } from 'src/mocks/app-projects-data';
 import { projectCategories } from 'src/mocks/app-projectsCategory-data';
-import { totalValueDonation } from 'src/mocks/app-totalValueDonation-data';
 
 export async function getSharedCampaigns() {
   setTimeout(() => {
@@ -62,11 +61,4 @@ export async function getDonationsBySegment() {
     console.log('fetchin donations by segment...');
   }, 5000);
   return donationsBySegment;
-}
-
-export async function getTotalValueDonation() {
-  setTimeout(() => {
-    console.log('fetchin donations total value...');
-  }, 5000);
-  return totalValueDonation;
 }
