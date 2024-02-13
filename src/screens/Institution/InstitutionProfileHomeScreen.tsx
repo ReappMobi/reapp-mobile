@@ -6,6 +6,14 @@ import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
 import { getCategoryById } from 'src/services/app-core';
 import { IInstitution } from 'src/types';
 
+const PlaceholderLoader = () => {
+  return (
+    <View className="animate-pulse">
+      <View className="my-2 h-2.5 w-24 rounded-full bg-gray-300" />
+    </View>
+  );
+};
+
 // TODO: Fix type in ExploreScreen
 export default function InstitutionProfileHomeScreen({ route }) {
   const { institution } = route.params as { institution: IInstitution };
@@ -21,13 +29,6 @@ export default function InstitutionProfileHomeScreen({ route }) {
     });
   });
 
-  const PlaceholderLoader = () => {
-    return (
-      <View className="animate-pulse">
-        <View className="my-1 h-2.5 w-24 rounded-full bg-gray-300" />
-      </View>
-    );
-  };
 
   return (
     <View className="flex-1 bg-white">
