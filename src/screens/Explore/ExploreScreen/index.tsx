@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { StackActions } from '@react-navigation/native';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   View,
@@ -65,13 +66,19 @@ function ExploreScreen({ navigation }) {
     );
   };
 
+  const handleCardClick = (item) => {
+    navigation.dispatch(
+      StackActions.push('InstitutionProfileHome', { institution: item })
+    );
+  };
+
   const RenderCardSearch = ({ item }) => {
     if (searchPhrase === '') {
       return (
         <CardSearch
           imageUrl={item.imageUrl}
           title={item.nameInstitution}
-          onPress={() => {}}
+          onPress={() => handleCardClick(item)}
         />
       );
     }
@@ -85,7 +92,7 @@ function ExploreScreen({ navigation }) {
         <CardSearch
           imageUrl={item.imageUrl}
           title={item.nameInstitution}
-          onPress={() => {}}
+          onPress={() => handleCardClick(item)}
         />
       );
     }
