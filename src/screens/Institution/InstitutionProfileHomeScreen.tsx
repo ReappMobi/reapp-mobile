@@ -1,6 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import React, { useEffect, useState } from 'react';
-import { View, Text, Image } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, Image, useWindowDimensions } from 'react-native';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { ScreenContainer, Button } from 'src/components';
 import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
 import { getCategoryById } from 'src/services/app-core';
@@ -11,6 +12,16 @@ const TestRoute = () => (
     <Text className="text-xl">Reapp</Text>
   </View>
 );
+
+const renderScene = SceneMap({
+  tab1: TestRoute,
+  tab2: TestRoute,
+  tab3: TestRoute,
+  tab4: TestRoute,
+  tab5: TestRoute,
+  tab6: TestRoute,
+  tab7: TestRoute,
+});
 
 const PlaceholderLoader = () => {
   return (
@@ -25,6 +36,18 @@ export default function InstitutionProfileHomeScreen({ route }) {
   const { institution } = route.params as { institution: IInstitution };
   const [category, setCategory] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const activeIndexRef = useRef(0);
+
+  const [routes] = useState([
+    { key: 'tab1', title: 'Início' },
+    { key: 'tab2', title: 'Projetos' },
+    { key: 'tab3', title: 'Transparência' },
+    { key: 'tab4', title: 'Contato' },
+    { key: 'tab5', title: 'Parceiros' },
+    { key: 'tab6', title: 'Colaboradores' },
+    { key: 'tab7', title: 'Voluntários' },
+  ]);
+
   useEffect(() => {
     if (!institution) return;
     if (!loading) return;
@@ -35,6 +58,7 @@ export default function InstitutionProfileHomeScreen({ route }) {
     });
   });
 
+  const { width } = useWindowDimensions();
 
   return (
     <View className="flex-1 bg-white">
@@ -83,6 +107,49 @@ export default function InstitutionProfileHomeScreen({ route }) {
             </View>
           </View>
         </View>
+        <TabView
+          className="mt-2"
+          lazy
+          navigationState={{ index: activeIndexRef.current, routes }}
+          renderScene={renderScene}
+          onIndexChange={(index) => (activeIndexRef.current = index)}
+          initialLayout={{ height: 0, width }}
+          style={{ backgroundColor: 'transparent' }}
+          renderTabBar={(props) => (
+            <TabBar
+              {...props}
+              scrollEnabled
+              pressColor="transparent"
+              labelStyle={{ padding: 0, margin: 0, width: 0 }}
+              indicatorStyle={{ backgroundColor: 'transparent', width: 0 }}
+              style={{
+                shadowColor: 'transparent',
+                margin: 0,
+                padding: 0,
+                backgroundColor: 'transparent',
+              }}
+              bounces
+              tabStyle={{
+                height: 'auto',
+                width: 'auto',
+                margin: 0,
+                paddingLeft: 8,
+                paddingRight: 8,
+              }}
+              renderLabel={({ route, focused }) => {
+                return (
+                  <Text
+                    className={`font-_regular text-lg text-text_neutral ${
+                      focused && 'text-text_primary'
+                    }`}
+                  >
+                    {route.title}
+                  </Text>
+                );
+              }}
+            />
+          )}
+        />
       </ScreenContainer>
     </View>
   );
