@@ -62,3 +62,12 @@ export async function getDonationsBySegment() {
   }, 5000);
   return donationsBySegment;
 }
+
+export async function getCategoryById(id) {
+  return new Promise((resolve) => {
+    console.log('fetching category by id...');
+    setTimeout(() => {
+      resolve(institutionCategories.find((category) => category.id === id));
+    }, 2000);
+  });
+}
