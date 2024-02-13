@@ -1,9 +1,4 @@
-export interface IInstitution {
-  id: number;
-  nameInstitution: string;
-  category: number;
-  imageUrl: string;
-}
+import { IInstitution } from 'src/types';
 
 export const institutions: IInstitution[] = [
   {
