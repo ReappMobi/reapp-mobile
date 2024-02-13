@@ -6,6 +6,7 @@ import ExploreProjectsScreen from 'src/screens/Explore/ExploreProjectsScreen';
 import ExploreScreen from 'src/screens/Explore/ExploreScreen';
 import FavoritePage from 'src/screens/FavoritePage';
 import HomeScreen from 'src/screens/HomeScreen';
+import InstitutionProfileHomeScreen from 'src/screens/Institution/InstitutionProfileHomeScreen';
 import TransparencyScreen from 'src/screens/TransparencyScreen';
 
 const ExploreNavigator = () => {
@@ -19,6 +20,10 @@ const ExploreNavigator = () => {
       <ExploreStack.Screen
         name="ExploreProjects"
         component={ExploreProjectsScreen}
+      />
+      <ExploreStack.Screen
+        name="InstitutionProfileHome"
+        component={InstitutionProfileHomeScreen}
       />
     </ExploreStack.Navigator>
   );
