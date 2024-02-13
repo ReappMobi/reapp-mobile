@@ -1,109 +1,51 @@
-import {
-  Ionicons,
-  MaterialIcons,
-  FontAwesome,
-  SimpleLineIcons,
-} from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import React, { useContext } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
-import ScreenContainer from 'src/components/ScreenContainer';
+import { TouchableOpacity, View, Text } from 'react-native';
+import { HeaderStatisticsProfile, ScreenContainer } from 'src/components';
 import AuthContext from 'src/contexts/auth';
 
-const UserProfileScreen = () => {
+function UserProfilePage() {
   const { user } = useContext(AuthContext);
-
-  if (!user) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Carregando informações do usuário...</Text>
-      </View>
-    );
-  }
-
-  /*
-const UserProfileScreen = () => {
-  const userMock = {
-    name: 'Usuário Exemplo',
-    donations: 5,
-    following: 2,
-    profileImage: 'https://via.placeholder.com/150',
-  };
-  */
-  const handlePress = (menu) => {
-    console.log(`${menu} foi pressionado`);
-  };
-
-  const MenuItem = ({ IconComponent, iconName, title, onPress }) => (
-    <TouchableOpacity
-      onPress={onPress}
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: 16,
-        borderBottomWidth: 1,
-        borderBottomColor: '#cccccc',
-      }}
-    >
-      <View
-        style={{ width: 30, justifyContent: 'center', alignItems: 'center' }}
-      >
-        <IconComponent name={iconName} size={24} color="black" />
-      </View>
-      <Text style={{ marginLeft: 12, fontSize: 18, fontWeight: 'bold' }}>
-        {title}
-      </Text>
-    </TouchableOpacity>
-  );
 
   return (
     <ScreenContainer>
-      <ScrollView style={{ flex: 1, backgroundColor: 'white' }}>
-        <View style={{ alignItems: 'center', padding: 20 }}>
-          <Image
-            source={{ uri: user.profileImage }}
-            style={{ height: 80, width: 80, borderRadius: 40 }}
-          />
-          <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold' }}>
-            {user.name}
-          </Text>
-          <Text
-            style={{ fontSize: 16 }}
-          >{`${user.donations} Doações • ${user.following} Seguindo`}</Text>
-        </View>
+      <View className="py-4">
+        <HeaderStatisticsProfile
+          image={user && user.profileImage}
+          name={user && user.name}
+          donationsQty={user && user.donations}
+          followingQty={user && user.following}
+        />
 
-        <MenuItem
-          IconComponent={Ionicons}
-          iconName="ios-settings-outline"
-          title="Editar Informações"
-          onPress={() => handlePress('Editar Informações')}
-        />
-        <MenuItem
-          IconComponent={MaterialIcons}
-          iconName="wallet-giftcard"
-          title="Minhas doações"
-          onPress={() => handlePress('Minhas doações')}
-        />
-        <MenuItem
-          IconComponent={FontAwesome}
-          iconName="bookmark-o"
-          title="Salvos"
-          onPress={() => handlePress('Salvos')}
-        />
-        <MenuItem
-          IconComponent={SimpleLineIcons}
-          iconName="shield"
-          title="Privacidade (LGPD)"
-          onPress={() => handlePress('Privacidade (LGPD)')}
-        />
-        <MenuItem
-          IconComponent={Ionicons}
-          iconName="ios-exit-outline"
-          title="Sair"
-          onPress={() => handlePress('Sair')}
-        />
-      </ScrollView>
+        <View className="mt-4">
+          <TouchableOpacity className="mb-4 flex-row justify-between">
+            <Text className="font-_bold text-xl">Editar informações</Text>
+            <Ionicons name="settings-sharp" size={24} color="black" />
+          </TouchableOpacity>
+
+          <TouchableOpacity className="mb-4 flex-row justify-between">
+            <Text className="font-_bold text-xl">Minhas doações</Text>
+            <Ionicons name="bar-chart-outline" size={24} color="black" />
+          </TouchableOpacity>
+
+          <TouchableOpacity className="mb-4 flex-row justify-between">
+            <Text className="font-_bold text-xl">Salvos</Text>
+            <Ionicons name={'bookmark-outline'} size={26} color="black" />
+          </TouchableOpacity>
+
+          <TouchableOpacity className="mb-4 flex-row justify-between">
+            <Text className="font-_bold text-xl">Privacidade (LGPD)</Text>
+            <Ionicons name="shield-checkmark-outline" size={24} color="black" />
+          </TouchableOpacity>
+
+          <TouchableOpacity className="mb-4 flex-row justify-between">
+            <Text className="font-_bold text-xl">Sair</Text>
+            <Ionicons name="exit-outline" size={24} color="black" />
+          </TouchableOpacity>
+        </View>
+      </View>
     </ScreenContainer>
   );
-};
+}
 
-export default UserProfileScreen;
+export default UserProfilePage;
