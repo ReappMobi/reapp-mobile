@@ -8,7 +8,7 @@ import FavoritePage from 'src/screens/FavoritePage';
 import HomeScreen from 'src/screens/HomeScreen';
 import TransparencyScreen from 'src/screens/TransparencyScreen';
 
-const Explore = () => {
+const ExploreNavigator = () => {
   const ExploreStack = createStackNavigator();
   return (
     <ExploreStack.Navigator screenOptions={{ headerShown: false }}>
@@ -43,7 +43,7 @@ export function AppNavigator() {
 
       <Tab.Screen
         name="Explore"
-        component={Explore}
+        component={ExploreNavigator}
         options={{
           tabBarActiveTintColor: Colors.color_primary,
           tabBarInactiveTintColor: Colors.text_neutral,
