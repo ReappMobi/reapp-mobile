@@ -75,7 +75,7 @@ export default function InstitutionProfileHomeScreen({ route }) {
             {loading ? (
               <PlaceholderLoader />
             ) : (
-              <Text className="text-md mb-1">{category}</Text>
+              <Text className="text-md mb-2">{category}</Text>
             )}
             <View className="space-y-2">
               <Button
