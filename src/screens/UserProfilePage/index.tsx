@@ -30,7 +30,7 @@ function UserProfilePage() {
 
           <TouchableOpacity className="mb-4 flex-row justify-between">
             <Text className="font-_bold text-xl">Salvos</Text>
-            <Ionicons name={'bookmark-outline'} size={26} color="black" />
+            <Ionicons name="bookmark-outline" size={26} color="black" />
           </TouchableOpacity>
 
           <TouchableOpacity className="mb-4 flex-row justify-between">
