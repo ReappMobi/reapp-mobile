@@ -6,6 +6,12 @@ import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
 import { getCategoryById } from 'src/services/app-core';
 import { IInstitution } from 'src/types';
 
+const TestRoute = () => (
+  <View className="flex-1 items-center justify-center">
+    <Text className="text-xl">Reapp</Text>
+  </View>
+);
+
 const PlaceholderLoader = () => {
   return (
     <View className="animate-pulse">
