@@ -49,14 +49,11 @@ export default function InstitutionProfileHomeScreen({ route }) {
   ]);
 
   useEffect(() => {
-    if (!institution) return;
-    if (!loading) return;
-    // TODO: Fix type in getCategoryById
-    getCategoryById(institution.category).then((category: ICategory) => {
-      setCategory(category.category);
+    getCategoryById(institution.category).then((fetchedCategory) => {
+      setCategory(fetchedCategory.category);
       setLoading(false);
     });
-  });
+  }, [institution]);
 
   const { width } = useWindowDimensions();
 
