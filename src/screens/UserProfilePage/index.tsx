@@ -4,8 +4,8 @@ import { TouchableOpacity, View, Text } from 'react-native';
 import { HeaderStatisticsProfile, ScreenContainer } from 'src/components';
 import AuthContext from 'src/contexts/auth';
 
-function UserProfilePage() {
-  const { user } = useContext(AuthContext);
+function UserProfilePage({ navigation }) {
+  const { user, signOut } = useContext(AuthContext);
 
   return (
     <ScreenContainer>
@@ -23,12 +23,18 @@ function UserProfilePage() {
             <Ionicons name="settings-sharp" size={24} color="black" />
           </TouchableOpacity>
 
-          <TouchableOpacity className="mb-4 flex-row justify-between">
+          <TouchableOpacity
+            className="mb-4 flex-row justify-between"
+            onPress={() => navigation.navigate('UserDonations')}
+          >
             <Text className="font-_bold text-xl">Minhas doações</Text>
             <Ionicons name="bar-chart-outline" size={24} color="black" />
           </TouchableOpacity>
 
-          <TouchableOpacity className="mb-4 flex-row justify-between">
+          <TouchableOpacity
+            className="mb-4 flex-row justify-between"
+            onPress={() => navigation.navigate('UserSavedPosts')}
+          >
             <Text className="font-_bold text-xl">Salvos</Text>
             <Ionicons name="bookmark-outline" size={26} color="black" />
           </TouchableOpacity>
@@ -38,7 +44,10 @@ function UserProfilePage() {
             <Ionicons name="shield-checkmark-outline" size={24} color="black" />
           </TouchableOpacity>
 
-          <TouchableOpacity className="mb-4 flex-row justify-between">
+          <TouchableOpacity
+            className="mb-4 flex-row justify-between"
+            onPress={signOut}
+          >
             <Text className="font-_bold text-xl">Sair</Text>
             <Ionicons name="exit-outline" size={24} color="black" />
           </TouchableOpacity>
