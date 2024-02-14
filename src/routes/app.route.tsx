@@ -1,4 +1,4 @@
-import { Octicons, FontAwesome5 } from '@expo/vector-icons';
+import { Octicons, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Colors from 'src/constants/Colors';
@@ -6,7 +6,10 @@ import ExploreProjectsScreen from 'src/screens/Explore/ExploreProjectsScreen';
 import ExploreScreen from 'src/screens/Explore/ExploreScreen';
 import FavoritePage from 'src/screens/FavoritePage';
 import HomeScreen from 'src/screens/HomeScreen';
+import ProfileSavedScreen from 'src/screens/ProfileSavedScreen';
+import ProfileStatisticsScreen from 'src/screens/ProfileStatisticsScreen';
 import TransparencyScreen from 'src/screens/TransparencyScreen';
+import UserProfilePage from 'src/screens/UserProfilePage';
 
 const Explore = () => {
   const ExploreStack = createStackNavigator();
@@ -21,6 +24,21 @@ const Explore = () => {
         component={ExploreProjectsScreen}
       />
     </ExploreStack.Navigator>
+  );
+};
+
+const UserProfile = () => {
+  const UserStack = createStackNavigator();
+
+  return (
+    <UserStack.Navigator screenOptions={{ headerShown: false }}>
+      <UserStack.Screen name="UserProfileScreen" component={UserProfilePage} />
+      <UserStack.Screen
+        name="UserDonations"
+        component={ProfileStatisticsScreen}
+      />
+      <UserStack.Screen name="UserSavedPosts" component={ProfileSavedScreen} />
+    </UserStack.Navigator>
   );
 };
 
@@ -75,7 +93,20 @@ export function AppNavigator() {
           tabBarInactiveTintColor: Colors.text_neutral,
           tabBarShowLabel: false,
           tabBarIcon: ({ size, color }) => (
-            <FontAwesome5 name="money-bill-alt" size={size} color={color} />
+            <Ionicons name="receipt-outline" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="UserProfile"
+        component={UserProfile}
+        options={{
+          tabBarActiveTintColor: Colors.color_primary,
+          tabBarInactiveTintColor: Colors.text_neutral,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ size, color }) => (
+            <FontAwesome5 name="user" size={size} color={color} />
           ),
         }}
       />
