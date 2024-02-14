@@ -6,14 +6,57 @@ import { ScreenContainer, Button, CardPost } from 'src/components';
 import { getCategoryById, getPostsById } from 'src/services/app-core';
 import { IInstitution, IPost } from 'src/types';
 
-const TestRoute = () => (
-  <View className="flex-1 items-center justify-center">
-    <Text className="text-xl">Reapp</Text>
-  </View>
-);
+const TestRoute = ({ institution }: { institution: IInstitution }) => {
+  const [posts, setPosts] = useState<IPost[]>([]);
+  const [loadingPosts, setLoadingPosts] = useState(true);
+  const loaded = useRef(false);
 
-const renderScene = SceneMap({
-  tab1: TestRoute,
+  useEffect(() => {
+    if (loaded.current) return;
+    getPostsById(institution.id).then((fetchedPosts) => {
+      setPosts(fetchedPosts);
+      setLoadingPosts(false);
+      loaded.current = true;
+    });
+  }, []);
+
+  // Use useMemo to memoize the mapped posts for better performance
+  const memoizedPosts = useMemo(() => {
+    return posts.map((item) => (
+      <CardPost
+        key={item.id}
+        userImagePath={institution.imageUrl}
+        description={item.content}
+        imagePath={item.media}
+        timeAgo={item.createdAt}
+        isSavedInitial={false}
+      />
+    ));
+  }, [posts]);
+
+  if (loadingPosts) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <Text>Carregando...</Text>
+      </View>
+    );
+  }
+
+  return (
+    <View className="flex-1 items-center justify-center">
+      <FlatList
+        data={memoizedPosts}
+        renderItem={({ item }) => item}
+        ItemSeparatorComponent={() => <View className="mb-2.5" />}
+        keyExtractor={(item) => item.key}
+      />
+    </View>
+  );
+};
+
+const renderScene = (institution: IInstitution) =>
+  SceneMap({
+    tab1: () => <TestRoute institution={institution} />,
     tab2: () => <View />,
     tab3: () => <View />,
     tab4: () => <View />,
