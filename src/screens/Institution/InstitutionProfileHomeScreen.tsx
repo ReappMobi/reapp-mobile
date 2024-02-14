@@ -2,7 +2,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, Image, useWindowDimensions, FlatList } from 'react-native';
 import { TabView, SceneMap, TabBar, Route } from 'react-native-tab-view';
-import { ScreenContainer, Button, CardPost } from 'src/components';
+import { ScreenContainer, Button, CardPost, LoadingBox } from 'src/components';
 import { getCategoryById, getPostsById } from 'src/services/app-core';
 import { IInstitution, IPost } from 'src/types';
 
@@ -36,8 +36,13 @@ const Home = ({ institution }: { institution: IInstitution }) => {
 
   if (loadingPosts) {
     return (
-      <View className="flex-1 items-center justify-center">
-        <Text>Carregando...</Text>
+      <View className="flex-1 items-center justify-center pt-48 ">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <LoadingBox
+            key={index}
+            customStyle="h-56 w-full mb-2 rounded-md bg-slate-400 last:mb-0"
+          />
+        ))}
       </View>
     );
   }
