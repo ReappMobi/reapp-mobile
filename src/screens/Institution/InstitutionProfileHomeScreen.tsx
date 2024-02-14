@@ -174,7 +174,7 @@ export default function InstitutionProfileHomeScreen({ route }) {
           {loading ? (
             <LoadingBox customStyle="h-2.5 w-20 mt-2 mb-3 rounded-md bg-slate-400" />
           ) : (
-            <Text className="text-md mb-2">{category}</Text>
+            <Text className="text-md my-2">{category}</Text>
           )}
           <View className="space-y-2">
             <Button
