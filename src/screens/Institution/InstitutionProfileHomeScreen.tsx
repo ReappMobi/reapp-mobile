@@ -70,14 +70,6 @@ const renderScene = (institution: IInstitution) =>
     tab7: () => <View />,
   });
 
-const PlaceholderLoader = () => {
-  return (
-    <View className="animate-pulse">
-      <View className="my-2 h-2.5 w-24 rounded-full bg-gray-300" />
-    </View>
-  );
-};
-
 type TabBarProps = {
   institution: IInstitution;
   activeIndexRef: React.MutableRefObject<number>;
