@@ -6,7 +6,7 @@ import { ScreenContainer, Button, CardPost } from 'src/components';
 import { getCategoryById, getPostsById } from 'src/services/app-core';
 import { IInstitution, IPost } from 'src/types';
 
-const TestRoute = ({ institution }: { institution: IInstitution }) => {
+const Home = ({ institution }: { institution: IInstitution }) => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loadingPosts, setLoadingPosts] = useState(true);
   const loaded = useRef(false);
@@ -56,7 +56,7 @@ const TestRoute = ({ institution }: { institution: IInstitution }) => {
 
 const renderScene = (institution: IInstitution) =>
   SceneMap({
-    tab1: () => <TestRoute institution={institution} />,
+    tab1: () => <Home institution={institution} />,
     tab2: () => <View />,
     tab3: () => <View />,
     tab4: () => <View />,
