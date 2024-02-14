@@ -8,6 +8,7 @@ import ExploreScreenCard from './ExploreScreenCard';
 import Header from './Header';
 import HeaderStatisticsProfile from './HeaderStatisticsProfile';
 import Input from './Input';
+import LoadingBox from './LoadingBox';
 import ScreenContainer from './ScreenContainer';
 import SearchInput from './SearchInput';
 export {
@@ -23,4 +24,5 @@ export {
   SearchInput,
   ExploreScreenCard,
   CardSearch,
+  LoadingBox,
 };
