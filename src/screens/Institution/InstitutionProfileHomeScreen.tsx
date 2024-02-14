@@ -15,13 +15,13 @@ const TestRoute = () => (
 
 const renderScene = SceneMap({
   tab1: TestRoute,
-  tab2: TestRoute,
-  tab3: TestRoute,
-  tab4: TestRoute,
-  tab5: TestRoute,
-  tab6: TestRoute,
-  tab7: TestRoute,
-});
+    tab2: () => <View />,
+    tab3: () => <View />,
+    tab4: () => <View />,
+    tab5: () => <View />,
+    tab6: () => <View />,
+    tab7: () => <View />,
+  });
 
 const PlaceholderLoader = () => {
   return (
