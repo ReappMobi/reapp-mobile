@@ -172,7 +172,7 @@ export default function InstitutionProfileHomeScreen({ route }) {
             {institution.nameInstitution}
           </Text>
           {loading ? (
-            <PlaceholderLoader />
+            <LoadingBox customStyle="h-2.5 w-20 mt-2 mb-3 rounded-md bg-slate-400" />
           ) : (
             <Text className="text-md mb-2">{category}</Text>
           )}
