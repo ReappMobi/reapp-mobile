@@ -42,7 +42,7 @@ function ProfileStatisticsScreen() {
             <DonationInformationItem
               title={item.title}
               subtitle={item.subtitle}
-              image="https://aacd.org.br/wp-content/uploads/2019/10/aacd-doacao.jpg"
+              image="https://placehold.co/600x400/png"
             />
           )}
         />
