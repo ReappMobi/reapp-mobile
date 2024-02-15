@@ -1,3 +1,4 @@
+import { StackActions } from '@react-navigation/native';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   View,
@@ -40,8 +41,20 @@ function ExploreProjectsScreen({ navigation }) {
   const [clicked, setClicked] = useState(false);
   const [searchPhrase, setSearchPhrase] = useState('');
 
-  const RenderItem = ({ nameProject, imageUrl }) => {
-    return <ExploreScreenCard title={nameProject} imageUrl={imageUrl} />;
+  const RenderItem = ({ item }) => {
+    return (
+      <ExploreScreenCard
+        title={item.nameProject}
+        imageUrl={item.imageUrl}
+        onPressCard={() => {
+          handleCardClick(item);
+        }}
+      />
+    );
+  };
+
+  const handleCardClick = (item) => {
+    navigation.dispatch(StackActions.push('ProjectPage', { project: item }));
   };
 
   const RenderCardSearch = ({ item }) => {
@@ -50,7 +63,9 @@ function ExploreProjectsScreen({ navigation }) {
         <CardSearch
           imageUrl={item.imageUrl}
           title={item.nameProject}
-          onPress={() => {}}
+          onPress={() => {
+            handleCardClick(item);
+          }}
         />
       );
     }
@@ -64,7 +79,9 @@ function ExploreProjectsScreen({ navigation }) {
         <CardSearch
           imageUrl={item.imageUrl}
           title={item.nameProject}
-          onPress={() => {}}
+          onPress={() => {
+            handleCardClick(item);
+          }}
         />
       );
     }
@@ -108,12 +125,7 @@ function ExploreProjectsScreen({ navigation }) {
                 <FlatList
                   data={data}
                   horizontal
-                  renderItem={({ item }) => (
-                    <RenderItem
-                      nameProject={item.nameProject}
-                      imageUrl={item.imageUrl}
-                    />
-                  )}
+                  renderItem={({ item }) => <RenderItem item={item} />}
                   keyExtractor={(item) => item.id.toString()}
                   showsHorizontalScrollIndicator={false}
                   ItemSeparatorComponent={() => <View className="w-3" />}
