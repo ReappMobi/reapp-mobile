@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FlatList, ListRenderItem, View } from 'react-native';
+import { CardPost, LoadingBox } from 'src/components';
 import { getInstituitionPosts } from 'src/services/app-core';
 import { IInstitution, IPost } from 'src/types';
-
-import CardPost from './CardPost';
-import LoadingBox from './LoadingBox';
 
 type HomeViewProps = {
   institution: IInstitution;

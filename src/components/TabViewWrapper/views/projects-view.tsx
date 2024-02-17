@@ -1,11 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FlatList, ListRenderItem, View } from 'react-native';
+import { CardInstitutionProject, LoadingBox } from 'src/components';
 import { IProject } from 'src/mocks/app-projects-data';
 import { getInstituitionProjects } from 'src/services/app-core';
 import { IInstitution } from 'src/types';
-
-import CardInstitutionProject from './CardInstitutionProject';
-import LoadingBox from './LoadingBox';
 
 type ProjectsViewProps = {
   institution: IInstitution;

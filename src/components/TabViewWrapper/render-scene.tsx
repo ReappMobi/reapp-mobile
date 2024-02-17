@@ -2,8 +2,7 @@ import { View } from 'react-native';
 import { SceneMap } from 'react-native-tab-view';
 import { IInstitution } from 'src/types';
 
-import HomeView from './home-view';
-import ProjectsView from './projects-view';
+import { HomeView, ProjectsView } from './views';
 
 const RenderScene = ({ institution }: { institution: IInstitution }) => {
   return SceneMap({
