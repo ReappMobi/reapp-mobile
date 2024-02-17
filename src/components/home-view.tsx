@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { FlatList, ListRenderItem, View } from 'react-native';
+import { getInstituitionPosts } from 'src/services/app-core';
 import { IInstitution, IPost } from 'src/types';
 
+import CardPost from './CardPost';
 import LoadingBox from './LoadingBox';
 
 type HomeViewProps = {
@@ -13,11 +15,24 @@ const HomeView = ({ institution }: HomeViewProps) => {
   const [loadingPosts, setLoadingPosts] = useState(true);
 
   useEffect(() => {
-    getPostsById(institution.id).then((fetchedPosts) => {
-      setPosts(fetchedPosts);
+    getInstituitionPosts(institution.id).then((posts) => {
+      setPosts(posts);
       setLoadingPosts(false);
     });
   });
+
+  const renderItem: ListRenderItem<IPost> = useCallback(({ item }) => {
+    return (
+      <CardPost
+        key={item.id}
+        userImagePath={institution.imageUrl}
+        description={item.content}
+        imagePath={item.media}
+        timeAgo={item.createdAt}
+        isSavedInitial={false}
+      />
+    );
+  }, []);
 
   if (loadingPosts) {
     return (
@@ -35,17 +50,14 @@ const HomeView = ({ institution }: HomeViewProps) => {
   return (
     <View className="flex-1 items-center justify-center">
       <FlatList
+        removeClippedSubviews
+        maxToRenderPerBatch={10}
         data={posts}
-        renderItem={({ item }) => item}
+        renderItem={renderItem}
         ItemSeparatorComponent={() => <View className="mb-2.5" />}
-        keyExtractor={(item) => item.key}
       />
     </View>
   );
 };
-
-async function getPostsById(id: number): Promise<IPost[]> {
-  return [];
-}
 
 export default HomeView;
