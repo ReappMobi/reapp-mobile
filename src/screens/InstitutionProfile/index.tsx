@@ -1,20 +1,17 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
-import { View, Text, Image, useWindowDimensions, FlatList } from 'react-native';
-import { TabView, SceneMap, TabBar, Route } from 'react-native-tab-view';
-import { ScreenContainer, Button, CardPost, LoadingBox } from 'src/components';
-import { getCategoryById, getPostsById } from 'src/services/app-core';
-import { IInstitution, IPost } from 'src/types';
-
-type TabBarProps = {
-  institution: IInstitution;
-  activeIndexRef: React.MutableRefObject<number>;
-  routes: Route[];
-  width: number;
-};
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, Image, useWindowDimensions } from 'react-native';
+import {
+  ScreenContainer,
+  Button,
+  LoadingBox,
+  TabViewWrapper,
+} from 'src/components';
+import { getCategoryById } from 'src/services/app-core';
+import { IInstitution } from 'src/types';
 
 // TODO: Fix type in ExploreScreen
-export default function InstitutionProfileHomeScreen({ route }) {
+export default function InstitutionProfile({ route }) {
   const { institution } = route.params as { institution: IInstitution };
   const [category, setCategory] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -35,7 +32,7 @@ export default function InstitutionProfileHomeScreen({ route }) {
       setCategory(fetchedCategory.category);
       setLoading(false);
     });
-  }, [institution]);
+  });
 
   const { width } = useWindowDimensions();
 
@@ -85,7 +82,7 @@ export default function InstitutionProfileHomeScreen({ route }) {
           </View>
         </View>
       </View>
-      <TabBarComponent
+      <TabViewWrapper
         institution={institution}
         activeIndexRef={activeIndexRef}
         routes={routes}
