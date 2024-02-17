@@ -8,7 +8,7 @@ import { donationsBySegment } from 'src/mocks/app-donationSegment-data';
 import { institutions } from 'src/mocks/app-institution-data';
 import { posts } from 'src/mocks/app-institution-post-data';
 import { allPosts } from 'src/mocks/app-posts-data';
-import { projects } from 'src/mocks/app-projects-data';
+import { IProject, projects } from 'src/mocks/app-projects-data';
 import { projectCategories } from 'src/mocks/app-projectsCategory-data';
 import { IPost } from 'src/types';
 
@@ -85,3 +85,16 @@ export async function getInstituitionPosts(
     }, 1000);
   });
 }
+
+export async function getInstituitionProjects(
+  institutionId: number
+): Promise<IProject[]> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(
+        projects.filter((project) => project.idInstitution === institutionId)
+      );
+    }, 1000);
+  });
+}
+
