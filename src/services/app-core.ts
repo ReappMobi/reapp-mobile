@@ -1,4 +1,7 @@
-import { institutionCategories } from 'src/mocks/app-InstitutionCategory-data';
+import {
+  ICategory,
+  institutionCategories,
+} from 'src/mocks/app-InstitutionCategory-data';
 import { banners } from 'src/mocks/app-banners-data';
 import { donationsByEixo } from 'src/mocks/app-donationEixo-data';
 import { donationsBySegment } from 'src/mocks/app-donationSegment-data';
@@ -63,11 +66,10 @@ export async function getDonationsBySegment() {
   return donationsBySegment;
 }
 
-export async function getCategoryById(id) {
+export async function getCategoryById(id: number): Promise<ICategory> {
   return new Promise((resolve) => {
-    console.log('fetching category by id...');
     setTimeout(() => {
       resolve(institutionCategories.find((category) => category.id === id));
-    }, 2000);
+    }, 1000);
   });
 }
