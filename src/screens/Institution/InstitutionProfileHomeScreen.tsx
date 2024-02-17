@@ -27,38 +27,6 @@ const TabBarComponent = memo(
       initialLayout={{ height: 0, width }}
       style={{ backgroundColor: 'transparent' }}
       renderTabBar={(props) => (
-        <TabBar
-          {...props}
-          scrollEnabled
-          pressColor="transparent"
-          labelStyle={{ padding: 0, margin: 0, width: 0 }}
-          indicatorStyle={{ backgroundColor: 'transparent', width: 0 }}
-          style={{
-            shadowColor: 'transparent',
-            margin: 0,
-            padding: 0,
-            backgroundColor: 'transparent',
-          }}
-          bounces
-          tabStyle={{
-            height: 'auto',
-            width: 'auto',
-            margin: 0,
-            paddingLeft: 8,
-            paddingRight: 8,
-          }}
-          renderLabel={({ route, focused }) => (
-            <Text
-              className={`font-_regular text-lg text-text_neutral ${
-                focused && 'text-text_primary'
-              }`}
-            >
-              {route.title}
-            </Text>
-          )}
-        />
-      )}
-    />
   )
 );
 
