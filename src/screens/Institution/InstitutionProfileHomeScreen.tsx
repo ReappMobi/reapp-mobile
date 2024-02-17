@@ -13,23 +13,6 @@ type TabBarProps = {
   width: number;
 };
 
-const TabBarComponent = memo(
-  ({ institution, activeIndexRef, routes, width }: TabBarProps) => (
-    <TabView
-      className="mt-2"
-      lazy
-      navigationState={{
-        index: activeIndexRef.current,
-        routes,
-      }}
-      renderScene={renderScene(institution)}
-      onIndexChange={(index) => (activeIndexRef.current = index)}
-      initialLayout={{ height: 0, width }}
-      style={{ backgroundColor: 'transparent' }}
-      renderTabBar={(props) => (
-  )
-);
-
 // TODO: Fix type in ExploreScreen
 export default function InstitutionProfileHomeScreen({ route }) {
   const { institution } = route.params as { institution: IInstitution };
