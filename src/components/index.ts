@@ -11,6 +11,7 @@ import Input from './Input';
 import LoadingBox from './LoadingBox';
 import ScreenContainer from './ScreenContainer';
 import SearchInput from './SearchInput';
+import TabViewWrapper from './tabview-wrapper';
 export {
   BannersContainer,
   Button,
@@ -25,4 +26,5 @@ export {
   ExploreScreenCard,
   CardSearch,
   LoadingBox,
+  TabViewWrapper,
 };
