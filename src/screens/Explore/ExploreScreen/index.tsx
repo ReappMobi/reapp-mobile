@@ -68,7 +68,7 @@ function ExploreScreen({ navigation }) {
 
   const handleCardClick = (item) => {
     navigation.dispatch(
-      StackActions.push('InstitutionProfileHome', { institution: item })
+      StackActions.push('InstitutionProfile', { institution: item })
     );
   };
 
