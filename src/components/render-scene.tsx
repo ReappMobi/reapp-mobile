@@ -3,11 +3,12 @@ import { SceneMap } from 'react-native-tab-view';
 import { IInstitution } from 'src/types';
 
 import HomeView from './home-view';
+import ProjectsView from './projects-view';
 
 const RenderScene = ({ institution }: { institution: IInstitution }) => {
   return SceneMap({
     tab1: () => <HomeView institution={institution} />,
-    tab2: () => <View />,
+    tab2: () => <ProjectsView institution={institution} />,
     tab3: () => <View />,
     tab4: () => <View />,
     tab5: () => <View />,
