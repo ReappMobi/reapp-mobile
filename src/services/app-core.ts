@@ -98,3 +98,10 @@ export async function getInstituitionProjects(
   });
 }
 
+export async function getInstitutionTransparency(institutionId: number) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([]);
+    }, 1000);
+  });
+}
