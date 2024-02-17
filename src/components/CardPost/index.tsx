@@ -65,7 +65,11 @@ function CardPost({
       </View>
 
       <View className="mb-2.5">
-        <Text className="font-_regular text-base text-text_neutral">
+        <Text
+          numberOfLines={expanded ? null : 3}
+          className="font-_regular text-base text-text_neutral "
+          onPress={() => setExpanded(!expanded)}
+        >
           {description}
         </Text>
       </View>
