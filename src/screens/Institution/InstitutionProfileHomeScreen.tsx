@@ -6,59 +6,6 @@ import { ScreenContainer, Button, CardPost, LoadingBox } from 'src/components';
 import { getCategoryById, getPostsById } from 'src/services/app-core';
 import { IInstitution, IPost } from 'src/types';
 
-const Home = ({ institution }: { institution: IInstitution }) => {
-  const [posts, setPosts] = useState<IPost[]>([]);
-  const [loadingPosts, setLoadingPosts] = useState(true);
-  const loaded = useRef(false);
-
-  useEffect(() => {
-    if (loaded.current) return;
-    getPostsById(institution.id).then((fetchedPosts) => {
-      setPosts(fetchedPosts);
-      setLoadingPosts(false);
-      loaded.current = true;
-    });
-  }, []);
-
-  // Use useMemo to memoize the mapped posts for better performance
-  const memoizedPosts = useMemo(() => {
-    return posts.map((item) => (
-      <CardPost
-        key={item.id}
-        userImagePath={institution.imageUrl}
-        description={item.content}
-        imagePath={item.media}
-        timeAgo={item.createdAt}
-        isSavedInitial={false}
-      />
-    ));
-  }, [posts]);
-
-  if (loadingPosts) {
-    return (
-      <View className="flex-1 items-center justify-center pt-48 ">
-        {Array.from({ length: 3 }).map((_, index) => (
-          <LoadingBox
-            key={index}
-            customStyle="h-56 w-full mb-2 rounded-md bg-slate-400 last:mb-0"
-          />
-        ))}
-      </View>
-    );
-  }
-
-  return (
-    <View className="flex-1 items-center justify-center">
-      <FlatList
-        data={memoizedPosts}
-        renderItem={({ item }) => item}
-        ItemSeparatorComponent={() => <View className="mb-2.5" />}
-        keyExtractor={(item) => item.key}
-      />
-    </View>
-  );
-};
-
 type TabBarProps = {
   institution: IInstitution;
   activeIndexRef: React.MutableRefObject<number>;
