@@ -59,17 +59,6 @@ const Home = ({ institution }: { institution: IInstitution }) => {
   );
 };
 
-const renderScene = (institution: IInstitution) =>
-  SceneMap({
-    tab1: () => <Home institution={institution} />,
-    tab2: () => <View />,
-    tab3: () => <View />,
-    tab4: () => <View />,
-    tab5: () => <View />,
-    tab6: () => <View />,
-    tab7: () => <View />,
-  });
-
 type TabBarProps = {
   institution: IInstitution;
   activeIndexRef: React.MutableRefObject<number>;
