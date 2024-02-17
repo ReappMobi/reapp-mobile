@@ -6,13 +6,11 @@ import ExploreProjectsScreen from 'src/screens/Explore/ExploreProjectsScreen';
 import ExploreScreen from 'src/screens/Explore/ExploreScreen';
 import FavoritePage from 'src/screens/FavoritePage';
 import HomeScreen from 'src/screens/HomeScreen';
-import ProfileSavedScreen from 'src/screens/ProfileSavedScreen';
-import ProfileStatisticsScreen from 'src/screens/ProfileStatisticsScreen';
-import ProjectPage from 'src/screens/ProjectPage';
+import InstitutionProfile from 'src/screens/InstitutionProfile';
 import TransparencyScreen from 'src/screens/TransparencyScreen';
 import UserProfilePage from 'src/screens/UserProfilePage';
 
-const Explore = () => {
+const ExploreNavigator = () => {
   const ExploreStack = createStackNavigator();
   return (
     <ExploreStack.Navigator screenOptions={{ headerShown: false }}>
@@ -24,8 +22,10 @@ const Explore = () => {
         name="ExploreProjects"
         component={ExploreProjectsScreen}
       />
-
-      <ExploreStack.Screen name="ProjectPage" component={ProjectPage} />
+      <ExploreStack.Screen
+        name="InstitutionProfile"
+        component={InstitutionProfile}
+      />
     </ExploreStack.Navigator>
   );
 };
@@ -64,7 +64,7 @@ export function AppNavigator() {
 
       <Tab.Screen
         name="Explore"
-        component={Explore}
+        component={ExploreNavigator}
         options={{
           tabBarActiveTintColor: Colors.color_primary,
           tabBarInactiveTintColor: Colors.text_neutral,

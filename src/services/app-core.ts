@@ -1,11 +1,16 @@
-import { institutionCategories } from 'src/mocks/app-InstitutionCategory-data';
+import {
+  ICategory,
+  institutionCategories,
+} from 'src/mocks/app-InstitutionCategory-data';
 import { banners } from 'src/mocks/app-banners-data';
 import { donationsByEixo } from 'src/mocks/app-donationEixo-data';
 import { donationsBySegment } from 'src/mocks/app-donationSegment-data';
 import { institutions } from 'src/mocks/app-institution-data';
+import { posts } from 'src/mocks/app-institution-post-data';
 import { allPosts } from 'src/mocks/app-posts-data';
-import { projects } from 'src/mocks/app-projects-data';
+import { IProject, projects } from 'src/mocks/app-projects-data';
 import { projectCategories } from 'src/mocks/app-projectsCategory-data';
+import { IPost } from 'src/types';
 
 export async function getSharedCampaigns() {
   setTimeout(() => {
@@ -61,4 +66,42 @@ export async function getDonationsBySegment() {
     console.log('fetchin donations by segment...');
   }, 5000);
   return donationsBySegment;
+}
+
+export async function getCategoryById(id: number): Promise<ICategory> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(institutionCategories.find((category) => category.id === id));
+    }, 1000);
+  });
+}
+
+export async function getInstituitionPosts(
+  institutionId: number
+): Promise<IPost[]> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(posts);
+    }, 1000);
+  });
+}
+
+export async function getInstituitionProjects(
+  institutionId: number
+): Promise<IProject[]> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(
+        projects.filter((project) => project.idInstitution === institutionId)
+      );
+    }, 1000);
+  });
+}
+
+export async function getInstitutionTransparency(institutionId: number) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([]);
+    }, 1000);
+  });
 }

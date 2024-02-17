@@ -27,6 +27,7 @@ function CardPost({
 }: CardPostProps) {
   const [isLiked, setIsLiked] = useState(isLikedInitial);
   const [isSaved, setIsSaved] = useState(isSavedInitial);
+  const [expanded, setExpanded] = useState(false);
 
   const handleLikePress = () => {
     setIsLiked(!isLiked);
@@ -59,15 +60,20 @@ function CardPost({
         <View />
       </View>
 
-      <View className="mb-2.5 h-56 w-full">
-        <Image className="h-full w-full" source={{ uri: imagePath }} />
-      </View>
-
       <View className="mb-2.5">
-        <Text className="font-_regular text-base text-text_neutral">
+        <Text
+          numberOfLines={expanded ? null : 3}
+          className="font-_regular text-base text-text_neutral "
+          onPress={() => setExpanded(!expanded)}
+        >
           {description}
         </Text>
       </View>
+      {imagePath && (
+        <View className="mb-2.5 h-56 w-full">
+          <Image className="h-full w-full" source={{ uri: imagePath }} />
+        </View>
+      )}
 
       <View className="flex-row items-center justify-between">
         <View>
