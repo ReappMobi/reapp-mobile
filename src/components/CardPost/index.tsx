@@ -27,6 +27,7 @@ function CardPost({
 }: CardPostProps) {
   const [isLiked, setIsLiked] = useState(isLikedInitial);
   const [isSaved, setIsSaved] = useState(isSavedInitial);
+  const [expanded, setExpanded] = useState(false);
 
   const handleLikePress = () => {
     setIsLiked(!isLiked);
