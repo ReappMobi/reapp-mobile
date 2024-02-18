@@ -55,13 +55,14 @@ function ExploreScreen({ navigation }) {
     modalizeRef.current?.open();
   };
 
-  const RenderItem = ({ nameInstitution, imageUrl }) => {
+  const RenderItem = ({ item }) => {
     return (
       <ExploreScreenCard
-        title={nameInstitution}
+        title={item.nameInstitution}
         isInstitution
-        imageUrl={imageUrl}
+        imageUrl={item.imageUrl}
         onPressInfo={onOpen}
+        onPressCard={() => handleCardClick(item)}
       />
     );
   };
@@ -183,12 +184,7 @@ function ExploreScreen({ navigation }) {
                   <FlatList
                     data={data}
                     horizontal
-                    renderItem={({ item }) => (
-                      <RenderItem
-                        nameInstitution={item.nameInstitution}
-                        imageUrl={item.imageUrl}
-                      />
-                    )}
+                    renderItem={({ item }) => <RenderItem item={item} />}
                     keyExtractor={(item) => item.id.toString()}
                     showsHorizontalScrollIndicator={false}
                     ItemSeparatorComponent={() => <View className="w-3" />}
