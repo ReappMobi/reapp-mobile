@@ -7,6 +7,9 @@ import ExploreScreen from 'src/screens/Explore/ExploreScreen';
 import FavoritePage from 'src/screens/FavoritePage';
 import HomeScreen from 'src/screens/HomeScreen';
 import InstitutionProfile from 'src/screens/InstitutionProfile';
+import ProfileSavedScreen from 'src/screens/ProfileSavedScreen';
+import ProfileStatisticsScreen from 'src/screens/ProfileStatisticsScreen';
+import ProjectPage from 'src/screens/ProjectPage';
 import TransparencyScreen from 'src/screens/TransparencyScreen';
 import UserProfilePage from 'src/screens/UserProfilePage';
 
@@ -26,6 +29,7 @@ const ExploreNavigator = () => {
         name="InstitutionProfile"
         component={InstitutionProfile}
       />
+      <ExploreStack.Screen name="ProjectPage" component={ProjectPage} />
     </ExploreStack.Navigator>
   );
 };
