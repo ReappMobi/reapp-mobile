@@ -7,7 +7,6 @@ import {
 } from 'react-native-tab-view';
 import { IInstitution } from 'src/types';
 
-import RenderScene from './render-scene';
 import { TabBarWrapper } from './tab-bar';
 
 type TabViewWrapperProps = {
@@ -15,13 +14,14 @@ type TabViewWrapperProps = {
   activeIndexRef: React.MutableRefObject<number>;
   routes: Route[];
   width: number;
+  renderScene: (props: SceneRendererProps & { route: Route }) => JSX.Element;
 };
 
 const TabViewWrapper = ({
-  institution,
   activeIndexRef,
   routes,
   width,
+  renderScene,
 }: TabViewWrapperProps) => {
   const renderTabBar = (
     props: SceneRendererProps & { navigationState: NavigationState<Route> }
@@ -37,7 +37,7 @@ const TabViewWrapper = ({
         routes,
       }}
       initialLayout={{ width }}
-      renderScene={RenderScene({ institution })}
+      renderScene={renderScene}
       onIndexChange={(index) => (activeIndexRef.current = index)}
       renderTabBar={renderTabBar}
     />
