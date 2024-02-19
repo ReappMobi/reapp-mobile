@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { StackActions } from '@react-navigation/native';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigation } from 'expo-router';
+import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -11,9 +12,9 @@ import {
 import { Modalize } from 'react-native-modalize';
 import {
   ScreenContainer,
-  SearchInput,
   ExploreScreenCard,
   CardSearch,
+  LoadingBox,
 } from 'src/components';
 import Colors from 'src/constants/Colors';
 import {
@@ -21,9 +22,11 @@ import {
   getInstitutions,
 } from 'src/services/app-core';
 
-function ExploreScreen({ navigation }) {
+function ExploreScreen({ clicked, searchPhrase }) {
   const [institutions, setInstitutions] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [loadingInstitutions, setLoadingInstitutions] = useState(true);
+  const navigation = useNavigation();
 
   //TODO: put in the array if the institution is one of the user's favorites
   useEffect(() => {
@@ -32,6 +35,7 @@ function ExploreScreen({ navigation }) {
       setInstitutions(institutionsData);
       const categoriesData = await getInstituitionCategories();
       setCategories(categoriesData);
+      setLoadingInstitutions(false);
     })();
   }, []);
 
@@ -45,9 +49,6 @@ function ExploreScreen({ navigation }) {
       })),
     [categories, institutions]
   );
-
-  const [clicked, setClicked] = useState(false);
-  const [searchPhrase, setSearchPhrase] = useState('');
 
   const modalizeRef = useRef<Modalize>(null);
 
@@ -145,35 +146,31 @@ function ExploreScreen({ navigation }) {
     );
   };
 
+  if (loadingInstitutions) {
+    return (
+      <View className="pt-30 flex-1 justify-center px-4">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <React.Fragment key={index}>
+            <LoadingBox customStyle="h-4 w-32 mb-2 mt-2 rounded-md bg-slate-400 last:mb-0" />
+            <ScrollView horizontal>
+              {Array.from({ length: 7 }).map((__, index2) => (
+                <LoadingBox
+                  key={index2}
+                  customStyle="h-48 w-32 mr-2 rounded-md bg-slate-400 last:mb-0"
+                />
+              ))}
+            </ScrollView>
+          </React.Fragment>
+        ))}
+      </View>
+    );
+  }
+
   return (
     <>
       <ScrollView>
         <ScreenContainer>
-          <View className="py-4">
-            <SearchInput
-              clicked={clicked}
-              setClicked={setClicked}
-              searchPhrase={searchPhrase}
-              setSearchPhrase={setSearchPhrase}
-            />
-
-            {/* TODO: find a better way to do this, with animation */}
-            <ScrollView horizontal className="mb-4 mt-4 gap-x-2.5">
-              <TouchableOpacity>
-                <Text className="border-b border-text_neutral font-_medium text-base text-text_neutral">
-                  Instituições
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => navigation.navigate('ExploreProjects')}
-              >
-                <Text className="font-_medium text-base text-text_neutral">
-                  Projetos
-                </Text>
-              </TouchableOpacity>
-            </ScrollView>
-
+          <View className="pb-4">
             {!clicked &&
               data.map(({ category, data }, index) => (
                 <View key={index}>
@@ -212,4 +209,4 @@ function ExploreScreen({ navigation }) {
   );
 }
 
-export default ExploreScreen;
+export default memo(ExploreScreen);
