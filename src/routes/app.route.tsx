@@ -2,8 +2,7 @@ import { Octicons, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Colors from 'src/constants/Colors';
-import ExploreProjectsScreen from 'src/screens/Explore/ExploreProjectsScreen';
-import ExploreScreen from 'src/screens/Explore/ExploreScreen';
+import Explore from 'src/screens/Explore';
 import FavoritePage from 'src/screens/FavoritePage';
 import HomeScreen from 'src/screens/HomeScreen';
 import InstitutionProfile from 'src/screens/InstitutionProfile';
@@ -17,14 +16,8 @@ const ExploreNavigator = () => {
   const ExploreStack = createStackNavigator();
   return (
     <ExploreStack.Navigator screenOptions={{ headerShown: false }}>
-      <ExploreStack.Screen
-        name="ExploreInstitutions"
-        component={ExploreScreen}
-      />
-      <ExploreStack.Screen
-        name="ExploreProjects"
-        component={ExploreProjectsScreen}
-      />
+      <ExploreStack.Screen name="Explore" component={Explore} />
+
       <ExploreStack.Screen
         name="InstitutionProfile"
         component={InstitutionProfile}
