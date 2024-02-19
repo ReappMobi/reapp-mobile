@@ -1,6 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Image, useWindowDimensions } from 'react-native';
+import { SceneMap } from 'react-native-tab-view';
 import {
   ScreenContainer,
   Button,
@@ -9,6 +10,9 @@ import {
 } from 'src/components';
 import { getCategoryById } from 'src/services/app-core';
 import { IInstitution } from 'src/types';
+
+import HomeView from './home-view';
+import ProjectsView from './projects-view';
 
 // TODO: Fix type in ExploreScreen
 export default function InstitutionProfile({ route }) {
@@ -26,6 +30,18 @@ export default function InstitutionProfile({ route }) {
     { key: 'tab6', title: 'Colaboradores' },
     { key: 'tab7', title: 'Voluntários' },
   ]);
+
+  const renderScene = () => {
+    return SceneMap({
+      tab1: () => <HomeView institution={institution} />,
+      tab2: () => <ProjectsView institution={institution} />,
+      tab3: () => <View />,
+      tab4: () => <View />,
+      tab5: () => <View />,
+      tab6: () => <View />,
+      tab7: () => <View />,
+    });
+  };
 
   useEffect(() => {
     getCategoryById(institution.category).then((fetchedCategory) => {
@@ -87,6 +103,7 @@ export default function InstitutionProfile({ route }) {
         activeIndexRef={activeIndexRef}
         routes={routes}
         width={width}
+        renderScene={renderScene()}
       />
     </ScreenContainer>
   );
