@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FlatList, ListRenderItem, View } from 'react-native';
-import { CardInstitutionProject, LoadingBox } from 'src/components';
+import CardInstitutionProject from 'src/components/CardInstitutionProject';
+import LoadingBox from 'src/components/LoadingBox';
 import { IProject } from 'src/mocks/app-projects-data';
 import { getInstituitionProjects } from 'src/services/app-core';
 import { IInstitution } from 'src/types';
