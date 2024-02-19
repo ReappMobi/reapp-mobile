@@ -1,23 +1,20 @@
 import { StackActions } from '@react-navigation/native';
-import React, { useEffect, useMemo, useState } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import { useNavigation } from 'expo-router';
+import React, { memo, useEffect, useMemo, useState } from 'react';
+import { View, Text, FlatList, ScrollView } from 'react-native';
 import {
   ScreenContainer,
-  SearchInput,
   ExploreScreenCard,
   CardSearch,
+  LoadingBox,
 } from 'src/components';
 import { getProjectCategories, getProjects } from 'src/services/app-core';
 
-function ExploreProjectsScreen({ navigation }) {
+function ExploreProjectsScreen({ clicked, searchPhrase }) {
   const [projects, setProjects] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [loadingProjects, setLoadingProjects] = useState(true);
+  const navigation = useNavigation();
 
   //TODO: put in the array if the project is one of the user's favorites
   useEffect(() => {
@@ -26,6 +23,7 @@ function ExploreProjectsScreen({ navigation }) {
       setProjects(projectsData);
       const categoriesData = await getProjectCategories();
       setCategories(categoriesData);
+      setLoadingProjects(false);
     })();
   }, []);
 
@@ -37,9 +35,6 @@ function ExploreProjectsScreen({ navigation }) {
       })),
     [categories, projects]
   );
-
-  const [clicked, setClicked] = useState(false);
-  const [searchPhrase, setSearchPhrase] = useState('');
 
   const RenderItem = ({ item }) => {
     return (
@@ -87,34 +82,32 @@ function ExploreProjectsScreen({ navigation }) {
     }
   };
 
+  if (loadingProjects) {
+    return (
+      <View className="pt-30 flex-1 justify-center px-4">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <React.Fragment key={index}>
+            {/* Mantenha o LoadingBox original se ele deveria estar sozinho e acima dos outros */}
+            <LoadingBox customStyle="h-4 w-32 mb-2 mt-2 rounded-md bg-slate-400 last:mb-0" />
+            {/* Novo contêiner View para os LoadingBox internos, com estilo flex row */}
+            <ScrollView horizontal>
+              {Array.from({ length: 7 }).map((__, index2) => (
+                <LoadingBox
+                  key={index2}
+                  customStyle="h-48 w-32 mr-2 rounded-md bg-slate-400 last:mb-0"
+                />
+              ))}
+            </ScrollView>
+          </React.Fragment>
+        ))}
+      </View>
+    );
+  }
+
   return (
     <ScrollView>
       <ScreenContainer>
-        <View className="py-4">
-          <SearchInput
-            clicked={clicked}
-            setClicked={setClicked}
-            searchPhrase={searchPhrase}
-            setSearchPhrase={setSearchPhrase}
-          />
-
-          {/* TODO: find a better way to do this, with animation */}
-          <ScrollView horizontal className="mb-4 mt-4 gap-x-2.5">
-            <TouchableOpacity
-              onPress={() => navigation.navigate('ExploreInstitutions')}
-            >
-              <Text className="font-_medium text-base text-text_neutral">
-                Instituições
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-              <Text className="border-b border-text_neutral font-_medium text-base text-text_neutral">
-                Projetos
-              </Text>
-            </TouchableOpacity>
-          </ScrollView>
-
+        <View className="pb-4">
           {!clicked &&
             data.map(({ category, data }, index) => (
               <View key={index}>
@@ -144,4 +137,4 @@ function ExploreProjectsScreen({ navigation }) {
   );
 }
 
-export default ExploreProjectsScreen;
+export default memo(ExploreProjectsScreen);
