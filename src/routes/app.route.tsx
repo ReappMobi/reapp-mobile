@@ -16,7 +16,7 @@ const ExploreNavigator = () => {
   const ExploreStack = createStackNavigator();
   return (
     <ExploreStack.Navigator screenOptions={{ headerShown: false }}>
-      <ExploreStack.Screen name="Explore" component={Explore} />
+      <ExploreStack.Screen name="ExploreScreen" component={Explore} />
 
       <ExploreStack.Screen
         name="InstitutionProfile"
