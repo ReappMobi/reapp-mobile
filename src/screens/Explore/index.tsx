@@ -90,6 +90,7 @@ function Explore() {
         onIndexChange={setIndex}
         initialLayout={{ width }}
         renderTabBar={renderTabBar}
+        lazy
       />
     </>
   );
