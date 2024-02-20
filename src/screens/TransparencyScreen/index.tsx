@@ -1,7 +1,7 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
-import { ScreenContainer, Header } from 'src/components';
+import { ScreenContainer, Header, LoadingBox } from 'src/components';
 import {
   getDonationsByEixo,
   getDonationsBySegment,
@@ -11,6 +11,7 @@ function TransparencyScreen() {
   const [donationsByEixo, setDonationsByEixo] = useState([]);
   const [donationsBySegment, setDonationsBySegment] = useState([]);
   const [totalValueDonations, setTotalValueDonations] = useState(null);
+  const [loadingDonations, setLoadingDonations] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -54,6 +55,7 @@ function TransparencyScreen() {
           maximumFractionDigits: 2,
         })
       );
+      setLoadingDonations(false);
     })();
   }, []);
 
@@ -76,9 +78,14 @@ function TransparencyScreen() {
               <Text className="font-_bold text-base text-text_neutral">
                 Total de doações até o momento
               </Text>
-              <Text className="font-_medium text-base text-text_neutral">
-                {totalValueDonations}
-              </Text>
+              {loadingDonations && (
+                <LoadingBox customStyle="h-4 w-4/12 mb-2 mt-2 rounded-md bg-slate-400 last:mb-0 " />
+              )}
+              {!loadingDonations && (
+                <Text className="font-_medium text-base text-text_neutral">
+                  {totalValueDonations}
+                </Text>
+              )}
             </View>
             <View>
               <FontAwesome5 name="coins" size={27} color="black" />
@@ -90,16 +97,21 @@ function TransparencyScreen() {
               Eixos
             </Text>
 
-            {donationsByEixo.map((item, idx) => (
-              <View key={idx} className="mb-4 flex-row justify-between">
-                <Text className="font-_medium text-base text-text_neutral">
-                  {item.eixo}
-                </Text>
-                <Text className="font-_medium text-base text-text_neutral">
-                  {item.value}
-                </Text>
-              </View>
-            ))}
+            {loadingDonations && (
+              <LoadingBox customStyle="h-60 w-full mb-2 mt-2 rounded-md bg-slate-400 last:mb-0 " />
+            )}
+
+            {!loadingDonations &&
+              donationsByEixo.map((item, idx) => (
+                <View key={idx} className="mb-4 flex-row justify-between">
+                  <Text className="font-_medium text-base text-text_neutral">
+                    {item.eixo}
+                  </Text>
+                  <Text className="font-_medium text-base text-text_neutral">
+                    {item.value}
+                  </Text>
+                </View>
+              ))}
           </View>
 
           <View>
@@ -107,16 +119,21 @@ function TransparencyScreen() {
               Por segmento
             </Text>
 
-            {donationsBySegment.map((item, idx) => (
-              <View key={idx} className="mb-4 flex-row justify-between">
-                <Text className="font-_medium text-base text-text_neutral">
-                  {item.segment}
-                </Text>
-                <Text className="font-_medium text-base text-text_neutral">
-                  {item.value}
-                </Text>
-              </View>
-            ))}
+            {loadingDonations && (
+              <LoadingBox customStyle="h-60 w-full mb-2 mt-2 rounded-md bg-slate-400 last:mb-0 " />
+            )}
+
+            {!loadingDonations &&
+              donationsBySegment.map((item, idx) => (
+                <View key={idx} className="mb-4 flex-row justify-between">
+                  <Text className="font-_medium text-base text-text_neutral">
+                    {item.segment}
+                  </Text>
+                  <Text className="font-_medium text-base text-text_neutral">
+                    {item.value}
+                  </Text>
+                </View>
+              ))}
           </View>
         </View>
       </ScreenContainer>
