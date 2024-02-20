@@ -1,6 +1,6 @@
 import { StackActions } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
-import React, { memo, useEffect, useMemo, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { View, Text, FlatList, ScrollView } from 'react-native';
 import {
   ScreenContainer,
@@ -9,8 +9,72 @@ import {
   LoadingBox,
 } from 'src/components';
 import { getProjectCategories, getProjects } from 'src/services/app-core';
+import { IProject } from 'src/types';
 
-function ExploreProjectsScreen({ clicked, searchPhrase }) {
+type RenderCardSearchProps = {
+  item: IProject;
+  searchPhrase: string;
+  onPressCard: (item: any) => void;
+};
+
+type RenderItemProps = {
+  item: IProject;
+  onPressCard: (item: any) => void;
+};
+
+type ExploreProjectsScreenProps = {
+  clicked: boolean;
+  searchPhrase: string;
+};
+
+const RenderCardSearch = React.memo<RenderCardSearchProps>(
+  ({ item, searchPhrase, onPressCard }) => {
+    if (searchPhrase === '') {
+      return (
+        <CardSearch
+          imageUrl={item.imageUrl}
+          title={item.nameProject}
+          onPress={() => {
+            onPressCard(item);
+          }}
+        />
+      );
+    }
+
+    if (
+      item.nameProject
+        .toUpperCase()
+        .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ''))
+    ) {
+      return (
+        <CardSearch
+          imageUrl={item.imageUrl}
+          title={item.nameProject}
+          onPress={() => {
+            onPressCard(item);
+          }}
+        />
+      );
+    }
+  }
+);
+
+const RenderItem = React.memo<RenderItemProps>(({ item, onPressCard }) => {
+  return (
+    <ExploreScreenCard
+      title={item.nameProject}
+      imageUrl={item.imageUrl}
+      onPressCard={() => {
+        onPressCard(item);
+      }}
+    />
+  );
+});
+
+function ExploreProjectsScreen({
+  clicked,
+  searchPhrase,
+}: ExploreProjectsScreenProps) {
   const [projects, setProjects] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
@@ -36,51 +100,12 @@ function ExploreProjectsScreen({ clicked, searchPhrase }) {
     [categories, projects]
   );
 
-  const RenderItem = ({ item }) => {
-    return (
-      <ExploreScreenCard
-        title={item.nameProject}
-        imageUrl={item.imageUrl}
-        onPressCard={() => {
-          handleCardClick(item);
-        }}
-      />
-    );
-  };
-
-  const handleCardClick = (item) => {
-    navigation.dispatch(StackActions.push('ProjectPage', { project: item }));
-  };
-
-  const RenderCardSearch = ({ item }) => {
-    if (searchPhrase === '') {
-      return (
-        <CardSearch
-          imageUrl={item.imageUrl}
-          title={item.nameProject}
-          onPress={() => {
-            handleCardClick(item);
-          }}
-        />
-      );
-    }
-
-    if (
-      item.nameProject
-        .toUpperCase()
-        .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ''))
-    ) {
-      return (
-        <CardSearch
-          imageUrl={item.imageUrl}
-          title={item.nameProject}
-          onPress={() => {
-            handleCardClick(item);
-          }}
-        />
-      );
-    }
-  };
+  const handleCardClick = useCallback(
+    (item) => {
+      navigation.dispatch(StackActions.push('ProjectPage', { project: item }));
+    },
+    [navigation]
+  );
 
   if (loadingProjects) {
     return (
@@ -118,7 +143,9 @@ function ExploreProjectsScreen({ clicked, searchPhrase }) {
                 <FlatList
                   data={data}
                   horizontal
-                  renderItem={({ item }) => <RenderItem item={item} />}
+                  renderItem={({ item }) => (
+                    <RenderItem item={item} onPressCard={handleCardClick} />
+                  )}
                   keyExtractor={(item) => item.id.toString()}
                   showsHorizontalScrollIndicator={false}
                   ItemSeparatorComponent={() => <View className="w-3" />}
@@ -129,7 +156,12 @@ function ExploreProjectsScreen({ clicked, searchPhrase }) {
 
           {clicked &&
             projects.map((item) => (
-              <RenderCardSearch item={item} key={item.id} />
+              <RenderCardSearch
+                item={item}
+                key={item.id}
+                searchPhrase={searchPhrase}
+                onPressCard={handleCardClick}
+              />
             ))}
         </View>
       </ScreenContainer>
