@@ -1,7 +1,14 @@
 import { Ionicons } from '@expo/vector-icons';
 import { StackActions } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
-import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   View,
   Text,
@@ -21,8 +28,108 @@ import {
   getInstituitionCategories,
   getInstitutions,
 } from 'src/services/app-core';
+import { IInstitution } from 'src/types';
 
-function ExploreScreen({ clicked, searchPhrase }) {
+type RenderItemProps = {
+  item: IInstitution;
+  onOpen: () => void;
+  onPressCard: (item: any) => void;
+};
+
+type RenderCardSearchProps = {
+  item: IInstitution;
+  searchPhrase: string;
+  onPressCard: (item: any) => void;
+};
+
+type ExploreScreenProps = {
+  clicked: boolean;
+  searchPhrase: string;
+};
+
+const Modal = () => {
+  return (
+    <View className="gap-y-7 p-4">
+      <TouchableOpacity>
+        <View className="flex-row gap-x-2">
+          <Ionicons name="information-circle-outline" size={24} color="white" />
+          <Text className="font-_medium text-base text-text_light">
+            Informações
+          </Text>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity>
+        <View className="flex-row gap-x-2">
+          <Ionicons name="add" size={24} color="white" />
+          <Text className="font-_medium text-base text-text_light">Seguir</Text>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity>
+        <View className="flex-row gap-x-2">
+          <Ionicons name="heart-outline" size={24} color="white" />
+          <Text className="font-_medium text-base text-text_light">
+            Favoritar
+          </Text>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity>
+        <View className="flex-row gap-x-2">
+          <Ionicons name="close" size={24} color="white" />
+          <Text className="font-_medium text-base text-text_light">
+            Remover dos seguidos
+          </Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const RenderItem = React.memo<RenderItemProps>(
+  ({ item, onOpen, onPressCard }) => {
+    return (
+      <ExploreScreenCard
+        title={item.nameInstitution}
+        isInstitution
+        imageUrl={item.imageUrl}
+        onPressInfo={onOpen}
+        onPressCard={() => onPressCard(item)}
+      />
+    );
+  }
+);
+
+const RenderCardSearch = React.memo<RenderCardSearchProps>(
+  ({ item, searchPhrase, onPressCard }) => {
+    if (searchPhrase === '') {
+      return (
+        <CardSearch
+          imageUrl={item.imageUrl}
+          title={item.nameInstitution}
+          onPress={() => onPressCard(item)}
+        />
+      );
+    }
+
+    if (
+      item.nameInstitution
+        .toUpperCase()
+        .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ''))
+    ) {
+      return (
+        <CardSearch
+          imageUrl={item.imageUrl}
+          title={item.nameInstitution}
+          onPress={() => onPressCard(item)}
+        />
+      );
+    }
+  }
+);
+
+function ExploreScreen({ clicked, searchPhrase }: ExploreScreenProps) {
   const [institutions, setInstitutions] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loadingInstitutions, setLoadingInstitutions] = useState(true);
@@ -52,99 +159,18 @@ function ExploreScreen({ clicked, searchPhrase }) {
 
   const modalizeRef = useRef<Modalize>(null);
 
-  const onOpen = () => {
+  const onOpen = useCallback(() => {
     modalizeRef.current?.open();
-  };
+  }, [modalizeRef]);
 
-  const RenderItem = ({ item }) => {
-    return (
-      <ExploreScreenCard
-        title={item.nameInstitution}
-        isInstitution
-        imageUrl={item.imageUrl}
-        onPressInfo={onOpen}
-        onPressCard={() => handleCardClick(item)}
-      />
-    );
-  };
-
-  const handleCardClick = (item) => {
-    navigation.dispatch(
-      StackActions.push('InstitutionProfile', { institution: item })
-    );
-  };
-
-  const RenderCardSearch = ({ item }) => {
-    if (searchPhrase === '') {
-      return (
-        <CardSearch
-          imageUrl={item.imageUrl}
-          title={item.nameInstitution}
-          onPress={() => handleCardClick(item)}
-        />
+  const handleCardClick = useCallback(
+    (item) => {
+      navigation.dispatch(
+        StackActions.push('InstitutionProfile', { institution: item })
       );
-    }
-
-    if (
-      item.nameInstitution
-        .toUpperCase()
-        .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ''))
-    ) {
-      return (
-        <CardSearch
-          imageUrl={item.imageUrl}
-          title={item.nameInstitution}
-          onPress={() => handleCardClick(item)}
-        />
-      );
-    }
-  };
-
-  const Modal = () => {
-    return (
-      <View className="gap-y-7 p-4">
-        <TouchableOpacity>
-          <View className="flex-row gap-x-2">
-            <Ionicons
-              name="information-circle-outline"
-              size={24}
-              color="white"
-            />
-            <Text className="font-_medium text-base text-text_light">
-              Informações
-            </Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <View className="flex-row gap-x-2">
-            <Ionicons name="add" size={24} color="white" />
-            <Text className="font-_medium text-base text-text_light">
-              Seguir
-            </Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <View className="flex-row gap-x-2">
-            <Ionicons name="heart-outline" size={24} color="white" />
-            <Text className="font-_medium text-base text-text_light">
-              Favoritar
-            </Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <View className="flex-row gap-x-2">
-            <Ionicons name="close" size={24} color="white" />
-            <Text className="font-_medium text-base text-text_light">
-              Remover dos seguidos
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-  };
+    },
+    [navigation]
+  );
 
   if (loadingInstitutions) {
     return (
@@ -181,7 +207,21 @@ function ExploreScreen({ clicked, searchPhrase }) {
                   <FlatList
                     data={data}
                     horizontal
-                    renderItem={({ item }) => <RenderItem item={item} />}
+                    initialNumToRender={5}
+                    maxToRenderPerBatch={5}
+                    windowSize={3}
+                    getItemLayout={(data, index) => ({
+                      length: 128,
+                      offset: 140 * index,
+                      index,
+                    })}
+                    renderItem={({ item }) => (
+                      <RenderItem
+                        item={item}
+                        onOpen={onOpen}
+                        onPressCard={handleCardClick}
+                      />
+                    )}
                     keyExtractor={(item) => item.id.toString()}
                     showsHorizontalScrollIndicator={false}
                     ItemSeparatorComponent={() => <View className="w-3" />}
@@ -192,7 +232,12 @@ function ExploreScreen({ clicked, searchPhrase }) {
 
             {clicked &&
               institutions.map((item) => (
-                <RenderCardSearch item={item} key={item.id} />
+                <RenderCardSearch
+                  item={item}
+                  key={item.id}
+                  searchPhrase={searchPhrase}
+                  onPressCard={handleCardClick}
+                />
               ))}
           </View>
         </ScreenContainer>
