@@ -15,6 +15,7 @@ import {
   FlatList,
   TouchableOpacity,
   ScrollView,
+  SectionList,
 } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 import {
@@ -197,54 +198,41 @@ function ExploreScreen({ clicked, searchPhrase }: ExploreScreenProps) {
 
   return (
     <>
-      <ScrollView>
-        <ScreenContainer>
-          <View className="pb-4">
-            {!clicked &&
-              data.map(({ category, data }, index) => (
-                <View key={index}>
-                  <Text className="mb-2 font-_medium text-base">
-                    {category.category} ({data.length}){' '}
-                  </Text>
-
-                  <FlatList
-                    data={data}
-                    horizontal
-                    initialNumToRender={5}
-                    maxToRenderPerBatch={5}
-                    windowSize={3}
-                    getItemLayout={(data, index) => ({
-                      length: 128,
-                      offset: 140 * index,
-                      index,
-                    })}
-                    renderItem={({ item }) => (
-                      <RenderItem
-                        item={item}
-                        onOpen={onOpen}
-                        onPressCard={handleCardClick}
-                      />
-                    )}
-                    keyExtractor={(item) => item.id.toString()}
-                    showsHorizontalScrollIndicator={false}
-                    ItemSeparatorComponent={() => <View className="w-3" />}
-                    className="mb-2.5"
-                  />
-                </View>
-              ))}
-
-            {clicked &&
-              institutions.map((item) => (
-                <RenderCardSearch
+      <ScreenContainer>
+        <SectionList
+          sections={sections}
+          renderSectionHeader={({ section: { title, data } }) => (
+            <Text className="mb-2 font-_medium text-base">
+              {title} ({data.length})
+            </Text>
+          )}
+          renderItem={({ item }) => (
+            <FlatList
+              data={item}
+              horizontal
+              initialNumToRender={5}
+              maxToRenderPerBatch={5}
+              windowSize={3}
+              getItemLayout={(data, index) => ({
+                length: 128,
+                offset: 140 * index,
+                index,
+              })}
+              renderItem={({ item }) => (
+                <RenderItem
                   item={item}
-                  key={item.id}
-                  searchPhrase={searchPhrase}
+                  onOpen={onOpen}
                   onPressCard={handleCardClick}
                 />
-              ))}
-          </View>
-        </ScreenContainer>
-      </ScrollView>
+              )}
+              keyExtractor={(item) => item.id.toString()}
+              showsHorizontalScrollIndicator={false}
+              ItemSeparatorComponent={() => <View className="w-3" />}
+              className="mb-2.5"
+            />
+          )}
+        />
+      </ScreenContainer>
 
       <Modalize
         ref={modalizeRef}
