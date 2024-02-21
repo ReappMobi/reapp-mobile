@@ -1,13 +1,14 @@
 import { StackActions } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { View, Text, FlatList, ScrollView } from 'react-native';
+import { View, Text, FlatList, ScrollView, SectionList } from 'react-native';
 import {
   ScreenContainer,
   ExploreScreenCard,
   CardSearch,
   LoadingBox,
 } from 'src/components';
+import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
 import { getProjectCategories, getProjects } from 'src/services/app-core';
 import { IProject } from 'src/types';
 
@@ -75,8 +76,8 @@ function ExploreProjectsScreen({
   clicked,
   searchPhrase,
 }: ExploreProjectsScreenProps) {
-  const [projects, setProjects] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [projects, setProjects] = useState<IProject[]>([]);
+  const [categories, setCategories] = useState<ICategory[]>([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
   const navigation = useNavigation();
 
@@ -95,10 +96,14 @@ function ExploreProjectsScreen({
     () =>
       categories.map((category) => ({
         category,
-        data: projects.filter((project) => project.idCategory === category.id),
+        data: [
+          projects.filter((project) => project.idCategory === category.id),
+        ],
       })),
     [categories, projects]
   );
+
+  console.log(data);
 
   const handleCardClick = useCallback(
     (item) => {
@@ -112,9 +117,7 @@ function ExploreProjectsScreen({
       <View className="pt-30 flex-1 justify-center px-4">
         {Array.from({ length: 3 }).map((_, index) => (
           <React.Fragment key={index}>
-            {/* Mantenha o LoadingBox original se ele deveria estar sozinho e acima dos outros */}
             <LoadingBox customStyle="h-4 w-32 mb-2 mt-2 rounded-md bg-slate-400 last:mb-0" />
-            {/* Novo contêiner View para os LoadingBox internos, com estilo flex row */}
             <ScrollView horizontal>
               {Array.from({ length: 7 }).map((__, index2) => (
                 <LoadingBox
@@ -130,42 +133,55 @@ function ExploreProjectsScreen({
   }
 
   return (
-    <ScrollView>
-      <ScreenContainer>
-        <View className="pb-4">
-          {!clicked &&
-            data.map(({ category, data }, index) => (
-              <View key={index}>
-                <Text className="mb-2 font-_medium text-base">
-                  {category.category} ({data.length}){' '}
-                </Text>
-
-                <FlatList
-                  data={data}
-                  horizontal
-                  renderItem={({ item }) => (
-                    <RenderItem item={item} onPressCard={handleCardClick} />
-                  )}
-                  keyExtractor={(item) => item.id.toString()}
-                  showsHorizontalScrollIndicator={false}
-                  ItemSeparatorComponent={() => <View className="w-3" />}
-                  className="mb-2.5"
-                />
-              </View>
-            ))}
-
-          {clicked &&
-            projects.map((item) => (
-              <RenderCardSearch
-                item={item}
-                key={item.id}
-                searchPhrase={searchPhrase}
-                onPressCard={handleCardClick}
+    <>
+      {!clicked && (
+        <ScreenContainer>
+          <SectionList
+            sections={data}
+            renderSectionHeader={({ section: { category, data } }) => (
+              <Text className="mb-2 font-_medium text-base">
+                {category.category} ({data[0].length})
+              </Text>
+            )}
+            renderItem={({ item }) => (
+              <FlatList
+                data={item}
+                horizontal
+                initialNumToRender={5}
+                maxToRenderPerBatch={5}
+                windowSize={3}
+                getItemLayout={(data, index) => ({
+                  length: 128,
+                  offset: 140 * index,
+                  index,
+                })}
+                renderItem={({ item }) => (
+                  <RenderItem item={item} onPressCard={handleCardClick} />
+                )}
+                keyExtractor={(item) => item.id.toString()}
+                showsHorizontalScrollIndicator={false}
+                ItemSeparatorComponent={() => <View className="w-3" />}
+                className="mb-2.5"
               />
-            ))}
-        </View>
-      </ScreenContainer>
-    </ScrollView>
+            )}
+          />
+        </ScreenContainer>
+      )}
+
+      {clicked && (
+        <FlatList
+          data={projects}
+          renderItem={({ item }) => (
+            <RenderCardSearch
+              item={item}
+              key={item.id}
+              searchPhrase={searchPhrase}
+              onPressCard={handleCardClick}
+            />
+          )}
+        />
+      )}
+    </>
   );
 }
 
