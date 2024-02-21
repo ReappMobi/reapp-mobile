@@ -234,6 +234,20 @@ function ExploreScreen({ clicked, searchPhrase }: ExploreScreenProps) {
         />
       </ScreenContainer>
 
+      {clicked && (
+        <FlatList
+          data={institutions}
+          renderItem={({ item }) => (
+            <RenderCardSearch
+              item={item}
+              key={item.id}
+              searchPhrase={searchPhrase}
+              onPressCard={handleCardClick}
+            />
+          )}
+        />
+      )}
+
       <Modalize
         ref={modalizeRef}
         modalHeight={442}
