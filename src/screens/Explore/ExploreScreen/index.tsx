@@ -147,16 +147,18 @@ function ExploreScreen({ clicked, searchPhrase }: ExploreScreenProps) {
     })();
   }, []);
 
-  const data = useMemo(
-    () =>
-      categories.map((category) => ({
-        category,
-        data: institutions.filter(
-          (institution) => institution.category === category.id
-        ),
-      })),
-    [categories, institutions]
-  );
+  const sections = useMemo(() => {
+    return categories.map((category) => {
+      return {
+        title: category.category,
+        data: [
+          institutions.filter(
+            (institution) => institution.category === category.id
+          ),
+        ],
+      };
+    });
+  }, [categories, institutions]);
 
   const modalizeRef = useRef<Modalize>(null);
 
