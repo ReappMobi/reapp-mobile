@@ -24,6 +24,7 @@ import {
   LoadingBox,
 } from 'src/components';
 import Colors from 'src/constants/Colors';
+import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
 import {
   getInstituitionCategories,
   getInstitutions,
@@ -130,8 +131,8 @@ const RenderCardSearch = React.memo<RenderCardSearchProps>(
 );
 
 function ExploreScreen({ clicked, searchPhrase }: ExploreScreenProps) {
-  const [institutions, setInstitutions] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [institutions, setInstitutions] = useState<IInstitution[]>([]);
+  const [categories, setCategories] = useState<ICategory[]>([]);
   const [loadingInstitutions, setLoadingInstitutions] = useState(true);
   const navigation = useNavigation();
 
