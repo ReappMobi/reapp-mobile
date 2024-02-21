@@ -198,41 +198,43 @@ function ExploreScreen({ clicked, searchPhrase }: ExploreScreenProps) {
 
   return (
     <>
-      <ScreenContainer>
-        <SectionList
-          sections={sections}
-          renderSectionHeader={({ section: { title, data } }) => (
-            <Text className="mb-2 font-_medium text-base">
-              {title} ({data.length})
-            </Text>
-          )}
-          renderItem={({ item }) => (
-            <FlatList
-              data={item}
-              horizontal
-              initialNumToRender={5}
-              maxToRenderPerBatch={5}
-              windowSize={3}
-              getItemLayout={(data, index) => ({
-                length: 128,
-                offset: 140 * index,
-                index,
-              })}
-              renderItem={({ item }) => (
-                <RenderItem
-                  item={item}
-                  onOpen={onOpen}
-                  onPressCard={handleCardClick}
-                />
-              )}
-              keyExtractor={(item) => item.id.toString()}
-              showsHorizontalScrollIndicator={false}
-              ItemSeparatorComponent={() => <View className="w-3" />}
-              className="mb-2.5"
-            />
-          )}
-        />
-      </ScreenContainer>
+      {!clicked && (
+        <ScreenContainer>
+          <SectionList
+            sections={sections}
+            renderSectionHeader={({ section: { title, data } }) => (
+              <Text className="mb-2 font-_medium text-base">
+                {title} ({data[0].length})
+              </Text>
+            )}
+            renderItem={({ item }) => (
+              <FlatList
+                data={item}
+                horizontal
+                initialNumToRender={5}
+                maxToRenderPerBatch={5}
+                windowSize={3}
+                getItemLayout={(data, index) => ({
+                  length: 128,
+                  offset: 140 * index,
+                  index,
+                })}
+                renderItem={({ item }) => (
+                  <RenderItem
+                    item={item}
+                    onOpen={onOpen}
+                    onPressCard={handleCardClick}
+                  />
+                )}
+                keyExtractor={(item) => item.id.toString()}
+                showsHorizontalScrollIndicator={false}
+                ItemSeparatorComponent={() => <View className="w-3" />}
+                className="mb-2.5"
+              />
+            )}
+          />
+        </ScreenContainer>
+      )}
 
       {clicked && (
         <FlatList
