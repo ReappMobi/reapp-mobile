@@ -93,9 +93,9 @@ const RenderItem = React.memo<RenderItemProps>(
   ({ item, onOpen, onPressCard }) => {
     return (
       <ExploreScreenCard
-        title={item.nameInstitution}
+        title={item.name}
         isInstitution
-        imageUrl={item.imageUrl}
+        imageUrl={item.image}
         onPressInfo={onOpen}
         onPressCard={() => onPressCard(item)}
       />
@@ -108,22 +108,22 @@ const RenderCardSearch = React.memo<RenderCardSearchProps>(
     if (searchPhrase === '') {
       return (
         <CardSearch
-          imageUrl={item.imageUrl}
-          title={item.nameInstitution}
+          imageUrl={item.image}
+          title={item.name}
           onPress={() => onPressCard(item)}
         />
       );
     }
 
     if (
-      item.nameInstitution
+      item.name
         .toUpperCase()
         .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ''))
     ) {
       return (
         <CardSearch
-          imageUrl={item.imageUrl}
-          title={item.nameInstitution}
+          imageUrl={item.image}
+          title={item.name}
           onPress={() => onPressCard(item)}
         />
       );
@@ -154,7 +154,7 @@ function ExploreScreen({ clicked, searchPhrase }: ExploreScreenProps) {
         title: category.category,
         data: [
           institutions.filter(
-            (institution) => institution.category === category.id
+            (institution) => institution.categoryId === category.id
           ),
         ],
       };

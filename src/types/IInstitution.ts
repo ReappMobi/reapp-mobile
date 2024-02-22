@@ -1,6 +1,6 @@
 export interface IInstitution {
   id: number;
-  nameInstitution: string;
-  category: number;
-  imageUrl: string;
+  name: string;
+  categoryId: number;
+  image: string;
 }

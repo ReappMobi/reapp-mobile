@@ -44,7 +44,7 @@ export default function InstitutionProfile({ route }) {
   };
 
   useEffect(() => {
-    getCategoryById(institution.category).then((fetchedCategory) => {
+    getCategoryById(institution.categoryId).then((fetchedCategory) => {
       setCategory(fetchedCategory.category);
       setLoading(false);
     });
@@ -57,12 +57,10 @@ export default function InstitutionProfile({ route }) {
       <View className="flex-row items-center space-x-2">
         <Image
           className="h-16 w-16 rounded-full"
-          source={{ uri: institution.imageUrl }}
+          source={{ uri: institution.image }}
         />
         <View className="w-full flex-1 space-y-0 pt-4">
-          <Text className="font-_bold text-lg">
-            {institution.nameInstitution}
-          </Text>
+          <Text className="font-_bold text-lg">{institution.name}</Text>
           {loading ? (
             <LoadingBox customStyle="h-2.5 w-20 mt-2 mb-3 rounded-md bg-slate-400" />
           ) : (

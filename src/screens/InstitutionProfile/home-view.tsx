@@ -23,7 +23,7 @@ const HomeView = ({ institution }: HomeViewProps) => {
     return (
       <CardPost
         key={item.id}
-        userImagePath={institution.imageUrl}
+        userImagePath={institution.image}
         description={item.content}
         imagePath={item.media}
         timeAgo={item.createdAt}
