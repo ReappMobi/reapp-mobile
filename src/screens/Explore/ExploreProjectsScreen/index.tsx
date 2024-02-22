@@ -33,8 +33,8 @@ const RenderCardSearch = React.memo<RenderCardSearchProps>(
     if (searchPhrase === '') {
       return (
         <CardSearch
-          imageUrl={item.imageUrl}
-          title={item.nameProject}
+          imageUrl={item.image}
+          title={item.name}
           onPress={() => {
             onPressCard(item);
           }}
@@ -43,14 +43,14 @@ const RenderCardSearch = React.memo<RenderCardSearchProps>(
     }
 
     if (
-      item.nameProject
+      item.name
         .toUpperCase()
         .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ''))
     ) {
       return (
         <CardSearch
-          imageUrl={item.imageUrl}
-          title={item.nameProject}
+          imageUrl={item.image}
+          title={item.name}
           onPress={() => {
             onPressCard(item);
           }}
@@ -63,8 +63,8 @@ const RenderCardSearch = React.memo<RenderCardSearchProps>(
 const RenderItem = React.memo<RenderItemProps>(({ item, onPressCard }) => {
   return (
     <ExploreScreenCard
-      title={item.nameProject}
-      imageUrl={item.imageUrl}
+      title={item.name}
+      imageUrl={item.image}
       onPressCard={() => {
         onPressCard(item);
       }}
@@ -97,7 +97,7 @@ function ExploreProjectsScreen({
       categories.map((category) => ({
         category,
         data: [
-          projects.filter((project) => project.idCategory === category.id),
+          projects.filter((project) => project.categoryId === category.id),
         ],
       })),
     [categories, projects]

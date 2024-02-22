@@ -1,10 +1,10 @@
 export interface IProject {
   id: number;
-  nameProject: string;
+  name: string;
   subtitle: string;
-  idInstitution: number;
-  idCategory: number;
+  institutionId: number;
+  categoryId: number;
   description: string;
-  imageUrl: string;
-  videoIntroUrl: string;
+  image: string;
+  introdutionVideo: string;
 }

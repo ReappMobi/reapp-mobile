@@ -8,9 +8,9 @@ import { donationsBySegment } from 'src/mocks/app-donationSegment-data';
 import { institutions } from 'src/mocks/app-institution-data';
 import { posts } from 'src/mocks/app-institution-post-data';
 import { allPosts } from 'src/mocks/app-posts-data';
-import { IProject, projects } from 'src/mocks/app-projects-data';
+import { projects } from 'src/mocks/app-projects-data';
 import { projectCategories } from 'src/mocks/app-projectsCategory-data';
-import { IPost } from 'src/types';
+import { IPost, IProject } from 'src/types';
 
 export async function getSharedCampaigns() {
   setTimeout(() => {
@@ -92,7 +92,7 @@ export async function getInstituitionProjects(
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(
-        projects.filter((project) => project.idInstitution === institutionId)
+        projects.filter((project) => project.institutionId === institutionId)
       );
     }, 1000);
   });
