@@ -1,6 +1,8 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { StackActions } from '@react-navigation/native';
+import { Image } from 'expo-image';
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Image, useWindowDimensions } from 'react-native';
+import { View, Text, useWindowDimensions } from 'react-native';
 import { SceneMap } from 'react-native-tab-view';
 import {
   ScreenContainer,
@@ -14,8 +16,11 @@ import { IInstitution } from 'src/types';
 import HomeView from './home-view';
 import ProjectsView from './projects-view';
 
+const blurhash: string =
+  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+
 // TODO: Fix type in ExploreScreen
-export default function InstitutionProfile({ route }) {
+export default function InstitutionProfile({ route, navigation }) {
   const { institution } = route.params as { institution: IInstitution };
   const [category, setCategory] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -57,7 +62,10 @@ export default function InstitutionProfile({ route }) {
       <View className="flex-row items-center space-x-2">
         <Image
           className="h-16 w-16 rounded-full"
-          source={{ uri: institution.imageUrl }}
+          source={institution.imageUrl}
+          placeholder={blurhash}
+          contentFit="cover"
+          transition={500}
         />
         <View className="w-full flex-1 space-y-0 pt-4">
           <Text className="font-_bold text-lg">
@@ -81,6 +89,9 @@ export default function InstitutionProfile({ route }) {
                 textColor="text-white"
                 size="small"
                 customStyles="justify-center bg-color_primary w-20 mr-2"
+                onPress={() => {
+                  navigation.dispatch(StackActions.push('DonationScreen'));
+                }}
               >
                 Doar
               </Button>
