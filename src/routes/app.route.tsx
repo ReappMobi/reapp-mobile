@@ -2,15 +2,40 @@ import { Octicons, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Colors from 'src/constants/Colors';
-import Explore from 'src/screens/Explore';
-import FavoritePage from 'src/screens/FavoritePage';
-import HomeScreen from 'src/screens/HomeScreen';
-import InstitutionProfile from 'src/screens/InstitutionProfile';
-import ProfileSavedScreen from 'src/screens/ProfileSavedScreen';
-import ProfileStatisticsScreen from 'src/screens/ProfileStatisticsScreen';
-import ProjectPage from 'src/screens/ProjectPage';
-import TransparencyScreen from 'src/screens/TransparencyScreen';
-import UserProfilePage from 'src/screens/UserProfilePage';
+import {
+  DonationConfirmScreen,
+  DonationMethodScreen,
+  DonationScreen,
+  DonationTaxReceiptScreen,
+  Explore,
+  FavoritePage,
+  HomeScreen,
+  InstitutionProfile,
+  ProfileSavedScreen,
+  ProfileStatisticsScreen,
+  ProjectPage,
+  TransparencyScreen,
+  UserProfilePage,
+} from 'src/screens';
+
+const DonationScreens = {
+  DonationScreen,
+  DonationMethodScreen,
+  DonationTaxReceiptScreen,
+  DonationConfirmScreen,
+};
+
+const HomeScreenNavigator = () => {
+  const HomeScreenStack = createStackNavigator();
+  return (
+    <HomeScreenStack.Navigator screenOptions={{ headerShown: false }}>
+      <HomeScreenStack.Screen name="HomeScreen" component={HomeScreen} />
+      {Object.entries(DonationScreens).map(([name, component]) => (
+        <HomeScreenStack.Screen key={name} name={name} component={component} />
+      ))}
+    </HomeScreenStack.Navigator>
+  );
+};
 
 const ExploreNavigator = () => {
   const ExploreStack = createStackNavigator();
@@ -23,11 +48,32 @@ const ExploreNavigator = () => {
         component={InstitutionProfile}
       />
       <ExploreStack.Screen name="ProjectPage" component={ProjectPage} />
+
+      {Object.entries(DonationScreens).map(([name, component]) => (
+        <ExploreStack.Screen key={name} name={name} component={component} />
+      ))}
     </ExploreStack.Navigator>
   );
 };
 
-const UserProfile = () => {
+const FavoriteNavigator = () => {
+  const FavoriteStack = createStackNavigator();
+
+  return (
+    <FavoriteStack.Navigator screenOptions={{ headerShown: false }}>
+      <FavoriteStack.Screen name="FavoritePage" component={FavoritePage} />
+      <FavoriteStack.Screen
+        name="InstitutionProfile"
+        component={InstitutionProfile}
+      />
+      {Object.entries(DonationScreens).map(([name, component]) => (
+        <FavoriteStack.Screen key={name} name={name} component={component} />
+      ))}
+    </FavoriteStack.Navigator>
+  );
+};
+
+const UserProfileNavigator = () => {
   const UserStack = createStackNavigator();
 
   return (
@@ -47,8 +93,8 @@ export function AppNavigator() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen
-        name="home"
-        component={HomeScreen}
+        name="Home"
+        component={HomeScreenNavigator}
         options={{
           tabBarActiveTintColor: Colors.color_primary,
           tabBarInactiveTintColor: Colors.text_neutral,
@@ -74,7 +120,7 @@ export function AppNavigator() {
 
       <Tab.Screen
         name="Favorite"
-        component={FavoritePage}
+        component={FavoriteNavigator}
         options={{
           tabBarActiveTintColor: Colors.color_primary,
           tabBarInactiveTintColor: Colors.text_neutral,
@@ -100,7 +146,7 @@ export function AppNavigator() {
 
       <Tab.Screen
         name="UserProfile"
-        component={UserProfile}
+        component={UserProfileNavigator}
         options={{
           tabBarActiveTintColor: Colors.color_primary,
           tabBarInactiveTintColor: Colors.text_neutral,
