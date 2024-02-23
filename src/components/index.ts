@@ -1,4 +1,3 @@
-import BannersContainer from './BannersContainer';
 import Button from './Button';
 import CardInstitutionProject from './CardInstitutionProject';
 import CardPost from './CardPost';
@@ -15,7 +14,6 @@ import SearchInput from './SearchInput';
 import TabViewWrapper from './TabViewWrapper';
 
 export {
-  BannersContainer,
   Button,
   CardInstitutionProject,
   CardPost,
