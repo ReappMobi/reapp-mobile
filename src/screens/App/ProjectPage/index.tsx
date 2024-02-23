@@ -1,24 +1,36 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Video, ResizeMode } from 'expo-av';
+import { Image } from 'expo-image';
 import React from 'react';
 import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import { ScreenContainer, Button } from 'src/components';
-import { Banner } from 'src/components/BannersContainer/Banner';
 import Colors from 'src/constants/colors';
+import { IProject } from 'src/types';
 
 function ProjectPage({ route, navigation }) {
-  const { project } = route.params;
+  const { project } = route.params as { project: IProject };
   const video = React.useRef(null);
   const [isPreloading, setIsPreloading] = React.useState(true);
 
+  const blurhash: string =
+    '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+
   return (
     <ScrollView>
-      <Banner image={project.imageUrl} title={project.nameProject} />
+      {/* <Banner image={project.imageUrl} title={project.nameProject} /> */}
+
+      <Image
+        className="h-44 w-full"
+        source={project.image}
+        placeholder={blurhash}
+        contentFit="cover"
+        transition={500}
+      />
 
       <ScreenContainer>
         <View className="mt-3.5">
           <Text className="mb-3.5 font-_bold text-xl text-text_primary">
-            {project.nameProject}
+            {project.name}
           </Text>
           <Text className="font-_regular text-base">{project.subtitle}</Text>
         </View>
@@ -31,7 +43,7 @@ function ProjectPage({ route, navigation }) {
             {project.description}
           </Text>
 
-          {project.videoIntroUrl && isPreloading && (
+          {project.introdutionVideo && isPreloading && (
             <ActivityIndicator
               animating
               color={Colors.color_primary}
@@ -40,12 +52,12 @@ function ProjectPage({ route, navigation }) {
             />
           )}
 
-          {project.videoIntroUrl && (
+          {project.introdutionVideo && (
             <Video
               ref={video}
               className="mb-5 h-56 w-full"
               source={{
-                uri: project.videoIntroUrl,
+                uri: project.introdutionVideo,
               }}
               useNativeControls
               resizeMode={ResizeMode.CONTAIN}
