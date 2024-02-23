@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import { FlatList, Text, View } from 'react-native';
 import {
-  BannersContainer,
   Button,
   CardPost,
+  Carousel,
   HeaderStatisticsProfile,
   ScreenContainer,
 } from 'src/components';
@@ -42,11 +42,12 @@ export default function HomeScreen() {
           </Button>
           <View className="gap-y-2">
             {/* TODO: Post should be loaded partially */}
-            <BannersContainer banners={banners} />
+
             {posts.length === 0 ? (
               <Text>Carregando...</Text>
             ) : (
               <FlatList
+                ListHeaderComponent={<Carousel banners={banners} />}
                 data={posts}
                 renderItem={({ item }) => (
                   <CardPost
