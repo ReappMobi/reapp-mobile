@@ -3,7 +3,7 @@ import { StackActions } from '@react-navigation/native';
 import { View, Text } from 'react-native';
 import DonationScreenImaget from 'src/assets/images/DonationScreenImage.svg';
 import { Button, Header, ScreenContainer } from 'src/components';
-import Colors from 'src/constants/Colors';
+import Colors from 'src/constants/colors';
 
 export default function DonationScreen({ navigation }) {
   return (
