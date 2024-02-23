@@ -1,8 +1,4 @@
-export interface IBanner {
-  id: number;
-  title: string;
-  image?: string;
-}
+import { IBanner } from 'src/types/IBanner';
 
 export const banners: IBanner[] = [
   {
