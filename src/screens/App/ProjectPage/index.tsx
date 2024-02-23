@@ -3,11 +3,10 @@ import { Video, ResizeMode } from 'expo-av';
 import React from 'react';
 import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import { ScreenContainer, Button } from 'src/components';
+import { Banner } from 'src/components/BannersContainer/Banner';
 import Colors from 'src/constants/Colors';
 
-import { Banner } from './../../components/BannersContainer/Banner';
-
-function ProjectPage({ route }) {
+function ProjectPage({ route, navigation }) {
   const { project } = route.params;
   const video = React.useRef(null);
   const [isPreloading, setIsPreloading] = React.useState(true);
@@ -66,6 +65,9 @@ function ProjectPage({ route }) {
                 color={Colors.text_white}
               />
             }
+            onPress={() => {
+              navigation.navigate('Donation');
+            }}
           >
             Clique aqui e faça sua doação
           </Button>
