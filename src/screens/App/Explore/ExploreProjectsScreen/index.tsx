@@ -103,8 +103,6 @@ function ExploreProjectsScreen({
     [categories, projects]
   );
 
-  console.log(data);
-
   const handleCardClick = useCallback(
     (item) => {
       navigation.dispatch(StackActions.push('ProjectPage', { project: item }));
