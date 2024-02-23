@@ -3,6 +3,7 @@ import Button from './Button';
 import CardInstitutionProject from './CardInstitutionProject';
 import CardPost from './CardPost';
 import CardSearch from './CardSearch';
+import Carousel from './Carousel';
 import DonationInformationItem from './DonationInformationItem';
 import ExploreScreenCard from './ExploreScreenCard';
 import Header from './Header';
@@ -17,6 +18,7 @@ export {
   Button,
   CardInstitutionProject,
   CardPost,
+  Carousel,
   DonationInformationItem,
   Header,
   HeaderStatisticsProfile,
