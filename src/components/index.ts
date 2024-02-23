@@ -13,20 +13,21 @@ import LoadingBox from './LoadingBox';
 import ScreenContainer from './ScreenContainer';
 import SearchInput from './SearchInput';
 import TabViewWrapper from './TabViewWrapper';
+
 export {
   BannersContainer,
   Button,
   CardInstitutionProject,
   CardPost,
+  CardSearch,
   Carousel,
   DonationInformationItem,
+  ExploreScreenCard,
   Header,
   HeaderStatisticsProfile,
   Input,
+  LoadingBox,
   ScreenContainer,
   SearchInput,
-  ExploreScreenCard,
-  CardSearch,
-  LoadingBox,
   TabViewWrapper,
 };

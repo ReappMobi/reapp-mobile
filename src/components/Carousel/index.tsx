@@ -19,7 +19,6 @@ type BannersContainerProps = {
 
 const Carousel = ({ banners }: BannersContainerProps) => {
   const [activeBanner, setActiveBanner] = useState<number>(0);
-  const [isGoingBack, setIsGoingBack] = useState(false);
 
   const FlatlistRef = useRef<FlatList<IBanner>>(null);
 
