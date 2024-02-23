@@ -1,3 +1,4 @@
+import { StackActions } from '@react-navigation/native';
 import { useContext, useEffect, useState } from 'react';
 import { FlatList, Text, View } from 'react-native';
 import {
@@ -10,7 +11,7 @@ import {
 import AuthContext from 'src/contexts/auth';
 import { getPosts, getSharedCampaigns } from 'src/services/app-core';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   const [banners, setBanners] = useState([]);
   const [posts, setPosts] = useState([]);
 
@@ -35,7 +36,12 @@ export default function HomeScreen() {
             followingQty={user.following}
           />
           {/*FIXME: Banners don't scroll with the screen */}
-          <Button customStyles="bg-color_third py-2 px-4 my-4 justify-center w-full">
+          <Button
+            customStyles="bg-color_third py-2 px-4 my-4 justify-center w-full"
+            onPress={() => {
+              navigation.dispatch(StackActions.push('DonationScreen'));
+            }}
+          >
             <Text className="self-center text-center font-_medium text-lg text-white">
               Doar para instituições sociais
             </Text>
