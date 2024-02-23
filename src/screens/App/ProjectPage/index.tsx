@@ -78,7 +78,7 @@ function ProjectPage({ route, navigation }) {
               />
             }
             onPress={() => {
-              navigation.navigate('Donation');
+              navigation.navigate('DonationScreen');
             }}
           >
             Clique aqui e faça sua doação
