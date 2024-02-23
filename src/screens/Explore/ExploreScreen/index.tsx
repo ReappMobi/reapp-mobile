@@ -24,7 +24,7 @@ import {
   CardSearch,
   LoadingBox,
 } from 'src/components';
-import Colors from 'src/constants/Colors';
+import Colors from 'src/constants/colors';
 import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
 import {
   getInstituitionCategories,

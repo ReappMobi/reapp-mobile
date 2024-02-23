@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import DonationTaxReceiptImage from 'src/assets/images/DonationTaxReceiptImage.svg';
 import { Button, Header, ScreenContainer } from 'src/components';
-import Colors from 'src/constants/Colors';
+import Colors from 'src/constants/colors';
 
 function DonationTaxReceiptScreen() {
   return (

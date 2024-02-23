@@ -4,7 +4,7 @@ import { useNavigation } from 'expo-router';
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { Button, Header, Input, ScreenContainer } from 'src/components';
-import Colors from 'src/constants/Colors';
+import Colors from 'src/constants/colors';
 
 function SignUpPageScreen({ route }) {
   const { isDonor } = route.params;

@@ -1,5 +1,5 @@
 import { useFonts } from 'expo-font';
-import { fonts } from 'src/constants/Fonts';
+import { fonts } from 'src/constants/fonts';
 import { AuthProvider } from 'src/contexts/auth';
 import Routes from 'src/routes';
 

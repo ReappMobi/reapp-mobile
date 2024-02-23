@@ -1,7 +1,7 @@
 import { Octicons, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import Colors from 'src/constants/Colors';
+import Colors from 'src/constants/colors';
 import Explore from 'src/screens/Explore';
 import FavoritePage from 'src/screens/FavoritePage';
 import HomeScreen from 'src/screens/HomeScreen';

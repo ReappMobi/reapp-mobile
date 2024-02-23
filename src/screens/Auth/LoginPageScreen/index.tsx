@@ -4,7 +4,7 @@ import { useNavigation } from 'expo-router';
 import React, { useContext } from 'react';
 import { View, ScrollView, Text } from 'react-native';
 import { Button, Header, Input, ScreenContainer } from 'src/components';
-import Colors from 'src/constants/Colors';
+import Colors from 'src/constants/colors';
 import AuthContext from 'src/contexts/auth';
 
 function LoginPageScreen() {

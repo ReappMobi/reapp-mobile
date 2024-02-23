@@ -2,7 +2,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { useState } from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
 
-import Colors from '../../constants/Colors';
+import Colors from '../../constants/colors';
 import Button from '../Button';
 
 type CardInstitutionProjectProps = {

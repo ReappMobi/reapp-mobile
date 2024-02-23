@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextInput, InputModeOptions } from 'react-native';
 
-import Colors from '../../constants/Colors';
+import Colors from '../../constants/colors';
 
 type InputProps = {
   placeholder?: string;

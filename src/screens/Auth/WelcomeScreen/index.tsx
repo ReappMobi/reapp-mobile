@@ -5,7 +5,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import SplashScreenImage from 'src/assets/images/SplashScreenImage.svg';
 import { Button, Header, ScreenContainer } from 'src/components';
-import Colors from 'src/constants/Colors';
+import Colors from 'src/constants/colors';
 
 export default function WelcomeScreen() {
   const navigation = useNavigation();

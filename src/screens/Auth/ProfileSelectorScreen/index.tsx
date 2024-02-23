@@ -5,7 +5,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import SignUpSplashScreenImage from 'src/assets/images/SignUpSplashScreenImage.svg';
 import { Button, Header, ScreenContainer } from 'src/components';
-import Colors from 'src/constants/Colors';
+import Colors from 'src/constants/colors';
 
 export default function ProfileSelectorScreen() {
   const navigation = useNavigation();

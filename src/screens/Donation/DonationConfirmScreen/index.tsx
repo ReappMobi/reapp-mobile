@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import DonationConfirmScreenImage from 'src/assets/images/DonationConfirmScreenImage.svg';
 import { Header } from 'src/components';
-import Colors from 'src/constants/Colors';
+import Colors from 'src/constants/colors';
 
 type DonationConfirmScreenProps = {
   name?: string;

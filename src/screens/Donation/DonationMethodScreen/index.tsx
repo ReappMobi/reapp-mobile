@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import DonationTaxReceiptImage from 'src/assets/images/DonationTaxReceiptImage.svg';
 import { ScreenContainer, Header, Input, Button } from 'src/components';
-import Colors from 'src/constants/Colors';
+import Colors from 'src/constants/colors';
 
 function DonationMethodScreen() {
   const [value, setValue] = useState(0);

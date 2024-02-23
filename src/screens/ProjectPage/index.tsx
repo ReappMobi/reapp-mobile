@@ -3,8 +3,7 @@ import { Video, ResizeMode } from 'expo-av';
 import React from 'react';
 import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import { ScreenContainer, Button } from 'src/components';
-import { Banner } from 'src/components/BannersContainer/Banner';
-import Colors from 'src/constants/Colors';
+import Colors from 'src/constants/colors';
 import { IProject } from 'src/types';
 
 function ProjectPage({ route }) {
@@ -14,8 +13,6 @@ function ProjectPage({ route }) {
 
   return (
     <ScrollView>
-      <Banner image={project.image} title={project.name} />
-
       <ScreenContainer>
         <View className="mt-3.5">
           <Text className="mb-3.5 font-_bold text-xl text-text_primary">
