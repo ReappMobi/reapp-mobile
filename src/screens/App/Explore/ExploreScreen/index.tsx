@@ -49,10 +49,10 @@ type ExploreScreenProps = {
   searchPhrase: string;
 };
 
-const Modal = () => {
+const Modal = ({ onPressInfo }) => {
   return (
     <View className="gap-y-7 p-4">
-      <TouchableOpacity>
+      <TouchableOpacity onPress={onPressInfo}>
         <View className="flex-row gap-x-2">
           <Ionicons name="information-circle-outline" size={24} color="white" />
           <Text className="font-_medium text-base text-text_light">
@@ -135,6 +135,8 @@ function ExploreScreen({ clicked, searchPhrase }: ExploreScreenProps) {
   const [institutions, setInstitutions] = useState<IInstitution[]>([]);
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [loadingInstitutions, setLoadingInstitutions] = useState(true);
+  const [institutionPicked, setInstitutionPicked] =
+    useState<IInstitution>(null);
   const navigation = useNavigation();
 
   //TODO: put in the array if the institution is one of the user's favorites
@@ -163,9 +165,13 @@ function ExploreScreen({ clicked, searchPhrase }: ExploreScreenProps) {
 
   const modalizeRef = useRef<Modalize>(null);
 
-  const onOpen = useCallback(() => {
-    modalizeRef.current?.open();
-  }, [modalizeRef]);
+  const onOpen = useCallback(
+    (item) => {
+      setInstitutionPicked(item);
+      modalizeRef.current?.open();
+    },
+    [modalizeRef]
+  );
 
   const handleCardClick = useCallback(
     (item) => {
@@ -222,7 +228,7 @@ function ExploreScreen({ clicked, searchPhrase }: ExploreScreenProps) {
                 renderItem={({ item }) => (
                   <RenderItem
                     item={item}
-                    onOpen={onOpen}
+                    onOpen={() => onOpen(item)}
                     onPressCard={handleCardClick}
                   />
                 )}
@@ -255,7 +261,7 @@ function ExploreScreen({ clicked, searchPhrase }: ExploreScreenProps) {
         modalHeight={442}
         modalStyle={{ backgroundColor: Colors.color_primary }}
       >
-        <Modal />
+        <Modal onPressInfo={() => handleCardClick(institutionPicked)} />
       </Modalize>
     </>
   );

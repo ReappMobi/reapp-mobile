@@ -120,45 +120,38 @@ export const userSavedPosts: IUserSavedPost[] = [
 
 export interface IUserFavoriteInstitution {
   id: number;
-  imageUrl: string;
   nameInstitution: string;
+  category: number;
+  imageUrl: string;
 }
 
 export const userFavoritesInstitutions: IUserFavoriteInstitution[] = [
   {
     id: 1,
+    nameInstitution: 'Centro Educativo Amanhecer',
+    category: 1,
     imageUrl:
-      'https://zenklub.com.br/blog/wp-content/uploads/2018/02/kristy-kravchenko-2902.jpg',
-    nameInstitution: 'Casa da Amizade',
-  },
-  {
-    id: 2,
-    imageUrl:
-      'https://zenklub.com.br/blog/wp-content/uploads/2018/02/kristy-kravchenko-2902.jpg',
-    nameInstitution: 'Associação de Ajuda Humanitária',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
   },
   {
     id: 3,
+    nameInstitution: 'Casa do Adulto Feliz',
+    category: 3,
     imageUrl:
-      'https://zenklub.com.br/blog/wp-content/uploads/2018/02/kristy-kravchenko-2902.jpg',
-    nameInstitution: 'Instituto de Apoio à Educação',
-  },
-  {
-    id: 4,
-    imageUrl:
-      'https://zenklub.com.br/blog/wp-content/uploads/2018/02/kristy-kravchenko-2902.jpg',
-    nameInstitution: 'Fundação da Solidariedade',
-  },
-  {
-    id: 5,
-    imageUrl:
-      'https://zenklub.com.br/blog/wp-content/uploads/2018/02/kristy-kravchenko-2902.jpg',
-    nameInstitution: 'Centro de Ação Comunitária',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
   },
   {
     id: 6,
+    nameInstitution: 'Universidade dos Adultos',
+    category: 3,
     imageUrl:
-      'https://zenklub.com.br/blog/wp-content/uploads/2018/02/kristy-kravchenko-2902.jpg',
-    nameInstitution: 'Associação para o Bem-Estar Social',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+  },
+  {
+    id: 8,
+    nameInstitution: 'Academia de Jovens Líderes',
+    category: 2,
+    imageUrl:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
   },
 ];

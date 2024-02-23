@@ -3,20 +3,22 @@ import { Video, ResizeMode } from 'expo-av';
 import React from 'react';
 import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import { ScreenContainer, Button } from 'src/components';
+import { Banner } from 'src/components/BannersContainer/Banner';
 import Colors from 'src/constants/colors';
-import { IProject } from 'src/types';
 
-function ProjectPage({ route }) {
-  const { project }: { project: IProject } = route.params;
+function ProjectPage({ route, navigation }) {
+  const { project } = route.params;
   const video = React.useRef(null);
   const [isPreloading, setIsPreloading] = React.useState(true);
 
   return (
     <ScrollView>
+      <Banner image={project.imageUrl} title={project.nameProject} />
+
       <ScreenContainer>
         <View className="mt-3.5">
           <Text className="mb-3.5 font-_bold text-xl text-text_primary">
-            {project.name}
+            {project.nameProject}
           </Text>
           <Text className="font-_regular text-base">{project.subtitle}</Text>
         </View>
@@ -29,7 +31,7 @@ function ProjectPage({ route }) {
             {project.description}
           </Text>
 
-          {project.introdutionVideo && isPreloading && (
+          {project.videoIntroUrl && isPreloading && (
             <ActivityIndicator
               animating
               color={Colors.color_primary}
@@ -38,12 +40,12 @@ function ProjectPage({ route }) {
             />
           )}
 
-          {project.introdutionVideo && (
+          {project.videoIntroUrl && (
             <Video
               ref={video}
               className="mb-5 h-56 w-full"
               source={{
-                uri: project.introdutionVideo,
+                uri: project.videoIntroUrl,
               }}
               useNativeControls
               resizeMode={ResizeMode.CONTAIN}
@@ -63,6 +65,9 @@ function ProjectPage({ route }) {
                 color={Colors.text_white}
               />
             }
+            onPress={() => {
+              navigation.navigate('Donation');
+            }}
           >
             Clique aqui e faça sua doação
           </Button>
