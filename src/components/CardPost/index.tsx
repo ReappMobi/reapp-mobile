@@ -1,6 +1,7 @@
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import { Image } from 'expo-image';
 import React, { useState } from 'react';
-import { View, Text, Image, Pressable } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 
 type CardPostProps = {
   userImagePath?: string;
@@ -13,6 +14,9 @@ type CardPostProps = {
   onPressLike?: () => void;
   onPressSave?: () => void;
 };
+
+const blurhash: string =
+  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
 function CardPost({
   userImagePath,
@@ -47,8 +51,11 @@ function CardPost({
         <View className="mb-2.5 flex-row items-center gap-x-2">
           <View className="h-8 w-8">
             <Image
-              className="h-full w-full rounded-lg"
-              source={{ uri: userImagePath }}
+              className="h-full w-full"
+              source={userImagePath}
+              placeholder={blurhash}
+              contentFit="cover"
+              transition={500}
             />
           </View>
 
@@ -71,7 +78,13 @@ function CardPost({
       </View>
       {imagePath && (
         <View className="mb-2.5 h-56 w-full">
-          <Image className="h-full w-full" source={{ uri: imagePath }} />
+          <Image
+            className="h-full w-full"
+            source={imagePath}
+            placeholder={blurhash}
+            contentFit="cover"
+            transition={500}
+          />
         </View>
       )}
 

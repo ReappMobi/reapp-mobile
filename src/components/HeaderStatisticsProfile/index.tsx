@@ -1,5 +1,6 @@
+import { Image } from 'expo-image';
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text } from 'react-native';
 
 type Props = {
   image?: string;
@@ -7,6 +8,9 @@ type Props = {
   donationsQty?: number;
   followingQty?: number;
 };
+
+const blurhash: string =
+  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
 function HeaderStatisticsProfile({
   image,
@@ -17,7 +21,13 @@ function HeaderStatisticsProfile({
   return (
     <View className="flex flex-row items-center gap-5">
       <View>
-        <Image className="h-16 w-16 rounded-full" source={{ uri: image }} />
+        <Image
+          className="h-16 w-16 rounded-full"
+          source={image}
+          placeholder={blurhash}
+          contentFit="cover"
+          transition={500}
+        />
       </View>
 
       <View>

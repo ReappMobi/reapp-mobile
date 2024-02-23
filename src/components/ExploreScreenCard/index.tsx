@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
+import { Image } from 'expo-image';
 import React, { useState, memo } from 'react';
-import { View, Text, Image, Pressable, TouchableOpacity } from 'react-native';
+import { View, Text, Pressable, TouchableOpacity } from 'react-native';
 
 type ExploreScreenCardProps = {
   imageUrl?: string;
@@ -13,6 +14,9 @@ type ExploreScreenCardProps = {
   onPressInfo?: () => void;
   onPressCard?: () => void;
 };
+
+const blurhash: string =
+  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
 const ExploreScreenCard = ({
   imageUrl,
@@ -56,7 +60,13 @@ const ExploreScreenCard = ({
         </View>
 
         <View className="h-16 w-full">
-          <Image className="h-full w-full" source={{ uri: imageUrl }} />
+          <Image
+            className="h-full w-full"
+            source={imageUrl}
+            placeholder={blurhash}
+            contentFit="cover"
+            transition={500}
+          />
         </View>
 
         <Text className="text-center font-_medium text-xs">{title}</Text>
