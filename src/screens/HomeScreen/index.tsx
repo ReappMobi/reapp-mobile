@@ -1,16 +1,17 @@
-import { useContext, useEffect, useState } from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { FlatList, ListRenderItem, View } from 'react-native';
 import {
-  Button,
   CardPost,
   Carousel,
   HeaderStatisticsProfile,
   ScreenContainer,
 } from 'src/components';
 import AuthContext from 'src/contexts/auth';
+import { IPost } from 'src/mocks/app-posts-data';
 import { getPosts, getSharedCampaigns } from 'src/services/app-core';
 
 export default function HomeScreen() {
+  const { user } = useContext(AuthContext);
   const [banners, setBanners] = useState([]);
   const [posts, setPosts] = useState([]);
 
@@ -21,49 +22,38 @@ export default function HomeScreen() {
       const posts = await getPosts();
       setPosts(posts);
     })();
-  }, []);
+  });
 
-  const { user } = useContext(AuthContext);
+  const renderItem: ListRenderItem<IPost> = useCallback(
+    ({ item }) => (
+      <CardPost
+        imagePath={item.postImageUrl}
+        userImagePath={item.userImageUrl}
+        nameInstitution={item.nameInstitution}
+        description={item.description}
+        timeAgo={item.timeAgo}
+        isSavedInitial={false}
+      />
+    ),
+    []
+  );
+
   return (
-    <View className="h-full bg-white">
+    <View className="flex-1 bg-white">
       <ScreenContainer>
-        <View className="py-4">
-          <HeaderStatisticsProfile
-            image={user.profileImage}
-            name={user.name}
-            donationsQty={user.donations}
-            followingQty={user.following}
-          />
-          {/*FIXME: Banners don't scroll with the screen */}
-          <Button customStyles="bg-color_third py-2 px-4 my-4 justify-center w-full">
-            <Text className="self-center text-center font-_medium text-lg text-white">
-              Doar para instituições sociais
-            </Text>
-          </Button>
-          <View className="gap-y-2">
-            {/* TODO: Post should be loaded partially */}
-
-            {posts.length === 0 ? (
-              <Text>Carregando...</Text>
-            ) : (
-              <FlatList
-                ListHeaderComponent={<Carousel banners={banners} />}
-                data={posts}
-                renderItem={({ item }) => (
-                  <CardPost
-                    imagePath={item.postImageUrl}
-                    userImagePath={item.userImageUrl}
-                    nameInstitution={item.nameInstitution}
-                    description={item.description}
-                    timeAgo={item.timeAgo}
-                    isSavedInitial={false}
-                  />
-                )}
-                ItemSeparatorComponent={() => <View className="mb-2.5" />}
-              />
-            )}
-          </View>
-        </View>
+        <HeaderStatisticsProfile
+          image={user.profileImage}
+          name={user.name}
+          donationsQty={user.donations}
+          followingQty={user.following}
+        />
+        <View className="my-2" />
+        <FlatList
+          ListHeaderComponent={<Carousel banners={banners} />}
+          data={posts}
+          renderItem={renderItem}
+          showsVerticalScrollIndicator={false}
+        />
       </ScreenContainer>
     </View>
   );
