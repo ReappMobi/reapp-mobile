@@ -68,9 +68,7 @@ export default function InstitutionProfile({ route, navigation }) {
           transition={500}
         />
         <View className="w-full flex-1 space-y-0 pt-4">
-          <Text className="font-_bold text-lg">
-            {institution.name}
-          </Text>
+          <Text className="font-_bold text-lg">{institution.name}</Text>
           {loading ? (
             <LoadingBox customStyle="h-2.5 w-20 mt-2 mb-3 rounded-md bg-slate-400" />
           ) : (
