@@ -16,7 +16,7 @@ function FavoritePage({ navigation }) {
     getFavoritesInstitutions().then((response) => {
       setFavoritesInstitutions(response);
     });
-  });
+  }, []);
 
   return (
     <ScreenContainer>

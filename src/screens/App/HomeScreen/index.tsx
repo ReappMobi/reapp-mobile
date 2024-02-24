@@ -22,7 +22,7 @@ export default function HomeScreen() {
       const posts = await getPosts();
       setPosts(posts);
     })();
-  });
+  }, []);
 
   const renderItem: ListRenderItem<IPost> = useCallback(
     ({ item }) => (

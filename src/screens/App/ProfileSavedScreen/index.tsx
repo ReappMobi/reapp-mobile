@@ -15,7 +15,8 @@ function ProfileSavedScreen() {
     getSavedPosts().then((response) => {
       setSavedPosts(response);
     });
-  });
+  }, []);
+
   return (
     <ScreenContainer>
       <View className="flex-1 gap-y-4 pt-4">

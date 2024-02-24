@@ -16,7 +16,7 @@ function ProfileStatisticsScreen() {
     getDonations().then((response) => {
       setDonations(response);
     });
-  });
+  }, []);
 
   return donations.length === 0 ? (
     <Text>Carregando...</Text>

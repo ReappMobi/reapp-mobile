@@ -17,7 +17,7 @@ const HomeView = ({ institution }: HomeViewProps) => {
       setPosts(posts);
       setLoadingPosts(false);
     });
-  });
+  }, []);
 
   const renderItem: ListRenderItem<IPost> = useCallback(({ item }) => {
     return (

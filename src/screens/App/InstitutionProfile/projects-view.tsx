@@ -19,7 +19,7 @@ const ProjectsView = ({ institution }: ProjectsViewProps) => {
       setProjects(projects);
       setLoading(false);
     });
-  });
+  }, []);
 
   const renderItem: ListRenderItem<IProject> = useCallback(({ item }) => {
     return (

@@ -53,7 +53,7 @@ export default function InstitutionProfile({ route, navigation }) {
       setCategory(fetchedCategory.category);
       setLoading(false);
     });
-  });
+  }, []);
 
   const { width } = useWindowDimensions();
 

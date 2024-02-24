@@ -31,7 +31,7 @@ export function AuthProvider({ children }) {
     }
 
     loadStorageData();
-  });
+  }, []);
 
   async function signIn() {
     const response = await auth.SignIn();
