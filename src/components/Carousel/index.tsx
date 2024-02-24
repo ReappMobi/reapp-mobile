@@ -22,11 +22,11 @@ const Carousel = ({ banners }: BannersContainerProps) => {
 
   const FlatlistRef = useRef<FlatList<IBanner>>(null);
 
-  const onViewableItemsChanged = ({ viewableItems }: any) => {
+  const onViewableItemsChanged = useCallback(({ viewableItems }) => {
     if (viewableItems.length > 0) {
       setActiveBanner(viewableItems[0].index);
     }
-  };
+  }, []);
 
   const viewabilityConfigCallbackPairs = useRef([
     {
