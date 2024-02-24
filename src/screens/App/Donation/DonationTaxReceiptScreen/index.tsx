@@ -5,13 +5,18 @@ import DonationTaxReceiptImage from 'src/assets/images/DonationTaxReceiptImage.s
 import { Button, Header, ScreenContainer } from 'src/components';
 import Colors from 'src/constants/colors';
 
-function DonationTaxReceiptScreen() {
+function DonationTaxReceiptScreen({ navigation }) {
   return (
     <ScreenContainer>
       <View className="py-4">
         <Header
           leftComponent={
-            <Ionicons name="chevron-back" size={24} color={Colors.text_dark} />
+            <Ionicons
+              name="chevron-back"
+              size={24}
+              color={Colors.text_dark}
+              onPress={() => navigation.goBack()}
+            />
           }
           rightComponent={
             <Text className="font-_bold text-2xl uppercase text-text_primary">

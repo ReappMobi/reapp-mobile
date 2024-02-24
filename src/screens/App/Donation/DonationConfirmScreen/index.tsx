@@ -5,23 +5,20 @@ import DonationConfirmScreenImage from 'src/assets/images/DonationConfirmScreenI
 import { Header } from 'src/components';
 import Colors from 'src/constants/colors';
 
-type DonationConfirmScreenProps = {
-  name?: string;
-  date?: string;
-  value?: number;
-};
+function DonationConfirmScreen({ route, navigation }) {
+  const { name, date, value } = route.params;
 
-function DonationConfirmScreen({
-  name,
-  date,
-  value,
-}: DonationConfirmScreenProps) {
   return (
     <View className="flex-1">
       <View className="items-center bg-color_primary px-4 pb-4 pt-4">
         <Header
           leftComponent={
-            <Ionicons name="chevron-back" size={24} color={Colors.text_white} />
+            <Ionicons
+              name="chevron-back"
+              size={24}
+              color={Colors.text_white}
+              onPress={() => navigation.goBack()}
+            />
           }
           rightComponent={
             <Text className="mb-4 text-2xl font-bold uppercase text-white">

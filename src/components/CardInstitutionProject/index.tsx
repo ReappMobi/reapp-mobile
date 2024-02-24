@@ -1,6 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { Image } from 'expo-image';
 import React, { useState } from 'react';
-import { View, Text, Image, Pressable } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 
 import Colors from '../../constants/colors';
 import Button from '../Button';
@@ -14,6 +15,9 @@ type CardInstitutionProjectProps = {
   onPressLike?: () => void;
   onPress?: () => void;
 };
+
+const blurhash: string =
+  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
 function CardInstitutionProject({
   imagePath,
@@ -34,7 +38,13 @@ function CardInstitutionProject({
   return (
     <View className="w-full rounded-md bg-white p-4 shadow-xl">
       <View className="relative mb-2.5 h-56 w-full">
-        <Image className="h-full w-full" source={{ uri: imagePath }} />
+        <Image
+          className="h-full w-full"
+          source={imagePath}
+          placeholder={blurhash}
+          contentFit="cover"
+          transition={500}
+        />
 
         {isFavoriteCard && (
           <View className="absolute right-3 top-3">

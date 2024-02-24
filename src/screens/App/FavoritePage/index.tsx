@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { StackActions } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import {
@@ -8,7 +9,7 @@ import {
 } from 'src/components';
 import { getFavoritesInstitutions } from 'src/services/user';
 
-function FavoritePage() {
+function FavoritePage({ navigation }) {
   const [favoritesInstitutions, setFavoritesInstitutions] = useState([]);
 
   useEffect(() => {
@@ -38,6 +39,11 @@ function FavoritePage() {
               title={item.nameInstitution}
               textButton="Ver"
               isFavoriteCard
+              onPress={() => {
+                navigation.dispatch(
+                  StackActions.push('InstitutionProfile', { institution: item })
+                );
+              }}
             />
           )}
           ItemSeparatorComponent={() => <View className="mb-2.5" />}
