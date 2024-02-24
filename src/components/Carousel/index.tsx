@@ -39,8 +39,7 @@ const Carousel = ({ banners }: BannersContainerProps) => {
 
   useEffect(() => {
     const nextBanner = activeBanner + 1;
-
-    const isLastBanner = nextBanner > banners.length - 1;
+    const isLastBanner = nextBanner >= banners.length;
     const targetIndex = isLastBanner ? 0 : nextBanner;
 
     const timeId = setTimeout(() => {
