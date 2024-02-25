@@ -35,8 +35,8 @@ function FavoritePage({ navigation }) {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <CardInstitutionProject
-              imagePath={item.imageUrl}
-              title={item.nameInstitution}
+              imagePath={item.image}
+              title={item.name}
               textButton="Ver"
               isFavoriteCard
               onPress={() => {
