@@ -62,7 +62,7 @@ function CardPost({
               placeholder={blurhash}
               contentFit="cover"
               transition={500}
-              onLoadEnd={() => setIsUserImageLoading(false)}
+              onLoadStart={() => setIsUserImageLoading(false)}
             />
           </View>
 
@@ -99,7 +99,7 @@ function CardPost({
             placeholder={blurhash}
             contentFit="cover"
             transition={500}
-            onLoadEnd={() => setIsPostImageLoading(false)}
+            onLoadStart={() => setIsPostImageLoading(false)}
           />
         </View>
       )}

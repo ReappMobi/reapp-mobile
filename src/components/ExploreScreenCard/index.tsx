@@ -77,7 +77,7 @@ const ExploreScreenCard = ({
             placeholder={blurhash}
             contentFit="cover"
             transition={500}
-            onLoadEnd={() => setIsLoadingImage(false)}
+            onLoadStart={() => setIsLoadingImage(false)}
           />
         </View>
 

@@ -26,7 +26,7 @@ function DonationInformationItem({ image, title, subtitle }: Props) {
           placeholder={blurhash}
           contentFit="cover"
           transition={500}
-          onLoadEnd={() => setIsLoadingImage(false)}
+          onLoadStart={() => setIsLoadingImage(false)}
         />
       </View>
 
