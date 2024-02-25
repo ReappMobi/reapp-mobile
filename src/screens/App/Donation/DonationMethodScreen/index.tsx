@@ -70,6 +70,7 @@ function DonationMethodScreen({ navigation }) {
               placeholder="Digite o valor"
               value={formatCurrency(value)}
               onChangeText={handleChange}
+              inputMode="decimal"
               customStyle="text-center text-text_neutral text-xl"
             />
           </View>
