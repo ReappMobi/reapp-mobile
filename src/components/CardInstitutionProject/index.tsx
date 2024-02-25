@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Image } from 'expo-image';
 import React, { useState } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, ActivityIndicator } from 'react-native';
 
 import Colors from '../../constants/colors';
 import Button from '../Button';
@@ -28,7 +28,8 @@ function CardInstitutionProject({
   onPressLike,
   onPress,
 }: CardInstitutionProjectProps) {
-  const [isLiked, setIsLiked] = useState(true);
+  const [isLiked, setIsLiked] = useState<boolean>(true);
+  const [isLoadingImage, setIsLoadingImage] = useState<boolean>(true);
 
   const handleLikePress = () => {
     setIsLiked(!isLiked);
@@ -37,13 +38,17 @@ function CardInstitutionProject({
 
   return (
     <View className="w-full rounded-md bg-white p-4 shadow-xl">
-      <View className="relative mb-2.5 h-56 w-full">
+      <View className="relative mb-2.5 h-56 w-full items-center justify-center">
+        {isLoadingImage && (
+          <ActivityIndicator size="large" color={Colors.color_primary} />
+        )}
         <Image
           className="h-full w-full"
           source={imagePath}
           placeholder={blurhash}
           contentFit="cover"
           transition={500}
+          onLoadEnd={() => setIsLoadingImage(false)}
         />
 
         {isFavoriteCard && (

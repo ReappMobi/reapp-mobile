@@ -1,6 +1,7 @@
 import { Image } from 'expo-image';
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ActivityIndicator } from 'react-native';
+import Colors from 'src/constants/colors';
 
 type Props = {
   image?: string;
@@ -12,15 +13,20 @@ const blurhash: string =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
 function DonationInformationItem({ image, title, subtitle }: Props) {
+  const [isLoadingImage, setIsLoadingImage] = useState<boolean>(true);
   return (
     <View className="mb-5 flex flex-row items-center gap-5 border-b-2 border-color_gray_light pb-2">
-      <View>
+      <View className="h-16 w-16 items-center justify-center">
+        {isLoadingImage && (
+          <ActivityIndicator size="small" color={Colors.color_primary} />
+        )}
         <Image
-          className="h-16 w-16 rounded-full"
+          className="h-full w-full rounded-full"
           source={image}
           placeholder={blurhash}
           contentFit="cover"
           transition={500}
+          onLoadEnd={() => setIsLoadingImage(false)}
         />
       </View>
 

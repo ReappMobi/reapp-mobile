@@ -1,7 +1,14 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import React, { useState, memo } from 'react';
-import { View, Text, Pressable, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  Pressable,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import Colors from 'src/constants/colors';
 
 type ExploreScreenCardProps = {
   imageUrl?: string;
@@ -29,8 +36,9 @@ const ExploreScreenCard = ({
   onPressInfo,
   onPressCard,
 }: ExploreScreenCardProps) => {
-  const [isFavorited, setIsFavorited] = useState(isFavoritedInitial);
-  const [isFollow, setIsFollow] = useState(isFollowInitial);
+  const [isFavorited, setIsFavorited] = useState<boolean>(isFavoritedInitial);
+  const [isFollow, setIsFollow] = useState<boolean>(isFollowInitial);
+  const [isLoadingImage, setIsLoadingImage] = useState<boolean>(true);
 
   const handleFavoritePress = () => {
     setIsFavorited(!isFavorited);
@@ -60,12 +68,16 @@ const ExploreScreenCard = ({
         </View>
 
         <View className="h-16 w-full">
+          {isLoadingImage && (
+            <ActivityIndicator size="large" color={Colors.color_primary} />
+          )}
           <Image
             className="h-full w-full"
             source={imageUrl}
             placeholder={blurhash}
             contentFit="cover"
             transition={500}
+            onLoadEnd={() => setIsLoadingImage(false)}
           />
         </View>
 

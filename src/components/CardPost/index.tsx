@@ -1,7 +1,8 @@
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import React, { useState } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, ActivityIndicator } from 'react-native';
+import Colors from 'src/constants/colors';
 
 type CardPostProps = {
   userImagePath?: string;
@@ -29,9 +30,11 @@ function CardPost({
   onPressLike,
   onPressSave,
 }: CardPostProps) {
-  const [isLiked, setIsLiked] = useState(isLikedInitial);
-  const [isSaved, setIsSaved] = useState(isSavedInitial);
-  const [expanded, setExpanded] = useState(false);
+  const [isLiked, setIsLiked] = useState<boolean>(isLikedInitial);
+  const [isSaved, setIsSaved] = useState<boolean>(isSavedInitial);
+  const [expanded, setExpanded] = useState<boolean>(false);
+  const [isUserImageLoading, setIsUserImageLoading] = useState<boolean>(true);
+  const [isPostImageLoading, setIsPostImageLoading] = useState<boolean>(true);
 
   const handleLikePress = () => {
     setIsLiked(!isLiked);
@@ -49,13 +52,17 @@ function CardPost({
     <View className="w-full bg-white p-4">
       <View>
         <View className="mb-2.5 flex-row items-center gap-x-2">
-          <View className="h-8 w-8">
+          <View className="h-8 w-8 items-center justify-center">
+            {isUserImageLoading && (
+              <ActivityIndicator size="small" color={Colors.color_primary} />
+            )}
             <Image
               className="h-full w-full"
               source={userImagePath}
               placeholder={blurhash}
               contentFit="cover"
               transition={500}
+              onLoadEnd={() => setIsUserImageLoading(false)}
             />
           </View>
 
@@ -77,13 +84,22 @@ function CardPost({
         </Text>
       </View>
       {imagePath && (
-        <View className="mb-2.5 h-56 w-full">
+        <View className="mb-2.5 h-56 w-full items-center justify-center">
+          {isPostImageLoading && (
+            <ActivityIndicator
+              size="large"
+              color={Colors.color_primary}
+              className="items-center justify-center text-center"
+            />
+          )}
+
           <Image
             className="h-full w-full"
             source={imagePath}
             placeholder={blurhash}
             contentFit="cover"
             transition={500}
+            onLoadEnd={() => setIsPostImageLoading(false)}
           />
         </View>
       )}
