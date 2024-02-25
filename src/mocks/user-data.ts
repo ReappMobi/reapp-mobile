@@ -1,3 +1,5 @@
+import { IInstitution } from 'src/types';
+
 export interface IUser {
   id: number;
   name: string;
@@ -120,38 +122,38 @@ export const userSavedPosts: IUserSavedPost[] = [
 
 export interface IUserFavoriteInstitution {
   id: number;
-  nameInstitution: string;
-  category: number;
-  imageUrl: string;
+  name: string;
+  categoryId: number;
+  image: string;
 }
 
-export const userFavoritesInstitutions: IUserFavoriteInstitution[] = [
+export const userFavoritesInstitutions: IInstitution[] = [
   {
     id: 1,
-    nameInstitution: 'Centro Educativo Amanhecer',
-    category: 1,
-    imageUrl:
+    name: 'Centro Educativo Amanhecer',
+    categoryId: 1,
+    image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
   },
   {
     id: 3,
-    nameInstitution: 'Casa do Adulto Feliz',
-    category: 3,
-    imageUrl:
+    name: 'Casa do Adulto Feliz',
+    categoryId: 3,
+    image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
   },
   {
     id: 6,
-    nameInstitution: 'Universidade dos Adultos',
-    category: 3,
-    imageUrl:
+    name: 'Universidade dos Adultos',
+    categoryId: 3,
+    image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
   },
   {
     id: 8,
-    nameInstitution: 'Academia de Jovens Líderes',
-    category: 2,
-    imageUrl:
+    name: 'Academia de Jovens Líderes',
+    categoryId: 2,
+    image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
   },
 ];
