@@ -1,9 +1,9 @@
+import { Image } from 'expo-image';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   FlatList,
   ListRenderItem,
   View,
-  Image,
   Dimensions,
 } from 'react-native';
 import Animated, {
@@ -12,10 +12,14 @@ import Animated, {
   Layout,
 } from 'react-native-reanimated';
 import { IBanner } from 'src/types';
+import { Image } from 'expo-image';
 
 type BannersContainerProps = {
   banners: IBanner[];
 };
+
+const blurhash =
+  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
 const Carousel = ({ banners }: BannersContainerProps) => {
   const [activeBanner, setActiveBanner] = useState<number>(0);
@@ -61,13 +65,16 @@ const Carousel = ({ banners }: BannersContainerProps) => {
         }}
       >
         <Image
-          source={{ uri: item.image }}
+          source={item.image}
+          contentFit="cover"
+          placeholder={blurhash}
           aria-label={item.title}
-          className="h-full w-full self-center"
+          className="h-full w-full flex-1 self-center"
         />
       </View>
-    );
-  }, []);
+    ),
+    []
+  );
 
   return (
     <View className="items-center gap-y-1">

@@ -1,4 +1,5 @@
 export interface IPost {
+  id: number;
   userImageUrl: string;
   postImageUrl: string;
   nameInstitution: string;
@@ -8,6 +9,7 @@ export interface IPost {
 
 export const allPosts: IPost[] = [
   {
+    id: 1,
     userImageUrl:
       'https://blog.emania.com.br/wp-content/uploads/2015/10/fotos-de-natureza.jpg',
     postImageUrl:
@@ -18,6 +20,7 @@ export const allPosts: IPost[] = [
     timeAgo: '2 hours ago',
   },
   {
+    id: 2,
     userImageUrl:
       'https://blog.emania.com.br/wp-content/uploads/2015/10/fotos-de-natureza.jpg',
     postImageUrl:
@@ -27,6 +30,7 @@ export const allPosts: IPost[] = [
     timeAgo: '1 day ago',
   },
   {
+    id: 3,
     userImageUrl:
       'https://blog.emania.com.br/wp-content/uploads/2015/10/fotos-de-natureza.jpg',
     postImageUrl:
@@ -37,6 +41,7 @@ export const allPosts: IPost[] = [
     timeAgo: '3 days ago',
   },
   {
+    id: 4,
     userImageUrl:
       'https://blog.emania.com.br/wp-content/uploads/2015/10/fotos-de-natureza.jpg',
     postImageUrl:
@@ -46,6 +51,7 @@ export const allPosts: IPost[] = [
     timeAgo: '4 days ago',
   },
   {
+    id: 5,
     userImageUrl:
       'https://blog.emania.com.br/wp-content/uploads/2015/10/fotos-de-natureza.jpg',
     postImageUrl:
