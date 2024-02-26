@@ -1,18 +1,7 @@
 import { Image } from 'expo-image';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  FlatList,
-  ListRenderItem,
-  View,
-  Dimensions,
-} from 'react-native';
-import Animated, {
-  FadeInLeft,
-  FadeOutRight,
-  Layout,
-} from 'react-native-reanimated';
+import { FlatList, ListRenderItem, View, Dimensions } from 'react-native';
 import { IBanner } from 'src/types';
-import { Image } from 'expo-image';
 
 type BannersContainerProps = {
   banners: IBanner[];
@@ -59,7 +48,7 @@ const Carousel = ({ banners }: BannersContainerProps) => {
   const renderItem: ListRenderItem<IBanner> = useCallback(({ item }) => {
     return (
       <View
-        className="mx-4 h-48 items-center"
+        className="mx-4 h-48 items-center bg-slate-400"
         style={{
           width: Dimensions.get('screen').width * 0.85,
         }}
@@ -94,10 +83,7 @@ const Carousel = ({ banners }: BannersContainerProps) => {
       <FlatList
         data={banners}
         renderItem={({ index }) => (
-          <Animated.View
-            layout={Layout}
-            entering={FadeInLeft}
-            exiting={FadeOutRight}
+          <View
             className={`mx-1 h-3 w-3 rounded-full ${
               activeBanner === index ? 'bg-black' : 'bg-slate-400'
             }`}
