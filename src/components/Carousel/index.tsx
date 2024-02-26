@@ -31,22 +31,21 @@ const Carousel = ({ banners }: BannersContainerProps) => {
   ]);
 
   useEffect(() => {
-    const nextBanner = activeBanner + 1;
-    const isLastBanner = nextBanner >= banners.length;
-    const targetIndex = isLastBanner ? 0 : nextBanner;
+    const handleBannerChange = () => {
+      const nextBanner = (activeBanner + 1) % banners.length;
+      setActiveBanner(nextBanner);
 
-    const timeId = setTimeout(() => {
       FlatlistRef.current?.scrollToIndex({
-        index: targetIndex,
+        index: nextBanner,
         animated: true,
       });
-      setActiveBanner(isLastBanner ? 0 : nextBanner);
-    }, 3000);
-    return () => clearTimeout(timeId);
-  }, [activeBanner]);
+    };
+    const timeoutId = setTimeout(handleBannerChange, 3000);
+    return () => clearTimeout(timeoutId);
+  }, [activeBanner, banners.length]);
 
-  const renderItem: ListRenderItem<IBanner> = useCallback(({ item }) => {
-    return (
+  const renderItem: ListRenderItem<IBanner> = useCallback(
+    ({ item }) => (
       <View
         className="mx-4 h-48 items-center bg-slate-400"
         style={{
