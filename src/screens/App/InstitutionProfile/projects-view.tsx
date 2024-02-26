@@ -2,9 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { FlatList, ListRenderItem, View } from 'react-native';
 import CardInstitutionProject from 'src/components/CardInstitutionProject';
 import LoadingBox from 'src/components/LoadingBox';
-import { IProject } from 'src/mocks/app-projects-data';
 import { getInstituitionProjects } from 'src/services/app-core';
-import { IInstitution } from 'src/types';
+import { IProject, IInstitution } from 'src/types';
 
 type ProjectsViewProps = {
   institution: IInstitution;
@@ -24,8 +23,8 @@ const ProjectsView = ({ institution }: ProjectsViewProps) => {
   const renderItem: ListRenderItem<IProject> = useCallback(({ item }) => {
     return (
       <CardInstitutionProject
-        imagePath={item.imageUrl}
-        title={item.nameProject}
+        imagePath={item.image}
+        title={item.name}
         description={item.description}
         textButton="Ver mais detalhes"
       />
