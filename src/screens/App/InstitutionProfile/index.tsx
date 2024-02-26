@@ -15,6 +15,7 @@ import { IInstitution } from 'src/types';
 
 import HomeView from './home-view';
 import ProjectsView from './projects-view';
+import TransparencyView from './transparency-view';
 
 const blurhash: string =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
@@ -40,7 +41,7 @@ export default function InstitutionProfile({ route, navigation }) {
     return SceneMap({
       tab1: () => <HomeView institution={institution} />,
       tab2: () => <ProjectsView institution={institution} />,
-      tab3: () => <View />,
+      tab3: () => <TransparencyView institution={institution} />,
       tab4: () => <View />,
       tab5: () => <View />,
       tab6: () => <View />,
