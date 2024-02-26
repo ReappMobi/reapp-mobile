@@ -71,13 +71,16 @@ function CardPost({
           </Text>
         </View>
 
-        <View />
+        <Text className="font-_bold text-sm text-text_neutral">
+          {nameInstitution}
+        </Text>
       </View>
+      <View />
 
       <View className="mb-2.5">
         <Text
           numberOfLines={expanded ? null : 3}
-          className="font-_regular text-base text-text_neutral "
+          className="font-_regular text-sm text-text_neutral "
           onPress={() => setExpanded(!expanded)}
         >
           {description}
@@ -94,7 +97,7 @@ function CardPost({
           )}
 
           <Image
-            className="h-full w-full"
+            className="h-full w-full rounded-md"
             source={imagePath}
             placeholder={blurhash}
             contentFit="cover"
