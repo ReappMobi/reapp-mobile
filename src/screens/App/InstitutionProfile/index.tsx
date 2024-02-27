@@ -15,6 +15,7 @@ import { IInstitution } from 'src/types';
 
 import ContactsView from './contacts-view';
 import HomeView from './home-view';
+import PartnerView from './partners-view';
 import ProjectsView from './projects-view';
 import TransparencyView from './transparency-view';
 
@@ -44,7 +45,7 @@ export default function InstitutionProfile({ route, navigation }) {
       tab2: () => <ProjectsView institution={institution} />,
       tab3: () => <TransparencyView institution={institution} />,
       tab4: () => <ContactsView institution={institution} />,
-      tab5: () => <View />,
+      tab5: () => <PartnerView institution={institution} />,
       tab6: () => <View />,
       tab7: () => <View />,
     });
