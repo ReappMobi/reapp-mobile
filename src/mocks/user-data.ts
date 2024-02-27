@@ -134,6 +134,13 @@ export const userFavoritesInstitutions: IInstitution[] = [
     categoryId: 1,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    whatsapp: '(98) 91234-5678',
+    facebook: 'floresa.viva',
+    instagram: '@floresta.viva1',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 3,
@@ -141,6 +148,13 @@ export const userFavoritesInstitutions: IInstitution[] = [
     categoryId: 3,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    whatsapp: '(98) 91234-5678',
+    facebook: 'floresa.viva',
+    instagram: '@floresta.viva1',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 6,
@@ -148,6 +162,13 @@ export const userFavoritesInstitutions: IInstitution[] = [
     categoryId: 3,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    whatsapp: '(98) 91234-5678',
+    facebook: 'floresa.viva',
+    instagram: '@floresta.viva1',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 8,
@@ -155,5 +176,12 @@ export const userFavoritesInstitutions: IInstitution[] = [
     categoryId: 2,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    whatsapp: '(98) 91234-5678',
+    facebook: 'floresa.viva',
+    instagram: '@floresta.viva1',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
 ];
