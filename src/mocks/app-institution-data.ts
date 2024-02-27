@@ -7,6 +7,13 @@ export const institutions: IInstitution[] = [
     categoryId: 1,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    whatsapp: '(98) 91234-5678',
+    facebook: 'floresa.viva',
+    instagram: '@floresta.viva1',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 2,
@@ -14,6 +21,13 @@ export const institutions: IInstitution[] = [
     categoryId: 2,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    whatsapp: '(98) 91234-5678',
+    facebook: 'floresa.viva',
+    instagram: '@floresta.viva1',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 3,
@@ -21,6 +35,13 @@ export const institutions: IInstitution[] = [
     categoryId: 3,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    whatsapp: '(98) 91234-5678',
+    facebook: 'floresa.viva',
+    instagram: '@floresta.viva1',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 4,
@@ -28,6 +49,13 @@ export const institutions: IInstitution[] = [
     categoryId: 1,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    whatsapp: '(98) 91234-5678',
+    facebook: 'floresa.viva',
+    instagram: '@floresta.viva1',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 5,
@@ -35,6 +63,12 @@ export const institutions: IInstitution[] = [
     categoryId: 2,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    facebook: 'floresa.viva',
+    instagram: '@floresta.viva1',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 6,
@@ -42,6 +76,10 @@ export const institutions: IInstitution[] = [
     categoryId: 3,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 7,
@@ -49,6 +87,10 @@ export const institutions: IInstitution[] = [
     categoryId: 1,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 8,
@@ -56,6 +98,10 @@ export const institutions: IInstitution[] = [
     categoryId: 2,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 9,
@@ -63,6 +109,13 @@ export const institutions: IInstitution[] = [
     categoryId: 3,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    whatsapp: '(98) 91234-5678',
+    facebook: 'floresa.viva',
+    instagram: '@floresta.viva1',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 10,
@@ -70,6 +123,10 @@ export const institutions: IInstitution[] = [
     categoryId: 1,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 11,
@@ -77,6 +134,13 @@ export const institutions: IInstitution[] = [
     categoryId: 2,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    whatsapp: '(98) 91234-5678',
+    facebook: 'floresa.viva',
+    instagram: '@floresta.viva1',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 12,
@@ -84,6 +148,13 @@ export const institutions: IInstitution[] = [
     categoryId: 3,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    whatsapp: '(98) 91234-5678',
+    facebook: 'floresa.viva',
+    instagram: '@floresta.viva1',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 13,
@@ -91,6 +162,9 @@ export const institutions: IInstitution[] = [
     categoryId: 1,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
   },
   {
     id: 14,
@@ -98,6 +172,13 @@ export const institutions: IInstitution[] = [
     categoryId: 2,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    whatsapp: '(98) 91234-5678',
+    facebook: 'floresa.viva',
+    instagram: '@floresta.viva1',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 15,
@@ -105,6 +186,10 @@ export const institutions: IInstitution[] = [
     categoryId: 3,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 16,
@@ -112,6 +197,13 @@ export const institutions: IInstitution[] = [
     categoryId: 1,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    whatsapp: '(98) 91234-5678',
+    facebook: 'floresa.viva',
+    instagram: '@floresta.viva1',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 17,
@@ -119,6 +211,10 @@ export const institutions: IInstitution[] = [
     categoryId: 2,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 18,
@@ -126,6 +222,13 @@ export const institutions: IInstitution[] = [
     categoryId: 3,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    whatsapp: '(98) 91234-5678',
+    facebook: 'floresa.viva',
+    instagram: '@floresta.viva1',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 19,
@@ -133,6 +236,13 @@ export const institutions: IInstitution[] = [
     categoryId: 1,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    whatsapp: '(98) 91234-5678',
+    facebook: 'floresa.viva',
+    instagram: '@floresta.viva1',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 20,
@@ -140,6 +250,13 @@ export const institutions: IInstitution[] = [
     categoryId: 2,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    whatsapp: '(98) 91234-5678',
+    facebook: 'floresa.viva',
+    instagram: '@floresta.viva1',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
   {
     id: 21,
@@ -147,5 +264,12 @@ export const institutions: IInstitution[] = [
     categoryId: 3,
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
+    phone: '(98) 91234-5678',
+    email: 'floresta.viva@gmail.com',
+    address: 'Vila Bacanga, São Luís',
+    whatsapp: '(98) 91234-5678',
+    facebook: 'floresa.viva',
+    instagram: '@floresta.viva1',
+    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
   },
 ];
