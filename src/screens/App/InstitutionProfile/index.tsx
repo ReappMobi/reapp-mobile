@@ -13,6 +13,7 @@ import {
 import { getCategoryById } from 'src/services/app-core';
 import { IInstitution } from 'src/types';
 
+import CollaboratorsView from './collaborators-view';
 import ContactsView from './contacts-view';
 import HomeView from './home-view';
 import PartnerView from './partners-view';
@@ -46,7 +47,7 @@ export default function InstitutionProfile({ route, navigation }) {
       tab3: () => <TransparencyView institution={institution} />,
       tab4: () => <ContactsView institution={institution} />,
       tab5: () => <PartnerView institution={institution} />,
-      tab6: () => <View />,
+      tab6: () => <CollaboratorsView institution={institution} />,
       tab7: () => <View />,
     });
   };
