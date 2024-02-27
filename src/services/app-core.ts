@@ -128,3 +128,11 @@ export async function getInstitutionTransparency(institutionId: number) {
     }, 1000);
   });
 }
+
+export async function getPartnerById(institutionId: number) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([]);
+    }, 1000);
+  });
+}
