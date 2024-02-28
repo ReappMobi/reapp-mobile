@@ -1,9 +1,8 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { StackActions } from '@react-navigation/native';
 import { Image } from 'expo-image';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, useWindowDimensions } from 'react-native';
-import { SceneMap } from 'react-native-tab-view';
 import {
   ScreenContainer,
   Button,
@@ -29,7 +28,7 @@ export default function InstitutionProfile({ route, navigation }) {
   const { institution } = route.params as { institution: IInstitution };
   const [category, setCategory] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const activeIndexRef = useRef(0);
+  const [index, setIndex] = useState<number>(0);
 
   const [routes] = useState([
     { key: 'tab1', title: 'Início' },
@@ -41,16 +40,25 @@ export default function InstitutionProfile({ route, navigation }) {
     { key: 'tab7', title: 'Voluntários' },
   ]);
 
-  const renderScene = () => {
-    return SceneMap({
-      tab1: () => <HomeView institution={institution} />,
-      tab2: () => <ProjectsView institution={institution} />,
-      tab3: () => <TransparencyView institution={institution} />,
-      tab4: () => <ContactsView institution={institution} />,
-      tab5: () => <PartnerView institution={institution} />,
-      tab6: () => <CollaboratorsView institution={institution} />,
-      tab7: () => <VolunteersView institution={institution} />,
-    });
+  const renderScene = ({ route }) => {
+    switch (route.key) {
+      case 'tab1':
+        return <HomeView institution={institution} />;
+      case 'tab2':
+        return <ProjectsView institution={institution} />;
+      case 'tab3':
+        return <TransparencyView institution={institution} />;
+      case 'tab4':
+        return <ContactsView institution={institution} />;
+      case 'tab5':
+        return <PartnerView institution={institution} />;
+      case 'tab6':
+        return <CollaboratorsView institution={institution} />;
+      case 'tab7':
+        return <VolunteersView institution={institution} />;
+      default:
+        return null;
+    }
   };
 
   useEffect(() => {
@@ -112,13 +120,27 @@ export default function InstitutionProfile({ route, navigation }) {
           </View>
         </View>
       </View>
-      <TabViewWrapper
-        institution={institution}
-        activeIndexRef={activeIndexRef}
-        routes={routes}
-        width={width}
-        renderScene={renderScene()}
-      />
+
+      {loading ? (
+        <View>
+          <LoadingBox customStyle="h-7 w-full mt-5 mb-3 rounded-md bg-slate-400" />
+          {Array.from({ length: 3 }).map((_, index) => (
+            <LoadingBox
+              key={index}
+              customStyle="h-56 w-full mb-2 rounded-md bg-slate-400 last:mb-0"
+            />
+          ))}
+        </View>
+      ) : (
+        <TabViewWrapper
+          institution={institution}
+          index={index}
+          setIndex={setIndex}
+          routes={routes}
+          width={width}
+          renderScene={renderScene}
+        />
+      )}
     </ScreenContainer>
   );
 }
