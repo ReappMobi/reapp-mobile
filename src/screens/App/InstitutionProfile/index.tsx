@@ -19,6 +19,7 @@ import HomeView from './home-view';
 import PartnerView from './partners-view';
 import ProjectsView from './projects-view';
 import TransparencyView from './transparency-view';
+import VolunteersView from './volunteers-view';
 
 const blurhash: string =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
@@ -48,7 +49,7 @@ export default function InstitutionProfile({ route, navigation }) {
       tab4: () => <ContactsView institution={institution} />,
       tab5: () => <PartnerView institution={institution} />,
       tab6: () => <CollaboratorsView institution={institution} />,
-      tab7: () => <View />,
+      tab7: () => <VolunteersView institution={institution} />,
     });
   };
 
