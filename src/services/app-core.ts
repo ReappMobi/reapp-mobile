@@ -136,3 +136,19 @@ export async function getPartnerById(institutionId: number) {
     }, 1000);
   });
 }
+
+export async function getCollaboratorsById(institutionId: number) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([]);
+    }, 1000);
+  });
+}
+
+export async function getVolunteersById(institutionId: number) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([]);
+    }, 1000);
+  });
+}
