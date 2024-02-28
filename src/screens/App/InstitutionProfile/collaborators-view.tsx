@@ -1,5 +1,5 @@
 import { Image } from 'expo-image';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { FlatList, View, Text } from 'react-native';
 import { IInstitution } from 'src/types';
 import { ICollaborator } from 'src/types/ICollaborator';
@@ -76,4 +76,4 @@ function CollaboratorsView({ institution }: CollaboratorViewProps) {
   );
 }
 
-export default CollaboratorsView;
+export default memo(CollaboratorsView);

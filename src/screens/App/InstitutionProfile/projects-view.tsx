@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, memo } from 'react';
 import { FlatList, ListRenderItem, View } from 'react-native';
 import CardInstitutionProject from 'src/components/CardInstitutionProject';
 import LoadingBox from 'src/components/LoadingBox';
@@ -58,4 +58,4 @@ const ProjectsView = ({ institution }: ProjectsViewProps) => {
   );
 };
 
-export default ProjectsView;
+export default memo(ProjectsView);

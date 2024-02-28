@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { View, FlatList } from 'react-native';
 import PartnerCard from 'src/components/PartnerCard';
 import { IInstitution } from 'src/types';
@@ -68,4 +68,4 @@ function PartnerView({ institution }: PartnerViewProps) {
   );
 }
 
-export default PartnerView;
+export default memo(PartnerView);

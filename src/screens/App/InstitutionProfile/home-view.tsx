@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, memo } from 'react';
 import { FlatList, ListRenderItem, View } from 'react-native';
 import { CardPost, LoadingBox } from 'src/components';
 import { getInstituitionPosts } from 'src/services/app-core';
@@ -58,4 +58,4 @@ const HomeView = ({ institution }: HomeViewProps) => {
   );
 };
 
-export default HomeView;
+export default memo(HomeView);

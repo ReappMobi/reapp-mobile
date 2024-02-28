@@ -1,5 +1,5 @@
 import { Image } from 'expo-image';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { IInstitution } from 'src/types';
 import { IVolunteer } from 'src/types/IVolunteer';
@@ -75,4 +75,4 @@ function VolunteersView({ institution }: VolunteersViewProps) {
   );
 }
 
-export default VolunteersView;
+export default memo(VolunteersView);

@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import React, { memo } from 'react';
 import { View, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import Colors from 'src/constants/colors';
@@ -96,4 +96,4 @@ function ContactsView({ institution }: ContactsViewProps) {
   );
 }
 
-export default ContactsView;
+export default memo(ContactsView);

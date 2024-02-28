@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import BeneficiariesIcon from 'src/assets/images/BeneficiariesIcon.svg';
 import CoinsICon from 'src/assets/images/CoinsIcon.svg';
@@ -38,4 +38,4 @@ function TransparencyView({ institution }: TransparencyViewProps) {
   );
 }
 
-export default TransparencyView;
+export default memo(TransparencyView);
