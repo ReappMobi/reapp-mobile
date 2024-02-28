@@ -12,28 +12,28 @@ const mockData: ICollaborator[] = [
   {
     id: 1,
     institutionId: 1,
-    name: 'Gabriel Bastos',
+    name: 'Rosendy',
     image: 'https://placehold.co/600x400/png',
   },
 
   {
     id: 2,
     institutionId: 1,
-    name: 'Gabriel Belo',
+    name: 'Carlos',
     image: 'https://placehold.co/600x400/png',
   },
 
   {
     id: 3,
     institutionId: 1,
-    name: 'André Gabriel',
+    name: 'Jovemar',
     image: 'https://placehold.co/600x400/png',
   },
 
   {
     id: 4,
     institutionId: 1,
-    name: 'Neymar Júnior ',
+    name: 'Marcela',
     image: 'https://placehold.co/600x400/png',
   },
 ];
@@ -58,7 +58,7 @@ const CollaboratorCard = ({ info }) => {
 };
 
 function CollaboratorsView({ institution }: CollaboratorViewProps) {
-  const [collaborators, setCollaborators] = useState([]);
+  const [collaborators, setCollaborators] = useState<ICollaborator[]>([]);
 
   useEffect(() => {
     setCollaborators(mockData);
