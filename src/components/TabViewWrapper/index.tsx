@@ -11,14 +11,16 @@ import { TabBarWrapper } from './tab-bar';
 
 type TabViewWrapperProps = {
   institution: IInstitution;
-  activeIndexRef: React.MutableRefObject<number>;
+  index: number;
+  setIndex: (newIndex: number) => void;
   routes: Route[];
   width: number;
   renderScene: (props: SceneRendererProps & { route: Route }) => JSX.Element;
 };
 
 const TabViewWrapper = ({
-  activeIndexRef,
+  index,
+  setIndex,
   routes,
   width,
   renderScene,
@@ -33,12 +35,12 @@ const TabViewWrapper = ({
       className="mt-2 bg-transparent"
       lazy
       navigationState={{
-        index: activeIndexRef.current,
+        index,
         routes,
       }}
       initialLayout={{ width }}
       renderScene={renderScene}
-      onIndexChange={(index) => (activeIndexRef.current = index)}
+      onIndexChange={(index) => setIndex(index)}
       renderTabBar={renderTabBar}
     />
   );
