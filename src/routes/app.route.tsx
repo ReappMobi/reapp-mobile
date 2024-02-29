@@ -62,10 +62,7 @@ const FavoriteNavigator = () => {
   return (
     <FavoriteStack.Navigator screenOptions={{ headerShown: false }}>
       <FavoriteStack.Screen name="FavoritePage" component={FavoritePage} />
-      <FavoriteStack.Screen
-        name="InstitutionProfile"
-        component={InstitutionProfile}
-      />
+      <FavoriteStack.Screen name="ProjectPage" component={ProjectPage} />
       {Object.entries(DonationScreens).map(([name, component]) => (
         <FavoriteStack.Screen key={name} name={name} component={component} />
       ))}
