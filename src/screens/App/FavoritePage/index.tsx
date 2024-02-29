@@ -7,14 +7,15 @@ import {
   Header,
   CardInstitutionProject,
 } from 'src/components';
-import { getFavoritesInstitutions } from 'src/services/user';
+import { getFavoritesProjects } from 'src/services/user';
+import { IProject } from 'src/types';
 
 function FavoritePage({ navigation }) {
-  const [favoritesInstitutions, setFavoritesInstitutions] = useState([]);
+  const [favoritesProjects, setFavoritesProjects] = useState<IProject[]>([]);
 
   useEffect(() => {
-    getFavoritesInstitutions().then((response) => {
-      setFavoritesInstitutions(response);
+    getFavoritesProjects().then((response) => {
+      setFavoritesProjects(response);
     });
   }, []);
 
@@ -31,7 +32,7 @@ function FavoritePage({ navigation }) {
         />
 
         <FlatList
-          data={favoritesInstitutions}
+          data={favoritesProjects}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <CardInstitutionProject
@@ -41,7 +42,7 @@ function FavoritePage({ navigation }) {
               isFavoriteCard
               onPress={() => {
                 navigation.dispatch(
-                  StackActions.push('InstitutionProfile', { institution: item })
+                  StackActions.push('ProjectPage', { project: item })
                 );
               }}
             />
