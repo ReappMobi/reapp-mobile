@@ -1,7 +1,7 @@
 import {
   userDonations,
   userSavedPosts,
-  userFavoritesInstitutions,
+  userFavoritesProjects,
 } from '../mocks/user-data';
 
 export async function getDonations() {
@@ -12,6 +12,6 @@ export async function getSavedPosts() {
   return userSavedPosts;
 }
 
-export async function getFavoritesInstitutions() {
-  return userFavoritesInstitutions;
+export async function getFavoritesProjects() {
+  return userFavoritesProjects;
 }
