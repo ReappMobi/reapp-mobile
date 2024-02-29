@@ -1,4 +1,4 @@
-import { IInstitution } from 'src/types';
+import { IProject } from 'src/types';
 
 export interface IUser {
   id: number;
@@ -120,68 +120,57 @@ export const userSavedPosts: IUserSavedPost[] = [
   },
 ];
 
-export interface IUserFavoriteInstitution {
-  id: number;
-  name: string;
-  categoryId: number;
-  image: string;
-}
-
-export const userFavoritesInstitutions: IInstitution[] = [
+export const userFavoritesProjects: IProject[] = [
   {
     id: 1,
-    name: 'Centro Educativo Amanhecer',
+    name: 'Reforestation_1',
+    subtitle: 'Semear Esperança e Sustentabilidade',
+    institutionId: 16,
     categoryId: 1,
+    description:
+      'Efforts to replant and restore lost forest areas, combating climate change and preserving biodiversity. Project number 1 focuses on reforestation.',
     image:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
-    phone: '(98) 91234-5678',
-    email: 'floresta.viva@gmail.com',
-    address: 'Vila Bacanga, São Luís',
-    whatsapp: '(98) 91234-5678',
-    facebook: 'floresa.viva',
-    instagram: '@floresta.viva1',
-    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+      'https://ampliar.org.br/wp-content/uploads/2021/02/de-quais-formas-eu-posso-fazer-doacao-para-um-projeto-social-01.jpg',
+    introdutionVideo:
+      'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+  },
+  {
+    id: 2,
+    name: 'HomelessSupport_2',
+    subtitle: 'Semear Esperança e Sustentabilidade',
+    institutionId: 9,
+    categoryId: 1,
+    description:
+      'Aid and resources for homeless individuals, aiming to provide shelter, healthcare, and employment opportunities. Project number 2 focuses on homeless support.',
+    image:
+      'https://ampliar.org.br/wp-content/uploads/2021/02/de-quais-formas-eu-posso-fazer-doacao-para-um-projeto-social-01.jpg',
+    introdutionVideo:
+      'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
   },
   {
     id: 3,
-    name: 'Casa do Adulto Feliz',
-    categoryId: 3,
+    name: 'AnimalRescue_3',
+    subtitle: 'Semear Esperança e Sustentabilidade',
+    institutionId: 3,
+    categoryId: 1,
+    description:
+      'Rescue and rehabilitation of abandoned or injured animals, providing them with care and a safe habitat. Project number 3 focuses on animal rescue.',
     image:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
-    phone: '(98) 91234-5678',
-    email: 'floresta.viva@gmail.com',
-    address: 'Vila Bacanga, São Luís',
-    whatsapp: '(98) 91234-5678',
-    facebook: 'floresa.viva',
-    instagram: '@floresta.viva1',
-    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+      'https://ampliar.org.br/wp-content/uploads/2021/02/de-quais-formas-eu-posso-fazer-doacao-para-um-projeto-social-01.jpg',
+    introdutionVideo:
+      'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
   },
   {
-    id: 6,
-    name: 'Universidade dos Adultos',
-    categoryId: 3,
+    id: 4,
+    name: 'HomelessSupport_4',
+    subtitle: 'Semear Esperança e Sustentabilidade',
+    institutionId: 19,
+    categoryId: 1,
+    description:
+      'Aid and resources for homeless individuals, aiming to provide shelter, healthcare, and employment opportunities. Project number 4 focuses on homeless support.',
     image:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
-    phone: '(98) 91234-5678',
-    email: 'floresta.viva@gmail.com',
-    address: 'Vila Bacanga, São Luís',
-    whatsapp: '(98) 91234-5678',
-    facebook: 'floresa.viva',
-    instagram: '@floresta.viva1',
-    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
-  },
-  {
-    id: 8,
-    name: 'Academia de Jovens Líderes',
-    categoryId: 2,
-    image:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_n0QGjLFH6ToZAeIuE_WTs_FskyXPdypB3A&usqp=CAU',
-    phone: '(98) 91234-5678',
-    email: 'floresta.viva@gmail.com',
-    address: 'Vila Bacanga, São Luís',
-    whatsapp: '(98) 91234-5678',
-    facebook: 'floresa.viva',
-    instagram: '@floresta.viva1',
-    coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+      'https://ampliar.org.br/wp-content/uploads/2021/02/de-quais-formas-eu-posso-fazer-doacao-para-um-projeto-social-01.jpg',
+    introdutionVideo:
+      'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
   },
 ];
