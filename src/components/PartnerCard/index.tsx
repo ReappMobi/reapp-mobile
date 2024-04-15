@@ -21,7 +21,7 @@ function PartnerCard({ image, name }: PartnerCardProps) {
         transition={500}
       />
 
-      <Text className="text-center font-_medium text-sm text-text_neutral">
+      <Text className="text-center font-reapp_medium text-sm text-text_neutral">
         {name}
       </Text>
     </View>

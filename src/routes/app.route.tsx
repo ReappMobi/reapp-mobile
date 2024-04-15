@@ -1,7 +1,7 @@
 import { Octicons, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import Colors from 'src/constants/colors';
+import colors from 'src/constants/colors';
 import {
   DonationConfirmScreen,
   DonationMethodScreen,
@@ -93,8 +93,8 @@ export function AppNavigator() {
         name="Home"
         component={HomeScreenNavigator}
         options={{
-          tabBarActiveTintColor: Colors.color_primary,
-          tabBarInactiveTintColor: Colors.text_neutral,
+          tabBarActiveTintColor: colors.color_primary,
+          tabBarInactiveTintColor: colors.text_neutral,
           tabBarShowLabel: false,
           tabBarIcon: ({ size, color }) => (
             <Octicons name="home" size={size} color={color} />
@@ -106,8 +106,8 @@ export function AppNavigator() {
         name="Explore"
         component={ExploreNavigator}
         options={{
-          tabBarActiveTintColor: Colors.color_primary,
-          tabBarInactiveTintColor: Colors.text_neutral,
+          tabBarActiveTintColor: colors.color_primary,
+          tabBarInactiveTintColor: colors.text_neutral,
           tabBarShowLabel: false,
           tabBarIcon: ({ size, color }) => (
             <Octicons name="search" size={size} color={color} />
@@ -119,8 +119,8 @@ export function AppNavigator() {
         name="Favorite"
         component={FavoriteNavigator}
         options={{
-          tabBarActiveTintColor: Colors.color_primary,
-          tabBarInactiveTintColor: Colors.text_neutral,
+          tabBarActiveTintColor: colors.color_primary,
+          tabBarInactiveTintColor: colors.text_neutral,
           tabBarShowLabel: false,
           tabBarIcon: ({ size, color }) => (
             <Octicons name="heart" size={size} color={color} />
@@ -132,8 +132,8 @@ export function AppNavigator() {
         name="Transparency"
         component={TransparencyScreen}
         options={{
-          tabBarActiveTintColor: Colors.color_primary,
-          tabBarInactiveTintColor: Colors.text_neutral,
+          tabBarActiveTintColor: colors.color_primary,
+          tabBarInactiveTintColor: colors.text_neutral,
           tabBarShowLabel: false,
           tabBarIcon: ({ size, color }) => (
             <Ionicons name="receipt-outline" size={size} color={color} />
@@ -145,8 +145,8 @@ export function AppNavigator() {
         name="UserProfile"
         component={UserProfileNavigator}
         options={{
-          tabBarActiveTintColor: Colors.color_primary,
-          tabBarInactiveTintColor: Colors.text_neutral,
+          tabBarActiveTintColor: colors.color_primary,
+          tabBarInactiveTintColor: colors.text_neutral,
           tabBarShowLabel: false,
           tabBarIcon: ({ size, color }) => (
             <FontAwesome5 name="user" size={size} color={color} />

@@ -11,21 +11,23 @@ export default function IdentityVerificationScreen() {
     <ScreenContainer>
       <Header
         leftComponent={
-          <Text className="font-_bold text-2xl uppercase text-text_primary">
+          <Text className="font-reapp_bold text-2xl uppercase text-text_primary">
             reapp
           </Text>
         }
       />
       <View className="flex-1">
         <View className="gap-y-8">
-          <Text className="font-_bold text-xl">Verifique sua identidade</Text>
+          <Text className="font-reapp_bold text-xl">
+            Verifique sua identidade
+          </Text>
           <IdentifyVerifyIllustation width={256} height={170} />
-          <Text className="bg- mb-4 text-center font-_regular text-lg text-text_neutral">
+          <Text className="bg- mb-4 text-center font-reapp_regular text-lg text-text_neutral">
             Digite seu número de telefone
           </Text>
           <Input placeholder="(00) 0000-000" />
           <Button
-            customStyles="w-full mt-4 p-5 justify-center bg-color_primary"
+            customStyles="mt-4 w-full justify-center bg-color_primary p-5"
             textColor="text-text_light"
             onPress={() => {
               navigation.dispatch(StackActions.push('CheckCodeScreen'));

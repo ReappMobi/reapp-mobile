@@ -12,7 +12,9 @@ interface AuthContextData {
   signOut(): void;
 }
 
-const AuthContext = createContext<AuthContextData>({} as AuthContextData);
+export const AuthContext = createContext<AuthContextData>(
+  {} as AuthContextData
+);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState<IUser | null>(null);
@@ -60,5 +62,3 @@ export function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
-
-export default AuthContext;

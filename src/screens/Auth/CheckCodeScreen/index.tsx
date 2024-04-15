@@ -10,17 +10,17 @@ export default function CheckCodeScreen() {
     <ScreenContainer>
       <Header
         leftComponent={
-          <Text className="font-_bold text-2xl uppercase text-text_primary">
+          <Text className="font-reapp_bold text-2xl uppercase text-text_primary">
             reapp
           </Text>
         }
       />
       <View className="flex-1">
         <View className="items-center gap-y-4">
-          <Text className="self-start font-_bold text-xl">
+          <Text className="self-start font-reapp_bold text-xl">
             Verificar código
           </Text>
-          <Text className="text-md self-start font-_regular text-text_neutral">
+          <Text className="text-md self-start font-reapp_regular text-text_neutral">
             enviado para {verificationNumber}
           </Text>
           <View className="mb-4">
@@ -28,7 +28,7 @@ export default function CheckCodeScreen() {
           </View>
           <Input placeholder="000-000-000" />
           <Button
-            customStyles="w-full mt-4 p-5 justify-center bg-color_primary"
+            customStyles="mt-4 w-full justify-center bg-color_primary p-5"
             textColor="text-text_light"
           >
             Verificar

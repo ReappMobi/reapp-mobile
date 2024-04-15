@@ -99,7 +99,7 @@ export default function InstitutionProfile({ route, navigation }) {
               <Button
                 textColor="text-white"
                 size="small"
-                customStyles="justify-center bg-color_primary w-20 mr-2"
+                customStyles="mr-2·w-20·justify-center·bg-color_primary"
                 onPress={() => {
                   navigation.dispatch(StackActions.push('DonationScreen'));
                 }}
@@ -110,7 +110,7 @@ export default function InstitutionProfile({ route, navigation }) {
                 startIcon={
                   <Ionicons name="chevron-forward" size={20} color="#000" />
                 }
-                customStyles="flex-1 justify-start items-center space-x-1"
+                customStyles="flex-1 items-center justify-start space-x-1"
                 size="small"
                 textSize="text-sm"
               >

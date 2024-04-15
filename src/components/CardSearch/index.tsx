@@ -26,7 +26,7 @@ function CardSearch({ imageUrl, title, onPress }: CardSearchProps) {
         </View>
 
         <View>
-          <Text className="font-_medium text-base">{title}</Text>
+          <Text className="font-reapp_medium text-base">{title}</Text>
         </View>
       </View>
     </TouchableOpacity>

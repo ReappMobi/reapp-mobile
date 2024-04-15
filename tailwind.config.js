@@ -25,9 +25,9 @@ module.exports = {
       },
 
       fontFamily: {
-        _regular: ['Poppins-Regular', 'sans-serif'],
-        _medium: ['Poppins-Medium', 'sans-serif'],
-        _bold: ['Poppins-Bold', 'sans-serif'],
+        reapp_regular: ['reapp_regular', 'sans-serif'],
+        reapp_medium: ['reapp_medium', 'sans-serif'],
+        reapp_bold: ['reapp_bold', 'sans-serif'],
       },
     },
   },

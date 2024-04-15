@@ -3,7 +3,7 @@ import { Image } from 'expo-image';
 import React, { useState } from 'react';
 import { View, Text, Pressable, ActivityIndicator } from 'react-native';
 
-import Colors from '../../constants/colors';
+import colors from '../../constants/colors';
 import Button from '../Button';
 
 type CardInstitutionProjectProps = {
@@ -40,7 +40,7 @@ function CardInstitutionProject({
     <View className="w-full rounded-md bg-white p-4 shadow-xl">
       <View className="relative mb-2.5 h-56 w-full items-center justify-center">
         {isLoadingImage && (
-          <ActivityIndicator size="large" color={Colors.color_primary} />
+          <ActivityIndicator size="large" color={colors.color_primary} />
         )}
         <Image
           className="h-full w-full"
@@ -65,25 +65,27 @@ function CardInstitutionProject({
       </View>
 
       <View className="mb-2.5">
-        <Text className="font-_bold text-base text-text_neutral">{title}</Text>
+        <Text className="font-reapp_bold text-base text-text_neutral">
+          {title}
+        </Text>
       </View>
 
       {description && (
         <View className="mb-2.5">
-          <Text className="font-_regular text-base text-text_neutral">
+          <Text className="font-reapp_regular text-base text-text_neutral">
             {description}
           </Text>
         </View>
       )}
 
       <Button
-        customStyles="bg-color_primary w-full justify-center"
+        customStyles="w-full justify-center bg-color_primary"
         textColor="text-text_light"
         endIcon={
           <Ionicons
             name="chevron-forward"
             size={20}
-            color={Colors.text_white}
+            color={colors.text_white}
           />
         }
         onPress={onPress}

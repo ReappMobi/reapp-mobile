@@ -2,7 +2,7 @@ import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import React, { useState } from 'react';
 import { View, Text, Pressable, ActivityIndicator } from 'react-native';
-import Colors from 'src/constants/colors';
+import colors from 'src/constants/colors';
 
 type CardPostProps = {
   userImagePath?: string;
@@ -54,7 +54,7 @@ function CardPost({
         <View className="mb-2.5 flex-row items-center gap-x-2">
           <View className="h-8 w-8 items-center justify-center">
             {isUserImageLoading && (
-              <ActivityIndicator size="small" color={Colors.color_primary} />
+              <ActivityIndicator size="small" color={colors.color_primary} />
             )}
             <Image
               className="h-full w-full"
@@ -66,12 +66,12 @@ function CardPost({
             />
           </View>
 
-          <Text className="font-_medium text-base text-text_neutral">
+          <Text className="font-reapp_medium text-base text-text_neutral">
             {nameInstitution}
           </Text>
         </View>
 
-        <Text className="font-_bold text-sm text-text_neutral">
+        <Text className="font-reapp_bold text-sm text-text_neutral">
           {nameInstitution}
         </Text>
       </View>
@@ -80,7 +80,7 @@ function CardPost({
       <View className="mb-2.5">
         <Text
           numberOfLines={expanded ? null : 3}
-          className="font-_regular text-sm text-text_neutral "
+          className="font-reapp_regular text-sm text-text_neutral "
           onPress={() => setExpanded(!expanded)}
         >
           {description}
@@ -91,7 +91,7 @@ function CardPost({
           {isPostImageLoading && (
             <ActivityIndicator
               size="large"
-              color={Colors.color_primary}
+              color={colors.color_primary}
               className="items-center justify-center text-center"
             />
           )}
@@ -109,7 +109,7 @@ function CardPost({
 
       <View className="flex-row items-center justify-between">
         <View>
-          <Text className="font-_regular text-xs text-text_gray">
+          <Text className="font-reapp_regular text-xs text-text_gray">
             {timeAgo}
           </Text>
         </View>

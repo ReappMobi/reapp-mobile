@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import Colors from 'src/constants/colors';
+import colors from 'src/constants/colors';
 
 type ExploreScreenCardProps = {
   imageUrl?: string;
@@ -69,7 +69,7 @@ const ExploreScreenCard = ({
 
         <View className="h-16 w-full">
           {isLoadingImage && (
-            <ActivityIndicator size="large" color={Colors.color_primary} />
+            <ActivityIndicator size="large" color={colors.color_primary} />
           )}
           <Image
             className="h-full w-full"
@@ -81,7 +81,7 @@ const ExploreScreenCard = ({
           />
         </View>
 
-        <Text className="text-center font-_medium text-xs">{title}</Text>
+        <Text className="text-center font-reapp_medium text-xs">{title}</Text>
 
         {isInstitution && (
           <View className="flex-row items-center justify-between">

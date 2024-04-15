@@ -15,21 +15,21 @@ function TransparencyView({ institution }: TransparencyViewProps) {
   return (
     <View className="flex-row flex-wrap justify-center gap-4 py-4">
       <TouchableOpacity className="h-[102] w-[102] items-center justify-between rounded-md bg-white p-2 shadow-xl">
-        <Text className="text-center font-_medium text-base text-text_neutral">
+        <Text className="font-_medium·text-center text-base text-text_neutral">
           Assistidos
         </Text>
         <BeneficiariesIcon width={52} height={52} />
       </TouchableOpacity>
 
       <TouchableOpacity className="h-[102] w-[102] items-center justify-between rounded-md bg-white p-2 shadow-xl">
-        <Text className="text-center font-_medium text-base text-text_neutral">
+        <Text className="font-_medium text-center text-base text-text_neutral">
           Doações recebidas
         </Text>
         <CoinsICon width={32} height={27} />
       </TouchableOpacity>
 
       <TouchableOpacity className="h-[102] w-[102] items-center justify-between rounded-md bg-white p-2 shadow-xl">
-        <Text className="text-center font-_medium text-base text-text_neutral">
+        <Text className="font-_medium text-center text-base text-text_neutral">
           Despesas
         </Text>
         <WalletIcon width={33} height={34} />

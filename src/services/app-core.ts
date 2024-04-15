@@ -46,6 +46,14 @@ export async function getProjects(): Promise<IProject[]> {
   });
 }
 
+export async function getProjectById(id: number): Promise<IProject> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(projects.find((project) => project.id === id));
+    }, 1000);
+  });
+}
+
 export async function getInstitutions(): Promise<IInstitution[]> {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -58,7 +66,7 @@ export async function getInstitutions(): Promise<IInstitution[]> {
 export async function getInstituitionCategories(): Promise<ICategory[]> {
   return new Promise((resolve) => {
     setTimeout(() => {
-      console.log('fetching institutions...');
+      console.log('fetching institutions categories...');
       resolve(institutionCategories);
     }, 1000);
   });
@@ -149,6 +157,18 @@ export async function getVolunteersById(institutionId: number) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([]);
+    }, 1000);
+  });
+}
+
+export async function getInstitutionById(
+  institutionId: number
+): Promise<IInstitution> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(
+        institutions.find((institution) => institution.id === institutionId)
+      );
     }, 1000);
   });
 }

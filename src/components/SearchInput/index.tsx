@@ -1,54 +1,57 @@
 import { Ionicons } from '@expo/vector-icons';
-import React, { memo } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, TextInput, Pressable, Keyboard } from 'react-native';
 
 type SearchInputProps = {
-  clicked?: boolean;
-  searchPhrase?: string;
-  setSearchPhrase?: (value: string) => void;
-  setClicked?: (value: boolean) => void;
+  isFocused?: boolean;
+  value?: string;
+  onFocus?: () => void;
+  onChangeText?: (text: string) => void;
+  onDimiss?: () => void;
 };
 
 const SearchInput = ({
-  clicked,
-  searchPhrase,
-  setSearchPhrase,
-  setClicked,
+  value,
+  onFocus,
+  onChangeText,
+  onDimiss,
 }: SearchInputProps) => {
-  return (
-    <View className="flex-row items-center justify-center">
-      <View className="min-h-14 w-full flex-row items-center justify-between rounded border border-text_secondary bg-input_background px-2 py-4">
-        <View>
-          <TextInput
-            placeholder="O que você está procurando?"
-            value={searchPhrase}
-            onChangeText={setSearchPhrase}
-            onFocus={() => {
-              setClicked(true);
-            }}
-            className="font-regular text-base text-text_gray"
-          />
-        </View>
+  const textInputRef = useRef<TextInput>(null);
 
-        <View className="ml-3">
-          {!clicked && (
-            <Ionicons name="search-outline" size={24} color="black" />
-          )}
-          {clicked && (
-            <Pressable
-              onPress={() => {
-                Keyboard.dismiss();
-                setClicked(false);
-                setSearchPhrase('');
-              }}
-            >
-              <Ionicons name="close" size={24} color="black" />
-            </Pressable>
-          )}
-        </View>
+  const [isFocused, setIsFocused] = useState(false);
+  return (
+    <View className="flex-1 flex-row">
+      <View className="w-full flex-row items-center justify-between rounded border border-text_secondary bg-input_background px-2 py-2">
+        <TextInput
+          ref={textInputRef}
+          className="font-regular h-full text-base text-text_gray"
+          placeholder="O que você está procurando?"
+          onChangeText={onChangeText}
+          onFocus={() => {
+            setIsFocused(true);
+            onFocus && onFocus();
+          }}
+          value={value}
+        />
+
+        {isFocused ? (
+          <Pressable
+            onPress={() => {
+              Keyboard.dismiss();
+              setIsFocused(false);
+              onChangeText('');
+              textInputRef.current?.clear();
+              onDimiss && onDimiss();
+            }}
+          >
+            <Ionicons name="close" size={20} color="black" />
+          </Pressable>
+        ) : (
+          <Ionicons name="search-outline" size={20} color="black" />
+        )}
       </View>
     </View>
   );
 };
 
-export default memo(SearchInput);
+export default SearchInput;
