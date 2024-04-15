@@ -8,11 +8,20 @@ import {
   useState,
 } from 'react';
 import { View, Text, FlatList, ScrollView, SectionList } from 'react-native';
-import { ExploreScreenCard, CardSearch, LoadingBox } from 'src/components';
+import {
+  ExploreScreenCard,
+  CardSearch,
+  LoadingBox,
+  Carousel,
+} from 'src/components';
 import { useSearch } from 'src/hooks/useSearch';
 import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
-import { getProjectCategories, getProjects } from 'src/services/app-core';
-import { IProject } from 'src/types';
+import {
+  getProjectCategories,
+  getProjects,
+  getSharedCampaigns,
+} from 'src/services/app-core';
+import { IBanner, IProject } from 'src/types';
 
 type RenderCardSearchProps = {
   item: IProject;
@@ -59,6 +68,9 @@ const RenderCardSearch = memo<RenderCardSearchProps>(
 
 const ProjectCardPlaceholder = memo(() => (
   <View className="pt-30 flex-1 justify-center px-4">
+    <View className="items-center">
+      <LoadingBox customStyle="w-10/12 h-52 rounded-md bg-slate-400 last:mb-0" />
+    </View>
     {Array.from({ length: 3 }).map((_, index) => (
       <Fragment key={index}>
         <LoadingBox customStyle="h-4 w-32 mb-2 mt-2 rounded-md bg-slate-400 last:mb-0" />
@@ -87,10 +99,28 @@ const RenderItem = memo<RenderItemProps>(({ item, onPressCard }) => {
   );
 });
 
+const RenderCarousel = memo(({ banners }: { banners: IBanner[] }) => {
+  return (
+    <View className="pb-4">
+      <Carousel banners={banners} />
+    </View>
+  );
+});
+
 const ProjectsPage = () => {
   const [projects, setProjects] = useState<IProject[]>([]);
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
+
+  const [banners, setBanners] = useState<IBanner[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      //Usar carousel para os projetos mais recentes
+      const banners = await getSharedCampaigns();
+      setBanners(banners);
+    })();
+  }, []);
 
   const { isSearchActive, searchQuery } = useSearch();
 
@@ -126,6 +156,7 @@ const ProjectsPage = () => {
   return !isSearchActive ? (
     <View className="px-4">
       <SectionList
+        ListHeaderComponent={<RenderCarousel banners={banners} />}
         sections={data}
         renderSectionHeader={({ section: { category, data } }) => (
           <Text className="mb-2 font-reapp_medium text-base">
