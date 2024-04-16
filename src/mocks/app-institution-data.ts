@@ -14,6 +14,9 @@ export const institutions: IInstitution[] = [
     facebook: 'floresa.viva',
     instagram: '@floresta.viva1',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 2,
@@ -28,6 +31,9 @@ export const institutions: IInstitution[] = [
     facebook: 'floresa.viva',
     instagram: '@floresta.viva1',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 3,
@@ -42,6 +48,9 @@ export const institutions: IInstitution[] = [
     facebook: 'floresa.viva',
     instagram: '@floresta.viva1',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 4,
@@ -56,6 +65,9 @@ export const institutions: IInstitution[] = [
     facebook: 'floresa.viva',
     instagram: '@floresta.viva1',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 5,
@@ -69,6 +81,9 @@ export const institutions: IInstitution[] = [
     facebook: 'floresa.viva',
     instagram: '@floresta.viva1',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 6,
@@ -80,6 +95,9 @@ export const institutions: IInstitution[] = [
     email: 'floresta.viva@gmail.com',
     address: 'Vila Bacanga, São Luís',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 7,
@@ -91,6 +109,9 @@ export const institutions: IInstitution[] = [
     email: 'floresta.viva@gmail.com',
     address: 'Vila Bacanga, São Luís',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 8,
@@ -102,6 +123,9 @@ export const institutions: IInstitution[] = [
     email: 'floresta.viva@gmail.com',
     address: 'Vila Bacanga, São Luís',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 9,
@@ -116,6 +140,9 @@ export const institutions: IInstitution[] = [
     facebook: 'floresa.viva',
     instagram: '@floresta.viva1',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 10,
@@ -127,6 +154,9 @@ export const institutions: IInstitution[] = [
     email: 'floresta.viva@gmail.com',
     address: 'Vila Bacanga, São Luís',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 11,
@@ -141,6 +171,9 @@ export const institutions: IInstitution[] = [
     facebook: 'floresa.viva',
     instagram: '@floresta.viva1',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 12,
@@ -155,6 +188,9 @@ export const institutions: IInstitution[] = [
     facebook: 'floresa.viva',
     instagram: '@floresta.viva1',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 13,
@@ -165,6 +201,9 @@ export const institutions: IInstitution[] = [
     phone: '(98) 91234-5678',
     email: 'floresta.viva@gmail.com',
     address: 'Vila Bacanga, São Luís',
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 14,
@@ -179,6 +218,9 @@ export const institutions: IInstitution[] = [
     facebook: 'floresa.viva',
     instagram: '@floresta.viva1',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 15,
@@ -190,6 +232,9 @@ export const institutions: IInstitution[] = [
     email: 'floresta.viva@gmail.com',
     address: 'Vila Bacanga, São Luís',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 16,
@@ -204,6 +249,9 @@ export const institutions: IInstitution[] = [
     facebook: 'floresa.viva',
     instagram: '@floresta.viva1',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 17,
@@ -215,6 +263,9 @@ export const institutions: IInstitution[] = [
     email: 'floresta.viva@gmail.com',
     address: 'Vila Bacanga, São Luís',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 18,
@@ -229,6 +280,9 @@ export const institutions: IInstitution[] = [
     facebook: 'floresa.viva',
     instagram: '@floresta.viva1',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 19,
@@ -243,6 +297,9 @@ export const institutions: IInstitution[] = [
     facebook: 'floresa.viva',
     instagram: '@floresta.viva1',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 20,
@@ -257,6 +314,9 @@ export const institutions: IInstitution[] = [
     facebook: 'floresa.viva',
     instagram: '@floresta.viva1',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
   {
     id: 21,
@@ -271,5 +331,8 @@ export const institutions: IInstitution[] = [
     facebook: 'floresa.viva',
     instagram: '@floresta.viva1',
     coordinate: { latitude: -2.5584935, longitude: -44.3117988 },
+    followers: 714,
+    donorsQty: 100,
+    partnersQty: 5,
   },
 ];
