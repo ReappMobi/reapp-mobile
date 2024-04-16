@@ -33,52 +33,79 @@ type HeaderProps = {
 
 const Header = memo<HeaderProps>(({ institution, loading, category }) => {
   return (
-    <View className="flex-row items-center space-x-2 py-4 ">
-      <Image
-        className="h-16 w-16 rounded-full"
-        source={institution ? institution.image : ''}
-        placeholder={blurhash}
-        contentFit="cover"
-        transition={500}
-      />
-      <View className="w-full flex-1 space-y-0 pt-4">
-        <Text className="font-reapp_bold text-lg">
-          {institution ? institution.name : ''}
-        </Text>
-        {loading ? (
-          <LoadingBox customStyle="h-2.5 w-20 mt-2 mb-3 rounded-md bg-slate-400" />
-        ) : (
-          <Text className="text-md my-2">{category}</Text>
-        )}
-        <View className="space-y-2">
-          <Button
-            textColor="text-white"
-            size="small"
-            customStyles="justify-center bg-color_primary"
-          >
-            Seguir
-          </Button>
-          <View className="flex-row">
+    <View>
+      <View className="flex-row items-center space-x-2 py-4 ">
+        <Image
+          className="h-16 w-16 rounded-full"
+          source={institution ? institution.image : ''}
+          placeholder={blurhash}
+          contentFit="cover"
+          transition={500}
+        />
+        <View className="w-full flex-1 space-y-0 pt-4">
+          <Text className="font-reapp_bold text-lg">
+            {institution ? institution.name : ''}
+          </Text>
+          {loading ? (
+            <LoadingBox customStyle="h-2.5 w-20 mt-2 mb-3 rounded-md bg-slate-400" />
+          ) : (
+            <View>
+              <Text className="text-md pb-2 font-reapp_medium">{category}</Text>
+              <Text className="text-md pb-2 font-reapp_medium">
+                {institution ? institution.address : ''}
+              </Text>
+            </View>
+          )}
+          <View className="space-y-2">
             <Button
               textColor="text-white"
               size="small"
-              customStyles="mr-2 w-20 justify-center bg-color_primary"
-              onPress={() => router.push('/donate')}
+              customStyles="justify-center bg-color_primary"
             >
-              Doar
+              Seguir
             </Button>
-            <Button
-              startIcon={
-                <Ionicons name="chevron-forward" size={20} color="#000" />
-              }
-              customStyles="flex-1 items-center justify-start space-x-1"
-              size="small"
-              textSize="text-sm"
-            >
-              Quero ser voluntário
-            </Button>
+            <View className="flex-row">
+              <Button
+                textColor="text-white"
+                size="small"
+                customStyles="mr-2 w-20 justify-center bg-color_primary"
+                onPress={() => router.push('/donate')}
+              >
+                Doar
+              </Button>
+              <Button
+                startIcon={
+                  <Ionicons name="chevron-forward" size={20} color="#000" />
+                }
+                customStyles="flex-1 items-center justify-start space-x-1"
+                size="small"
+                textSize="text-sm"
+              >
+                Quero ser voluntário
+              </Button>
+            </View>
           </View>
         </View>
+      </View>
+      <View className="flex-row justify-center space-x-2 py-4">
+        <Text className="text-md font-reapp_medium">
+          <Text className="text-md font-reapp_bold text-text_primary">
+            {institution ? institution.followers : ''}
+          </Text>
+          {` Seguidores`}
+        </Text>
+        <Text className="text-md font-reapp_medium">
+          <Text className="text-md font-reapp_bold text-text_primary">
+            {institution ? institution.donorsQty : ''}
+          </Text>
+          {` Doadores`}
+        </Text>
+        <Text className="text-md font-reapp_medium">
+          <Text className="text-md font-reapp_bold text-text_primary">
+            {institution ? institution.partnersQty : ''}
+          </Text>
+          {` Parceiros`}
+        </Text>
       </View>
     </View>
   );
