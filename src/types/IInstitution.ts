@@ -10,6 +10,9 @@ export interface IInstitution {
   facebook?: string;
   instagram?: string;
   coordinate?: ICoordinate;
+  followers: number;
+  donorsQty: number;
+  partnersQty: number;
 }
 
 interface ICoordinate {
