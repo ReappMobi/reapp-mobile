@@ -13,29 +13,41 @@ type InputProps = {
   customStyle?: string;
 };
 
-function Input({
-  placeholder,
-  maxLength,
-  inputMode,
-  value,
-  onChangeText,
-  secureTextEntry,
-  customStyle,
-}: InputProps) {
-  return (
-    <TextInput
-      className={`boder-1 min-h-14 w-full rounded border border-text_secondary 
-                    bg-input_background px-2 py-4 font-reapp_regular 
-                    text-base text-text_gray ${customStyle}`}
-      placeholder={placeholder}
-      placeholderTextColor={colors.text_gray}
-      maxLength={maxLength}
-      inputMode={inputMode}
-      value={value}
-      onChangeText={onChangeText}
-      secureTextEntry={secureTextEntry}
-    />
-  );
-}
+const Input = React.forwardRef<TextInput, InputProps>(
+  (
+    {
+      placeholder,
+      maxLength,
+      inputMode,
+      value,
+      onChangeText,
+      secureTextEntry,
+      customStyle,
+    },
+    ref
+  ) => {
+    return (
+      <TextInput
+        ref={ref} // Pass the ref to the TextInput component
+        className={`border-1 min-h-14 w-full rounded border border-text_secondary 
+                  bg-input_background px-2 py-4 font-reapp_regular 
+                  text-base text-text_gray ${customStyle}`}
+        placeholder={placeholder}
+        placeholderTextColor={colors.text_gray}
+        maxLength={maxLength}
+        keyboardType={
+          inputMode === 'email'
+            ? 'email-address'
+            : inputMode === 'tel'
+              ? 'phone-pad'
+              : 'default'
+        }
+        value={value}
+        onChangeText={onChangeText}
+        secureTextEntry={secureTextEntry}
+      />
+    );
+  }
+);
 
 export default Input;
