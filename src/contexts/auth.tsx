@@ -8,7 +8,7 @@ import * as auth from '../services/auth';
 interface AuthContextData {
   signed: boolean;
   user: IUser | null;
-  signIn(): Promise<void>;
+  signIn(): Promise<any>;
   signOut(): void;
 }
 
@@ -40,6 +40,7 @@ export function AuthProvider({ children }) {
     setUser(response.user);
     await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
     await AsyncStorage.setItem('@RNAuth:token', response.token);
+    return response;
   }
 
   function signOut() {
