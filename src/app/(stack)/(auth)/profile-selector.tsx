@@ -24,7 +24,7 @@ export default function ProfileSelector() {
             }
             customStyles="w-64 justify-center space-x-2"
             onPress={() => {
-              router.replace({ pathname: 'sign-up', params: { donor: true } });
+              router.replace({ pathname: 'sign-up-donor' });
             }}
           >
             Sou doador
@@ -41,9 +41,7 @@ export default function ProfileSelector() {
               />
             }
             customStyles="w-64 justify-center space-x-2"
-            onPress={() =>
-              router.replace({ pathname: '/sign-up', params: { donor: false } })
-            }
+            onPress={() => router.replace({ pathname: '/sign-up-institution' })}
           >
             Sou Instituição
           </Button>
