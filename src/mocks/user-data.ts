@@ -4,19 +4,25 @@ export interface IUser {
   id: number;
   name: string;
   email: string;
-  following: number;
-  donations: number;
-  profileImage?: string;
+  phone: string;
+  cnpj: string;
+  createdAt: string;
+  profile: IUserProfile;
 }
 
-export const user: IUser = {
-  id: 1,
-  name: 'Reapp Admin',
-  email: 'reapp_admin@reapp.com',
-  following: 4,
-  donations: 4,
-  profileImage: 'https://placehold.co/600x400/png',
-};
+export interface IUserProfile {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  displayName: string;
+  avatar: string | null;
+  url: string | null;
+  uri: string | null;
+  following_count: number;
+  followers_count: number;
+  donations: number;
+  institutionId: number;
+}
 
 export interface IUserDonation {
   title: string;
