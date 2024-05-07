@@ -19,6 +19,7 @@
     "@react-navigation/native": "^6.1.16",
     "@react-navigation/stack": "^6.3.21",
     "@types/react": "~18.2.14",
+    "axios": "^1.6.8",
     "date-fns": "^3.3.1",
     "expo": "^50.0.13",
     "expo-av": "~13.10.5",
