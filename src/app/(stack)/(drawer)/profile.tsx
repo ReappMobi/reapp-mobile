@@ -22,10 +22,10 @@ const DrawerContent = (props) => {
     >
       <View className="bg-color_primary px-2 pb-4">
         <HeaderStatisticsProfile
-          image={user && user.profileImage}
+          image={user && user.profile.avatar}
           name={user && user.name}
-          donationsQty={user && user.donations}
-          followingQty={user && user.following}
+          donationsQty={user && user.profile.donations}
+          followingQty={user && user.profile.following_count}
         />
       </View>
       <View className="flex-1 bg-white px-4">
