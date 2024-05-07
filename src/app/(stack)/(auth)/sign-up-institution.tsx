@@ -2,14 +2,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, router } from 'expo-router';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Alert } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import { Button, Input } from 'src/components';
+import { useAuth } from 'src/hooks/useAuth';
 import { z } from 'zod';
 
 export default function SignUp() {
   const phoneRef = useRef(null);
   const cnpjRef = useRef(null);
+  const auth = useAuth();
 
   const signUpInstitutionFormSchema = z
     .object({
@@ -58,19 +60,24 @@ export default function SignUp() {
     resolver: zodResolver(signUpInstitutionFormSchema),
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     const unmaskPhone = phoneRef?.current.getRawValue();
     const unmaskCnpj = cnpjRef?.current.getRawValue();
     const dataReq = {
       name: data.name,
       password: data.password,
-      confirm_password: data.confirm_password,
+      confirmPassword: data.confirm_password,
       phone: unmaskPhone,
       email: data.email,
       cnpj: unmaskCnpj,
     };
-    console.log(dataReq);
-    clearHistory();
+    const res = await auth.institutionSignUp(dataReq);
+    if (res.error) {
+      Alert.alert('Erro no cadastro da instituição', res.error);
+    } else {
+      Alert.alert('Instituição cadastrada com sucesso!');
+      clearHistory();
+    }
   };
 
   const clearHistory = () => {
