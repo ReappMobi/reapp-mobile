@@ -1,10 +1,8 @@
-import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, router } from 'expo-router';
 import { useForm } from 'react-hook-form';
-import { View, Text } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import { Button, Input } from 'src/components';
-import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { z } from 'zod';
 
@@ -31,41 +29,16 @@ export default function SignIn() {
   });
 
   const onSubmit = async (data: any) => {
-    console.log(data);
-    const res = await auth.signIn();
+    const res = await auth.signInInstitution(data);
     if (res.user !== undefined) {
       router.replace('/');
+    } else {
+      Alert.alert('Erro no login da instituição', res.error);
     }
   };
 
   return (
     <View className="gap-3 px-4">
-      <View className="flex-row justify-center gap-2">
-        <View>
-          <Button customStyles="w-14 justify-center bg-color_third_light">
-            <Ionicons
-              name="logo-facebook"
-              size={24}
-              color={colors.text_neutral}
-            />
-          </Button>
-        </View>
-
-        <View>
-          <Button customStyles="w-14 justify-center bg-color_third_light">
-            <Ionicons
-              name="logo-google"
-              size={24}
-              color={colors.text_neutral}
-            />
-          </Button>
-        </View>
-      </View>
-
-      <Text className="text-center font-reapp_regular text-xs">
-        Ou cadastre-se com seu email
-      </Text>
-
       <View>
         <Text className="font-reapp_regular text-base">Email</Text>
         <Input
