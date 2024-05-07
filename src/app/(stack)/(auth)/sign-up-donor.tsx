@@ -3,10 +3,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, router } from 'expo-router';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Alert } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import { Button, Input } from 'src/components';
 import colors from 'src/constants/colors';
+import { useAuth } from 'src/hooks/useAuth';
 import { z } from 'zod';
 
 const signUpDonorFormSchema = z
@@ -39,6 +40,7 @@ type signUpDonorFormData = z.infer<typeof signUpDonorFormSchema>;
 
 export default function SignUp() {
   const phoneRef = useRef(null);
+  const auth = useAuth();
   const {
     register,
     setValue,
@@ -49,17 +51,22 @@ export default function SignUp() {
     resolver: zodResolver(signUpDonorFormSchema),
   });
 
-  const onSubmit = (data: any) => {
-    const unmaskPhone = phoneRef?.current.getRawValue();
+  const onSubmit = async (data: any) => {
+    //const unmaskPhone = phoneRef?.current.getRawValue();
     const dataReq = {
       name: data.name,
       password: data.password,
-      confirm_password: data.confirm_password,
-      phone: unmaskPhone,
+      // confirm_password: data.confirm_password,
+      // phone: unmaskPhone,
       email: data.email,
     };
-    console.log(dataReq);
-    clearHistory();
+    const res = await auth.donnorSignUp(dataReq);
+    if (res.error) {
+      Alert.alert('Erro no cadastro de doador', res.error);
+    } else {
+      Alert.alert('Doador cadastrado com sucesso!');
+      clearHistory();
+    }
   };
 
   const clearHistory = () => {
