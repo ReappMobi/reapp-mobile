@@ -9,7 +9,10 @@ interface AuthContextData {
   signed: boolean;
   user: IUser | null;
   signIn(): Promise<any>;
+  signInInstitution(data: any): Promise<any>;
   signOut(): void;
+  donnorSignUp(data: any): Promise<any>;
+  institutionSignUp(data: any): Promise<any>;
 }
 
 export const AuthContext = createContext<AuthContextData>(
@@ -43,6 +46,26 @@ export function AuthProvider({ children }) {
     return response;
   }
 
+  async function signInInstitution(data) {
+    const response = await auth.SignInInstitution(data);
+    if (response.user !== undefined) {
+      setUser(response.user);
+      await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
+      await AsyncStorage.setItem('@RNAuth:token', response.token);
+    }
+    return response;
+  }
+
+  async function donnorSignUp(data: any) {
+    const response = await auth.SignUpDonnor(data);
+    return response;
+  }
+
+  async function institutionSignUp(data: any) {
+    const response = await auth.SignUpInstitution(data);
+    return response;
+  }
+
   function signOut() {
     AsyncStorage.clear().then(() => {
       setUser(null);
@@ -58,7 +81,17 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ signed: !!user, user, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{
+        signed: !!user,
+        user,
+        signIn,
+        signInInstitution,
+        signOut,
+        donnorSignUp,
+        institutionSignUp,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
