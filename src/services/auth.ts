@@ -1,4 +1,5 @@
-import { user } from '../mocks/user-data';
+import api from './api';
+
 
 export async function SignIn() {
   // TODO: Implement the sign in logic
@@ -9,10 +10,57 @@ export async function SignIn() {
 
   return {
     token: 'eyJhbGciOiJIUzI1Ni.eyJzdWIiOiIxMjM0NTY3OD',
-    user,
+    //user,
   };
 }
 
-export async function SignUpUser(userData) {}
+export async function SignInInstitution(institutionData) {
+  try {
+    const response = await api.post('/institution/signin', institutionData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      validateStatus() {
+        return true;
+      },
+    });
 
-export async function SignUpInstitution(institutionData) {}
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao logar a instituição', error.message);
+  }
+}
+
+export async function SignUpDonnor(userData) {
+  try {
+    const response = await api.post('/donnor', userData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao registrar usuário doador:', error.message);
+  }
+}
+
+export async function SignUpInstitution(institutionData) {
+  try {
+    console.log(institutionData);
+    const response = await api.post('/institution/signup', institutionData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao registrar instituição:', error.message);
+  }
+}
