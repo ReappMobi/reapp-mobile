@@ -2,12 +2,17 @@ import { IProject } from 'src/types';
 
 export interface IUser {
   id: number;
-  name: string;
   email: string;
-  phone: string;
-  cnpj: string;
-  createdAt: string;
-  profile: IUserProfile;
+  password: string;
+  name: string;
+  avatar?: string;
+  url?: string;
+  uri?: string;
+  following_count: number;
+  followers_count: number | null;
+  donations: number | null;
+  phone: string | null;
+  displayName: string | null;
 }
 
 export interface IUserProfile {
