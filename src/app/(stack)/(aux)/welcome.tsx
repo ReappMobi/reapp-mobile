@@ -24,7 +24,7 @@ export default function Welcome() {
         customStyles="mt-8 w-64 justify-center gap-x-1"
         textColor="text-text_primary"
         textSize="text-lg"
-        onPress={() => router.replace('/login-selector')}
+        onPress={() => router.replace('/sign-in')}
       >
         Continuar
       </Button>
