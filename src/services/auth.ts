@@ -1,17 +1,20 @@
 import api from './api';
 
+export async function SignIn(data) {
+  try {
+    const response = await api.post('/auth', data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      validateStatus() {
+        return true;
+      },
+    });
 
-export async function SignIn() {
-  // TODO: Implement the sign in logic
-
-  setTimeout(() => {
-    console.log('Authenticating...');
-  }, 2000);
-
-  return {
-    token: 'eyJhbGciOiJIUzI1Ni.eyJzdWIiOiIxMjM0NTY3OD',
-    //user,
-  };
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
 }
 
 export async function SignInInstitution(institutionData) {
