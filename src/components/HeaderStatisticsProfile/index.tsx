@@ -34,9 +34,11 @@ function HeaderStatisticsProfile({
         <Text className="font-reapp_bold text-lg text-white">{name}</Text>
 
         <View className="flex flex-row items-center justify-between gap-x-2">
-          <Text className="text-small font-reapp_regular text-white">
-            {donationsQty} Doações
-          </Text>
+          {donationsQty && (
+            <Text className="text-small font-reapp_regular text-white">
+              {donationsQty} Doações
+            </Text>
+          )}
           <Text className="text-small font-reapp_regular text-white">
             {followingQty} Seguindo
           </Text>
