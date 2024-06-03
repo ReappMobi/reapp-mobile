@@ -69,7 +69,12 @@ const Header = memo<HeaderProps>(({ institution, loading, category }) => {
                 textColor="text-white"
                 size="small"
                 customStyles="mr-2 w-20 justify-center bg-color_primary"
-                onPress={() => router.push('/donate')}
+                onPress={() =>
+                  router.push({
+                    pathname: '/donate',
+                    params: { institutionId: institution.id },
+                  })
+                }
               >
                 Doar
               </Button>
