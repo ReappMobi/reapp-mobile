@@ -1,3 +1,4 @@
+import { useLocalSearchParams } from 'expo-router';
 import { openBrowserAsync } from 'expo-web-browser';
 import { useState } from 'react';
 import { View, Alert } from 'react-native';
@@ -14,21 +15,21 @@ const formatCurrency = (value: number) => {
 };
 
 const DonationMethodPage = () => {
+  const { institutionId, projectId } = useLocalSearchParams();
   const [value, setValue] = useState(0);
   const [description, setDescription] = useState('');
   const { user } = useAuth();
 
   const requestPayment = async () => {
-    //TODO: call apropriate endpoint, if is a donation for a institution, project or general
     const data = {
       price: value / 100,
       userId: user.id,
-      institutionId: 1,
+      institutionId: Number(institutionId),
       description,
+      projectId: Number(projectId),
     };
 
     const response = await requestPaymentUrl(data);
-
     if (response.error) {
       Alert.alert('Erro interno, tente novamente mais tarde.');
     } else {
