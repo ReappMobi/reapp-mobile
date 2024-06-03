@@ -1,9 +1,10 @@
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { View, Text } from 'react-native';
 import DonationScreenImage from 'src/assets/images/DonationScreenImage.svg';
 import { Button } from 'src/components';
 
 const DonationPage = () => {
+  const { institutionId, projectId } = useLocalSearchParams();
   return (
     <View className="px-4">
       <View className="items-center">
@@ -29,7 +30,13 @@ const DonationPage = () => {
             <Button
               customStyles="justify-center"
               onPress={() => {
-                router.push('/donation-method');
+                router.push({
+                  pathname: '/donation-method',
+                  params: {
+                    institutionId,
+                    projectId,
+                  },
+                });
               }}
             >
               Doação pontual
@@ -42,7 +49,7 @@ const DonationPage = () => {
             <Button
               customStyles="justify-center"
               onPress={() => {
-                router.push('/donation-qrcode');
+                router.push('/donation-invoice');
               }}
             >
               Nota Fiscal
