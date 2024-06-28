@@ -1,6 +1,4 @@
-# Reapp
-
-Uma rede social livre que conecta pessoas as ONGs.
+# Reapp Frontend
 
 ## Novos commits
 
