@@ -112,7 +112,10 @@ const ProjectPage = () => {
                 />
               }
               onPress={() => {
-                return router.navigate('donate');
+                return router.navigate({
+                  pathname: 'donate',
+                  params: { projectId },
+                });
               }}
             >
               Clique aqui e faça sua doação

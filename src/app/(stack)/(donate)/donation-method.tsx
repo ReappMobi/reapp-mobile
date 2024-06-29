@@ -1,8 +1,11 @@
-import { router } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
+import { openBrowserAsync } from 'expo-web-browser';
 import { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Alert } from 'react-native';
 import DonationTaxReceiptImage from 'src/assets/images/DonationTaxReceiptImage.svg';
 import { Button, Input } from 'src/components';
+import { useAuth } from 'src/hooks/useAuth';
+import { requestPaymentUrl } from 'src/services/payment';
 
 const formatCurrency = (value: number) => {
   return new Intl.NumberFormat('pt-BR', {
@@ -12,13 +15,26 @@ const formatCurrency = (value: number) => {
 };
 
 const DonationMethodPage = () => {
+  const { institutionId, projectId } = useLocalSearchParams();
   const [value, setValue] = useState(0);
+  const [description, setDescription] = useState('');
+  const { user } = useAuth();
 
-  const handleNavigate = () => {
-    router.replace({
-      pathname: '/donation-confirm',
-      params: { value: formatCurrency(value) },
-    });
+  const requestPayment = async () => {
+    const data = {
+      price: value / 100,
+      userId: user.id,
+      institutionId: Number(institutionId),
+      description,
+      projectId: Number(projectId),
+    };
+
+    const response = await requestPaymentUrl(data);
+    if (response.error) {
+      Alert.alert('Erro interno, tente novamente mais tarde.');
+    } else {
+      openBrowserAsync(response.result);
+    }
   };
 
   const handleChange = (value: string) => {
@@ -45,30 +61,20 @@ const DonationMethodPage = () => {
           <Input
             placeholder="Adicionar Descrição"
             customStyle="text-center text-xl"
+            value={description}
+            onChangeText={setDescription}
           />
         </View>
       </View>
 
-      <Text className="mb-4 text-center font-reapp_bold text-xl">
-        Qual a forma de pagamento?
-      </Text>
-
-      <View className="gap-y-3 px-4">
-        <View>
-          <Button customStyles="justify-center" onPress={handleNavigate}>
-            Crédito
-          </Button>
-        </View>
-        <View>
-          <Button customStyles="justify-center" onPress={handleNavigate}>
-            Pix
-          </Button>
-        </View>
-        <View>
-          <Button customStyles="justify-center" onPress={handleNavigate}>
-            Boleto
-          </Button>
-        </View>
+      <View>
+        <Button
+          customStyles="justify-center bg-color_primary"
+          onPress={requestPayment}
+          textColor="text-text_light"
+        >
+          Continuar
+        </Button>
       </View>
     </View>
   );

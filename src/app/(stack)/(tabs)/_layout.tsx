@@ -52,7 +52,7 @@ const TabLayout = () => {
             headerLeft: () => (
               <Pressable onPress={onToggle}>
                 <Image
-                  source={{ uri: user.profile.avatar }}
+                  source={{ uri: user.avatar }}
                   className="h-9 w-9 rounded-full"
                 />
               </Pressable>

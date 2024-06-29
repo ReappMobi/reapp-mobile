@@ -8,8 +8,7 @@ import * as auth from '../services/auth';
 interface AuthContextData {
   signed: boolean;
   user: IUser | null;
-  signIn(): Promise<any>;
-  signInInstitution(data: any): Promise<any>;
+  signIn(data: any): Promise<any>;
   signOut(): void;
   donnorSignUp(data: any): Promise<any>;
   institutionSignUp(data: any): Promise<any>;
@@ -38,21 +37,14 @@ export function AuthProvider({ children }) {
     loadStorageData();
   }, []);
 
-  async function signIn() {
-    const response = await auth.SignIn();
-    setUser(response.user);
-    await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
-    await AsyncStorage.setItem('@RNAuth:token', response.token);
-    return response;
-  }
-
-  async function signInInstitution(data) {
-    const response = await auth.SignInInstitution(data);
+  async function signIn(data) {
+    const response = await auth.SignIn(data);
     if (response.user !== undefined) {
       setUser(response.user);
       await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
       await AsyncStorage.setItem('@RNAuth:token', response.token);
     }
+
     return response;
   }
 
@@ -86,7 +78,6 @@ export function AuthProvider({ children }) {
         signed: !!user,
         user,
         signIn,
-        signInInstitution,
         signOut,
         donnorSignUp,
         institutionSignUp,
