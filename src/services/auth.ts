@@ -1,6 +1,5 @@
 import api from './api';
 
-
 export async function SignIn() {
   // TODO: Implement the sign in logic
 

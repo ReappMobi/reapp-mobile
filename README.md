@@ -1,42 +1,40 @@
-# Reapp
+# Reapp Frontend
 
-Uma rede social livre que conecta pessoas as ONGs.
+## New commits
 
-## Novos commits
+New commits that have the potential to impact the project, such as adding features, fixing bugs, updating dependencies, changing business logic, among others, should be submitted in a new branch and later integrated through the merge process. It is imperative to avoid committing directly to the main branch, thus ensuring a more controlled and stable code management.
 
-Os novos commits que têm o potencial de impactar o projeto, como adição de funcionalidades, correção de bugs, atualizações de dependências, alterações na lógica de negócios, entre outros, devem ser submetidos em uma nova branch e posteriormente integrados através do processo de merge. É imperativo evitar commits diretamente na branch principal (main), garantindo assim uma gestão mais controlada e estável do código.
+## branch names
 
-## Nomes das branchs
+`feature`:  used to add, refactor, or remove a feature.
 
-`feature` (funcionalidade): utilizado para adicionar, refatorar ou remover uma funcionalidade.
+`bugfix`: used to fix a bug.
 
-`bugfix` (correção de bug): utilizado para corrigir um bug.
+`test`: used to experiment outside of a specific problem/task.
 
-`test` (teste/experimento): utilizado para experimentar fora de um problema/tarefa específica.
+#### Examples
 
-#### Exemplos
-
-Você precisa adicionar, refatorar ou remover uma funcionalidade:
+You need to add, refactor, or remove a feature:
 
 - `git branch feature/create-new-button-component`
 
-Você precisa corrigir um bug:
+You need to fix a bug:
 
 - `git branch bugfix/button-not-working-iphone`
 
-Você precisa realizar experimentos:
+You need to perform experiments:
 
 - `git branch test/apply-new-hover-effect`
 
-## Rodando Localmente
+## Running Locally
 
-Clone o projeto
+Clone the project
 
 ```bash
   git clone [link-projeto]
 ```
 
-Vá para pasta do projeto
+Go to the project directory
 
 ```bash
   cd reaap-frontend
@@ -48,7 +46,7 @@ Install dependencies
   npm install
 ```
 
-Rodando o projeto
+Run the project
 
 ```bash
   npm run start
