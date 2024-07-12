@@ -9,8 +9,10 @@ interface AuthContextData {
   signed: boolean;
   user: IUser | null;
   signIn(data: any): Promise<any>;
+  signInGoogle(data: any): Promise<any>;
   signOut(): void;
   donnorSignUp(data: any): Promise<any>;
+  donnorSignUpGoogle(data: any): Promise<any>;
   institutionSignUp(data: any): Promise<any>;
 }
 
@@ -48,8 +50,24 @@ export function AuthProvider({ children }) {
     return response;
   }
 
+  async function signInGoogle(data) {
+    const response = await auth.SignInGoogle(data);
+    if (response.user !== undefined) {
+      setUser(response.user);
+      await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
+      await AsyncStorage.setItem('@RNAuth:token', response.token);
+    }
+
+    return response;
+  }
+
   async function donnorSignUp(data: any) {
     const response = await auth.SignUpDonnor(data);
+    return response;
+  }
+
+  async function donnorSignUpGoogle(data: any) {
+    const response = await auth.SignUpDonnorGoogle(data);
     return response;
   }
 
@@ -78,8 +96,10 @@ export function AuthProvider({ children }) {
         signed: !!user,
         user,
         signIn,
+        signInGoogle,
         signOut,
         donnorSignUp,
+        donnorSignUpGoogle,
         institutionSignUp,
       }}
     >
