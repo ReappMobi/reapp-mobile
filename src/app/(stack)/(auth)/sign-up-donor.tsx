@@ -1,5 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 import { Link, router } from 'expo-router';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
@@ -10,6 +14,12 @@ import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { z } from 'zod';
 
+// Botar no .env
+GoogleSignin.configure({
+  webClientId:
+    '831403833609-voubrli7i5ei1qqr4pmu3sgpq7k9b3mc.apps.googleusercontent.com',
+});
+
 const signUpDonorFormSchema = z
   .object({
     email: z
@@ -19,11 +29,12 @@ const signUpDonorFormSchema = z
       .string({ required_error: 'O nome é obrigatório.' })
       .max(25, 'O nome deve ter no máximo 25 caracteres'),
     phone: z
-      .string({ required_error: 'O telefone é obrigatório.' })
+      .string()
       .regex(
         /^\(\d{2}\) \d{5}-\d{4}$/,
         'O telefone não está no formato correto'
-      ),
+      )
+      .optional(),
     password: z
       .string({ required_error: 'A senha é obrigatória.' })
       .min(8, 'A senha deve ter pelo menos 8 caracteres.'),
@@ -52,12 +63,11 @@ export default function SignUp() {
   });
 
   const onSubmit = async (data: any) => {
-    //const unmaskPhone = phoneRef?.current.getRawValue();
+    const unmaskPhone = phoneRef?.current.getRawValue();
     const dataReq = {
       name: data.name,
       password: data.password,
-      // confirm_password: data.confirm_password,
-      // phone: unmaskPhone,
+      telephone: unmaskPhone,
       email: data.email,
     };
     const res = await auth.donnorSignUp(dataReq);
@@ -67,6 +77,49 @@ export default function SignUp() {
       Alert.alert('Doador cadastrado com sucesso!');
       clearHistory();
     }
+  };
+
+  const onSubmitGoogle = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      const res = await auth.donnorSignUpGoogle({ idToken: userInfo.idToken });
+      if (res.error) {
+        Alert.alert('Erro no cadastro de doador', res.error);
+      } else {
+        Alert.alert('Doador cadastrado com sucesso!');
+        clearHistory();
+      }
+    } catch (error) {
+      if (isErrorWithCode(error)) {
+        switch (error.code) {
+          case statusCodes.SIGN_IN_CANCELLED:
+            Alert.alert('Autenticação cancelada');
+            break;
+          case statusCodes.IN_PROGRESS:
+            Alert.alert('Autenticação em andamento');
+            break;
+          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+            Alert.alert('Autenticação com o Google não disponível no momento');
+            break;
+          default:
+            Alert.alert(
+              'Autenticação com o Google falhou. Tente novamente mais tarde'
+            );
+        }
+      } else {
+        Alert.alert(
+          'Autenticação com o Google falhou. Tente novamente mais tarde'
+        );
+      }
+    }
+  };
+
+  const isErrorWithCode = (error) => {
+    if (error.code) {
+      return true;
+    }
+    return false;
   };
 
   const clearHistory = () => {
@@ -82,6 +135,7 @@ export default function SignUp() {
       <View className="px-4 py-2">
         <View className="gap-4">
           <View className="flex-row justify-center gap-2">
+            {/*
             <View>
               <Button customStyles="w-14 justify-center bg-color_third_light">
                 <Ionicons
@@ -91,14 +145,21 @@ export default function SignUp() {
                 />
               </Button>
             </View>
+            */}
 
-            <View>
-              <Button customStyles="w-14 justify-center bg-color_third_light">
-                <Ionicons
-                  name="logo-google"
-                  size={24}
-                  color={colors.text_neutral}
-                />
+            <View className="items-center">
+              <Button
+                customStyles="w-11/12"
+                startIcon={
+                  <Ionicons
+                    name="logo-google"
+                    size={24}
+                    color={colors.text_neutral}
+                  />
+                }
+                onPress={onSubmitGoogle}
+              >
+                Cadastre-se com Google
               </Button>
             </View>
           </View>
@@ -108,7 +169,7 @@ export default function SignUp() {
           </Text>
 
           <View>
-            <Text className="text-md font-reapp_regular">Email</Text>
+            <Text className="text-md font-reapp_regular">Email *</Text>
 
             <Input
               placeholder="exemplo@dominio.com"
@@ -127,7 +188,9 @@ export default function SignUp() {
           </View>
 
           <View>
-            <Text className="text-md font-reapp_regular">Nome de usuário</Text>
+            <Text className="text-md font-reapp_regular">
+              Nome de usuário *
+            </Text>
 
             <Input
               placeholder="Nome"
@@ -175,7 +238,7 @@ export default function SignUp() {
           </View>
 
           <View>
-            <Text className="text-md font-reapp_regular">Senha</Text>
+            <Text className="text-md font-reapp_regular">Senha *</Text>
 
             <Input
               placeholder="Senha (mínimo 8 caracteres)"
@@ -195,7 +258,9 @@ export default function SignUp() {
           </View>
 
           <View>
-            <Text className="text-md font-reapp_regular">Confirmar senha</Text>
+            <Text className="text-md font-reapp_regular">
+              Confirmar senha *
+            </Text>
 
             <Input
               placeholder="Confirme a senha"
