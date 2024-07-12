@@ -1,5 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 import { Link, router } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
@@ -17,6 +21,12 @@ const signInFormSchema = z.object({
 });
 
 type signInFormData = z.infer<typeof signInFormSchema>;
+
+// Botar no .env
+GoogleSignin.configure({
+  webClientId:
+    '831403833609-voubrli7i5ei1qqr4pmu3sgpq7k9b3mc.apps.googleusercontent.com',
+});
 
 export default function SignIn() {
   const auth = useAuth();
@@ -40,32 +50,85 @@ export default function SignIn() {
     }
   };
 
+  const onSubmitGoogle = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      const res = await auth.signInGoogle({
+        idToken: userInfo.idToken,
+        clientId: userInfo.user.id,
+      });
+      if (res.user !== undefined) {
+        router.replace('/');
+      } else {
+        Alert.alert('Erro no login', res.error);
+      }
+    } catch (error) {
+      if (isErrorWithCode(error)) {
+        switch (error.code) {
+          case statusCodes.SIGN_IN_CANCELLED:
+            Alert.alert('Autenticação cancelada');
+            break;
+          case statusCodes.IN_PROGRESS:
+            Alert.alert('Autenticação em andamento');
+            break;
+          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+            Alert.alert('Autenticação com o Google não disponível no momento');
+            break;
+          default:
+            Alert.alert(
+              'Autenticação com o Google falhou. Tente novamente mais tarde'
+            );
+        }
+      } else {
+        Alert.alert(
+          'Autenticação com o Google falhou. Tente novamente mais tarde'
+        );
+      }
+    }
+  };
+
+  const isErrorWithCode = (error) => {
+    if (error.code) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <View className="gap-3 px-4">
       <View className="flex-row justify-center gap-2">
-        <View>
-          <Button customStyles="w-14 justify-center bg-color_third_light">
-            <Ionicons
-              name="logo-facebook"
-              size={24}
-              color={colors.text_neutral}
-            />
-          </Button>
-        </View>
+        {/* 
+          <View>
+            <Button customStyles="w-14 justify-center bg-color_third_light">
+              <Ionicons
+                name="logo-facebook"
+                size={24}
+                color={colors.text_neutral}
+              />
+            </Button>
+          </View>
+        */}
 
-        <View>
-          <Button customStyles="w-14 justify-center bg-color_third_light">
-            <Ionicons
-              name="logo-google"
-              size={24}
-              color={colors.text_neutral}
-            />
+        <View className="items-center">
+          <Button
+            customStyles="w-3/4"
+            startIcon={
+              <Ionicons
+                name="logo-google"
+                size={24}
+                color={colors.text_neutral}
+              />
+            }
+            onPress={onSubmitGoogle}
+          >
+            Login com Google
           </Button>
         </View>
       </View>
 
       <Text className="text-center font-reapp_regular text-xs">
-        Ou cadastre-se com seu email
+        Ou faça o login com seu email
       </Text>
 
       <View>

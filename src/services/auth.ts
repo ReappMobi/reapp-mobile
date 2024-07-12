@@ -17,6 +17,23 @@ export async function SignIn(data) {
   }
 }
 
+export async function SignInGoogle(data) {
+  try {
+    const response = await api.post('/auth/google-auth', data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
 export async function SignInInstitution(institutionData) {
   try {
     const response = await api.post('/institution/signin', institutionData, {
@@ -51,9 +68,24 @@ export async function SignUpDonnor(userData) {
   }
 }
 
+export async function SignUpDonnorGoogle(userData) {
+  try {
+    const response = await api.post('/donnor/auth-google', userData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao registrar usuário doador:', error.message);
+  }
+}
+
 export async function SignUpInstitution(institutionData) {
   try {
-    console.log(institutionData);
     const response = await api.post('/institution/signup', institutionData, {
       headers: {
         'Content-Type': 'application/json',
