@@ -19,7 +19,7 @@ function HeaderStatisticsProfile({
   followingQty,
 }: Props) {
   return (
-    <View className="flex flex-row items-center justify-start gap-x-5">
+    <View className="flex w-3/4 flex-row items-center justify-start gap-x-5">
       <View>
         <Image
           className="h-12 w-12 rounded-full"
@@ -31,8 +31,9 @@ function HeaderStatisticsProfile({
       </View>
 
       <View>
-        <Text className="font-reapp_bold text-lg text-white">{name}</Text>
-
+        <View className="text-wrap">
+          <Text className="font-reapp_bold text-lg text-white">{name}</Text>
+        </View>
         <View className="flex flex-row items-center justify-between gap-x-2">
           {donationsQty && (
             <Text className="text-small font-reapp_regular text-white">
