@@ -42,6 +42,12 @@
           "microphonePermission": "Allow Reapp to access your microphone",
           "recordAudioAndroid": true
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Reapp to access your photos."
+        }
       ]
     ]
   }
