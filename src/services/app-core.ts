@@ -11,12 +11,11 @@ import {
   IDonationSegment,
   donationsBySegment,
 } from 'src/mocks/app-donationSegment-data';
-import { institutions } from 'src/mocks/app-institution-data';
-import { posts } from 'src/mocks/app-institution-post-data';
-import { allPosts } from 'src/mocks/app-posts-data';
 import { projects } from 'src/mocks/app-projects-data';
 import { projectCategories } from 'src/mocks/app-projectsCategory-data';
-import { IBanner, IInstitution, IPost, IProject } from 'src/types';
+import { IBanner, IProject } from 'src/types';
+
+import api from './api';
 
 export async function getSharedCampaigns(): Promise<IBanner[]> {
   return new Promise((resolve) => {
@@ -28,13 +27,81 @@ export async function getSharedCampaigns(): Promise<IBanner[]> {
 }
 
 /**TODO: fix Post type in this function */
-export async function getPosts(): Promise<any> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('fetching posts...');
-      resolve(allPosts);
-    }, 1000);
-  });
+export async function getPosts(data) {
+  try {
+    const response = await api.get('/post', {
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function getInstitutions(data) {
+  try {
+    const response = await api.get('/institution', {
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function getInstitutionById(institutionId: number, token: string) {
+  try {
+    const response = await api.get(`/institution/${institutionId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function postPublication(postData) {
+  try {
+    const formData = new FormData();
+    formData.append('caption', postData.caption);
+    formData.append('institutionId', postData.institutionId);
+    if (postData.image) {
+      const timestamp = Date.now();
+      formData.append('image', {
+        uri: postData.image,
+        name: `${timestamp}.jpg`,
+        type: 'image/jpeg',
+      } as any);
+    }
+
+    const response = await api.post('/post', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${postData.token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
 }
 
 export async function getProjects(): Promise<IProject[]> {
@@ -50,15 +117,6 @@ export async function getProjectById(id: number): Promise<IProject> {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(projects.find((project) => project.id === id));
-    }, 1000);
-  });
-}
-
-export async function getInstitutions(): Promise<IInstitution[]> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('fetching institutions...');
-      resolve(institutions);
     }, 1000);
   });
 }
@@ -108,13 +166,23 @@ export async function getCategoryById(id: number): Promise<ICategory> {
 }
 
 export async function getInstituitionPosts(
-  institutionId: number
-): Promise<IPost[]> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(posts);
-    }, 1000);
-  });
+  institutionId: number,
+  token: string
+) {
+  try {
+    const response = await api.get(`/post/${institutionId}`, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
 }
 
 export async function getInstituitionProjects(
@@ -157,18 +225,6 @@ export async function getVolunteersById(institutionId: number) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([]);
-    }, 1000);
-  });
-}
-
-export async function getInstitutionById(
-  institutionId: number
-): Promise<IInstitution> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(
-        institutions.find((institution) => institution.id === institutionId)
-      );
     }, 1000);
   });
 }
