@@ -10,7 +10,7 @@ import { useAuth } from 'src/hooks/useAuth';
 
 const DrawerContent = (props) => {
   const navigation = useNavigation();
-  const { user, signOut } = useAuth();
+  const { user, signOut, isDonor } = useAuth();
 
   return (
     <DrawerContentScrollView
@@ -26,11 +26,22 @@ const DrawerContent = (props) => {
           name={user && user.name}
           donationsQty={user && user.donations}
           followingQty={user && user.following_count}
+          followersQty={user && user.followers_count}
         />
       </View>
       <View className="flex-1 bg-white px-4">
         <View className="mt-4">
-          <TouchableOpacity className="mb-4 flex-row justify-between">
+          <TouchableOpacity
+            className="mb-4 flex-row justify-between"
+            onPress={() => {
+              navigation.dispatch(DrawerActions.closeDrawer());
+              if (isDonor) {
+                router.push('/editInformationDonor');
+              } else {
+                router.push('/editInformationInstitution');
+              }
+            }}
+          >
             <Text className="font-reapp_bold text-xl">Editar informações</Text>
             <Ionicons name="settings-sharp" size={24} color="black" />
           </TouchableOpacity>
