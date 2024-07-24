@@ -1,10 +1,12 @@
 export interface IPost {
+  caption: string;
   id: number;
-  userImageUrl: string;
-  postImageUrl: string;
-  nameInstitution: string;
-  description: string;
-  timeAgo: string;
+  imageUrl: string;
+  institution: {
+    avatar: string | null;
+    name: string;
+  };
+  updatedAt: string;
 }
 
 export const allPosts: IPost[] = [
