@@ -11,6 +11,8 @@ type InputProps = {
   onChangeText?: (text: string) => void;
   secureTextEntry?: boolean;
   customStyle?: string;
+  multiline?: boolean;
+  numberOfLines?: number;
 };
 
 const Input = React.forwardRef<TextInput, InputProps>(
@@ -23,6 +25,8 @@ const Input = React.forwardRef<TextInput, InputProps>(
       onChangeText,
       secureTextEntry,
       customStyle,
+      multiline,
+      numberOfLines,
     },
     ref
   ) => {
@@ -45,6 +49,8 @@ const Input = React.forwardRef<TextInput, InputProps>(
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
+        multiline={multiline}
+        numberOfLines={numberOfLines}
       />
     );
   }
