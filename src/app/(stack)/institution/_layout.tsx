@@ -10,7 +10,8 @@ import { router, useLocalSearchParams, withLayoutContext } from 'expo-router';
 import { memo, useEffect, useMemo, useState } from 'react';
 import { View, Text } from 'react-native';
 import { ScreenContainer, LoadingBox, Button } from 'src/components';
-import { getCategoryById, getInstitutionById } from 'src/services/app-core';
+import { useAuth } from 'src/hooks/useAuth';
+import { getInstitutionById } from 'src/services/app-core';
 import { IInstitution } from 'src/types';
 
 const { Navigator } = createMaterialTopTabNavigator();
@@ -32,12 +33,13 @@ type HeaderProps = {
 };
 
 const Header = memo<HeaderProps>(({ institution, loading, category }) => {
+  const { isDonor } = useAuth();
   return (
     <View>
-      <View className="flex-row items-center space-x-2 py-4 ">
+      <View className="mt-4 flex-row items-center space-x-2 py-4 ">
         <Image
           className="h-16 w-16 rounded-full"
-          source={institution ? institution.image : ''}
+          source={institution ? institution.avatar : ''}
           placeholder={blurhash}
           contentFit="cover"
           transition={500}
@@ -52,65 +54,69 @@ const Header = memo<HeaderProps>(({ institution, loading, category }) => {
             <View>
               <Text className="text-md pb-2 font-reapp_medium">{category}</Text>
               <Text className="text-md pb-2 font-reapp_medium">
-                {institution ? institution.address : ''}
+                {institution ? `${institution.city}/${institution.state}` : ''}
               </Text>
             </View>
           )}
-          <View className="space-y-2">
-            <Button
-              textColor="text-white"
-              size="small"
-              customStyles="justify-center bg-color_primary"
-            >
-              Seguir
-            </Button>
-            <View className="flex-row">
+          {isDonor && (
+            <View className="space-y-2">
               <Button
                 textColor="text-white"
                 size="small"
-                customStyles="mr-2 w-20 justify-center bg-color_primary"
-                onPress={() =>
-                  router.push({
-                    pathname: '/donate',
-                    params: { institutionId: institution.id },
-                  })
-                }
+                customStyles="justify-center bg-color_primary"
               >
-                Doar
+                Seguir
               </Button>
-              <Button
-                startIcon={
-                  <Ionicons name="chevron-forward" size={20} color="#000" />
-                }
-                customStyles="flex-1 items-center justify-start space-x-1"
-                size="small"
-                textSize="text-sm"
-              >
-                Quero ser voluntário
-              </Button>
+              <View className="flex-row">
+                <Button
+                  textColor="text-white"
+                  size="small"
+                  customStyles="mr-2 w-20 justify-center bg-color_primary"
+                  onPress={() =>
+                    router.push({
+                      pathname: '/donate',
+                      params: { institutionId: institution.id },
+                    })
+                  }
+                >
+                  Doar
+                </Button>
+                <Button
+                  startIcon={
+                    <Ionicons name="chevron-forward" size={20} color="#000" />
+                  }
+                  customStyles="flex-1 items-center justify-start space-x-1"
+                  size="small"
+                  textSize="text-sm"
+                >
+                  Quero ser voluntário
+                </Button>
+              </View>
             </View>
-          </View>
+          )}
         </View>
       </View>
       <View className="flex-row justify-center space-x-2 py-4">
         <Text className="text-md font-reapp_medium">
           <Text className="text-md font-reapp_bold text-text_primary">
-            {institution ? institution.followers : ''}
+            {institution ? institution.followers_count : ''}
           </Text>
           {` Seguidores`}
         </Text>
         <Text className="text-md font-reapp_medium">
           <Text className="text-md font-reapp_bold text-text_primary">
-            {institution ? institution.donorsQty : ''}
+            {institution ? institution.donations : ''}
           </Text>
           {` Doadores`}
         </Text>
+        {/* 
         <Text className="text-md font-reapp_medium">
           <Text className="text-md font-reapp_bold text-text_primary">
             {institution ? institution.partnersQty : ''}
           </Text>
           {` Parceiros`}
         </Text>
+        */}
       </View>
     </View>
   );
@@ -119,23 +125,22 @@ const Header = memo<HeaderProps>(({ institution, loading, category }) => {
 const Layout = () => {
   const params = useLocalSearchParams();
   const { id } = params;
-
+  const auth = useAuth();
   const idString = id as string;
 
   const idNumber: number = parseInt(idString, 10);
 
   const [institution, setInstitution] = useState<IInstitution>(null);
-  const [category, setCategory] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    getInstitutionById(idNumber).then((institution) => {
-      getCategoryById(institution.categoryId).then((category) => {
-        setCategory(category.category);
-      });
+    (async () => {
+      const token = await auth.getToken();
+      const institution = await getInstitutionById(idNumber, token);
+      console.log(institution);
       setInstitution(institution);
       setLoading(false);
-    });
+    })();
   }, []);
 
   const renderLabel = useMemo(() => {
@@ -152,7 +157,11 @@ const Layout = () => {
 
   return (
     <ScreenContainer>
-      <Header institution={institution} loading={loading} category={category} />
+      <Header
+        institution={institution && institution}
+        loading={loading}
+        category={institution && institution.category}
+      />
 
       {loading ? (
         <View>
