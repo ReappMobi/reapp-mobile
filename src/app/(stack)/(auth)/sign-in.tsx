@@ -128,7 +128,7 @@ export default function SignIn() {
       </View>
 
       <Text className="text-center font-reapp_regular text-xs">
-        Ou faça o login com seu email
+        Ou entre com seu email e senha
       </Text>
 
       <View>
