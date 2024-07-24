@@ -98,7 +98,7 @@ function CardPost({
 
           <Image
             className="h-full w-full rounded-md"
-            source={imagePath}
+            source={{ uri: imagePath }}
             placeholder={blurhash}
             contentFit="cover"
             transition={500}
