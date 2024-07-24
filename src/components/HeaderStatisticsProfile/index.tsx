@@ -1,12 +1,14 @@
 import { Image } from 'expo-image';
 import React from 'react';
 import { View, Text } from 'react-native';
+import { useAuth } from 'src/hooks/useAuth';
 
 type Props = {
   image?: string;
   name?: string;
   donationsQty?: number;
   followingQty?: number;
+  followersQty?: number;
 };
 
 const blurhash: string =
@@ -17,7 +19,9 @@ function HeaderStatisticsProfile({
   name,
   donationsQty,
   followingQty,
+  followersQty,
 }: Props) {
+  const { isDonor } = useAuth();
   return (
     <View className="flex w-3/4 flex-row items-center justify-start gap-x-5">
       <View>
@@ -40,9 +44,15 @@ function HeaderStatisticsProfile({
               {donationsQty} Doações
             </Text>
           )}
-          <Text className="text-small font-reapp_regular text-white">
-            {followingQty} Seguindo
-          </Text>
+          {isDonor ? (
+            <Text className="text-small font-reapp_regular text-white">
+              {followingQty} Seguindo
+            </Text>
+          ) : (
+            <Text className="text-small font-reapp_regular text-white">
+              {followersQty} Seguidores
+            </Text>
+          )}
         </View>
       </View>
     </View>
