@@ -20,6 +20,7 @@ import {
 import { Modalize } from 'react-native-modalize';
 import { ExploreScreenCard, CardSearch, LoadingBox } from 'src/components';
 import Colors from 'src/constants/colors';
+import { useAuth } from 'src/hooks/useAuth';
 import { useSearch } from 'src/hooks/useSearch';
 import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
 import {
@@ -61,15 +62,6 @@ const Modal = memo(() => {
 
       <TouchableOpacity>
         <View className="flex-row gap-x-2">
-          <Ionicons name="heart-outline" size={24} color="white" />
-          <Text className="font-reapp_medium text-base text-text_light">
-            Favoritar
-          </Text>
-        </View>
-      </TouchableOpacity>
-
-      <TouchableOpacity>
-        <View className="flex-row gap-x-2">
           <Ionicons name="close" size={24} color="white" />
           <Text className="font-reapp_medium text-base text-text_light">
             Remover dos seguidos
@@ -85,7 +77,7 @@ const RenderItem = memo<RenderItemProps>(({ item, onOpen, onPressCard }) => {
     <ExploreScreenCard
       title={item.name}
       isInstitution
-      imageUrl={item.image}
+      imageUrl={item.avatar}
       onPressInfo={onOpen}
       onPressCard={() => onPressCard(item)}
     />
@@ -97,7 +89,7 @@ const RenderCardSearch = memo<RenderCardSearchProps>(
     if (searchPhrase === '') {
       return (
         <CardSearch
-          imageUrl={item.image}
+          imageUrl={item.avatar}
           title={item.name}
           onPress={() => onPressCard(item)}
         />
@@ -111,7 +103,7 @@ const RenderCardSearch = memo<RenderCardSearchProps>(
     ) {
       return (
         <CardSearch
-          imageUrl={item.image}
+          imageUrl={item.avatar}
           title={item.name}
           onPress={() => onPressCard(item)}
         />
@@ -143,10 +135,12 @@ const InstitutionsPage = () => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [loadingInstitutions, setLoadingInstitutions] = useState(true);
   const { isSearchActive, searchQuery } = useSearch();
+  const auth = useAuth();
 
   useEffect(() => {
     (async () => {
-      const institutionsData = await getInstitutions();
+      const token = await auth.getToken();
+      const institutionsData = await getInstitutions({ token });
       setInstitutions(institutionsData);
       const categoriesData = await getInstituitionCategories();
       setCategories(categoriesData);
@@ -160,7 +154,7 @@ const InstitutionsPage = () => {
         title: category.category,
         data: [
           institutions.filter(
-            (institution) => institution.categoryId === category.id
+            (institution) => institution.category === category.category
           ),
         ],
       };

@@ -1,17 +1,23 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { jwtDecode } from 'jwt-decode';
 import React, { createContext, useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
-import { IUser } from '../mocks/user-data';
+import { IDonor, IInstitution } from '../mocks/user-data';
 import * as auth from '../services/auth';
+import 'core-js/stable/atob';
 
 interface AuthContextData {
   signed: boolean;
-  user: IUser | null;
+  user: IDonor | IInstitution | null;
+  isDonor: boolean | null;
   signIn(data: any): Promise<any>;
+  signInGoogle(data: any): Promise<any>;
   signOut(): void;
   donnorSignUp(data: any): Promise<any>;
+  donnorSignUpGoogle(data: any): Promise<any>;
   institutionSignUp(data: any): Promise<any>;
+  getToken(): Promise<string | null>;
 }
 
 export const AuthContext = createContext<AuthContextData>(
@@ -19,19 +25,42 @@ export const AuthContext = createContext<AuthContextData>(
 );
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState<IUser | null>(null);
+  const [user, setUser] = useState<IDonor | IInstitution | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isDonor, setIsDonor] = useState<boolean | null>(null);
 
   useEffect(() => {
     async function loadStorageData() {
-      const storagedUser = await AsyncStorage.getItem('@RNAuth:user');
-      const storagedToken = await AsyncStorage.getItem('@RNAuth:token');
+      try {
+        const storagedUser = await AsyncStorage.getItem('@RNAuth:user');
+        const storagedIsDonor = await AsyncStorage.getItem('@RNAuth:isDonor');
+        const storagedToken = await AsyncStorage.getItem('@RNAuth:token');
 
-      if (storagedUser && storagedToken) {
-        setUser(JSON.parse(storagedUser));
+        if (storagedUser && storagedToken) {
+          const decodedToken = jwtDecode(storagedToken);
+          const currentTime = Date.now() / 1000; // Tempo atual em segundos
+
+          if (decodedToken.exp > currentTime) {
+            setUser(JSON.parse(storagedUser));
+            setIsDonor(JSON.parse(storagedIsDonor));
+          } else {
+            await AsyncStorage.clear();
+            setUser(null); // Opcional: Definir user como null em caso de expiração
+            setIsDonor(null); // Opcional: Definir isDonor como null em caso de expiração
+          }
+        } else {
+          await AsyncStorage.clear();
+          setUser(null);
+          setIsDonor(null);
+        }
+      } catch (e) {
+        console.error('Erro ao carregar dados do armazenamento', e);
+        await AsyncStorage.clear();
+        setUser(null);
+        setIsDonor(null);
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     }
 
     loadStorageData();
@@ -41,8 +70,26 @@ export function AuthProvider({ children }) {
     const response = await auth.SignIn(data);
     if (response.user !== undefined) {
       setUser(response.user);
+      setIsDonor(data.isDonor);
       await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
       await AsyncStorage.setItem('@RNAuth:token', response.token);
+      await AsyncStorage.setItem(
+        '@RNAuth:isDonor',
+        JSON.stringify(data.isDonor)
+      );
+    }
+
+    return response;
+  }
+
+  async function signInGoogle(data) {
+    const response = await auth.SignInGoogle(data);
+    if (response.user !== undefined) {
+      setUser(response.user);
+      setIsDonor(true);
+      await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
+      await AsyncStorage.setItem('@RNAuth:token', response.token);
+      await AsyncStorage.setItem('@RNAuth:isDonor', JSON.stringify(true));
     }
 
     return response;
@@ -50,6 +97,11 @@ export function AuthProvider({ children }) {
 
   async function donnorSignUp(data: any) {
     const response = await auth.SignUpDonnor(data);
+    return response;
+  }
+
+  async function donnorSignUpGoogle(data: any) {
+    const response = await auth.SignUpDonnorGoogle(data);
     return response;
   }
 
@@ -62,6 +114,11 @@ export function AuthProvider({ children }) {
     AsyncStorage.clear().then(() => {
       setUser(null);
     });
+  }
+
+  async function getToken() {
+    const storagedToken = await AsyncStorage.getItem('@RNAuth:token');
+    return storagedToken;
   }
 
   if (loading) {
@@ -77,10 +134,14 @@ export function AuthProvider({ children }) {
       value={{
         signed: !!user,
         user,
+        isDonor,
         signIn,
+        signInGoogle,
         signOut,
         donnorSignUp,
+        donnorSignUpGoogle,
         institutionSignUp,
+        getToken,
       }}
     >
       {children}

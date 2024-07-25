@@ -29,26 +29,28 @@ function Contacts() {
         </Text>
       </View>
 
-      <View className="flex-row justify-center gap-10">
-        {institution.facebook && (
-          <Pressable onPress={() => handleLinkPress(institution.facebook)}>
-            <Ionicons
-              name="logo-facebook"
-              size={50}
-              color={Colors.color_primary}
-            />
-          </Pressable>
-        )}
+      <View className="gap-y-3">
+        <View className="flex-row justify-center gap-10">
+          {institution.facebook && (
+            <Pressable onPress={() => handleLinkPress(institution.facebook)}>
+              <Ionicons
+                name="logo-facebook"
+                size={50}
+                color={Colors.color_primary}
+              />
+            </Pressable>
+          )}
 
-        {institution.instagram && (
-          <Pressable onPress={() => handleLinkPress(institution.instagram)}>
-            <Ionicons
-              name="logo-instagram"
-              size={50}
-              color={Colors.color_primary}
-            />
-          </Pressable>
-        )}
+          {institution.instagram && (
+            <Pressable onPress={() => handleLinkPress(institution.instagram)}>
+              <Ionicons
+                name="logo-instagram"
+                size={50}
+                color={Colors.color_primary}
+              />
+            </Pressable>
+          )}
+        </View>
       </View>
       {/*
       {institution.coordinate && (
@@ -78,7 +80,7 @@ function Contacts() {
           </MapView>
         </View>
       )}
-        */}
+      */}
     </View>
   );
 }

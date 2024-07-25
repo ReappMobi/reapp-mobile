@@ -1,4 +1,3 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
 import {
   createMaterialTopTabNavigator,
   MaterialTopTabNavigationOptions,
@@ -6,13 +5,11 @@ import {
 } from '@react-navigation/material-top-tabs';
 import { ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { Image } from 'expo-image';
-import { router, useLocalSearchParams, withLayoutContext } from 'expo-router';
-import { memo, useEffect, useMemo, useState } from 'react';
+import { withLayoutContext } from 'expo-router';
+import { memo, useMemo, useState } from 'react';
 import { View, Text } from 'react-native';
-import { ScreenContainer, LoadingBox, Button } from 'src/components';
+import { ScreenContainer, LoadingBox } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
-import { getInstitutionById } from 'src/services/app-core';
-import { IInstitution } from 'src/types';
 
 const { Navigator } = createMaterialTopTabNavigator();
 
@@ -27,16 +24,15 @@ const blurhash: string =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
 type HeaderProps = {
-  institution: IInstitution | null;
+  institution: any;
   loading: boolean;
   category: string | null;
 };
 
-const Header = memo<HeaderProps>(({ institution, loading, category }) => {
-  const { isDonor } = useAuth();
+const Header = memo<HeaderProps>(({ institution, loading }) => {
   return (
     <View>
-      <View className="mt-4 flex-row items-center space-x-2 py-4 ">
+      <View className="mt-4 flex-row items-center space-x-2 py-4">
         <Image
           className="h-16 w-16 rounded-full"
           source={institution ? institution.avatar : ''}
@@ -52,46 +48,12 @@ const Header = memo<HeaderProps>(({ institution, loading, category }) => {
             <LoadingBox customStyle="h-2.5 w-20 mt-2 mb-3 rounded-md bg-slate-400" />
           ) : (
             <View>
-              <Text className="text-md pb-2 font-reapp_medium">{category}</Text>
+              <Text className="text-md pb-2 font-reapp_medium">
+                {institution ? institution.category : ''}
+              </Text>
               <Text className="text-md pb-2 font-reapp_medium">
                 {institution ? `${institution.city}/${institution.state}` : ''}
               </Text>
-            </View>
-          )}
-          {isDonor && (
-            <View className="space-y-2">
-              <Button
-                textColor="text-white"
-                size="small"
-                customStyles="justify-center bg-color_primary"
-              >
-                Seguir
-              </Button>
-              <View className="flex-row">
-                <Button
-                  textColor="text-white"
-                  size="small"
-                  customStyles="mr-2 w-20 justify-center bg-color_primary"
-                  onPress={() =>
-                    router.push({
-                      pathname: '/donate',
-                      params: { institutionId: institution.id },
-                    })
-                  }
-                >
-                  Doar
-                </Button>
-                <Button
-                  startIcon={
-                    <Ionicons name="chevron-forward" size={20} color="#000" />
-                  }
-                  customStyles="flex-1 items-center justify-start space-x-1"
-                  size="small"
-                  textSize="text-sm"
-                >
-                  Quero ser voluntário
-                </Button>
-              </View>
             </View>
           )}
         </View>
@@ -107,9 +69,9 @@ const Header = memo<HeaderProps>(({ institution, loading, category }) => {
           <Text className="text-md font-reapp_bold text-text_primary">
             {institution ? institution.donations : ''}
           </Text>
-          {` Doadores`}
+          {` Doações`}
         </Text>
-        {/* 
+        {/*
         <Text className="text-md font-reapp_medium">
           <Text className="text-md font-reapp_bold text-text_primary">
             {institution ? institution.partnersQty : ''}
@@ -123,25 +85,13 @@ const Header = memo<HeaderProps>(({ institution, loading, category }) => {
 });
 
 const Layout = () => {
-  const params = useLocalSearchParams();
-  const { id } = params;
-  const auth = useAuth();
-  const idString = id as string;
+  const { user } = useAuth();
 
-  const idNumber: number = parseInt(idString, 10);
+  const idNumber = user.id;
 
-  const [institution, setInstitution] = useState<IInstitution>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    (async () => {
-      const token = await auth.getToken();
-      const institution = await getInstitutionById(idNumber, token);
-      console.log(institution);
-      setInstitution(institution);
-      setLoading(false);
-    })();
-  }, []);
+  const [institution] = useState(user);
+  const [category] = useState<string | null>(null);
+  const [loading] = useState<boolean>(false);
 
   const renderLabel = useMemo(() => {
     return ({ children, focused }: { focused: boolean; children: string }) => (
@@ -157,11 +107,7 @@ const Layout = () => {
 
   return (
     <ScreenContainer>
-      <Header
-        institution={institution && institution}
-        loading={loading}
-        category={institution && institution.category}
-      />
+      <Header institution={institution} loading={loading} category={category} />
 
       {loading ? (
         <View>

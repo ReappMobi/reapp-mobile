@@ -1,21 +1,15 @@
 export interface IInstitution {
   id: number;
   name: string;
-  categoryId: number;
-  image: string;
+  category: string;
+  avatar: string;
   phone: string;
   email: string;
-  address: string;
-  whatsapp?: string;
+  state: string;
+  city: string;
   facebook?: string;
   instagram?: string;
-  coordinate?: ICoordinate;
-  followers: number;
-  donorsQty: number;
-  partnersQty: number;
-}
-
-interface ICoordinate {
-  latitude: number;
-  longitude: number;
+  followers_count: number;
+  following_count: number;
+  donations: number;
 }

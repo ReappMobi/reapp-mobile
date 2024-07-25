@@ -7,6 +7,7 @@ import { View, ScrollView, Text, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from 'src/components';
 import colors from 'src/constants/colors';
+import { useAuth } from 'src/hooks/useAuth';
 import { getProjectById } from 'src/services/app-core';
 import { IProject } from 'src/types';
 
@@ -30,6 +31,7 @@ const ProjectPage = () => {
     })();
   }, []);
 
+  const { isDonor } = useAuth();
   const blurhash =
     '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
@@ -100,26 +102,27 @@ const ProjectPage = () => {
                 onReadyForDisplay={() => setIsPreloading(false)}
               />
             )}
-
-            <Button
-              customStyles="w-full justify-center bg-color_primary"
-              textColor="text-text_light"
-              endIcon={
-                <Ionicons
-                  name="chevron-forward"
-                  size={20}
-                  color={colors.text_white}
-                />
-              }
-              onPress={() => {
-                return router.navigate({
-                  pathname: 'donate',
-                  params: { projectId },
-                });
-              }}
-            >
-              Clique aqui e faça sua doação
-            </Button>
+            {isDonor && (
+              <Button
+                customStyles="w-full justify-center bg-color_primary"
+                textColor="text-text_light"
+                endIcon={
+                  <Ionicons
+                    name="chevron-forward"
+                    size={20}
+                    color={colors.text_white}
+                  />
+                }
+                onPress={() => {
+                  return router.navigate({
+                    pathname: 'donate',
+                    params: { projectId },
+                  });
+                }}
+              >
+                Clique aqui e faça sua doação
+              </Button>
+            )}
           </View>
         </View>
       </ScrollView>

@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import colors from 'src/constants/colors';
+import { useAuth } from 'src/hooks/useAuth';
 
 type ExploreScreenCardProps = {
   imageUrl?: string;
@@ -39,6 +40,7 @@ const ExploreScreenCard = ({
   const [isFavorited, setIsFavorited] = useState<boolean>(isFavoritedInitial);
   const [isFollow, setIsFollow] = useState<boolean>(isFollowInitial);
   const [isLoadingImage, setIsLoadingImage] = useState<boolean>(true);
+  const { isDonor } = useAuth();
 
   const handleFavoritePress = () => {
     setIsFavorited(!isFavorited);
@@ -50,13 +52,21 @@ const ExploreScreenCard = ({
     onPressFollow && onPressFollow();
   };
 
+  let cardHeight;
+  if (!isDonor) {
+    cardHeight = 'h-36';
+  } else if (isInstitution) {
+    cardHeight = 'h-44';
+  } else {
+    cardHeight = 'h-40';
+  }
+
   return (
     <TouchableOpacity onPress={onPressCard}>
       <View
-        className={`${
-          isInstitution ? 'h-48' : 'h-40'
-        } w-32 justify-between rounded-md border border-color_gray bg-white p-2`}
+        className={`${cardHeight} w-32 justify-between rounded-md border border-color_gray bg-white p-2`}
       >
+        {}
         <View className="items-end justify-end">
           <Pressable onPress={handleFavoritePress}>
             <Ionicons
@@ -83,7 +93,7 @@ const ExploreScreenCard = ({
 
         <Text className="text-center font-reapp_medium text-xs">{title}</Text>
 
-        {isInstitution && (
+        {isInstitution && isDonor && (
           <View className="flex-row items-center justify-between">
             <TouchableOpacity onPress={handleFollowPress}>
               <Ionicons

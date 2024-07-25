@@ -1,16 +1,17 @@
-import { useRoute } from '@react-navigation/native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { parseISO } from 'date-fns';
+import { router } from 'expo-router';
 import { useCallback, useEffect, useState, memo } from 'react';
 import { FlatList, ListRenderItem, View } from 'react-native';
-import { CardPost, LoadingBox } from 'src/components';
+import { CardPost, LoadingBox, Button } from 'src/components';
+import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { getInstituitionPosts } from 'src/services/app-core';
 import { IPost } from 'src/types';
 
 const HomeView = () => {
-  const route = useRoute();
-  const { getToken } = useAuth();
-  const { id } = route.params as { id: number };
+  const { user, getToken } = useAuth();
+  const id = user.id;
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loadingPosts, setLoadingPosts] = useState(true);
 
@@ -70,6 +71,28 @@ const HomeView = () => {
     return `${differenceInYears} anos atrás`;
   }
 
+  const renderHeader = () => (
+    <View className="mb-3 items-center justify-center">
+      <Button
+        endIcon={
+          <Ionicons
+            name="chevron-forward"
+            size={20}
+            color={colors.text_neutral}
+          />
+        }
+        customStyles="justify-center space-x-2"
+        onPress={() => {
+          router.push({
+            pathname: 'post-create',
+          });
+        }}
+      >
+        Cadastrar Nova Postagem
+      </Button>
+    </View>
+  );
+
   if (loadingPosts) {
     return (
       <View className="flex-1 items-center justify-center pt-48 ">
@@ -91,7 +114,10 @@ const HomeView = () => {
         maxToRenderPerBatch={10}
         data={posts}
         renderItem={renderItem}
-        ItemSeparatorComponent={() => <View className="mb-2.5" />}
+        ItemSeparatorComponent={() => (
+          <View className="mt-4 h-[2px] w-full bg-slate-200" />
+        )}
+        ListHeaderComponent={renderHeader}
       />
     </View>
   );

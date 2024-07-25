@@ -1,9 +1,10 @@
 export interface IPost {
+  caption: string;
   id: number;
-  userId: number;
-  content: string;
-  media?: string;
-  isMediaVideo?: boolean;
-  createdAt: string;
+  imageUrl: string;
+  institution: {
+    avatar: string | null;
+    name: string;
+  };
   updatedAt: string;
 }

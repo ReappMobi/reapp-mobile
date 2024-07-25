@@ -1,6 +1,6 @@
 import { IProject } from 'src/types';
 
-export interface IUser {
+export interface IDonor {
   id: number;
   email: string;
   password: string;
@@ -13,6 +13,24 @@ export interface IUser {
   donations: number | null;
   phone: string | null;
   displayName: string | null;
+}
+
+export interface IInstitution {
+  id: number;
+  email: string;
+  name: string;
+  avatar?: string;
+  url?: string;
+  uri?: string;
+  following_count: number;
+  followers_count: number | null;
+  donations: number | null;
+  phone: string | null;
+  category: string;
+  state: string;
+  city: string;
+  facebook: string;
+  instagram: string;
 }
 
 export interface IUserProfile {

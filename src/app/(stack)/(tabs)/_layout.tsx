@@ -11,6 +11,7 @@ import { useAuth } from 'src/hooks/useAuth';
 const TabLayout = () => {
   const { user } = useAuth();
   const navigation = useNavigation();
+  const { isDonor } = useAuth();
 
   if (!user) return <Redirect href="welcome" />;
 
@@ -71,6 +72,7 @@ const TabLayout = () => {
             ),
           }}
         />
+
         <Tabs.Screen
           name="favorites"
           options={{
@@ -78,8 +80,11 @@ const TabLayout = () => {
             tabBarIcon: ({ size, color }) => (
               <Octicons name="heart" size={size} color={color} />
             ),
+            tabBarButton: (props) =>
+              isDonor ? <Pressable {...props} /> : null,
           }}
         />
+
         <Tabs.Screen
           name="transparency"
           options={{
@@ -87,6 +92,18 @@ const TabLayout = () => {
             tabBarIcon: ({ size, color }) => (
               <Ionicons name="receipt-outline" size={size} color={color} />
             ),
+          }}
+        />
+
+        <Tabs.Screen
+          name="profile"
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ size, color }) => (
+              <Ionicons name="person-outline" size={size} color={color} />
+            ),
+            tabBarButton: (props) =>
+              isDonor ? null : <Pressable {...props} />,
           }}
         />
       </Tabs>
