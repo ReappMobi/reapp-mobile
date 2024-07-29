@@ -376,14 +376,6 @@ export async function getCollaboratorsById(institutionId: number) {
   });
 }
 
-export async function getVolunteersById(institutionId: number) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([]);
-    }, 1000);
-  });
-}
-
 export async function getInstitutionCategories() {
   try {
     const response = await api.get('/institution/categories', {
@@ -397,5 +389,50 @@ export async function getInstitutionCategories() {
     return response.data;
   } catch (error) {
     return { error };
+  }
+}
+
+export async function postVolunteer(data, token) {
+  try {
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('institutionId', data.institutionId);
+    if (data.image) {
+      const timestamp = Date.now();
+      formData.append('image', {
+        uri: data.image,
+        name: `${timestamp}.jpg`,
+        type: 'image/jpeg',
+      } as any);
+    }
+
+    const response = await api.post('/volunteer', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function getVolunteerById(institutionId, token) {
+  try {
+    const response = await api.get(`/volunteer/${institutionId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
   }
 }
