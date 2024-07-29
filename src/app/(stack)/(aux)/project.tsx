@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Video, ResizeMode } from 'expo-av';
+//import { Video, ResizeMode } from 'expo-av';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, ScrollView, Text, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from 'src/components';
@@ -18,15 +18,17 @@ const ProjectPage = () => {
 
   const [project, setProject] = useState<IProject>();
 
-  const video = useRef(null);
-  const [isPreloading, setIsPreloading] = useState(true);
+  //const video = useRef(null);
+  //const [isPreloading, setIsPreloading] = useState(true);
+  const auth = useAuth();
 
   useEffect(() => {
     (async () => {
       navigation.setOptions({
         headerShown: false,
       });
-      const fetchedProject = await getProjectById(Number(projectId));
+      const token = await auth.getToken();
+      const fetchedProject = await getProjectById(Number(projectId), token);
       setProject(fetchedProject);
     })();
   }, []);
@@ -52,7 +54,7 @@ const ProjectPage = () => {
       <ScrollView>
         <Image
           className="h-44 w-full"
-          source={project.image}
+          source={project.cover}
           placeholder={blurhash}
           contentFit="cover"
           transition={500}
@@ -62,6 +64,7 @@ const ProjectPage = () => {
             <Text className="mb-3.5 font-reapp_bold text-xl text-text_primary">
               {project.name}
             </Text>
+
             <Text className="font-reapp_regular text-base">
               {project.subtitle}
             </Text>
@@ -73,7 +76,7 @@ const ProjectPage = () => {
             <Text className="mb-5 font-reapp_regular text-base">
               {project.description}
             </Text>
-
+            {/*
             {project.introdutionVideo && isPreloading && (
               <ActivityIndicator
                 animating
@@ -102,6 +105,7 @@ const ProjectPage = () => {
                 onReadyForDisplay={() => setIsPreloading(false)}
               />
             )}
+            */}
             {isDonor && (
               <Button
                 customStyles="w-full justify-center bg-color_primary"
