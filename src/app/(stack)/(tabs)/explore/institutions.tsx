@@ -24,7 +24,7 @@ import { useAuth } from 'src/hooks/useAuth';
 import { useSearch } from 'src/hooks/useSearch';
 import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
 import {
-  getInstituitionCategories,
+  getInstitutionCategories,
   getInstitutions,
 } from 'src/services/app-core';
 import { IInstitution } from 'src/types';
@@ -109,6 +109,7 @@ const RenderCardSearch = memo<RenderCardSearchProps>(
         />
       );
     }
+    return null;
   }
 );
 
@@ -142,7 +143,7 @@ const InstitutionsPage = () => {
       const token = await auth.getToken();
       const institutionsData = await getInstitutions({ token });
       setInstitutions(institutionsData);
-      const categoriesData = await getInstituitionCategories();
+      const categoriesData = await getInstitutionCategories();
       setCategories(categoriesData);
       setLoadingInstitutions(false);
     })();
@@ -151,10 +152,10 @@ const InstitutionsPage = () => {
   const sections = useMemo(() => {
     return categories.map((category) => {
       return {
-        title: category.category,
+        title: category.name,
         data: [
           institutions.filter(
-            (institution) => institution.category === category.category
+            (institution) => institution.category === category.name
           ),
         ],
       };
