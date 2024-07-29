@@ -7,21 +7,25 @@ import { Button } from 'src/components';
 import CardInstitutionProject from 'src/components/CardInstitutionProject';
 import LoadingBox from 'src/components/LoadingBox';
 import colors from 'src/constants/colors';
-import { getInstituitionProjects } from 'src/services/app-core';
+import { useAuth } from 'src/hooks/useAuth';
+import { getProjectByInstitutionId } from 'src/services/app-core';
 import { IProject } from 'src/types';
 
 const ProjectsView = () => {
   const [projects, setProjects] = useState<IProject[]>([]);
   const [loading, setLoading] = useState(true);
+  const auth = useAuth();
 
   const route = useRoute();
   const { id } = route.params as { id: number };
 
   useEffect(() => {
-    getInstituitionProjects(id).then((projects) => {
-      setProjects(projects);
+    (async () => {
+      const token = await auth.getToken();
+      const res = await getProjectByInstitutionId(id, token);
+      setProjects(res);
       setLoading(false);
-    });
+    })();
   }, []);
 
   const renderHeader = () => (
@@ -49,12 +53,19 @@ const ProjectsView = () => {
   const renderItem: ListRenderItem<IProject> = useCallback(({ item }) => {
     return (
       <CardInstitutionProject
-        imagePath={item.image}
+        imagePath={item.cover}
         title={item.name}
-        description={item.description}
+        subtitle={item.subtitle}
         textButton="Ver mais detalhes"
+        onPress={() => {
+          handleCardClick(item.id);
+        }}
       />
     );
+  }, []);
+
+  const handleCardClick = useCallback((id: number) => {
+    router.navigate({ pathname: 'project', params: { projectId: id } });
   }, []);
 
   if (loading) {
