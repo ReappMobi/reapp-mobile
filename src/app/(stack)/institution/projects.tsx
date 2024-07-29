@@ -1,9 +1,11 @@
 import { useRoute } from '@react-navigation/native';
+import { router } from 'expo-router';
 import { useCallback, useEffect, useState, memo } from 'react';
 import { FlatList, ListRenderItem, View } from 'react-native';
 import CardInstitutionProject from 'src/components/CardInstitutionProject';
 import LoadingBox from 'src/components/LoadingBox';
-import { getInstituitionProjects } from 'src/services/app-core';
+import { useAuth } from 'src/hooks/useAuth';
+import { getProjectByInstitutionId } from 'src/services/app-core';
 import { IProject } from 'src/types';
 
 const ProjectsView = () => {
@@ -12,23 +14,33 @@ const ProjectsView = () => {
 
   const route = useRoute();
   const { id } = route.params as { id: number };
+  const auth = useAuth();
 
   useEffect(() => {
-    getInstituitionProjects(id).then((projects) => {
-      setProjects(projects);
+    (async () => {
+      const token = await auth.getToken();
+      const res = await getProjectByInstitutionId(id, token);
+      setProjects(res);
       setLoading(false);
-    });
+    })();
   }, []);
 
   const renderItem: ListRenderItem<IProject> = useCallback(({ item }) => {
     return (
       <CardInstitutionProject
-        imagePath={item.image}
+        imagePath={item.cover}
         title={item.name}
-        description={item.description}
+        subtitle={item.subtitle}
         textButton="Ver mais detalhes"
+        onPress={() => {
+          handleCardClick(item.id);
+        }}
       />
     );
+  }, []);
+
+  const handleCardClick = useCallback((id: number) => {
+    router.navigate({ pathname: 'project', params: { projectId: id } });
   }, []);
 
   if (loading) {
