@@ -1,7 +1,7 @@
 import { Entypo, Octicons, Ionicons } from '@expo/vector-icons';
 import { DrawerActions } from '@react-navigation/native';
 import { Image } from 'expo-image';
-import { Redirect, Tabs, useNavigation } from 'expo-router';
+import { Redirect, Tabs, useNavigation, router } from 'expo-router';
 import React from 'react';
 import { Pressable } from 'react-native';
 import colors from 'src/constants/colors';
@@ -42,6 +42,11 @@ const TabLayout = () => {
                 name="new-message"
                 size={24}
                 color={colors.text_neutral}
+                onPress={() => {
+                  router.push({
+                    pathname: 'post-create',
+                  });
+                }}
               />
             ),
             headerTitleAlign: 'center',
