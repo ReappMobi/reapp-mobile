@@ -3,7 +3,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { View, Text, Alert } from 'react-native';
+import { View, Text, Alert, Image } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Input } from 'src/components';
@@ -82,6 +82,14 @@ export default function PartnerCreate() {
             Selecionar Foto
           </Button>
         </View>
+        {image && (
+          <View className="mt-4 items-center">
+            <Image
+              source={{ uri: image }}
+              style={{ width: 200, height: 200, borderRadius: 10 }}
+            />
+          </View>
+        )}
 
         <View>
           <Text className="font-reapp_regular text-base">Nome do parceiro</Text>
