@@ -125,7 +125,6 @@ export async function postPartner(data, token) {
         return true;
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     return { error: error.message };
@@ -135,6 +134,51 @@ export async function postPartner(data, token) {
 export async function getPartnerById(institutionId, token) {
   try {
     const response = await api.get(`/partner/${institutionId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function postCollaborator(data, token) {
+  try {
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('institutionId', data.institutionId);
+    if (data.image) {
+      const timestamp = Date.now();
+      formData.append('image', {
+        uri: data.image,
+        name: `${timestamp}.jpg`,
+        type: 'image/jpeg',
+      } as any);
+    }
+
+    const response = await api.post('/collaborator', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function getCollaboratorById(institutionId, token) {
+  try {
+    const response = await api.get(`/collaborator/${institutionId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
