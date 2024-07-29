@@ -5,37 +5,9 @@ import React, { useEffect, useState, memo } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { Button } from 'src/components';
 import colors from 'src/constants/colors';
+import { useAuth } from 'src/hooks/useAuth';
+import { getVolunteerById } from 'src/services/app-core';
 import { IVolunteer } from 'src/types/IVolunteer';
-
-const mockData: IVolunteer[] = [
-  {
-    id: 1,
-    institutionId: 1,
-    name: 'Gabriel Bastos',
-    image: 'https://placehold.co/600x400/png',
-  },
-
-  {
-    id: 2,
-    institutionId: 1,
-    name: 'Gabriel Belo',
-    image: 'https://placehold.co/600x400/png',
-  },
-
-  {
-    id: 3,
-    institutionId: 1,
-    name: 'André Gabriel',
-    image: 'https://placehold.co/600x400/png',
-  },
-
-  {
-    id: 4,
-    institutionId: 1,
-    name: 'Neymar Júnior ',
-    image: 'https://placehold.co/600x400/png',
-  },
-];
 
 const blurhash: string =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
@@ -45,7 +17,7 @@ const VolunteerCard = ({ info }) => {
     <View className="flex-row items-center gap-x-2 border-b border-zinc-200 p-2">
       <Image
         className="h-[64] w-[64] rounded-full"
-        source={info.image}
+        source={info.avatar}
         placeholder={blurhash}
         contentFit="cover"
         transition={500}
@@ -59,8 +31,13 @@ const VolunteerCard = ({ info }) => {
 function Volunteers() {
   const [volunteers, setVolunteers] = useState<IVolunteer[]>([]);
 
+  const auth = useAuth();
   useEffect(() => {
-    setVolunteers(mockData);
+    (async () => {
+      const token = await auth.getToken();
+      const res = await getVolunteerById(auth.user.id, token);
+      setVolunteers(res);
+    })();
   }, []);
 
   const renderHeader = () => (
