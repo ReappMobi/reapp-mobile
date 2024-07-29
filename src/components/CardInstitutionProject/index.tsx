@@ -9,7 +9,7 @@ import Button from '../Button';
 type CardInstitutionProjectProps = {
   imagePath?: string;
   title?: string;
-  description?: string;
+  subtitle?: string;
   textButton?: string;
   isFavoriteCard?: boolean;
   onPressLike?: () => void;
@@ -22,7 +22,7 @@ const blurhash: string =
 function CardInstitutionProject({
   imagePath,
   title,
-  description,
+  subtitle,
   textButton,
   isFavoriteCard,
   onPressLike,
@@ -70,10 +70,10 @@ function CardInstitutionProject({
         </Text>
       </View>
 
-      {description && (
+      {subtitle && (
         <View className="mb-2.5">
           <Text className="font-reapp_regular text-base text-text_neutral">
-            {description}
+            {subtitle}
           </Text>
         </View>
       )}
