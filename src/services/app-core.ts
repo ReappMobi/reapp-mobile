@@ -102,6 +102,52 @@ export async function postPublication(postData) {
   }
 }
 
+export async function postPartner(data, token) {
+  try {
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('institutionId', data.institutionId);
+    if (data.image) {
+      const timestamp = Date.now();
+      formData.append('image', {
+        uri: data.image,
+        name: `${timestamp}.jpg`,
+        type: 'image/jpeg',
+      } as any);
+    }
+
+    const response = await api.post('/partner', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function getPartnerById(institutionId, token) {
+  try {
+    const response = await api.get(`/partner/${institutionId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
 export async function toggleFavoriteProject(data) {
   try {
     const response = await api.post('/project/toggle-favorite', data, {
@@ -271,14 +317,6 @@ export async function getInstituitionPosts(
 }
 
 export async function getInstitutionTransparency(institutionId: number) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([]);
-    }, 1000);
-  });
-}
-
-export async function getPartnerById(institutionId: number) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([]);
