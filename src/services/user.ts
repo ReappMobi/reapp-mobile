@@ -1,11 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import api from './api';
-import {
-  userDonations,
-  userSavedPosts,
-  userFavoritesProjects,
-} from '../mocks/user-data';
+import { userDonations, userSavedPosts } from '../mocks/user-data';
 
 export async function getDonations() {
   return userDonations;
@@ -15,8 +11,22 @@ export async function getSavedPosts() {
   return userSavedPosts;
 }
 
-export async function getFavoritesProjects() {
-  return userFavoritesProjects;
+export async function getFavoritesProjects(donorId: number, token) {
+  try {
+    const response = await api.get(`/project/favorite/${donorId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
 }
 
 export async function editInstitutionInformation(data) {
