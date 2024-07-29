@@ -66,16 +66,17 @@ const ExploreScreenCard = ({
       <View
         className={`${cardHeight} w-32 justify-between rounded-md border border-color_gray bg-white p-2`}
       >
-        {}
-        <View className="items-end justify-end">
-          <Pressable onPress={handleFavoritePress}>
-            <Ionicons
-              name="heart-outline"
-              size={24}
-              color={isFavorited ? 'red' : 'black'}
-            />
-          </Pressable>
-        </View>
+        {onPressFavorite && (
+          <View className="items-end justify-end">
+            <Pressable onPress={handleFavoritePress}>
+              <Ionicons
+                name="heart-outline"
+                size={24}
+                color={isFavorited ? 'red' : 'black'}
+              />
+            </Pressable>
+          </View>
+        )}
 
         <View className="h-16 w-full">
           {isLoadingImage && (
