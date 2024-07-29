@@ -3,12 +3,18 @@ import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { View, Text, Alert } from 'react-native';
+import { View, Text, Alert, Image } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Input } from 'src/components';
+import { useAuth } from 'src/hooks/useAuth';
+import { postPartner } from 'src/services/app-core';
 import { z } from 'zod';
 
 export default function PartnerCreate() {
+  const auth = useAuth();
+  const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
   const partnerCreateFormSchema = z.object({
     name: z
       .string({ required_error: 'O nome do parceiro é obrigatório.' })
@@ -28,20 +34,22 @@ export default function PartnerCreate() {
   });
 
   const onSubmit = async (data: any) => {
-    // const dataReq = {
-    //   partner: data.partner,
-    // };
-    const res = null;
-    //chamar função para registro da parceiro
+    const dataReq = {
+      name: data.name,
+      image,
+      institutionId: auth.user.id,
+    };
+    const token = await auth.getToken();
+    const res = await postPartner(dataReq, token);
+    setLoading(false);
+
     if (res.error) {
-      Alert.alert('Erro no cadastro da postagem', res.error);
+      Alert.alert('Erro no cadastro do parceiro', res.error);
     } else {
-      Alert.alert('Postagem cadastrada com sucesso!');
+      Alert.alert('Parceiro cadastrado com sucesso!');
       router.back();
     }
   };
-
-  const [, setImage] = useState(null);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -58,6 +66,11 @@ export default function PartnerCreate() {
   };
   return (
     <SafeAreaView className="flex-1 px-4">
+      <Spinner
+        visible={loading}
+        textContent="Carregando..."
+        textStyle={{ color: '#FFF' }}
+      />
       <View className="gap-3">
         <View>
           <Text className="font-reapp_regular text-base">Foto do parceiro</Text>
@@ -69,6 +82,14 @@ export default function PartnerCreate() {
             Selecionar Foto
           </Button>
         </View>
+        {image && (
+          <View className="mt-4 items-center">
+            <Image
+              source={{ uri: image }}
+              style={{ width: 200, height: 200, borderRadius: 10 }}
+            />
+          </View>
+        )}
 
         <View>
           <Text className="font-reapp_regular text-base">Nome do parceiro</Text>

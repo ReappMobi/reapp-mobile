@@ -67,7 +67,7 @@ export default function SignUp() {
     const dataReq = {
       name: data.name,
       password: data.password,
-      telephone: unmaskPhone,
+      phone: unmaskPhone,
       email: data.email,
     };
     const res = await auth.donnorSignUp(dataReq);

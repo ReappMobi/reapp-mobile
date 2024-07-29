@@ -5,37 +5,9 @@ import React, { useEffect, useState, memo } from 'react';
 import { FlatList, View, Text } from 'react-native';
 import { Button } from 'src/components';
 import colors from 'src/constants/colors';
+import { useAuth } from 'src/hooks/useAuth';
+import { getCollaboratorById } from 'src/services/app-core';
 import { ICollaborator } from 'src/types/ICollaborator';
-
-const mockData: ICollaborator[] = [
-  {
-    id: 1,
-    institutionId: 1,
-    name: 'Rosendy',
-    image: 'https://placehold.co/600x400/png',
-  },
-
-  {
-    id: 2,
-    institutionId: 1,
-    name: 'Carlos',
-    image: 'https://placehold.co/600x400/png',
-  },
-
-  {
-    id: 3,
-    institutionId: 1,
-    name: 'Jovemar',
-    image: 'https://placehold.co/600x400/png',
-  },
-
-  {
-    id: 4,
-    institutionId: 1,
-    name: 'Marcela',
-    image: 'https://placehold.co/600x400/png',
-  },
-];
 
 const blurhash: string =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
@@ -45,7 +17,7 @@ const CollaboratorCard = ({ info }) => {
     <View className="flex-row items-center gap-x-2 border-b border-zinc-200 p-2">
       <Image
         className="h-[64] w-[64] rounded-full"
-        source={info.image}
+        source={info.avatar}
         placeholder={blurhash}
         contentFit="cover"
         transition={500}
@@ -59,8 +31,13 @@ const CollaboratorCard = ({ info }) => {
 function Collaborators() {
   const [collaborators, setCollaborators] = useState<ICollaborator[]>([]);
 
+  const auth = useAuth();
   useEffect(() => {
-    setCollaborators(mockData);
+    (async () => {
+      const token = await auth.getToken();
+      const res = await getCollaboratorById(auth.user.id, token);
+      setCollaborators(res);
+    })();
   }, []);
 
   const renderHeader = () => (

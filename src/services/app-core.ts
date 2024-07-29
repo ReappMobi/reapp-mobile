@@ -11,9 +11,7 @@ import {
   IDonationSegment,
   donationsBySegment,
 } from 'src/mocks/app-donationSegment-data';
-import { projects } from 'src/mocks/app-projects-data';
-import { projectCategories } from 'src/mocks/app-projectsCategory-data';
-import { IBanner, IProject } from 'src/types';
+import { IBanner } from 'src/types';
 
 import api from './api';
 
@@ -104,39 +102,216 @@ export async function postPublication(postData) {
   }
 }
 
-export async function getProjects(): Promise<IProject[]> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('fetching projects...');
-      resolve(projects);
-    }, 1000);
-  });
+export async function postPartner(data, token) {
+  try {
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('institutionId', data.institutionId);
+    if (data.image) {
+      const timestamp = Date.now();
+      formData.append('image', {
+        uri: data.image,
+        name: `${timestamp}.jpg`,
+        type: 'image/jpeg',
+      } as any);
+    }
+
+    const response = await api.post('/partner', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
 }
 
-export async function getProjectById(id: number): Promise<IProject> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(projects.find((project) => project.id === id));
-    }, 1000);
-  });
+export async function getPartnerById(institutionId, token) {
+  try {
+    const response = await api.get(`/partner/${institutionId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
 }
 
-export async function getInstituitionCategories(): Promise<ICategory[]> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('fetching institutions categories...');
-      resolve(institutionCategories);
-    }, 1000);
-  });
+export async function postCollaborator(data, token) {
+  try {
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('institutionId', data.institutionId);
+    if (data.image) {
+      const timestamp = Date.now();
+      formData.append('image', {
+        uri: data.image,
+        name: `${timestamp}.jpg`,
+        type: 'image/jpeg',
+      } as any);
+    }
+
+    const response = await api.post('/collaborator', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
 }
 
-export async function getProjectCategories(): Promise<ICategory[]> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('fetchin project categories...');
-      resolve(projectCategories);
-    }, 1000);
-  });
+export async function getCollaboratorById(institutionId, token) {
+  try {
+    const response = await api.get(`/collaborator/${institutionId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function toggleFavoriteProject(data) {
+  try {
+    const response = await api.post('/project/toggle-favorite', data, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${data.token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function postProject(projectData) {
+  try {
+    const formData = new FormData();
+    formData.append('description', projectData.description);
+    formData.append('name', projectData.name);
+    formData.append('institutionId', projectData.institutionId);
+    formData.append('categoryId', projectData.categoryId);
+    formData.append('subtitle', projectData.subtitle);
+    if (projectData.image) {
+      const timestamp = Date.now();
+      formData.append('image', {
+        uri: projectData.image,
+        name: `${timestamp}.jpg`,
+        type: 'image/jpeg',
+      } as any);
+    }
+
+    const response = await api.post('/project', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${projectData.token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function getProjects(data, token) {
+  try {
+    const response = await api.get(`/project`, {
+      params: {
+        isDonor: data.isDonor,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function getProjectById(projectId: number, token: string) {
+  try {
+    const response = await api.get(`/project/${projectId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function getProjectByInstitutionId(
+  institutionId: number,
+  token: string
+) {
+  try {
+    const response = await api.get(`/project/institution/${institutionId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function getProjectCategories(data) {
+  try {
+    const response = await api.get(`/project/categories`, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${data.token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
 }
 
 export async function getDonationsByEixo(): Promise<IDonationEixo[]> {
@@ -185,27 +360,7 @@ export async function getInstituitionPosts(
   }
 }
 
-export async function getInstituitionProjects(
-  institutionId: number
-): Promise<IProject[]> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(
-        projects.filter((project) => project.institutionId === institutionId)
-      );
-    }, 1000);
-  });
-}
-
 export async function getInstitutionTransparency(institutionId: number) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([]);
-    }, 1000);
-  });
-}
-
-export async function getPartnerById(institutionId: number) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([]);
@@ -221,10 +376,63 @@ export async function getCollaboratorsById(institutionId: number) {
   });
 }
 
-export async function getVolunteersById(institutionId: number) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([]);
-    }, 1000);
-  });
+export async function getInstitutionCategories() {
+  try {
+    const response = await api.get('/institution/categories', {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error };
+  }
+}
+
+export async function postVolunteer(data, token) {
+  try {
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('institutionId', data.institutionId);
+    if (data.image) {
+      const timestamp = Date.now();
+      formData.append('image', {
+        uri: data.image,
+        name: `${timestamp}.jpg`,
+        type: 'image/jpeg',
+      } as any);
+    }
+
+    const response = await api.post('/volunteer', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function getVolunteerById(institutionId, token) {
+  try {
+    const response = await api.get(`/volunteer/${institutionId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
 }

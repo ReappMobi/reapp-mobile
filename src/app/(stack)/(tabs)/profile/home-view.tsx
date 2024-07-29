@@ -45,6 +45,10 @@ const HomeView = () => {
       (now.getTime() - date.getTime()) / 60000
     );
 
+    if (differenceInMinutes <= 1) {
+      return `${differenceInMinutes} minuto atrás`;
+    }
+
     if (differenceInMinutes < 60) {
       return `${differenceInMinutes} minutos atrás`;
     }

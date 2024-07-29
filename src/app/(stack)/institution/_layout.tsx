@@ -137,7 +137,6 @@ const Layout = () => {
     (async () => {
       const token = await auth.getToken();
       const institution = await getInstitutionById(idNumber, token);
-      console.log(institution);
       setInstitution(institution);
       setLoading(false);
     })();
