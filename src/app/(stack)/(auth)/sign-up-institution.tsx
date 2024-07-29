@@ -1,27 +1,35 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Picker } from '@react-native-picker/picker';
 import { Link, router } from 'expo-router';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { View, Text, ScrollView, Alert } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import { Button, Input } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
+import { getInstitutionCategories } from 'src/services/app-core';
 import { z } from 'zod';
 
 export default function SignUp() {
   const phoneRef = useRef(null);
   const cnpjRef = useRef(null);
   const auth = useAuth();
+  const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('react');
   const [selectedState, setSelectedState] = useState('react');
 
-  const categories = [
-    { label: 'Geral', value: 'Geral' },
-    { label: 'Infância', value: 'Infância' },
-    { label: 'Meio ambiente', value: 'Adolescência' },
-    { label: 'Adultos', value: 'Adultos' },
-  ];
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const res = await getInstitutionCategories();
+      console.log(res);
+      if (res.error) {
+        Alert.alert('Erro na aplicação. Tente novamente mais tarde');
+        router.back();
+      }
+      setCategories(res);
+    };
+    fetchCategories();
+  }, []);
 
   const states = [
     { label: 'Acre', value: 'AC' },
@@ -141,7 +149,7 @@ export default function SignUp() {
       phone: unmaskPhone,
       email: data.email,
       cnpj: unmaskCnpj,
-      category: selectedCategory,
+      categoryId: selectedCategory,
       city: data.city,
       state: selectedState,
     };
@@ -275,8 +283,8 @@ export default function SignUp() {
                 {categories.map((category, index) => (
                   <Picker.Item
                     key={index}
-                    label={category.label}
-                    value={category.value}
+                    label={category.name}
+                    value={category.id}
                   />
                 ))}
               </Picker>
