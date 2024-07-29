@@ -14,12 +14,14 @@ import {
   LoadingBox,
   Carousel,
 } from 'src/components';
+import { useAuth } from 'src/hooks/useAuth';
 import { useSearch } from 'src/hooks/useSearch';
 import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
 import {
   getProjectCategories,
   getProjects,
   getSharedCampaigns,
+  toggleFavoriteProject,
 } from 'src/services/app-core';
 import { IBanner, IProject } from 'src/types';
 
@@ -32,6 +34,8 @@ type RenderCardSearchProps = {
 type RenderItemProps = {
   item: IProject;
   onPressCard: (item: any) => void;
+  onPressFavorite: (item: any) => void;
+  isDonor: boolean;
 };
 
 const RenderCardSearch = memo<RenderCardSearchProps>(
@@ -39,7 +43,7 @@ const RenderCardSearch = memo<RenderCardSearchProps>(
     if (searchPhrase === '') {
       return (
         <CardSearch
-          imageUrl={item.image}
+          imageUrl={item.cover}
           title={item.name}
           onPress={() => {
             onPressCard(item);
@@ -55,7 +59,7 @@ const RenderCardSearch = memo<RenderCardSearchProps>(
     ) {
       return (
         <CardSearch
-          imageUrl={item.image}
+          imageUrl={item.cover}
           title={item.name}
           onPress={() => {
             onPressCard(item);
@@ -63,6 +67,7 @@ const RenderCardSearch = memo<RenderCardSearchProps>(
         />
       );
     }
+    return null;
   }
 );
 
@@ -87,17 +92,35 @@ const ProjectCardPlaceholder = memo(() => (
   </View>
 ));
 
-const RenderItem = memo<RenderItemProps>(({ item, onPressCard }) => {
-  return (
-    <ExploreScreenCard
-      title={item.name}
-      imageUrl={item.image}
-      onPressCard={() => {
-        onPressCard(item);
-      }}
-    />
-  );
-});
+const RenderItem = memo<RenderItemProps>(
+  ({ item, onPressCard, onPressFavorite, isDonor }) => {
+    if (isDonor) {
+      return (
+        <ExploreScreenCard
+          title={item.name}
+          imageUrl={item.cover}
+          onPressCard={() => {
+            onPressCard(item);
+          }}
+          onPressFavorite={() => {
+            onPressFavorite(item);
+          }}
+          isFavoritedInitial={item.isFavorite}
+        />
+      );
+    } else {
+      return (
+        <ExploreScreenCard
+          title={item.name}
+          imageUrl={item.cover}
+          onPressCard={() => {
+            onPressCard(item);
+          }}
+        />
+      );
+    }
+  }
+);
 
 const RenderCarousel = memo(({ banners }: { banners: IBanner[] }) => {
   return (
@@ -111,12 +134,13 @@ const ProjectsPage = () => {
   const [projects, setProjects] = useState<IProject[]>([]);
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
+  const auth = useAuth();
 
   const [banners, setBanners] = useState<IBanner[]>([]);
 
   useEffect(() => {
     (async () => {
-      //Usar carousel para os projetos mais recentes
+      // Usar carousel para os projetos mais recentes
       const banners = await getSharedCampaigns();
       setBanners(banners);
     })();
@@ -126,27 +150,42 @@ const ProjectsPage = () => {
 
   useEffect(() => {
     (async () => {
-      const projectsData = await getProjects();
+      const token = await auth.getToken();
+      const isDonor = auth.isDonor;
+      const projectsData = await getProjects({ isDonor }, token);
       setProjects(projectsData);
-      const categoriesData = await getProjectCategories();
+      const categoriesData = await getProjectCategories({ token });
       setCategories(categoriesData);
       setLoadingProjects(false);
     })();
   }, []);
 
-  const data = useMemo(
-    () =>
-      categories.map((category) => ({
+  const data = useMemo(() => {
+    return categories.map((category) => {
+      return {
         category,
         data: [
           projects.filter((project) => project.categoryId === category.id),
         ],
-      })),
-    [categories, projects]
-  );
+      };
+    });
+  }, [categories, projects]);
 
   const handleCardClick = useCallback((item: IProject) => {
     router.navigate({ pathname: 'project', params: { projectId: item.id } });
+  }, []);
+
+  const handleFavoriteClick = useCallback(async (item: IProject) => {
+    try {
+      const token = await auth.getToken();
+      await toggleFavoriteProject({
+        projectId: item.id,
+        token,
+        donorId: auth.user.id,
+      });
+    } catch (error) {
+      console.error('Error toggling favorite project:', error);
+    }
   }, []);
 
   if (loadingProjects) {
@@ -160,7 +199,7 @@ const ProjectsPage = () => {
         sections={data}
         renderSectionHeader={({ section: { category, data } }) => (
           <Text className="mb-2 font-reapp_medium text-base">
-            {category.category} ({data[0].length})
+            {category.name} ({data[0].length})
           </Text>
         )}
         renderItem={({ item }) => (
@@ -176,7 +215,12 @@ const ProjectsPage = () => {
               index,
             })}
             renderItem={({ item }) => (
-              <RenderItem item={item} onPressCard={handleCardClick} />
+              <RenderItem
+                item={item}
+                onPressCard={handleCardClick}
+                onPressFavorite={handleFavoriteClick}
+                isDonor={auth.isDonor}
+              />
             )}
             keyExtractor={(item) => item.id.toString()}
             showsHorizontalScrollIndicator={false}
