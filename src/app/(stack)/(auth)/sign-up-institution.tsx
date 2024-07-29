@@ -21,7 +21,6 @@ export default function SignUp() {
   useEffect(() => {
     const fetchCategories = async () => {
       const res = await getInstitutionCategories();
-      console.log(res);
       if (res.error) {
         Alert.alert('Erro na aplicação. Tente novamente mais tarde');
         router.back();
