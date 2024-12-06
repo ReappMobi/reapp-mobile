@@ -1,33 +1,44 @@
-import { BarCodeScanner } from 'expo-barcode-scanner';
-import { Camera, CameraType } from 'expo-camera';
+import { Camera, CameraView } from 'expo-camera';
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Text, View, Modal } from 'react-native';
 import { Button } from 'src/components';
 
 export default function App() {
-  const [permission, requestPermission] = Camera.useCameraPermissions();
+  const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  if (!permission) {
-    return <View />;
-  }
+  const getPermission = async () => {
+    const { status } = await Camera.requestCameraPermissionsAsync();
+    setHasPermission(status === 'granted');
+  };
 
-  const handleBarCodeScanned = ({ type, data }) => {
-    console.log(data);
+  useEffect(() => {
+    getPermission();
+  }, []);
+
+  const handleBarcodeScanned = ({ type, data }) => {
     setScanned(true);
     setModalVisible(true);
   };
 
-  if (!permission.granted) {
+  if (hasPermission === null) {
+    return (
+      <View className="flex-1 justify-center">
+        <Text>Solicitando permissão para acessar a câmera</Text>
+      </View>
+    );
+  }
+
+  if (hasPermission === false) {
     return (
       <View className="flex-1 justify-center">
         <Text style={{ textAlign: 'center' }}>
           Precisamos da sua permissão para acessar a câmera
         </Text>
         <Button
-          onPress={requestPermission}
+          onPress={() => getPermission()}
           customStyles="mb-2 justify-center bg-color_third"
         >
           Conceder permissão
@@ -38,14 +49,12 @@ export default function App() {
 
   return (
     <View className="flex-1 justify-center">
-      <Camera
-        key={scanned ? 'scanned' : 'not-scanned'}
-        style={{ flex: 1 }}
-        type={CameraType.back}
-        barCodeScannerSettings={{
-          barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
+      <CameraView
+        onBarcodeScanned={scanned ? undefined : handleBarcodeScanned}
+        barcodeScannerSettings={{
+          barcodeTypes: ['qr', 'pdf417'],
         }}
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        style={{ flex: 1 }}
       >
         <Modal
           animationType="slide"
@@ -80,7 +89,7 @@ export default function App() {
             </View>
           </View>
         </Modal>
-      </Camera>
+      </CameraView>
     </View>
   );
 }
