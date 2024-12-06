@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "reapp-frontend",
-    "slug": "reapp-frontend",
+    "newArchEnabled": true,
+    "name": "reapp",
+    "slug": "reapp",
     "scheme": "reapp",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,7 +18,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.reappfrontend"
+      "bundleIdentifier": "com.coperativadigital.reaap",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,13 +30,20 @@
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.anonymous.reappfrontend"
+      "package": "com.coperativadigital.reapp",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-router",
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.reaap"
+        }
+      ],
       [
         "expo-camera",
         {
