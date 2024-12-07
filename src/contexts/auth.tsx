@@ -2,14 +2,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
 import React, { createContext, useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
+import type { AccountType } from 'src/types';
 
-import { IDonor, IInstitution } from '../mocks/user-data';
 import * as auth from '../services/auth';
 import 'core-js/stable/atob';
 
 interface AuthContextData {
   signed: boolean;
-  user: IDonor | IInstitution | null;
+  user: AccountType;
   isDonor: boolean | null;
   signIn(data: any): Promise<any>;
   signInGoogle(data: any): Promise<any>;
@@ -25,7 +25,7 @@ export const AuthContext = createContext<AuthContextData>(
 );
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState<IDonor | IInstitution | null>(null);
+  const [user, setUser] = useState<AccountType | null>(null);
   const [loading, setLoading] = useState(true);
   const [isDonor, setIsDonor] = useState<boolean | null>(null);
 
@@ -38,15 +38,14 @@ export function AuthProvider({ children }) {
 
         if (storagedUser && storagedToken) {
           const decodedToken = jwtDecode(storagedToken);
-          const currentTime = Date.now() / 1000; // Tempo atual em segundos
-
+          const currentTime = Date.now() / 1000;
           if (decodedToken.exp > currentTime) {
             setUser(JSON.parse(storagedUser));
             setIsDonor(JSON.parse(storagedIsDonor));
           } else {
             await AsyncStorage.clear();
-            setUser(null); // Opcional: Definir user como null em caso de expiração
-            setIsDonor(null); // Opcional: Definir isDonor como null em caso de expiração
+            setUser(null);
+            setIsDonor(null);
           }
         } else {
           await AsyncStorage.clear();
@@ -66,6 +65,7 @@ export function AuthProvider({ children }) {
     loadStorageData();
   }, []);
 
+  // TODO: type data
   async function signIn(data) {
     const response = await auth.SignIn(data);
     if (response.user !== undefined) {
@@ -75,13 +75,14 @@ export function AuthProvider({ children }) {
       await AsyncStorage.setItem('@RNAuth:token', response.token);
       await AsyncStorage.setItem(
         '@RNAuth:isDonor',
-        JSON.stringify(data.isDonor)
+        JSON.stringify(data.user.accountType === 'DONOR')
       );
     }
 
     return response;
   }
 
+  // TODO: type data
   async function signInGoogle(data) {
     const response = await auth.SignInGoogle(data);
     if (response.user !== undefined) {
