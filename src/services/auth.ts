@@ -2,7 +2,7 @@ import api from './api';
 
 export async function SignIn(data) {
   try {
-    const response = await api.post('/auth', data, {
+    const response = await api.post('/auth/login', data, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -11,8 +11,10 @@ export async function SignIn(data) {
       },
     });
 
+    console.log('response', response.data);
     return response.data;
   } catch (error) {
+    console.log('Erro ao logar:', error.message);
     return { error: error.message };
   }
 }
