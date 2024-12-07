@@ -6,7 +6,7 @@ New commits that have the potential to impact the project, such as adding featur
 
 ## branch names
 
-`feature`:  used to add, refactor, or remove a feature.
+`feature`: used to add, refactor, or remove a feature.
 
 `bugfix`: used to fix a bug.
 
