@@ -1,13 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
 import { Link, router } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { Button, Input } from 'src/components';
+import config from 'src/config';
 import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { z } from 'zod';
@@ -22,7 +19,17 @@ const signInFormSchema = z.object({
 
 type signInFormData = z.infer<typeof signInFormSchema>;
 
-// Botar no .env
+let GoogleSignin = {
+  configure: (_: any) => {},
+};
+let statusCodes = null;
+
+if (config.ENV !== 'development') {
+  GoogleSignin = require('@react-native-google-signin/google-signin');
+  statusCodes =
+    require('@react-native-google-signin/google-signin').statusCodes;
+}
+
 GoogleSignin.configure({
   webClientId:
     '831403833609-voubrli7i5ei1qqr4pmu3sgpq7k9b3mc.apps.googleusercontent.com',
@@ -30,7 +37,6 @@ GoogleSignin.configure({
 
 export default function SignIn() {
   const auth = useAuth();
-
   const {
     register,
     setValue,
@@ -43,10 +49,11 @@ export default function SignIn() {
 
   const onSubmit = async (data: any) => {
     const res = await auth.signIn(data);
+
     if (res.user !== undefined) {
       router.replace('/');
     } else {
-      Alert.alert('Erro no login', res.error);
+      Alert.alert('Erro no login', res.message);
     }
   };
 
@@ -88,7 +95,7 @@ export default function SignIn() {
     }
   };
 
-  const isErrorWithCode = (error) => {
+  const isErrorWithCode = (error: any) => {
     if (error.code) {
       return true;
     }
@@ -98,18 +105,6 @@ export default function SignIn() {
   return (
     <View className="gap-3 px-4">
       <View className="flex-row justify-center gap-2">
-        {/* 
-          <View>
-            <Button customStyles="w-14 justify-center bg-color_third_light">
-              <Ionicons
-                name="logo-facebook"
-                size={24}
-                color={colors.text_neutral}
-              />
-            </Button>
-          </View>
-        */}
-
         <View className="items-center">
           <Button
             customStyles="w-3/4"

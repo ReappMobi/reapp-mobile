@@ -1,19 +1,26 @@
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
 import { Link, router } from 'expo-router';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { View, Text, ScrollView, Alert } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import { Button, Input } from 'src/components';
+import config from 'src/config';
 import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { z } from 'zod';
 
+let GoogleSignin = {
+  configure: (_: any) => {},
+};
+let statusCodes = null;
+
+if (config.ENV !== 'development') {
+  GoogleSignin = require('@react-native-google-signin/google-signin');
+  statusCodes =
+    require('@react-native-google-signin/google-signin').statusCodes;
+}
 // Botar no .env
 GoogleSignin.configure({
   webClientId:
