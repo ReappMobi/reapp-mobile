@@ -1,6 +1,7 @@
 import { useFonts } from 'expo-font';
 import { Drawer } from 'expo-router/drawer';
 import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { fonts } from 'src/constants/fonts';
@@ -22,6 +23,7 @@ export default function RootLayout() {
   }
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <StatusBar style="dark" />
       <AuthProvider>
         <Drawer
           drawerContent={DrawerContent}
