@@ -31,6 +31,7 @@ export default function RootLayout() {
             headerShown: false,
             swipeEnabled: true,
             swipeEdgeWidth: 0,
+            drawerStyle: { width: '78%' },
           }}
         />
       </AuthProvider>
