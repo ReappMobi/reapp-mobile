@@ -3,9 +3,11 @@ import { DrawerActions } from '@react-navigation/native';
 import { router, useNavigation } from 'expo-router';
 import React, { memo } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+import { useAuth } from 'src/hooks/useAuth';
 
 export const DrawerMenu: React.FC = memo(() => {
   const navigation = useNavigation();
+  const { signOut } = useAuth();
   return (
     <View className=" flex h-full w-full flex-col pt-4">
       <View className="flex flex-1 flex-col gap-y-2">
