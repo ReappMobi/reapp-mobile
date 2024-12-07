@@ -1,6 +1,8 @@
+import { DrawerActions } from '@react-navigation/native';
 import { Image } from 'expo-image';
+import { router, useNavigation } from 'expo-router';
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { useAuth } from 'src/hooks/useAuth';
 
 type Props = {
@@ -22,36 +24,64 @@ function HeaderStatisticsProfile({
   followersQty,
 }: Props) {
   const { isDonor } = useAuth();
-  return (
-    <View className="flex w-3/4 flex-row items-center justify-start gap-x-5">
-      <View>
-        <Image
-          className="h-12 w-12 rounded-full"
-          source={image}
-          placeholder={blurhash}
-          contentFit="cover"
-          transition={500}
-        />
-      </View>
 
-      <View>
-        <View className="text-wrap">
-          <Text className="font-reapp_bold text-lg text-white">{name}</Text>
+  const navigation = useNavigation();
+
+  return (
+    <View className="flex w-full flex-col justify-start">
+      <Pressable
+        className="mb-4 flex-row justify-between"
+        onPress={() => {
+          navigation.dispatch(DrawerActions.closeDrawer());
+          if (isDonor) {
+            router.push('/editInformationDonor');
+          } else {
+            router.push('/editInformationInstitution');
+          }
+        }}
+      >
+        <View className="mb-2 flex flex-col gap-y-1">
+          <Image
+            className="h-16 w-16 rounded-full"
+            source={image || 'https://placehold.co/64x64'}
+            placeholder={blurhash}
+            contentFit="cover"
+            transition={500}
+          />
+          <View className="flex flex-col gap-y-2">
+            <View className="text-wrap">
+              <Text className="font-reapp_bold text-xl text-white">{name}</Text>
+            </View>
+            <View className="text-wrap">
+              <Text className="truncate font-reapp_regular text-xs text-white">
+                Esta é uma biografia escrita pelo usuário do Reapp bastante
+                interessante e que pode ser lida por todos os usuários da
+                plataforma.
+              </Text>
+            </View>
+          </View>
         </View>
-        <View className="flex flex-row items-center justify-between gap-x-2">
-          {donationsQty && (
-            <Text className="text-small font-reapp_regular text-white">
-              {donationsQty} Doações
+      </Pressable>
+      <View className="my-4">
+        <View className="flex flex-col justify-between gap-y-3">
+          {!isDonor && (
+            <Text className="font-reapp_regular text-sm text-white">
+              <Text className="font-reapp_bold text-sm">{donationsQty} </Text>
+              Doações
             </Text>
           )}
-          {isDonor ? (
-            <Text className="text-small font-reapp_regular text-white">
-              {followingQty} Seguindo
+          {!isDonor ? (
+            <Text className="font-reapp_regular text-sm text-white">
+              <Text className="font-reapp_bold text-sm">{followingQty} </Text>
+              Seguindo
             </Text>
           ) : (
-            <Text className="text-small font-reapp_regular text-white">
-              {followersQty} Seguidores
-            </Text>
+            <View>
+              <Text className="text-lg font-bold"> {followersQty} </Text>
+              <Text className="font-reapp_regular text-sm text-white">
+                Seguidores
+              </Text>
+            </View>
           )}
         </View>
       </View>
