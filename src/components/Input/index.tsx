@@ -46,6 +46,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
               ? 'phone-pad'
               : 'default'
         }
+        autoCapitalize="none"
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
