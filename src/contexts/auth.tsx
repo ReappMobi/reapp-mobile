@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
 import React, { createContext, useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import type { AccountType } from 'src/types';
+import type { AccountType, SignInData } from 'src/types';
 
 import * as auth from '../services/auth';
 import 'core-js/stable/atob';
@@ -65,12 +65,12 @@ export function AuthProvider({ children }) {
     loadStorageData();
   }, []);
 
-  // TODO: type data
-  async function signIn(data) {
+  async function signIn(data: SignInData) {
+    console.log(' SignInData: ', data);
     const response = await auth.SignIn(data);
+
     if (response.user !== undefined) {
       setUser(response.user);
-      setIsDonor(data.isDonor);
       await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
       await AsyncStorage.setItem('@RNAuth:token', response.token);
       await AsyncStorage.setItem(

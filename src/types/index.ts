@@ -12,6 +12,11 @@ export type AccountType = {
   updatedAt: Date;
 };
 
+export type SignInData = {
+  email: string;
+  password: string;
+};
+
 export type { IInstitution };
 export type { IPost } from './IPost';
 export type { IProject } from './IProject';
