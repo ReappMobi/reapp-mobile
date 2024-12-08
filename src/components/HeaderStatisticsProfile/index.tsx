@@ -11,6 +11,7 @@ type Props = {
   donationsQty?: number;
   followingQty?: number;
   followersQty?: number;
+  note?: string;
 };
 
 const blurhash: string =
@@ -22,6 +23,7 @@ function HeaderStatisticsProfile({
   donationsQty,
   followingQty,
   followersQty,
+  note,
 }: Props) {
   const { isDonor } = useAuth();
 
@@ -52,13 +54,14 @@ function HeaderStatisticsProfile({
             <View className="text-wrap">
               <Text className="font-reapp_bold text-xl text-white">{name}</Text>
             </View>
-            <View className="text-wrap">
-              <Text className="truncate font-reapp_regular text-xs text-white">
-                Esta é uma biografia escrita pelo usuário do Reapp bastante
-                interessante e que pode ser lida por todos os usuários da
-                plataforma.
-              </Text>
-            </View>
+
+            {note && (
+              <View className="text-wrap">
+                <Text className="truncate font-reapp_regular text-xs text-white">
+                  {note}
+                </Text>
+              </View>
+            )}
           </View>
         </View>
       </Pressable>
