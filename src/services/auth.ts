@@ -1,4 +1,5 @@
 import { SignInData } from 'src/types';
+
 import api from './api';
 
 export async function SignIn(data: SignInData) {
@@ -29,23 +30,6 @@ export async function SignInGoogle(data) {
     return response.data;
   } catch (error) {
     return { error: error.message };
-  }
-}
-
-export async function SignInInstitution(institutionData) {
-  try {
-    const response = await api.post('/institution/signin', institutionData, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      validateStatus() {
-        return true;
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error('Erro ao logar a instituição', error.message);
   }
 }
 
