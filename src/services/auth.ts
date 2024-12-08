@@ -1,21 +1,17 @@
+import { SignInData } from 'src/types';
 import api from './api';
 
-export async function SignIn(data) {
+export async function SignIn(data: SignInData) {
   try {
-    const response = await api.post('/auth/login', data, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      validateStatus() {
-        return true;
-      },
-    });
+    const response = await api.post('/auth/login', data);
 
-    console.log('response', response.data);
-    return response.data;
+    if (response.status === 201) {
+      return response.data;
+    }
+
+    throw new Error(response.data.message);
   } catch (error) {
-    console.log('Erro ao logar:', error.message);
-    return { error: error.message };
+    throw error;
   }
 }
 
