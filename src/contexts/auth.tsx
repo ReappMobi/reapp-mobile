@@ -75,11 +75,9 @@ export function AuthProvider({ children }) {
       await AsyncStorage.setItem('@RNAuth:token', response.token);
       await AsyncStorage.setItem(
         '@RNAuth:isDonor',
-        JSON.stringify(data.user.accountType === 'DONOR')
+        JSON.stringify(response.user.accountType === 'DONOR')
       );
     }
-
-    return response;
   }
 
   // TODO: type data
