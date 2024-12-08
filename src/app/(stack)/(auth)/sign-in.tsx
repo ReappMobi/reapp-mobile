@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, router } from 'expo-router';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { View, Text, Alert } from 'react-native';
 import { Button, Input } from 'src/components';
@@ -36,6 +37,9 @@ GoogleSignin.configure({
 
 export default function SignIn() {
   const auth = useAuth();
+
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     setValue,
@@ -44,15 +48,28 @@ export default function SignIn() {
     formState: { errors },
   } = useForm<signInFormData>({
     resolver: zodResolver(signInFormSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
 
   const onSubmit = async (data: any) => {
-    const res = await auth.signIn(data);
+    if (loading) {
+      return;
+    }
 
-    if (res.user !== undefined) {
+    setLoading(true);
+    try {
+      await auth.signIn(data);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
       router.replace('/');
-    } else {
-      Alert.alert('Erro no login', res.message);
+    } catch (error) {
+      Alert.alert('Erro no login', error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -179,7 +196,7 @@ export default function SignIn() {
       </View>
 
       <Text className="text-center font-reapp_regular text-base">
-        Não possui conta?{' '}
+        Não possui conta?
         <Link
           href="/profile-selector"
           push
