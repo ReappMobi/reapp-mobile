@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, router } from 'expo-router';
 import { useForm } from 'react-hook-form';
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import { Button, Input } from 'src/components';
 import config from 'src/config';
 import colors from 'src/constants/colors';
@@ -14,7 +14,6 @@ const signInFormSchema = z.object({
     .string({ required_error: 'O email é obrigatório.' })
     .email('Email inválido.'),
   password: z.string({ required_error: 'A senha é obrigatória.' }),
-  isDonor: z.boolean({ required_error: 'Tipo de usuário é obrigatório.' }),
 });
 
 type signInFormData = z.infer<typeof signInFormSchema>;
@@ -158,44 +157,6 @@ export default function SignIn() {
         {errors.password && (
           <Text className="my-1 font-reapp_regular text-xs text-color_redsh">
             {errors.password.message}
-          </Text>
-        )}
-      </View>
-
-      <View>
-        <Text className="font-reapp_regular text-base">Tipo de usuário</Text>
-        <View className="flex-row gap-4">
-          <TouchableOpacity
-            onPress={() => setValue('isDonor', true, { shouldValidate: true })}
-            className="flex-row items-center"
-          >
-            <Text className="mr-2">Sou doador</Text>
-            <View
-              className={`h-4 w-4 rounded-full border ${
-                watch('isDonor') === true
-                  ? 'bg-color_primary'
-                  : 'bg-transparent'
-              }`}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => setValue('isDonor', false, { shouldValidate: true })}
-            className="flex-row items-center"
-          >
-            <Text className="mr-2">Sou instituição</Text>
-            <View
-              className={`h-4 w-4 rounded-full border ${
-                watch('isDonor') === false
-                  ? 'bg-color_primary'
-                  : 'bg-transparent'
-              }`}
-            />
-          </TouchableOpacity>
-        </View>
-        {errors.isDonor && (
-          <Text className="my-1 font-reapp_regular text-xs text-color_redsh">
-            {errors.isDonor.message}
           </Text>
         )}
       </View>
