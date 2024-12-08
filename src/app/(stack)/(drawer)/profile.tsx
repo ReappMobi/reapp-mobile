@@ -11,11 +11,12 @@ const DrawerContent = () => {
     <View className="max-w-64 w-full flex-1 rounded-none">
       <View className="bg-color_primary px-6 pt-8">
         <HeaderStatisticsProfile
-          image={user && user.avatar}
-          name={user && user.name}
+          image={user?.avatar}
+          name={user?.name}
           donationsQty={0}
           followingQty={(user && user.followersCount) || 0}
           followersQty={(user && user.followingCount) || 0}
+          note={user?.note}
         />
       </View>
       <View className="w-full flex-1 bg-white px-6">
