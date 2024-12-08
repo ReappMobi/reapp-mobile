@@ -10,6 +10,7 @@ export type AccountType = {
   id: number;
   name: string;
   updatedAt: Date;
+  note?: string;
 };
 
 export type SignInData = {
