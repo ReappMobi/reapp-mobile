@@ -26,7 +26,6 @@ function HeaderStatisticsProfile({
   note,
 }: Props) {
   const { isDonor } = useAuth();
-
   const navigation = useNavigation();
 
   return (
@@ -75,16 +74,14 @@ function HeaderStatisticsProfile({
           )}
           {!isDonor ? (
             <Text className="font-reapp_regular text-sm text-white">
-              <Text className="font-reapp_bold text-sm">{followingQty} </Text>
+              <Text className="font-reapp_bold text-sm"> {followingQty} </Text>
               Seguindo
             </Text>
           ) : (
-            <View>
-              <Text className="text-lg font-bold"> {followersQty} </Text>
-              <Text className="font-reapp_regular text-sm text-white">
-                Seguidores
-              </Text>
-            </View>
+            <Text className="font-reapp_regular text-sm text-white">
+              <Text className="font-reapp_bold text-sm"> {followersQty} </Text>
+              Seguidores
+            </Text>
           )}
         </View>
       </View>
