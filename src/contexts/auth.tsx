@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
 import React, { createContext, useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import type { AccountType, SignInData } from 'src/types';
+import type { AccountType, SignInData, SignUpData } from 'src/types';
 
 import * as auth from '../services/auth';
 import 'core-js/stable/atob';
@@ -11,12 +11,11 @@ interface AuthContextData {
   signed: boolean;
   user: AccountType;
   isDonor: boolean | null;
-  signIn(data: any): Promise<any>;
+  signIn(data: SignInData): Promise<any>;
   signInGoogle(data: any): Promise<any>;
   signOut(): void;
-  donnorSignUp(data: any): Promise<any>;
+  signUp(data: SignUpData): Promise<any>;
   donnorSignUpGoogle(data: any): Promise<any>;
-  institutionSignUp(data: any): Promise<any>;
   getToken(): Promise<string | null>;
 }
 
@@ -94,18 +93,13 @@ export function AuthProvider({ children }) {
     return response;
   }
 
-  async function donnorSignUp(data: any) {
-    const response = await auth.SignUpDonnor(data);
+  async function signUp(data: SignUpData) {
+    const response = await auth.SignUp(data);
     return response;
   }
 
   async function donnorSignUpGoogle(data: any) {
     const response = await auth.SignUpDonnorGoogle(data);
-    return response;
-  }
-
-  async function institutionSignUp(data: any) {
-    const response = await auth.SignUpInstitution(data);
     return response;
   }
 
@@ -137,9 +131,8 @@ export function AuthProvider({ children }) {
         signIn,
         signInGoogle,
         signOut,
-        donnorSignUp,
+        signUp,
         donnorSignUpGoogle,
-        institutionSignUp,
         getToken,
       }}
     >

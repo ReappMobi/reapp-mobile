@@ -142,6 +142,7 @@ export default function SignUp() {
     const unmaskPhone = phoneRef?.current.getRawValue();
     const unmaskCnpj = cnpjRef?.current.getRawValue();
     const dataReq: { [key: string]: any } = {
+      accountType: 'INSTITUTION',
       name: data.name,
       password: data.password,
       confirmPassword: data.confirm_password,
@@ -159,7 +160,7 @@ export default function SignUp() {
     if (data.instagram) {
       dataReq.instagram = data.instagram;
     }
-    const res = await auth.institutionSignUp(dataReq);
+    const res = await auth.signUp(dataReq);
     if (res.error) {
       Alert.alert('Erro no cadastro da instituição', res.error);
     } else {
