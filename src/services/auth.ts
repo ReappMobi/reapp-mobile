@@ -1,4 +1,4 @@
-import { SignInData } from 'src/types';
+import { SignInData, SignUpData } from 'src/types';
 
 import api from './api';
 
@@ -33,9 +33,9 @@ export async function SignInGoogle(data) {
   }
 }
 
-export async function SignUpDonnor(userData) {
+export async function SignUp(userData: SignUpData) {
   try {
-    const response = await api.post('/donnor', userData, {
+    const response = await api.post('/account', userData, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -46,7 +46,7 @@ export async function SignUpDonnor(userData) {
 
     return response.data;
   } catch (error) {
-    console.error('Erro ao registrar usuário doador:', error.message);
+    console.error('Erro ao registrar usuário:', error.message);
   }
 }
 
@@ -63,21 +63,5 @@ export async function SignUpDonnorGoogle(userData) {
     return response.data;
   } catch (error) {
     console.error('Erro ao registrar usuário doador:', error.message);
-  }
-}
-
-export async function SignUpInstitution(institutionData) {
-  try {
-    const response = await api.post('/institution/signup', institutionData, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      validateStatus() {
-        return true;
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Erro ao registrar instituição:', error.message);
   }
 }
