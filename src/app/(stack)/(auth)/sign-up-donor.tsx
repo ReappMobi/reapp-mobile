@@ -9,6 +9,7 @@ import { Button, Input } from 'src/components';
 import config from 'src/config';
 import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
+import { SignUpData } from 'src/types';
 import { z } from 'zod';
 
 let GoogleSignin = {
@@ -71,13 +72,14 @@ export default function SignUp() {
 
   const onSubmit = async (data: any) => {
     const unmaskPhone = phoneRef?.current.getRawValue();
-    const dataReq = {
+    const dataReq: SignUpData = {
+      accountType: 'DONOR',
       name: data.name,
       password: data.password,
       phone: unmaskPhone,
       email: data.email,
     };
-    const res = await auth.donnorSignUp(dataReq);
+    const res = await auth.signUp(dataReq);
     if (res.error) {
       Alert.alert('Erro no cadastro de doador', res.error);
     } else {
