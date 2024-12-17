@@ -100,17 +100,28 @@ const TabLayout = () => {
           }}
         />
 
-        <Tabs.Screen
-          name="profile"
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ size, color }) => (
-              <Ionicons name="person-outline" size={size} color={color} />
-            ),
-            tabBarButton: (props) =>
-              isDonor ? null : <Pressable {...props} />,
-          }}
-        />
+        {isDonor ? (
+          <Tabs.Screen
+            name="profile"
+            options={{
+              href: null,
+              headerShown: false,
+              tabBarIcon: ({ size, color }) => (
+                <Ionicons name="person-outline" size={size} color={color} />
+              ),
+            }}
+          />
+        ) : (
+          <Tabs.Screen
+            name="profile"
+            options={{
+              headerShown: true,
+              tabBarIcon: ({ size, color }) => (
+                <Ionicons name="person-outline" size={size} color={color} />
+              ),
+            }}
+          />
+        )}
       </Tabs>
     </SearchProvider>
   );
