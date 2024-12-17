@@ -1,40 +1,61 @@
 import { parseISO } from 'date-fns';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { View, FlatList, ListRenderItem } from 'react-native';
+import {
+  View,
+  FlatList,
+  ListRenderItem,
+  ActivityIndicator,
+} from 'react-native';
 import { Button, CardPost, Carousel } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
-import { getPosts, getSharedCampaigns } from 'src/services/app-core';
+import {
+  getPosts,
+  getSharedCampaigns,
+  likePost,
+  unlikePost,
+} from 'src/services/app-core';
 import { IPost } from 'src/types';
 
 export default function Page() {
   const [banners, setBanners] = useState([]);
   const [posts, setPosts] = useState([]);
-  const { isDonor } = useAuth();
+  const { isDonor, user } = useAuth();
   const auth = useAuth();
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
-      const token = await auth.getToken();
+      const fetchedToken = await auth.getToken();
+      setToken(fetchedToken);
+
       const banners = await getSharedCampaigns();
       setBanners(banners);
-      const posts = await getPosts({ token });
+      const posts = await getPosts({ token: fetchedToken });
       setPosts(posts);
     })();
   }, []);
 
   const renderItem: ListRenderItem<IPost> = useCallback(
-    ({ item }) => (
-      <CardPost
-        imagePath={item.media?.url || ''}
-        userImagePath={item.institution?.account?.media?.url || ''}
-        nameInstitution={item.institution?.account?.name || ''}
-        description={item.body || ''}
-        timeAgo={timeAgo(item.updatedAt)}
-        isSavedInitial={false}
-      />
-    ),
-    []
+    ({ item }) => {
+      const isLiked = item.likes.some(
+        (like) => like.donor.accountId === user?.id
+      );
+      return (
+        <CardPost
+          imagePath={item.media?.url || ''}
+          userImagePath={item.institution?.account?.media?.url || ''}
+          nameInstitution={item.institution?.account?.name || ''}
+          description={item.body || ''}
+          timeAgo={timeAgo(item.updatedAt)}
+          isSavedInitial={false}
+          isLikedInitial={isLiked}
+          onPressLike={() => likePost({ id: item.id, token })}
+          onPressUnlike={() => unlikePost({ id: item.id, token })}
+        />
+      );
+    },
+    [user, token]
   );
   function timeAgo(dateString: string): string {
     const date = parseISO(dateString);
@@ -74,26 +95,32 @@ export default function Page() {
 
   return (
     <View className="flex-1 bg-white px-2 pt-1">
-      {isDonor && (
-        <Button
-          size="small"
-          textColor="text-white"
-          customStyles="mb-2 justify-center bg-color_third"
-          onPress={() => router.push('/donate')}
-        >
-          Doar para instituições sociais
-        </Button>
-      )}
+      {!token ? (
+        <ActivityIndicator size="large" color="#000" />
+      ) : (
+        <>
+          {isDonor && (
+            <Button
+              size="small"
+              textColor="text-white"
+              customStyles="mb-2 justify-center bg-color_third"
+              onPress={() => router.push('/donate')}
+            >
+              Doar para instituições sociais
+            </Button>
+          )}
 
-      <FlatList
-        ListHeaderComponent={<Carousel banners={banners} />}
-        data={posts}
-        renderItem={renderItem}
-        showsVerticalScrollIndicator={false}
-        ItemSeparatorComponent={() => (
-          <View className="mt-4 h-[2px] w-full bg-slate-200" />
-        )}
-      />
+          <FlatList
+            ListHeaderComponent={<Carousel banners={banners} />}
+            data={posts}
+            renderItem={renderItem}
+            showsVerticalScrollIndicator={false}
+            ItemSeparatorComponent={() => (
+              <View className="mt-4 h-[2px] w-full bg-slate-200" />
+            )}
+          />
+        </>
+      )}
     </View>
   );
 }
