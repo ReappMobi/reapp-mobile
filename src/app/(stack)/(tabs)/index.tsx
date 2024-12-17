@@ -26,10 +26,10 @@ export default function Page() {
   const renderItem: ListRenderItem<IPost> = useCallback(
     ({ item }) => (
       <CardPost
-        imagePath={item.imageUrl}
-        userImagePath={item.institution.avatar}
-        nameInstitution={item.institution.name}
-        description={item.caption}
+        imagePath={item.media?.url || ''}
+        userImagePath={item.institution?.account?.media?.url || ''}
+        nameInstitution={item.institution?.account?.name || ''}
+        description={item.body || ''}
         timeAgo={timeAgo(item.updatedAt)}
         isSavedInitial={false}
       />
