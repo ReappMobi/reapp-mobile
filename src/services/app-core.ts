@@ -41,6 +41,42 @@ export async function getPosts(data: { token: string }) {
   }
 }
 
+export async function likePost(data: { id: number; token: string }) {
+  try {
+    const response = await api.post(
+      `/post/${data.id}/like`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
+        validateStatus() {
+          return true;
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function unlikePost(data: { id: number; token: string }) {
+  try {
+    const response = await api.delete(`/post/${data.id}/like`, {
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
 export async function getInstitutions(data) {
   try {
     const response = await api.get('/institution', {
