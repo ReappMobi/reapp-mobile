@@ -1,10 +1,24 @@
+import { IMedia } from './IMedia';
+
 export interface IPost {
-  caption: string;
   id: number;
-  imageUrl: string;
+  body: string;
   institution: {
-    avatar: string | null;
-    name: string;
+    id: number;
+    category: {
+      name: string;
+    };
+    account: {
+      id: number;
+      name: string;
+      avatarId: string;
+      media: IMedia;
+    };
   };
+  mediaId: string;
+  media: IMedia;
+  createdAt: string;
   updatedAt: string;
+  comments: any[];
+  likes: any[];
 }
