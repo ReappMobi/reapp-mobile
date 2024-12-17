@@ -13,6 +13,7 @@ type CardPostProps = {
   isLikedInitial?: boolean;
   isSavedInitial?: boolean;
   onPressLike?: () => void;
+  onPressUnlike?: () => void;
   onPressSave?: () => void;
 };
 
@@ -28,6 +29,7 @@ function CardPost({
   isLikedInitial,
   isSavedInitial,
   onPressLike,
+  onPressUnlike,
   onPressSave,
 }: CardPostProps) {
   const [isLiked, setIsLiked] = useState<boolean>(isLikedInitial);
@@ -37,8 +39,17 @@ function CardPost({
   const [isPostImageLoading, setIsPostImageLoading] = useState<boolean>(true);
 
   const handleLikePress = () => {
-    setIsLiked(!isLiked);
-    onPressLike && onPressLike();
+    setIsLiked((prevLiked) => {
+      const newLiked = !prevLiked;
+
+      if (newLiked) {
+        onPressLike?.();
+      } else {
+        onPressUnlike?.();
+      }
+
+      return newLiked;
+    });
   };
 
   const handleSavePress = () => {
