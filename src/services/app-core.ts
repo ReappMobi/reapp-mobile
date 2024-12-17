@@ -25,7 +25,7 @@ export async function getSharedCampaigns(): Promise<IBanner[]> {
 }
 
 /**TODO: fix Post type in this function */
-export async function getPosts(data) {
+export async function getPosts(data: { token: string }) {
   try {
     const response = await api.get('/post', {
       headers: {
