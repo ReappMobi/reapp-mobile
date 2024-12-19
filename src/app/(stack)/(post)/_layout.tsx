@@ -1,20 +1,14 @@
 import { Stack } from 'expo-router';
-import colors from 'src/constants/colors';
+import React from 'react';
 
-const Layout = () => (
-  <Stack
-    screenOptions={{
-      title: 'REAPP',
-      headerBackTitleVisible: false,
-      headerBackVisible: false,
-      headerTintColor: colors.color_primary,
-      headerShadowVisible: false,
-      headerTitleStyle: {
-        fontSize: 24,
-        fontFamily: 'reapp_bold',
-      },
-    }}
-  />
-);
+const Layout = () => {
+  return (
+    <Stack
+      screenOptions={{
+        headerShown: false,
+      }}
+    />
+  );
+};
 
 export default Layout;
