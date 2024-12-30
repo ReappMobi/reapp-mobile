@@ -79,7 +79,7 @@ export async function unlikePost(data: { id: number; token: string }) {
 
 export async function getInstitutions(data) {
   try {
-    const response = await api.get('/institution', {
+    const response = await api.get('/account/institution', {
       headers: {
         Authorization: `Bearer ${data.token}`,
       },
@@ -278,12 +278,9 @@ export async function postProject(projectData) {
   }
 }
 
-export async function getProjects(data, token) {
+export async function getProjects(token: string) {
   try {
     const response = await api.get(`/project`, {
-      params: {
-        isDonor: data.isDonor,
-      },
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,

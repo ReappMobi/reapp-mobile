@@ -18,7 +18,6 @@ import { useAuth } from 'src/hooks/useAuth';
 import { useSearch } from 'src/hooks/useSearch';
 import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
 import {
-  getProjectCategories,
   getProjects,
   getSharedCampaigns,
   toggleFavoriteProject,
@@ -43,7 +42,7 @@ const RenderCardSearch = memo<RenderCardSearchProps>(
     if (searchPhrase === '') {
       return (
         <CardSearch
-          imageUrl={item.cover}
+          imageUrl={item.media?.remoteUrl}
           title={item.name}
           onPress={() => {
             onPressCard(item);
@@ -55,11 +54,13 @@ const RenderCardSearch = memo<RenderCardSearchProps>(
     if (
       item.name
         .toUpperCase()
+        .trim()
+        .replace(/\s/g, '')
         .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ''))
     ) {
       return (
         <CardSearch
-          imageUrl={item.cover}
+          imageUrl={item.media?.remoteUrl}
           title={item.name}
           onPress={() => {
             onPressCard(item);
@@ -98,7 +99,7 @@ const RenderItem = memo<RenderItemProps>(
       return (
         <ExploreScreenCard
           title={item.name}
-          imageUrl={item.cover}
+          imageUrl={item.media?.remoteUrl}
           onPressCard={() => {
             onPressCard(item);
           }}
@@ -112,7 +113,7 @@ const RenderItem = memo<RenderItemProps>(
       return (
         <ExploreScreenCard
           title={item.name}
-          imageUrl={item.cover}
+          imageUrl={item.media?.remoteUrl}
           onPressCard={() => {
             onPressCard(item);
           }}
@@ -151,11 +152,19 @@ const ProjectsPage = () => {
   useEffect(() => {
     (async () => {
       const token = await auth.getToken();
-      const isDonor = auth.isDonor;
-      const projectsData = await getProjects({ isDonor }, token);
+      const projectsData = await getProjects(token);
+
+      const uniqueCategories = Array.from(
+        new Map(
+          projectsData.map((proj: IProject) => [
+            proj.category.id,
+            { id: proj.category.id, name: proj.category.name },
+          ])
+        ).values()
+      ) as ICategory[];
+
       setProjects(projectsData);
-      const categoriesData = await getProjectCategories({ token });
-      setCategories(categoriesData);
+      setCategories(uniqueCategories);
       setLoadingProjects(false);
     })();
   }, []);
@@ -165,7 +174,7 @@ const ProjectsPage = () => {
       return {
         category,
         data: [
-          projects.filter((project) => project.categoryId === category.id),
+          projects.filter((project) => project.category.id === category.id),
         ],
       };
     });

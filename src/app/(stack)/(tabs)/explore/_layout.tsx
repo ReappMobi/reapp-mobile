@@ -79,6 +79,7 @@ const ExploreLayout = () => {
           },
           lazy: true,
         }}
+        id={undefined}
       >
         <Tab.Screen name="Instituições" component={InstitutionsPage} />
         <Tab.Screen name="Projetos" component={ProjectsPage} />

@@ -23,10 +23,7 @@ import Colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { useSearch } from 'src/hooks/useSearch';
 import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
-import {
-  getInstitutionCategories,
-  getInstitutions,
-} from 'src/services/app-core';
+import { getInstitutions } from 'src/services/app-core';
 import { IInstitution } from 'src/types';
 
 type RenderItemProps = {
@@ -75,9 +72,9 @@ const Modal = memo(() => {
 const RenderItem = memo<RenderItemProps>(({ item, onOpen, onPressCard }) => {
   return (
     <ExploreScreenCard
-      title={item.name}
+      title={item.account.name}
       isInstitution
-      imageUrl={item.avatar}
+      imageUrl={item.account.media?.remoteUrl}
       onPressInfo={onOpen}
       onPressCard={() => onPressCard(item)}
     />
@@ -89,22 +86,24 @@ const RenderCardSearch = memo<RenderCardSearchProps>(
     if (searchPhrase === '') {
       return (
         <CardSearch
-          imageUrl={item.avatar}
-          title={item.name}
+          imageUrl={item.account.media?.remoteUrl}
+          title={item.account.name}
           onPress={() => onPressCard(item)}
         />
       );
     }
 
     if (
-      item.name
+      item.account.name
         .toUpperCase()
+        .trim()
+        .replace(/\s/g, '')
         .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ''))
     ) {
       return (
         <CardSearch
-          imageUrl={item.avatar}
-          title={item.name}
+          imageUrl={item.account.media?.remoteUrl}
+          title={item.account.name}
           onPress={() => onPressCard(item)}
         />
       );
@@ -142,9 +141,18 @@ const InstitutionsPage = () => {
     (async () => {
       const token = await auth.getToken();
       const institutionsData = await getInstitutions({ token });
+
+      const uniqueCategories = Array.from(
+        new Map(
+          institutionsData.map((inst: IInstitution) => [
+            inst.category.id,
+            { id: inst.category.id, name: inst.category.name },
+          ])
+        ).values()
+      ) as ICategory[];
+
       setInstitutions(institutionsData);
-      const categoriesData = await getInstitutionCategories();
-      setCategories(categoriesData);
+      setCategories(uniqueCategories);
       setLoadingInstitutions(false);
     })();
   }, []);
@@ -155,7 +163,7 @@ const InstitutionsPage = () => {
         title: category.name,
         data: [
           institutions.filter(
-            (institution) => institution.category === category.name
+            (institution) => institution.category.name === category.name
           ),
         ],
       };

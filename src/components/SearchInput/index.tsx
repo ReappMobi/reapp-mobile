@@ -24,7 +24,7 @@ const SearchInput = ({
       <View className="w-full flex-row items-center justify-between rounded border border-text_secondary bg-input_background px-2 py-2">
         <TextInput
           ref={textInputRef}
-          className="font-regular h-full text-base text-text_gray"
+          className="font-regular flex-1 text-base text-text_gray"
           placeholder="O que você está procurando?"
           onChangeText={onChangeText}
           onFocus={() => {
@@ -43,11 +43,14 @@ const SearchInput = ({
               textInputRef.current?.clear();
               onDimiss && onDimiss();
             }}
+            className="h-8 w-8 items-center justify-center"
           >
             <Ionicons name="close" size={20} color="black" />
           </Pressable>
         ) : (
-          <Ionicons name="search-outline" size={20} color="black" />
+          <View className="h-8 w-8 items-center justify-center">
+            <Ionicons name="search-outline" size={20} color="black" />
+          </View>
         )}
       </View>
     </View>

@@ -1,15 +1,18 @@
+import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
+
+import { IMedia } from './IMedia';
+
 export interface IInstitution {
   id: number;
-  name: string;
-  category: string;
-  avatar: string;
+  cnpj: string;
   phone: string;
-  email: string;
-  state: string;
-  city: string;
-  facebook?: string;
-  instagram?: string;
-  followers_count: number;
-  following_count: number;
-  donations: number;
+  category: ICategory;
+  fields: [];
+  account: {
+    id: number;
+    name: string;
+    email: string;
+    avatarId?: number;
+    media?: IMedia;
+  };
 }
