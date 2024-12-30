@@ -43,8 +43,8 @@ export default function Page() {
       );
       return (
         <CardPost
-          imagePath={item.media?.url || ''}
-          userImagePath={item.institution?.account?.media?.url || ''}
+          imagePath={item.media?.remoteUrl || ''}
+          userImagePath={item.institution?.account?.media?.remoteUrl || ''}
           nameInstitution={item.institution?.account?.name || ''}
           description={item.body || ''}
           timeAgo={timeAgo(item.updatedAt)}
