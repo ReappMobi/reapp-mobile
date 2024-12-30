@@ -52,7 +52,7 @@ const ExploreScreenCard = ({
     onPressFollow && onPressFollow();
   };
 
-  let cardHeight;
+  let cardHeight: string;
   if (!isDonor) {
     cardHeight = 'h-36';
   } else if (isInstitution) {
