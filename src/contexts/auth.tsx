@@ -65,11 +65,11 @@ export function AuthProvider({ children }) {
   }, []);
 
   async function signIn(data: SignInData) {
-    console.log(' SignInData: ', data);
     const response = await auth.SignIn(data);
 
     if (response.user !== undefined) {
       setUser(response.user);
+      setIsDonor(response.user.accountType === 'DONOR');
       await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
       await AsyncStorage.setItem('@RNAuth:token', response.token);
       await AsyncStorage.setItem(
