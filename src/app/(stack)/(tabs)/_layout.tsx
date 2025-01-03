@@ -37,18 +37,17 @@ const TabLayout = () => {
               color: colors.color_primary,
               fontSize: 24,
             },
-            headerRight: () => (
-              <Entypo
-                name="new-message"
-                size={24}
-                color={colors.text_neutral}
-                onPress={() => {
-                  router.push({
-                    pathname: 'post-create',
-                  });
-                }}
-              />
-            ),
+            headerRight: () =>
+              !isDonor ? (
+                <Entypo
+                  name="new-message"
+                  size={24}
+                  color={colors.text_neutral}
+                  onPress={() => {
+                    router.push({ pathname: 'post-create' });
+                  }}
+                />
+              ) : null,
             headerTitleAlign: 'center',
             headerLeftContainerStyle: { paddingLeft: 16 },
             headerRightContainerStyle: { paddingRight: 16 },
@@ -78,17 +77,28 @@ const TabLayout = () => {
           }}
         />
 
-        <Tabs.Screen
-          name="favorites"
-          options={{
-            headerShown: true,
-            tabBarIcon: ({ size, color }) => (
-              <Octicons name="heart" size={size} color={color} />
-            ),
-            tabBarButton: (props) =>
-              isDonor ? <Pressable {...props} /> : null,
-          }}
-        />
+        {isDonor ? (
+          <Tabs.Screen
+            name="favorites"
+            options={{
+              headerShown: true,
+              tabBarIcon: ({ size, color }) => (
+                <Octicons name="heart" size={size} color={color} />
+              ),
+            }}
+          />
+        ) : (
+          <Tabs.Screen
+            name="favorites"
+            options={{
+              headerShown: false,
+              href: null,
+              tabBarIcon: ({ size, color }) => (
+                <Octicons name="heart" size={size} color={color} />
+              ),
+            }}
+          />
+        )}
 
         <Tabs.Screen
           name="transparency"
