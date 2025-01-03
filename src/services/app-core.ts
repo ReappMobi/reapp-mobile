@@ -109,15 +109,18 @@ export async function getInstitutionById(institutionId: number, token: string) {
   }
 }
 
-export async function postPublication(postData) {
+export async function postPublication(postData: {
+  content: string;
+  media: string;
+  token: string;
+}) {
   try {
     const formData = new FormData();
-    formData.append('caption', postData.caption);
-    formData.append('institutionId', postData.institutionId);
-    if (postData.image) {
+    formData.append('content', postData.content);
+    if (postData.media) {
       const timestamp = Date.now();
-      formData.append('image', {
-        uri: postData.image,
+      formData.append('media', {
+        uri: postData.media,
         name: `${timestamp}.jpg`,
         type: 'image/jpeg',
       } as any);
@@ -228,17 +231,24 @@ export async function getCollaboratorById(institutionId, token) {
   }
 }
 
-export async function toggleFavoriteProject(data) {
+export async function toggleFavoriteProject(data: {
+  projectId: number;
+  token: string;
+}) {
   try {
-    const response = await api.post('/project/toggle-favorite', data, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${data.token}`,
-      },
-      validateStatus() {
-        return true;
-      },
-    });
+    const response = await api.post(
+      `/project/toggle-favorite/${data.projectId}`,
+      {},
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${data.token}`,
+        },
+        validateStatus() {
+          return true;
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {

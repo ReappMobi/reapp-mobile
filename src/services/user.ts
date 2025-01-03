@@ -13,7 +13,7 @@ export async function getSavedPosts() {
 
 export async function getFavoritesProjects(donorId: number, token) {
   try {
-    const response = await api.get(`/project/favorite/${donorId}`, {
+    const response = await api.get(`/project/favorite/`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,

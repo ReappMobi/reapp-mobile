@@ -1,11 +1,14 @@
 import { parseISO } from 'date-fns';
 import { router } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, memo } from 'react';
 import {
   View,
   FlatList,
   ListRenderItem,
   ActivityIndicator,
+  RefreshControl,
+  TouchableOpacity,
+  Text,
 } from 'react-native';
 import { Button, CardPost, Carousel } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
@@ -15,112 +18,255 @@ import {
   likePost,
   unlikePost,
 } from 'src/services/app-core';
-import { IPost } from 'src/types';
+import { IPost, IBanner } from 'src/types';
 
-export default function Page() {
-  const [banners, setBanners] = useState([]);
-  const [posts, setPosts] = useState([]);
-  const { isDonor, user } = useAuth();
+/**
+ * -------------------------------------------------------
+ * 1. CUSTOM HOOK: usePostsAndBanners
+ *    Centraliza fetching (posts, banners), loading, error, refresh
+ * -------------------------------------------------------
+ */
+function usePostsAndBanners() {
   const auth = useAuth();
+  const [posts, setPosts] = useState<IPost[]>([]);
+  const [banners, setBanners] = useState<IBanner[]>([]);
+
+  const [error, setError] = useState<Error | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
   const [token, setToken] = useState<string | null>(null);
 
-  useEffect(() => {
-    (async () => {
-      const fetchedToken = await auth.getToken();
-      setToken(fetchedToken);
+  const fetchData = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
+      // 1) Obter token
+      const token = await auth.getToken();
+      setToken(token);
+
+      // 2) Buscar banners
       const banners = await getSharedCampaigns();
       setBanners(banners);
-      const posts = await getPosts({ token: fetchedToken });
+
+      // 3) Buscar posts
+      const posts = await getPosts({ token });
       setPosts(posts);
-    })();
-  }, []);
+    } catch (err) {
+      setError(err as Error);
+    } finally {
+      setLoading(false);
+    }
+  }, [auth]);
 
-  const renderItem: ListRenderItem<IPost> = useCallback(
-    ({ item }) => {
-      const isLiked = item.likes.some(
-        (like) => like.donor.accountId === user?.id
-      );
-      return (
-        <CardPost
-          imagePath={item.media?.remoteUrl || ''}
-          userImagePath={item.institution?.account?.media?.remoteUrl || ''}
-          nameInstitution={item.institution?.account?.name || ''}
-          description={item.body || ''}
-          timeAgo={timeAgo(item.updatedAt)}
-          isSavedInitial={false}
-          isLikedInitial={isLiked}
-          onPressLike={() => likePost({ id: item.id, token })}
-          onPressUnlike={() => unlikePost({ id: item.id, token })}
-        />
-      );
-    },
-    [user, token]
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  // Função de refresh
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    try {
+      await fetchData();
+    } finally {
+      setRefreshing(false);
+    }
+  }, [fetchData]);
+
+  return {
+    posts,
+    banners,
+    token,
+    error,
+    loading,
+    refreshing,
+    onRefresh,
+  };
+}
+
+/**
+ * -------------------------------------------------------
+ * 2. Componente que renderiza 1 único post (CardPost)
+ * -------------------------------------------------------
+ */
+type PostItemProps = {
+  item: IPost;
+  token: string | null;
+  userId?: string | number;
+};
+
+const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
+  // Verifica se o post já foi curtido pelo usuário
+  const isLiked = item.likes?.some((like) => like.donor.accountId === userId);
+
+  // Funções para like/unlike
+  const handleLike = useCallback(() => {
+    if (token) {
+      likePost({ id: item.id, token });
+    }
+  }, [item.id, token]);
+
+  const handleUnlike = useCallback(() => {
+    if (token) {
+      unlikePost({ id: item.id, token });
+    }
+  }, [item.id, token]);
+
+  // Formata tempo
+  const timeString = timeAgo(item.updatedAt);
+
+  return (
+    <CardPost
+      imagePath={item.media?.remoteUrl || ''}
+      userImagePath={item.institution?.account?.media?.remoteUrl || ''}
+      nameInstitution={item.institution?.account?.name || ''}
+      description={item.body || ''}
+      timeAgo={timeString}
+      isSavedInitial={false}
+      isLikedInitial={isLiked}
+      onPressLike={handleLike}
+      onPressUnlike={handleUnlike}
+    />
   );
-  function timeAgo(dateString: string): string {
-    const date = parseISO(dateString);
-    const now = new Date();
-    const differenceInMinutes = Math.floor(
-      (now.getTime() - date.getTime()) / 60000
-    );
-    if (differenceInMinutes <= 1) {
-      return `${differenceInMinutes} minuto atrás`;
-    }
+});
 
-    if (differenceInMinutes < 60) {
-      return `${differenceInMinutes} minutos atrás`;
-    }
+/** Formata uma data para "há X minutos/horas/dias" */
+function timeAgo(dateString: string): string {
+  const date = parseISO(dateString);
+  const now = new Date();
+  const differenceInMinutes = Math.floor(
+    (now.getTime() - date.getTime()) / 60000
+  );
 
-    const differenceInHours = Math.floor(differenceInMinutes / 60);
-    if (differenceInHours < 24) {
-      return `${differenceInHours} horas atrás`;
-    }
-
-    const differenceInDays = Math.floor(differenceInHours / 24);
-    if (differenceInDays < 30) {
-      if (differenceInDays === 1) {
-        return `${differenceInDays} dia atrás`;
-      }
-      return `${differenceInDays} dias atrás`;
-    }
-
-    const differenceInMonths = Math.floor(differenceInDays / 30);
-    if (differenceInMonths < 12) {
-      return `${differenceInMonths} meses atrás`;
-    }
-
-    const differenceInYears = Math.floor(differenceInMonths / 12);
-    return `${differenceInYears} anos atrás`;
+  if (differenceInMinutes <= 1) {
+    return `${differenceInMinutes} minuto atrás`;
   }
+
+  if (differenceInMinutes < 60) {
+    return `${differenceInMinutes} minutos atrás`;
+  }
+
+  const differenceInHours = Math.floor(differenceInMinutes / 60);
+  if (differenceInHours < 24) {
+    return `${differenceInHours} horas atrás`;
+  }
+
+  const differenceInDays = Math.floor(differenceInHours / 24);
+  if (differenceInDays < 30) {
+    if (differenceInDays === 1) {
+      return `${differenceInDays} dia atrás`;
+    }
+    return `${differenceInDays} dias atrás`;
+  }
+
+  const differenceInMonths = Math.floor(differenceInDays / 30);
+  if (differenceInMonths < 12) {
+    return `${differenceInMonths} meses atrás`;
+  }
+
+  const differenceInYears = Math.floor(differenceInMonths / 12);
+  return `${differenceInYears} anos atrás`;
+}
+
+/**
+ * -------------------------------------------------------
+ * 3. LISTA PRINCIPAL DE POSTS
+ * -------------------------------------------------------
+ */
+function PostList() {
+  const { user } = useAuth();
+  const { posts, banners, token, error, loading, refreshing, onRefresh } =
+    usePostsAndBanners();
+
+  // Se estiver carregando e não tiver token, mostra spinner
+  if (loading && !token) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    );
+  }
+
+  // Se houve erro, mostra mensagem
+  if (!loading && error) {
+    return (
+      <View className="flex-1 items-center justify-center p-4">
+        <Text className="mb-2 text-lg font-bold text-red-500">
+          Ocorreu um erro!
+        </Text>
+        <Text>{error.message}</Text>
+
+        {/* Botão para tentar novamente */}
+        <TouchableOpacity onPress={onRefresh}>
+          <Text className="mt-4 text-blue-500">Tentar novamente</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  // Se não houver posts
+  if (!loading && posts.length === 0) {
+    return (
+      <View className="flex-1 items-center justify-center p-4">
+        <Text className="font-reapp_medium text-base">
+          Nenhum post encontrado.
+        </Text>
+      </View>
+    );
+  }
+
+  // Renderizamos a lista
+  const renderItem: ListRenderItem<IPost> = ({ item }) => (
+    <PostItem item={item} token={token} userId={user?.id} />
+  );
+
+  return (
+    <FlatList
+      className="flex-1"
+      ListHeaderComponent={<Carousel banners={banners} />}
+      data={posts}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id.toString()}
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          colors={['#ff0000']} // Android
+          tintColor="#0000ff" // iOS
+          title="Recarregando..." // iOS
+        />
+      }
+      ItemSeparatorComponent={() => (
+        <View className="mt-4 h-[2px] w-full bg-slate-200" />
+      )}
+    />
+  );
+}
+
+/**
+ * -------------------------------------------------------
+ * 4. PÁGINA PRINCIPAL
+ * -------------------------------------------------------
+ */
+export default function Page() {
+  const { isDonor } = useAuth();
 
   return (
     <View className="flex-1 bg-white px-2 pt-1">
-      {!token ? (
-        <ActivityIndicator size="large" color="#000" />
-      ) : (
-        <>
-          {isDonor && (
-            <Button
-              size="small"
-              textColor="text-white"
-              customStyles="mb-2 justify-center bg-color_third"
-              onPress={() => router.push('/donate')}
-            >
-              Doar para instituições sociais
-            </Button>
-          )}
-
-          <FlatList
-            ListHeaderComponent={<Carousel banners={banners} />}
-            data={posts}
-            renderItem={renderItem}
-            showsVerticalScrollIndicator={false}
-            ItemSeparatorComponent={() => (
-              <View className="mt-4 h-[2px] w-full bg-slate-200" />
-            )}
-          />
-        </>
+      {isDonor && (
+        <Button
+          size="small"
+          textColor="text-white"
+          customStyles="mb-2 justify-center bg-color_third"
+          onPress={() => router.push('/donate')}
+        >
+          Doar para instituições sociais
+        </Button>
       )}
+
+      {/* Lista de posts */}
+      <PostList />
     </View>
   );
 }

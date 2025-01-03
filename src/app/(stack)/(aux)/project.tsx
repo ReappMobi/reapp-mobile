@@ -54,7 +54,7 @@ const ProjectPage = () => {
       <ScrollView>
         <Image
           className="h-44 w-full"
-          source={project.cover}
+          source={project.media.remoteUrl}
           placeholder={blurhash}
           contentFit="cover"
           transition={500}

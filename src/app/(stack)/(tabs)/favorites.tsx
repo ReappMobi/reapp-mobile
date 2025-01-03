@@ -1,6 +1,6 @@
 import { router, useNavigation } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, RefreshControl } from 'react-native';
 import { CardInstitutionProject } from 'src/components';
 import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
@@ -12,6 +12,16 @@ const Page = () => {
   const navigation = useNavigation();
   const auth = useAuth();
   const [favoritesProjects, setFavoritesProjects] = useState<IProject[]>([]);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+
+    const token = await auth.getToken();
+    const res = await getFavoritesProjects(auth.user.id, token);
+    setFavoritesProjects(res);
+    setRefreshing(false);
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -36,7 +46,6 @@ const Page = () => {
       await toggleFavoriteProject({
         projectId: item.id,
         token,
-        donorId: auth.user.id,
       });
 
       setFavoritesProjects((prevFavoriteProjects) => {
@@ -48,30 +57,32 @@ const Page = () => {
   }, []);
 
   return (
-    <View className="gap-y-4">
-      <FlatList
-        data={favoritesProjects}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <CardInstitutionProject
-            imagePath={item.cover}
-            title={item.name}
-            textButton="Ver"
-            isFavoriteCard
-            onPress={() =>
-              router.navigate({
-                pathname: 'project',
-                params: { projectId: item.id },
-              })
-            }
-            onPressLike={() => {
-              handleFavoriteClick(item);
-            }}
-          />
-        )}
-        ItemSeparatorComponent={() => <View className="mb-2.5" />}
-      />
-    </View>
+    <FlatList
+      className="gap-y-4"
+      data={favoritesProjects}
+      keyExtractor={(item) => item.id.toString()}
+      renderItem={({ item }) => (
+        <CardInstitutionProject
+          imagePath={item.media.remoteUrl}
+          title={item.name}
+          textButton="Ver"
+          isFavoriteCard
+          onPress={() =>
+            router.navigate({
+              pathname: 'project',
+              params: { projectId: item.id },
+            })
+          }
+          onPressLike={() => {
+            handleFavoriteClick(item);
+          }}
+        />
+      )}
+      ItemSeparatorComponent={() => <View className="mb-2.5" />}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    />
   );
 };
 
