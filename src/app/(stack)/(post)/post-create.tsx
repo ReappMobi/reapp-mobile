@@ -20,7 +20,7 @@ import { z } from 'zod';
 
 export default function PostCreate() {
   const auth = useAuth();
-  const [image, setImage] = useState(null);
+  const [media, setMedia] = useState(null);
   const [loading, setLoading] = useState(false);
   const mediaTypes: MediaType[] = ['images', 'videos'];
 
@@ -47,10 +47,9 @@ export default function PostCreate() {
     const token = await auth.getToken();
 
     const dataReq = {
-      caption: data.description,
-      image,
+      content: data.description,
+      media,
       token,
-      institutionId: auth.user.id,
     };
 
     const res = await postPublication(dataReq);
@@ -81,7 +80,7 @@ export default function PostCreate() {
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setMedia(result.assets[0].uri);
     }
   };
 
@@ -102,7 +101,7 @@ export default function PostCreate() {
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setMedia(result.assets[0].uri);
     }
   };
 
@@ -144,14 +143,14 @@ export default function PostCreate() {
           className="flex-1 px-4 text-base text-[#e2e2e2]"
         />
 
-        {image && (
+        {media && (
           <View className="my-4 px-4">
             <View className="items- relative w-40  items-end px-1">
-              <Pressable onPress={() => setImage(null)}>
+              <Pressable onPress={() => setMedia(null)}>
                 <Ionicons name="close-circle" size={26} color="#646464" />
               </Pressable>
               <Image
-                source={{ uri: image }}
+                source={{ uri: media }}
                 style={{ width: 150, height: 150, borderRadius: 2 }}
               />
             </View>
