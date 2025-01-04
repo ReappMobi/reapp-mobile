@@ -58,8 +58,7 @@ export default function PostCreate() {
     if (res.error) {
       Alert.alert('Erro no cadastro da postagem', res.error);
     } else {
-      Alert.alert('Postagem cadastrada com sucesso!');
-      router.back();
+      router.replace('/');
     }
   };
 
