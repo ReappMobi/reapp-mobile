@@ -5,13 +5,12 @@ const Layout = () => (
   <Stack
     screenOptions={{
       title: 'REAPP',
-      headerBackTitleVisible: false,
-      headerBackVisible: false,
+      headerBackVisible: true,
       headerTintColor: colors.color_primary,
       headerShadowVisible: false,
       headerTitleStyle: {
         fontSize: 24,
-        fontFamily: 'reapp_bold',
+        fontWeight: 'bold',
       },
     }}
   />
