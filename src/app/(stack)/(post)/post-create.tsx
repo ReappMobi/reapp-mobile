@@ -27,7 +27,7 @@ export default function PostCreate() {
   const postCreateFormSchema = z.object({
     description: z
       .string({ required_error: 'O conteúdo da postagem é obrigatório.' })
-      .max(200, 'A legenda deve ter no máximo 200 caracteres.'),
+      .max(200, 'O conteúdo da postagem deve ter no máximo 200 caracteres.'),
   });
 
   type postCreateFormData = z.infer<typeof postCreateFormSchema>;
