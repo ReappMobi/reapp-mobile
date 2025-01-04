@@ -35,7 +35,7 @@ function HeaderStatisticsProfile({
         onPress={() => {
           navigation.dispatch(DrawerActions.closeDrawer());
           if (isDonor) {
-            router.push('/editInformationDonor');
+            router.push('/edit-donor-profile');
           } else {
             router.push('/editInformationInstitution');
           }
