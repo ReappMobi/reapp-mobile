@@ -30,9 +30,6 @@ export async function getPosts(data: { token: string }) {
       headers: {
         Authorization: `Bearer ${data.token}`,
       },
-      validateStatus() {
-        return true;
-      },
     });
 
     if (response.status !== 200) {
