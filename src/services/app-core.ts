@@ -34,6 +34,11 @@ export async function getPosts(data: { token: string }) {
         return true;
       },
     });
+
+    if (response.status !== 200) {
+      throw new Error(response.data.error.message || 'Erro ao buscar posts');
+    }
+
     return response.data;
   } catch (error) {
     return { error: error.message };
