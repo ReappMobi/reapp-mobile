@@ -46,8 +46,10 @@ const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
 
   return (
     <CardPost
-      imagePath={item.media?.remoteUrl || ''}
-      userImagePath={item.institution?.account?.media?.remoteUrl || ''}
+      mediaUrl={item.media?.remoteUrl || ''}
+      mediaBlurhash={item.media?.blurhash || ''}
+      userImageUrl={item.institution?.account?.media?.remoteUrl || ''}
+      userImageBlurhash={item.institution?.account?.media?.blurhash || ''}
       nameInstitution={item.institution?.account?.name || ''}
       description={item.body || ''}
       timeAgo={timeString}
