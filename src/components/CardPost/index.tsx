@@ -1,12 +1,13 @@
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import React, { useState } from 'react';
-import { View, Text, Pressable, ActivityIndicator } from 'react-native';
-import colors from 'src/constants/colors';
+import { View, Text, Pressable } from 'react-native';
 
 type CardPostProps = {
-  userImagePath?: string;
-  imagePath?: string;
+  userImageUrl?: string;
+  userImageBlurhash?: string;
+  mediaUrl?: string;
+  mediaBlurhash?: string;
   nameInstitution?: string;
   description?: string;
   timeAgo?: string;
@@ -17,12 +18,11 @@ type CardPostProps = {
   onPressSave?: () => void;
 };
 
-const blurhash: string =
-  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
-
 function CardPost({
-  userImagePath,
-  imagePath,
+  userImageUrl,
+  userImageBlurhash,
+  mediaUrl,
+  mediaBlurhash,
   nameInstitution,
   description,
   timeAgo,
@@ -35,8 +35,6 @@ function CardPost({
   const [isLiked, setIsLiked] = useState<boolean>(isLikedInitial);
   const [isSaved, setIsSaved] = useState<boolean>(isSavedInitial);
   const [expanded, setExpanded] = useState<boolean>(false);
-  const [isUserImageLoading, setIsUserImageLoading] = useState<boolean>(true);
-  const [isPostImageLoading, setIsPostImageLoading] = useState<boolean>(true);
 
   const handleLikePress = () => {
     setIsLiked((prevLiked) => {
@@ -64,16 +62,12 @@ function CardPost({
       <View>
         <View className="mb-2.5 flex-row items-center gap-x-2">
           <View className="h-8 w-8 items-center justify-center">
-            {isUserImageLoading && (
-              <ActivityIndicator size="small" color={colors.color_primary} />
-            )}
             <Image
               className="h-full w-full"
-              source={userImagePath}
-              placeholder={blurhash}
+              source={{ uri: userImageUrl }}
+              placeholder={{ blurhash: userImageBlurhash }}
               contentFit="cover"
               transition={500}
-              onLoadStart={() => setIsUserImageLoading(false)}
             />
           </View>
 
@@ -97,23 +91,14 @@ function CardPost({
           {description}
         </Text>
       </View>
-      {imagePath && (
+      {mediaUrl && (
         <View className="mb-2.5 h-56 w-full items-center justify-center">
-          {isPostImageLoading && (
-            <ActivityIndicator
-              size="large"
-              color={colors.color_primary}
-              className="items-center justify-center text-center"
-            />
-          )}
-
           <Image
             className="h-full w-full rounded-md"
-            source={{ uri: imagePath }}
-            placeholder={blurhash}
+            source={{ uri: mediaUrl }}
+            placeholder={{ blurhash: mediaBlurhash }}
             contentFit="cover"
             transition={500}
-            onLoadStart={() => setIsPostImageLoading(false)}
           />
         </View>
       )}
