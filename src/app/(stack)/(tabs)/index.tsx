@@ -28,10 +28,8 @@ type PostItemProps = {
 };
 
 const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
-  // Verifica se o post já foi curtido pelo usuário
   const isLiked = item.likes?.some((like) => like.donor.accountId === userId);
 
-  // Funções para like/unlike
   const handleLike = useCallback(() => {
     if (token) {
       likePost({ id: item.id, token });
@@ -44,7 +42,6 @@ const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
     }
   }, [item.id, token]);
 
-  // Formata tempo
   const timeString = timeAgo(item.updatedAt);
 
   return (
