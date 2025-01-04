@@ -1,6 +1,6 @@
 import { parseISO } from 'date-fns';
 import { router } from 'expo-router';
-import React, { useCallback, useEffect, useState, memo } from 'react';
+import React, { useCallback, memo } from 'react';
 import {
   View,
   FlatList,
@@ -12,81 +12,13 @@ import {
 } from 'react-native';
 import { Button, CardPost, Carousel } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
-import {
-  getPosts,
-  getSharedCampaigns,
-  likePost,
-  unlikePost,
-} from 'src/services/app-core';
-import { IPost, IBanner } from 'src/types';
+import { usePostsAndBanners } from 'src/hooks/usePostsAndBanners';
+import { likePost, unlikePost } from 'src/services/app-core';
+import { IPost } from 'src/types';
 
 /**
  * -------------------------------------------------------
- * 1. CUSTOM HOOK: usePostsAndBanners
- *    Centraliza fetching (posts, banners), loading, error, refresh
- * -------------------------------------------------------
- */
-function usePostsAndBanners() {
-  const auth = useAuth();
-  const [posts, setPosts] = useState<IPost[]>([]);
-  const [banners, setBanners] = useState<IBanner[]>([]);
-
-  const [error, setError] = useState<Error | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [token, setToken] = useState<string | null>(null);
-
-  const fetchData = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      // 1) Obter token
-      const token = await auth.getToken();
-      setToken(token);
-
-      // 2) Buscar banners
-      const banners = await getSharedCampaigns();
-      setBanners(banners);
-
-      // 3) Buscar posts
-      const posts = await getPosts({ token });
-      setPosts(posts);
-    } catch (err) {
-      setError(err as Error);
-    } finally {
-      setLoading(false);
-    }
-  }, [auth]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  // Função de refresh
-  const onRefresh = useCallback(async () => {
-    setRefreshing(true);
-    try {
-      await fetchData();
-    } finally {
-      setRefreshing(false);
-    }
-  }, [fetchData]);
-
-  return {
-    posts,
-    banners,
-    token,
-    error,
-    loading,
-    refreshing,
-    onRefresh,
-  };
-}
-
-/**
- * -------------------------------------------------------
- * 2. Componente que renderiza 1 único post (CardPost)
+ * 1. Componente que renderiza 1 único post (CardPost)
  * -------------------------------------------------------
  */
 type PostItemProps = {
@@ -133,6 +65,7 @@ const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
 /** Formata uma data para "há X minutos/horas/dias" */
 function timeAgo(dateString: string): string {
   const date = parseISO(dateString);
+
   const now = new Date();
   const differenceInMinutes = Math.floor(
     (now.getTime() - date.getTime()) / 60000
@@ -170,7 +103,7 @@ function timeAgo(dateString: string): string {
 
 /**
  * -------------------------------------------------------
- * 3. LISTA PRINCIPAL DE POSTS
+ * 2. LISTA PRINCIPAL DE POSTS
  * -------------------------------------------------------
  */
 function PostList() {
@@ -246,7 +179,7 @@ function PostList() {
 
 /**
  * -------------------------------------------------------
- * 4. PÁGINA PRINCIPAL
+ * 3. PÁGINA PRINCIPAL
  * -------------------------------------------------------
  */
 export default function Page() {
