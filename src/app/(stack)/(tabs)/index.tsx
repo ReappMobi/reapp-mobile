@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { Button, CardPost, Carousel } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
-import { usePostsAndBanners } from 'src/hooks/usePostsAndBanners';
+import { usePosts } from 'src/hooks/usePosts';
 import { likePost, unlikePost } from 'src/services/app-core';
 import { IPost } from 'src/types';
 
