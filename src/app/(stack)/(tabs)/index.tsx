@@ -109,9 +109,11 @@ function PostList() {
   const { user } = useAuth();
   const { posts, banners, token, error, loading, refreshing, onRefresh } =
     usePostsAndBanners();
+  const { user, token } = useAuth();
+  const { posts, banners, loading, error, refreshing, onRefresh } = usePosts();
 
   // Se estiver carregando e não tiver token, mostra spinner
-  if (loading && !token) {
+  if (loading) {
     return (
       <View className="flex-1 items-center justify-center">
         <ActivityIndicator size="large" color="#000" />
