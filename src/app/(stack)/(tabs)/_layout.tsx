@@ -20,6 +20,8 @@ const TabLayout = () => {
     navigation.dispatch(DrawerActions.toggleDrawer());
   };
 
+  console.log('isDonor', user.media.remoteUrl);
+
   return (
     <PostProvider token={token}>
       <SearchProvider>
@@ -59,7 +61,7 @@ const TabLayout = () => {
               headerLeft: () => (
                 <Pressable onPress={onToggle}>
                   <Image
-                    source={{ uri: user.avatar }}
+                    source={{ uri: user.media?.remoteUrl }}
                     className="h-9 w-9 rounded-full"
                   />
                 </Pressable>
