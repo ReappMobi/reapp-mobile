@@ -60,7 +60,6 @@ export const PostProvider: React.FC<PostProviderProps> = ({
     }
   };
 
-  console.log('posts', posts);
   return (
     <PostContext.Provider
       value={{
