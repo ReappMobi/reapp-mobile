@@ -16,11 +16,6 @@ import { usePosts } from 'src/hooks/usePosts';
 import { likePost, unlikePost } from 'src/services/app-core';
 import { IPost } from 'src/types';
 
-/**
- * -------------------------------------------------------
- * 1. Componente que renderiza 1 único post (CardPost)
- * -------------------------------------------------------
- */
 type PostItemProps = {
   item: IPost;
   token: string | null;
@@ -61,7 +56,6 @@ const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
   );
 });
 
-/** Formata uma data para "há X minutos/horas/dias" */
 function timeAgo(dateString: string): string {
   const date = parseISO(dateString);
 
@@ -100,19 +94,10 @@ function timeAgo(dateString: string): string {
   return `${differenceInYears} anos atrás`;
 }
 
-/**
- * -------------------------------------------------------
- * 2. LISTA PRINCIPAL DE POSTS
- * -------------------------------------------------------
- */
 function PostList() {
-  const { user } = useAuth();
-  const { posts, banners, token, error, loading, refreshing, onRefresh } =
-    usePostsAndBanners();
   const { user, token } = useAuth();
   const { posts, banners, loading, error, refreshing, onRefresh } = usePosts();
 
-  // Se estiver carregando e não tiver token, mostra spinner
   if (loading) {
     return (
       <View className="flex-1 items-center justify-center">
@@ -121,7 +106,6 @@ function PostList() {
     );
   }
 
-  // Se houve erro, mostra mensagem
   if (!loading && error) {
     return (
       <View className="flex-1 items-center justify-center p-4">
@@ -129,8 +113,6 @@ function PostList() {
           Ocorreu um erro!
         </Text>
         <Text>{error.message}</Text>
-
-        {/* Botão para tentar novamente */}
         <TouchableOpacity onPress={onRefresh}>
           <Text className="mt-4 text-blue-500">Tentar novamente</Text>
         </TouchableOpacity>
@@ -138,7 +120,6 @@ function PostList() {
     );
   }
 
-  // Renderizamos a lista
   const renderItem: ListRenderItem<IPost> = ({ item }) =>
     posts.length > 0 ? (
       <PostItem item={item} token={token} userId={user?.id} />
@@ -174,11 +155,6 @@ function PostList() {
   );
 }
 
-/**
- * -------------------------------------------------------
- * 3. PÁGINA PRINCIPAL
- * -------------------------------------------------------
- */
 export default function Page() {
   const { isDonor } = useAuth();
 
@@ -195,7 +171,6 @@ export default function Page() {
         </Button>
       )}
 
-      {/* Lista de posts */}
       <PostList />
     </View>
   );
