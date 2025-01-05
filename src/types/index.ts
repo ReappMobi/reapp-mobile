@@ -1,4 +1,5 @@
 import { IInstitution } from './IInstitution';
+import { IMedia } from './IMedia';
 
 export type AccountType = {
   accountType: 'DONOR' | 'INSTITUTION';
@@ -11,6 +12,7 @@ export type AccountType = {
   name: string;
   updatedAt: Date;
   note?: string;
+  media?: IMedia;
 };
 
 export type SignInData = {
