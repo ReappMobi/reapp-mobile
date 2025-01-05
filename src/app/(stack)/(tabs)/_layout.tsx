@@ -62,6 +62,7 @@ const TabLayout = () => {
                 <Pressable onPress={onToggle}>
                   <Image
                     source={{ uri: user.media?.remoteUrl }}
+                    placeholder={{ blurhash: user.media?.blurhash }}
                     className="h-9 w-9 rounded-full"
                   />
                 </Pressable>
