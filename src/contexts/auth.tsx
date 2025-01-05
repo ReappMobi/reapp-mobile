@@ -11,6 +11,7 @@ interface AuthContextData {
   signed: boolean;
   user: AccountType;
   isDonor: boolean | null;
+  token: string | null;
   signIn(data: SignInData): Promise<any>;
   signInGoogle(data: any): Promise<any>;
   signOut(): void;
@@ -27,6 +28,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState<AccountType | null>(null);
   const [loading, setLoading] = useState(true);
   const [isDonor, setIsDonor] = useState<boolean | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadStorageData() {
@@ -35,32 +37,30 @@ export function AuthProvider({ children }) {
         const storagedIsDonor = await AsyncStorage.getItem('@RNAuth:isDonor');
         const storagedToken = await AsyncStorage.getItem('@RNAuth:token');
 
-        if (storagedUser && storagedToken) {
-          const decodedToken = jwtDecode(storagedToken);
-          const currentTime = Date.now() / 1000;
-          if (decodedToken.exp > currentTime) {
-            setUser(JSON.parse(storagedUser));
-            setIsDonor(JSON.parse(storagedIsDonor));
-          } else {
-            await AsyncStorage.clear();
-            setUser(null);
-            setIsDonor(null);
-          }
-        } else {
-          await AsyncStorage.clear();
-          setUser(null);
-          setIsDonor(null);
+        if (!storagedUser || !storagedToken) {
+          throw new Error('No user data');
         }
+
+        const decodedToken = jwtDecode(storagedToken);
+        const currentTime = Date.now() / 1000;
+
+        if (!decodedToken || decodedToken.exp < currentTime) {
+          throw new Error('Token expired');
+        }
+
+        setUser(JSON.parse(storagedUser));
+        setIsDonor(JSON.parse(storagedIsDonor));
+        setToken(storagedToken);
       } catch (e) {
         console.error('Erro ao carregar dados do armazenamento', e);
         await AsyncStorage.clear();
         setUser(null);
         setIsDonor(null);
+        setToken(null);
       } finally {
         setLoading(false);
       }
     }
-
     loadStorageData();
   }, []);
 
@@ -128,12 +128,13 @@ export function AuthProvider({ children }) {
         signed: !!user,
         user,
         isDonor,
+        token,
         signIn,
         signInGoogle,
         signOut,
         signUp,
         donnorSignUpGoogle,
-        getToken,
+        getToken, // TODO: remove this, no need anymore
       }}
     >
       {children}
