@@ -38,7 +38,8 @@ export async function getPosts(data: { token: string }) {
 
     return response.data;
   } catch (error) {
-    return { error: error.message };
+    console.error('Error fetching posts:', error);
+    throw new Error(error.message);
   }
 }
 
