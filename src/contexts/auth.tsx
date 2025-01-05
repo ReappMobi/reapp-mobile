@@ -18,6 +18,7 @@ interface AuthContextData {
   signUp(data: SignUpData): Promise<any>;
   donnorSignUpGoogle(data: any): Promise<any>;
   getToken(): Promise<string | null>;
+  saveUserAndToken(user: any, token: string): Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextData>(
@@ -64,30 +65,30 @@ export function AuthProvider({ children }) {
     loadStorageData();
   }, []);
 
+  // TODO: type user
+  async function saveUserAndToken(user, token: string) {
+    await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(user));
+    await AsyncStorage.setItem('@RNAuth:token', token);
+    await AsyncStorage.setItem(
+      '@RNAuth:isDonor',
+      JSON.stringify(user.accountType === 'DONOR')
+    );
+    setUser(user);
+    setIsDonor(user.accountType === 'DONOR');
+  }
+
   async function signIn(data: SignInData) {
     const response = await auth.SignIn(data);
-
-    if (response.user !== undefined) {
-      setUser(response.user);
-      setIsDonor(response.user.accountType === 'DONOR');
-      await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
-      await AsyncStorage.setItem('@RNAuth:token', response.token);
-      await AsyncStorage.setItem(
-        '@RNAuth:isDonor',
-        JSON.stringify(response.user.accountType === 'DONOR')
-      );
+    if (response.user) {
+      saveUserAndToken(response.user, response.token);
     }
   }
 
   // TODO: type data
   async function signInGoogle(data) {
     const response = await auth.SignInGoogle(data);
-    if (response.user !== undefined) {
-      setUser(response.user);
-      setIsDonor(true);
-      await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
-      await AsyncStorage.setItem('@RNAuth:token', response.token);
-      await AsyncStorage.setItem('@RNAuth:isDonor', JSON.stringify(true));
+    if (response.user) {
+      saveUserAndToken(response.user, response.token);
     }
 
     return response;
@@ -106,6 +107,8 @@ export function AuthProvider({ children }) {
   function signOut() {
     AsyncStorage.clear().then(() => {
       setUser(null);
+      setIsDonor(null);
+      setToken(null);
     });
   }
 
@@ -135,6 +138,7 @@ export function AuthProvider({ children }) {
         signUp,
         donnorSignUpGoogle,
         getToken, // TODO: remove this, no need anymore
+        saveUserAndToken,
       }}
     >
       {children}
