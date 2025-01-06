@@ -20,8 +20,6 @@ const TabLayout = () => {
     navigation.dispatch(DrawerActions.toggleDrawer());
   };
 
-  console.log('isDonor', user.media.remoteUrl);
-
   return (
     <PostProvider token={token}>
       <SearchProvider>
