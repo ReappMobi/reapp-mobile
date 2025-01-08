@@ -11,7 +11,7 @@ const DrawerContent = () => {
     <View className="max-w-64 w-full flex-1 rounded-none">
       <View className="bg-color_primary px-6 pt-8">
         <HeaderStatisticsProfile
-          image={user?.media.remoteUrl}
+          image={user?.media?.remoteUrl}
           name={user?.name}
           donationsQty={0}
           followingQty={(user && user.followersCount) || 0}

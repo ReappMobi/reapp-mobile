@@ -1,97 +1,113 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRoute } from '@react-navigation/native';
 import { router } from 'expo-router';
-import { useCallback, useEffect, useState, memo } from 'react';
-import { FlatList, ListRenderItem, View } from 'react-native';
-import { Button } from 'src/components';
+import { memo, useCallback } from 'react';
+import {
+  View,
+  FlatList,
+  ActivityIndicator,
+  Text,
+  TouchableOpacity,
+  ListRenderItem,
+  RefreshControl,
+} from 'react-native';
 import CardInstitutionProject from 'src/components/CardInstitutionProject';
-import LoadingBox from 'src/components/LoadingBox';
-import colors from 'src/constants/colors';
-import { useAuth } from 'src/hooks/useAuth';
-import { getProjectByInstitutionId } from 'src/services/app-core';
+import { useProjectsByInstitution } from 'src/hooks/useProjectsByInstitution';
 import { IProject } from 'src/types';
 
-const ProjectsView = () => {
-  const [projects, setProjects] = useState<IProject[]>([]);
-  const [loading, setLoading] = useState(true);
-  const auth = useAuth();
+type ProjectListProps = {
+  item: IProject;
+};
 
-  const route = useRoute();
-  const { id } = route.params as { id: number };
-
-  useEffect(() => {
-    (async () => {
-      const token = await auth.getToken();
-      const res = await getProjectByInstitutionId(id, token);
-      setProjects(res);
-      setLoading(false);
-    })();
+const ProjectItem = memo<ProjectListProps>(({ item }) => {
+  const handleCardClick = useCallback((projectId: number) => {
+    router.navigate({ pathname: 'project', params: { projectId } });
   }, []);
-
-  const renderHeader = () => (
-    <View className="mb-3 items-center justify-center">
-      <Button
-        endIcon={
-          <Ionicons
-            name="chevron-forward"
-            size={20}
-            color={colors.text_neutral}
-          />
-        }
-        customStyles="w-full justify-center space-x-2"
-        onPress={() => {
-          router.push({
-            pathname: 'project-create',
-          });
-        }}
-      >
-        Cadastrar Novo Projeto
-      </Button>
-    </View>
+  return (
+    <CardInstitutionProject
+      imagePath={item.media?.remoteUrl}
+      title={item.name}
+      subtitle={item.subtitle}
+      textButton="Ver mais detalhes"
+      onPress={() => handleCardClick(item.id)}
+    />
   );
+});
 
-  const renderItem: ListRenderItem<IProject> = useCallback(({ item }) => {
+function ProjectList({ institutionId }) {
+  const { projects, token, error, loading, refreshing, onRefresh } =
+    useProjectsByInstitution(institutionId);
+
+  if (loading && !token) {
     return (
-      <CardInstitutionProject
-        imagePath={item.cover}
-        title={item.name}
-        subtitle={item.subtitle}
-        textButton="Ver mais detalhes"
-        onPress={() => {
-          handleCardClick(item.id);
-        }}
-      />
+      <View className="flex-1 items-center justify-center">
+        <ActivityIndicator size="large" color="#000" />
+      </View>
     );
-  }, []);
+  }
 
-  const handleCardClick = useCallback((id: number) => {
-    router.navigate({ pathname: 'project', params: { projectId: id } });
-  }, []);
+  const renderItem: ListRenderItem<IProject> = ({ item }) =>
+    projects.length > 0 ? (
+      <ProjectItem item={item} />
+    ) : (
+      <View className="flex-1 items-center justify-center p-4">
+        <Text className="font-reapp_medium text-base">
+          Nenhum projeto encontrado.
+        </Text>
+      </View>
+    );
 
-  if (loading) {
+  if (!loading && error) {
     return (
-      <View className="flex-1 items-center justify-center pt-48 ">
-        {Array.from({ length: 3 }).map((_, index) => (
-          <LoadingBox
-            key={index}
-            customStyle="h-56 w-full mb-2 rounded-md bg-slate-400 last:mb-0"
-          />
-        ))}
+      <View className="flex-1 items-center justify-center p-4">
+        <Text className="mb-2 text-lg font-bold text-red-500">
+          Ocorreu um erro!
+        </Text>
+        <Text>{error.message}</Text>
+
+        {/* Botão para tentar novamente */}
+        <TouchableOpacity onPress={onRefresh}>
+          <Text className="mt-4 text-blue-500">Tentar novamente</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 
   return (
+    <FlatList
+      className="w-full"
+      data={projects}
+      keyExtractor={(item) => item.id.toString()}
+      renderItem={renderItem}
+      removeClippedSubviews
+      maxToRenderPerBatch={10}
+      ItemSeparatorComponent={() => <View className="mb-2.5" />}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          colors={['#ff0000']} // Android
+          tintColor="#0000ff" // iOS
+          title="Recarregando..." // iOS
+        />
+      }
+      ListEmptyComponent={
+        <View className="flex-1 items-center justify-center p-4">
+          <Text className="font-reapp_medium text-base">
+            Nenhum projeto encontrado.
+          </Text>
+        </View>
+      }
+    />
+  );
+}
+
+const ProjectsView = () => {
+  const route = useRoute();
+  const { id } = route.params as { id: number };
+
+  return (
     <View className="flex-1 items-center justify-center">
-      <FlatList
-        className="w-full"
-        removeClippedSubviews
-        maxToRenderPerBatch={10}
-        data={projects}
-        renderItem={renderItem}
-        ItemSeparatorComponent={() => <View className="mb-2.5" />}
-        ListHeaderComponent={renderHeader}
-      />
+      <ProjectList institutionId={id} />
     </View>
   );
 };

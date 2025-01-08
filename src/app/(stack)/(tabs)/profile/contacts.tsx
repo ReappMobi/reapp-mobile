@@ -1,19 +1,19 @@
-import { Ionicons } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
 import React, { memo } from 'react';
-import { View, Text, Pressable, Linking } from 'react-native';
-import Colors from 'src/constants/colors';
+import { View, Text } from 'react-native';
 import { IInstitution } from 'src/types';
 
 function Contacts() {
   const route = useRoute();
   const { institution } = route.params as { institution: IInstitution };
 
+  /*
   const handleLinkPress = (url: string) => {
     Linking.openURL(url).catch((err) =>
       console.error('An error occurred', err)
     );
-  };
+
+  */
 
   return (
     <View className="gap-y-5 py-4">
@@ -22,36 +22,37 @@ function Contacts() {
           Telefone: {institution.phone}
         </Text>
         <Text className="font-reapp_regular text-base text-text_neutral">
-          Email: {institution.email}
+          Email: {institution.account.email}
         </Text>
+        {/*
         <Text className="font-reapp_regular text-base text-text_neutral">
           Endereço: {`${institution.city}/${institution.state}`}
         </Text>
+        */}
       </View>
+      {/*
+      <View className="flex-row justify-center gap-10">
+        {institution.facebook && (
+          <Pressable onPress={() => handleLinkPress(institution.facebook)}>
+            <Ionicons
+              name="logo-facebook"
+              size={50}
+              color={Colors.color_primary}
+            />
+          </Pressable>
+        )}
 
-      <View className="gap-y-3">
-        <View className="flex-row justify-center gap-10">
-          {institution.facebook && (
-            <Pressable onPress={() => handleLinkPress(institution.facebook)}>
-              <Ionicons
-                name="logo-facebook"
-                size={50}
-                color={Colors.color_primary}
-              />
-            </Pressable>
-          )}
-
-          {institution.instagram && (
-            <Pressable onPress={() => handleLinkPress(institution.instagram)}>
-              <Ionicons
-                name="logo-instagram"
-                size={50}
-                color={Colors.color_primary}
-              />
-            </Pressable>
-          )}
-        </View>
+        {institution.instagram && (
+          <Pressable onPress={() => handleLinkPress(institution.instagram)}>
+            <Ionicons
+              name="logo-instagram"
+              size={50}
+              color={Colors.color_primary}
+            />
+          </Pressable>
+        )}
       </View>
+      */}
       {/*
       {institution.coordinate && (
         <View>
@@ -80,7 +81,7 @@ function Contacts() {
           </MapView>
         </View>
       )}
-      */}
+        */}
     </View>
   );
 }

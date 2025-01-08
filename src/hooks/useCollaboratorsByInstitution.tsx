@@ -21,7 +21,6 @@ export const useCollaboratorsByInstitution = (institutionId: number) => {
         institutionId,
         token
       );
-      console.log(collaborators);
       setCollaborators(collaborators);
     } catch (error) {
       setError(error);

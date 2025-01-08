@@ -20,8 +20,6 @@ const TabLayout = () => {
     navigation.dispatch(DrawerActions.toggleDrawer());
   };
 
-  console.log('isDonor', user.media.remoteUrl);
-
   return (
     <PostProvider token={token}>
       <SearchProvider>
@@ -130,7 +128,7 @@ const TabLayout = () => {
             <Tabs.Screen
               name="profile"
               options={{
-                headerShown: true,
+                headerShown: false,
                 tabBarIcon: ({ size, color }) => (
                   <Ionicons name="person-outline" size={size} color={color} />
                 ),
