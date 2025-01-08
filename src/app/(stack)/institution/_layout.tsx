@@ -11,7 +11,7 @@ import { memo, useEffect, useMemo, useState } from 'react';
 import { View, Text } from 'react-native';
 import { ScreenContainer, LoadingBox, Button } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
-import { getInstitutionById } from 'src/services/app-core';
+import { getInstitutionByAccountId } from 'src/services/app-core';
 import { IInstitution } from 'src/types';
 
 const { Navigator } = createMaterialTopTabNavigator();
@@ -23,39 +23,47 @@ export const MaterialTopTabs = withLayoutContext<
   MaterialTopTabNavigationEventMap
 >(Navigator);
 
-const blurhash: string =
-  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
-
 type HeaderProps = {
   institution: IInstitution | null;
   loading: boolean;
-  category: string | null;
 };
 
-const Header = memo<HeaderProps>(({ institution, loading, category }) => {
+const Header = memo<HeaderProps>(({ institution, loading }) => {
   const { isDonor } = useAuth();
   return (
     <View>
       <View className="mt-4 flex-row items-center space-x-2 py-4 ">
         <Image
           className="h-16 w-16 rounded-full"
-          source={institution ? institution.avatar : ''}
-          placeholder={blurhash}
+          source={
+            institution && institution.account.media
+              ? institution.account.media.remoteUrl
+              : ''
+          }
+          placeholder={
+            institution && institution.account.media
+              ? institution.account.media.blurhash
+              : ''
+          }
           contentFit="cover"
           transition={500}
         />
         <View className="w-full flex-1 space-y-0 pt-4">
           <Text className="font-reapp_bold text-lg">
-            {institution ? institution.name : ''}
+            {institution ? institution.account.name : ''}
           </Text>
           {loading ? (
             <LoadingBox customStyle="h-2.5 w-20 mt-2 mb-3 rounded-md bg-slate-400" />
           ) : (
             <View>
-              <Text className="text-md pb-2 font-reapp_medium">{category}</Text>
+              <Text className="text-md pb-2 font-reapp_medium">
+                {institution.category.name}
+              </Text>
+              {/* 
               <Text className="text-md pb-2 font-reapp_medium">
                 {institution ? `${institution.city}/${institution.state}` : ''}
               </Text>
+              */}
             </View>
           )}
           {isDonor && (
@@ -99,16 +107,18 @@ const Header = memo<HeaderProps>(({ institution, loading, category }) => {
       <View className="flex-row justify-center space-x-2 py-4">
         <Text className="text-md font-reapp_medium">
           <Text className="text-md font-reapp_bold text-text_primary">
-            {institution ? institution.followers_count : ''}
+            {institution ? institution.account.followersCount : ''}
           </Text>
           {` Seguidores`}
         </Text>
+        {/*
         <Text className="text-md font-reapp_medium">
           <Text className="text-md font-reapp_bold text-text_primary">
             {institution ? institution.donations : ''}
           </Text>
           {` Doadores`}
         </Text>
+        */}
         {/* 
         <Text className="text-md font-reapp_medium">
           <Text className="text-md font-reapp_bold text-text_primary">
@@ -136,7 +146,7 @@ const Layout = () => {
   useEffect(() => {
     (async () => {
       const token = await auth.getToken();
-      const institution = await getInstitutionById(idNumber, token);
+      const institution = await getInstitutionByAccountId(idNumber, token);
       setInstitution(institution);
       setLoading(false);
     })();
@@ -156,11 +166,7 @@ const Layout = () => {
 
   return (
     <ScreenContainer>
-      <Header
-        institution={institution && institution}
-        loading={loading}
-        category={institution && institution.category}
-      />
+      <Header institution={institution && institution} loading={loading} />
 
       {loading ? (
         <View>
@@ -198,12 +204,12 @@ const Layout = () => {
           <MaterialTopTabs.Screen
             name="home-view"
             options={{ title: 'Início' }}
-            initialParams={{ id: idNumber }}
+            initialParams={{ id: institution.id }}
           />
           <MaterialTopTabs.Screen
             name="projects"
             options={{ title: 'Projetos' }}
-            initialParams={{ id: idNumber }}
+            initialParams={{ id: institution.id }}
           />
           <MaterialTopTabs.Screen
             name="transparency"
@@ -218,17 +224,17 @@ const Layout = () => {
           <MaterialTopTabs.Screen
             name="partners"
             options={{ title: 'Parceiros' }}
-            initialParams={{ id: idNumber }}
+            initialParams={{ id: institution.id }}
           />
           <MaterialTopTabs.Screen
             name="collaborators"
             options={{ title: 'Colaboradores' }}
-            initialParams={{ id: idNumber }}
+            initialParams={{ id: institution.id }}
           />
           <MaterialTopTabs.Screen
             name="volunteers"
             options={{ title: 'Voluntários' }}
-            initialParams={{ id: idNumber }}
+            initialParams={{ id: institution.id }}
           />
         </MaterialTopTabs>
       )}

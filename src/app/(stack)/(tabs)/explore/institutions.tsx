@@ -355,7 +355,7 @@ const InstitutionsPage = () => {
 
   // Ao clicar no card em si:
   const handleCardClick = useCallback((item: IInstitution) => {
-    router.push({ pathname: 'institution', params: { id: item.id } });
+    router.push({ pathname: 'institution', params: { id: item.account.id } });
   }, []);
 
   // Montar as seções para o SectionList

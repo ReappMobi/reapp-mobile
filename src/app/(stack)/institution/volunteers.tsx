@@ -1,54 +1,104 @@
 import { useRoute } from '@react-navigation/native';
-import { Image } from 'expo-image';
-import React, { useEffect, useState, memo } from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { useAuth } from 'src/hooks/useAuth';
-import { getVolunteerById } from 'src/services/app-core';
+import { memo } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+  TouchableOpacity,
+  ListRenderItem,
+  RefreshControl,
+} from 'react-native';
+import VolunteerCard from 'src/components/VolunteerCard';
+import { useVolunteersByInstitution } from 'src/hooks/useVolunteersByInstitution';
 import { IVolunteer } from 'src/types/IVolunteer';
 
-const blurhash: string =
-  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
-
-const VolunteerCard = ({ info }) => {
-  return (
-    <View className="flex-row items-center gap-x-2 border-b border-zinc-200 p-2">
-      <Image
-        className="h-[64] w-[64] rounded-full"
-        source={info.avatar}
-        placeholder={blurhash}
-        contentFit="cover"
-        transition={500}
-      />
-
-      <Text className="font-reapp_medium text-sm">{info.name}</Text>
-    </View>
-  );
+type VolunteerItemProps = {
+  item: IVolunteer;
 };
+const VolunteerItem = memo<VolunteerItemProps>(({ item }) => {
+  return (
+    <VolunteerCard
+      name={item.name}
+      blurhash={item.media?.blurhash}
+      image={item.media?.remoteUrl}
+    />
+  );
+});
+
+function VolunteerList({ institutionId }: { institutionId: number }) {
+  const { volunteers, token, error, loading, refreshing, onRefresh } =
+    useVolunteersByInstitution(institutionId);
+
+  if (loading && !token) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    );
+  }
+
+  if (!loading && error) {
+    return (
+      <View className="flex-1 items-center justify-center p-4">
+        <Text className="mb-2 text-lg font-bold text-red-500">
+          Ocorreu um erro!
+        </Text>
+        <Text>{error.message}</Text>
+        <TouchableOpacity onPress={onRefresh}>
+          <Text className="mt-4 text-blue-500">Tentar novamente</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  const renderItem: ListRenderItem<IVolunteer> = ({ item }) =>
+    volunteers.length > 0 ? (
+      <VolunteerItem item={item} />
+    ) : (
+      <View className="flex-1 items-center justify-center p-4">
+        <Text className="font-reapp_medium text-base">
+          Nenhum voluntário encontrado.
+        </Text>
+      </View>
+    );
+
+  return (
+    <FlatList
+      data={volunteers}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id.toString()}
+      ItemSeparatorComponent={() => <View className="h-2" />}
+      // Pull-to-refresh
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          colors={['#ff0000']} // Android
+          tintColor="#0000ff" // iOS
+          title="Recarregando..." // iOS
+        />
+      }
+      ListEmptyComponent={
+        <View className="flex-1 items-center justify-center p-4">
+          <Text className="font-reapp_medium text-base">
+            Nenhum voluntário encontrado.
+          </Text>
+        </View>
+      }
+    />
+  );
+}
 
 function Volunteers() {
-  const [volunteers, setVolunteers] = useState<IVolunteer[]>([]);
-
   const route = useRoute();
   const { id } = route.params as { id: number };
-  const auth = useAuth();
-  useEffect(() => {
-    (async () => {
-      const token = await auth.getToken();
-      const res = await getVolunteerById(id, token);
-      setVolunteers(res);
-    })();
-  }, []);
 
   return (
-    <View className="py-4">
-      <FlatList
-        data={volunteers}
-        renderItem={({ item }) => <VolunteerCard info={item} />}
-        keyExtractor={(item) => item.id.toString()}
-        ItemSeparatorComponent={() => <View className="h-2" />}
-      />
+    <View className="flex-1 py-4">
+      <VolunteerList institutionId={id} />
     </View>
   );
 }
 
-export default memo(Volunteers);
+export default Volunteers;
