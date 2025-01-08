@@ -94,9 +94,12 @@ export async function getInstitutions(data) {
   }
 }
 
-export async function getInstitutionById(institutionId: number, token: string) {
+export async function getInstitutionByAccountId(
+  accountId: number,
+  token: string
+) {
   try {
-    const response = await api.get(`/institution/${institutionId}`, {
+    const response = await api.get(`/account/institution/${accountId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -172,16 +175,66 @@ export async function postPartner(data, token) {
   }
 }
 
-export async function getPartnerById(institutionId, token) {
+export async function getPartnerByInstitutionId(
+  institutionId: number,
+  token: string
+) {
   try {
-    const response = await api.get(`/partner/${institutionId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      validateStatus() {
-        return true;
-      },
-    });
+    const response = await api.get(
+      `/institution-members/partners/${institutionId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        validateStatus() {
+          return true;
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function getCollaboratorByInstitutionId(
+  institutionId: number,
+  token: string
+) {
+  try {
+    const response = await api.get(
+      `/institution-members/collaborators/${institutionId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        validateStatus() {
+          return true;
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function getVolunteersByInstitutionId(
+  institutionId: number,
+  token: string
+) {
+  try {
+    const response = await api.get(
+      `/institution-members/volunteers/${institutionId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        validateStatus() {
+          return true;
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     return { error: error.message };
@@ -205,22 +258,6 @@ export async function postCollaborator(data, token) {
     const response = await api.post('/collaborator', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${token}`,
-      },
-      validateStatus() {
-        return true;
-      },
-    });
-    return response.data;
-  } catch (error) {
-    return { error: error.message };
-  }
-}
-
-export async function getCollaboratorById(institutionId, token) {
-  try {
-    const response = await api.get(`/collaborator/${institutionId}`, {
-      headers: {
         Authorization: `Bearer ${token}`,
       },
       validateStatus() {
@@ -390,7 +427,7 @@ export async function getInstituitionPosts(
   token: string
 ) {
   try {
-    const response = await api.get(`/post/${institutionId}`, {
+    const response = await api.get(`/post/institution/${institutionId}`, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
@@ -406,14 +443,6 @@ export async function getInstituitionPosts(
 }
 
 export async function getInstitutionTransparency(institutionId: number) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([]);
-    }, 1000);
-  });
-}
-
-export async function getCollaboratorsById(institutionId: number) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([]);
