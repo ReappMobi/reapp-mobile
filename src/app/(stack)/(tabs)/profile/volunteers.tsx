@@ -1,4 +1,6 @@
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRoute } from '@react-navigation/native';
+import { router } from 'expo-router';
 import { memo } from 'react';
 import {
   View,
@@ -9,13 +11,38 @@ import {
   ListRenderItem,
   RefreshControl,
 } from 'react-native';
+import { Button } from 'src/components';
 import VolunteerCard from 'src/components/VolunteerCard';
+import colors from 'src/constants/colors';
 import { useVolunteersByInstitution } from 'src/hooks/useVolunteersByInstitution';
 import { IVolunteer } from 'src/types/IVolunteer';
 
 type VolunteerItemProps = {
   item: IVolunteer;
 };
+
+const renderHeader = () => (
+  <View className="mb-3 items-center justify-center">
+    <Button
+      endIcon={
+        <Ionicons
+          name="chevron-forward"
+          size={20}
+          color={colors.text_neutral}
+        />
+      }
+      customStyles="w-64 justify-center space-x-2"
+      onPress={() => {
+        router.push({
+          pathname: 'volunteer-create',
+        });
+      }}
+    >
+      Cadastrar Voluntário
+    </Button>
+  </View>
+);
+
 const VolunteerItem = memo<VolunteerItemProps>(({ item }) => {
   return (
     <VolunteerCard
@@ -68,6 +95,7 @@ function VolunteerList({ institutionId }: { institutionId: number }) {
       data={volunteers}
       renderItem={renderItem}
       keyExtractor={(item) => item.id.toString()}
+      ListHeaderComponent={renderHeader}
       ItemSeparatorComponent={() => <View className="h-2" />}
       // Pull-to-refresh
       refreshControl={
