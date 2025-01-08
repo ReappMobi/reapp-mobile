@@ -1,3 +1,4 @@
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRoute } from '@react-navigation/native';
 import { router } from 'expo-router';
 import { memo, useCallback } from 'react';
@@ -10,13 +11,37 @@ import {
   ListRenderItem,
   RefreshControl,
 } from 'react-native';
+import { Button } from 'src/components';
 import CardInstitutionProject from 'src/components/CardInstitutionProject';
+import colors from 'src/constants/colors';
 import { useProjectsByInstitution } from 'src/hooks/useProjectsByInstitution';
 import { IProject } from 'src/types';
 
 type ProjectListProps = {
   item: IProject;
 };
+
+const renderHeader = () => (
+  <View className="mb-3 items-center justify-center">
+    <Button
+      endIcon={
+        <Ionicons
+          name="chevron-forward"
+          size={20}
+          color={colors.text_neutral}
+        />
+      }
+      customStyles="w-full justify-center space-x-2"
+      onPress={() => {
+        router.push({
+          pathname: 'project-create',
+        });
+      }}
+    >
+      Cadastrar Novo Projeto
+    </Button>
+  </View>
+);
 
 const ProjectItem = memo<ProjectListProps>(({ item }) => {
   const handleCardClick = useCallback((projectId: number) => {
@@ -80,6 +105,7 @@ function ProjectList({ institutionId }) {
       renderItem={renderItem}
       removeClippedSubviews
       maxToRenderPerBatch={10}
+      ListHeaderComponent={renderHeader}
       ItemSeparatorComponent={() => <View className="mb-2.5" />}
       refreshControl={
         <RefreshControl

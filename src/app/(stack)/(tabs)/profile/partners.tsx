@@ -1,4 +1,6 @@
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRoute } from '@react-navigation/native';
+import { router } from 'expo-router';
 import { memo } from 'react';
 import {
   View,
@@ -9,10 +11,33 @@ import {
   ListRenderItem,
   RefreshControl,
 } from 'react-native';
+import { Button } from 'src/components';
 import PartnerCard from 'src/components/PartnerCard';
+import colors from 'src/constants/colors';
 import { usePartnersByInstitution } from 'src/hooks/usePartnersByInstitution';
 import { IPartner } from 'src/types/IPartner';
 
+const renderHeader = () => (
+  <View className="mb-3 items-center justify-center">
+    <Button
+      endIcon={
+        <Ionicons
+          name="chevron-forward"
+          size={20}
+          color={colors.text_neutral}
+        />
+      }
+      customStyles="w-64 justify-center space-x-2"
+      onPress={() => {
+        router.push({
+          pathname: 'partner-create',
+        });
+      }}
+    >
+      Cadastrar Novo Parceiro
+    </Button>
+  </View>
+);
 /**
  * Componente que renderiza cada parceiro individual (similar ao ProjectItem).
  */
@@ -75,6 +100,7 @@ function PartnerList({ institutionId }: { institutionId: number }) {
       numColumns={2}
       columnWrapperStyle={{ justifyContent: 'space-evenly' }}
       renderItem={renderItem}
+      ListHeaderComponent={renderHeader}
       ItemSeparatorComponent={() => <View className="h-4" />}
       // Para permitir pull-to-refresh
       refreshControl={

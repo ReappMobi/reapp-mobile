@@ -1,5 +1,7 @@
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRoute } from '@react-navigation/native';
 import { parseISO } from 'date-fns';
+import { router } from 'expo-router';
 import { useCallback, memo } from 'react';
 import {
   ActivityIndicator,
@@ -10,7 +12,8 @@ import {
   TouchableOpacity,
   RefreshControl,
 } from 'react-native';
-import { CardPost } from 'src/components';
+import { Button, CardPost } from 'src/components';
+import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { usePostsByInstitution } from 'src/hooks/usePostsByInstitution';
 import { likePost, unlikePost } from 'src/services/app-core';
@@ -21,6 +24,28 @@ type PostItemProps = {
   token: string | null;
   userId?: string | number;
 };
+
+const renderHeader = () => (
+  <View className="mb-3 items-center justify-center">
+    <Button
+      endIcon={
+        <Ionicons
+          name="chevron-forward"
+          size={20}
+          color={colors.text_neutral}
+        />
+      }
+      customStyles="justify-center space-x-2"
+      onPress={() => {
+        router.push({
+          pathname: 'post-create',
+        });
+      }}
+    >
+      Cadastrar Nova Postagem
+    </Button>
+  </View>
+);
 const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
   const isLiked = item.likes?.some((like) => like.donor.accountId === userId);
   const handleLike = useCallback(() => {
@@ -138,6 +163,7 @@ function PostList({ institutionId }) {
       data={posts}
       keyExtractor={(item) => item.id.toString()}
       renderItem={renderItem}
+      ListHeaderComponent={renderHeader}
       refreshControl={
         <RefreshControl
           refreshing={refreshing}
