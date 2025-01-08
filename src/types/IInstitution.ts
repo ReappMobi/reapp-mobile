@@ -14,5 +14,6 @@ export interface IInstitution {
     email: string;
     avatarId?: number;
     media?: IMedia;
+    followersCount: number;
   };
 }
