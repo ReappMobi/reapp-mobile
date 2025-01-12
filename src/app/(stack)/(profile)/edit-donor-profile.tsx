@@ -8,63 +8,19 @@ import {
 } from 'expo-image-picker';
 import { router } from 'expo-router';
 import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import {
   View,
   Text,
   KeyboardAvoidingView,
-  TextInput,
   Alert,
   Pressable,
   Platform,
 } from 'react-native';
 import { Button } from 'src/components';
+import { FormInputField } from 'src/components/FormInputField';
 import { useAuth } from 'src/hooks/useAuth';
 import { RequestMedia, updateAccount } from 'src/services/account';
-type FormInputFieldProps = {
-  control: any;
-  name: string;
-  label: string;
-  placeholder: string;
-  error: any;
-  Icon: React.FC;
-};
-
-const FormInputField: React.FC<FormInputFieldProps> = ({
-  control,
-  name,
-  label,
-  placeholder,
-  error,
-  Icon,
-}) => {
-  return (
-    <View className="my-1 w-full">
-      <Text className="w-content mb-1 text-sm">{label}</Text>
-      <View className="border-1 h-16 w-full flex-row items-center gap-x-1 rounded-md border border-text_primary px-2">
-        <Controller
-          control={control}
-          name={name}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholder={placeholder}
-              className="flex-1"
-            />
-          )}
-        />
-        <Icon />
-      </View>
-      {error[name] && (
-        <Text className="text-sm font-bold text-red-400">
-          {error[name].message}
-        </Text>
-      )}
-    </View>
-  );
-};
 import {
   schema,
   FormData,
