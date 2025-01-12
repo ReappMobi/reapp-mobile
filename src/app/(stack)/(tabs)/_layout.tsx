@@ -1,4 +1,4 @@
-import { Entypo, Octicons, Ionicons } from '@expo/vector-icons';
+import { Octicons, Ionicons } from '@expo/vector-icons';
 import { DrawerActions } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { Redirect, Tabs, useNavigation, router } from 'expo-router';
@@ -40,9 +40,9 @@ const TabLayout = () => {
               },
               headerRight: () =>
                 !isDonor ? (
-                  <Entypo
-                    name="new-message"
-                    size={24}
+                  <Ionicons
+                    name="duplicate-outline"
+                    size={28}
                     color={colors.text_neutral}
                     onPress={() => {
                       router.push({ pathname: 'post-create' });
