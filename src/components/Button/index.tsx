@@ -13,6 +13,7 @@ type ButtonProps = {
   textColor?: string;
   textSize?: string;
   onPress?: () => void;
+  disabled?: boolean;
 };
 
 export default function Button({
@@ -25,15 +26,20 @@ export default function Button({
   textColor,
   textSize,
   onPress,
+  disabled = false,
 }: ButtonProps) {
   return (
     <Pressable
-      style={variant === 'contained' && shadowStyle}
+      style={[
+        variant === 'contained' && shadowStyle,
+        disabled && { opacity: 0.5 }, // Adiciona opacidade quando desabilitado
+      ]}
       className={`${variantStyles.default} 
         ${variantStyles[variant]} 
         ${sizeStyles[size]} 
         ${customStyles}`}
-      onPress={onPress}
+      onPress={disabled ? undefined : onPress} // Previne interação quando desativado
+      disabled={disabled} // Desabilita o botão nativamente
     >
       {startIcon}
       <Text

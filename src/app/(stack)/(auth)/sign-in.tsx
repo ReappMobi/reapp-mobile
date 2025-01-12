@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, router } from 'expo-router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { View, Text, Alert } from 'react-native';
+import { View, Text, Alert, ActivityIndicator } from 'react-native';
 import { Button, Input } from 'src/components';
 import config from 'src/config';
 import colors from 'src/constants/colors';
@@ -190,8 +190,13 @@ export default function SignIn() {
           customStyles="w-full justify-center bg-color_primary"
           textColor="text-text_light"
           onPress={handleSubmit(onSubmit)}
+          disabled={loading}
         >
-          Entrar
+          {loading ? (
+            <ActivityIndicator size="small" color="white" />
+          ) : (
+            'Entrar'
+          )}
         </Button>
       </View>
 
