@@ -112,7 +112,7 @@ function PostList() {
         <Text className="mb-2 text-lg font-bold text-red-500">
           Ocorreu um erro!
         </Text>
-        <Text>{error.message}</Text>
+        <Text>{error?.message || 'Ocorreu um erro ao carregar os posts'}</Text>
         <TouchableOpacity onPress={onRefresh}>
           <Text className="mt-4 text-blue-500">Tentar novamente</Text>
         </TouchableOpacity>
