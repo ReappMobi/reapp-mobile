@@ -26,8 +26,10 @@ export type SignUpData = {
   name: string;
   phone?: string;
   password: string;
+  confirmPassword: string;
   cnpj?: string;
   category?: string;
+  note?: string;
 };
 
 export type { IInstitution };

@@ -2,9 +2,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
 import React, { createContext, useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
+import { RequestMedia } from 'src/services/account';
 import type { AccountType, SignInData, SignUpData } from 'src/types';
 
 import * as auth from '../services/auth';
+
 import 'core-js/stable/atob';
 
 interface AuthContextData {
@@ -15,7 +17,7 @@ interface AuthContextData {
   signIn(data: SignInData): Promise<any>;
   signInGoogle(data: any): Promise<any>;
   signOut(): Promise<void>;
-  signUp(data: SignUpData): Promise<any>;
+  signUp(data: SignUpData, media: RequestMedia | null): Promise<any>;
   donnorSignUpGoogle(data: any): Promise<any>;
   getToken(): Promise<string | null>;
   saveUserAndToken(user: any, token: string): Promise<void>;
@@ -97,8 +99,8 @@ export function AuthProvider({ children }) {
     return response;
   }
 
-  async function signUp(data: SignUpData) {
-    const response = await auth.SignUp(data);
+  async function signUp(data: SignUpData, media: RequestMedia) {
+    const response = await auth.SignUp(data, media);
     return response;
   }
 

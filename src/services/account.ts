@@ -37,7 +37,6 @@ export const updateAccount = async (
     }
 
     if (media) {
-      console.log(media);
       formData.append('media', media as any);
     }
 
@@ -51,8 +50,6 @@ export const updateAccount = async (
     if (response.status !== 200) {
       throw new Error(response.data.message || 'Erro ao atualizar perfil');
     }
-
-    console.log(response.data);
 
     return response.data;
   } catch (error) {

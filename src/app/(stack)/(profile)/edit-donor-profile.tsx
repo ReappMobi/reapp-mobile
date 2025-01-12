@@ -16,6 +16,8 @@ import {
   Alert,
   Pressable,
   Platform,
+  ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import { Button } from 'src/components';
 import { FormInputField } from 'src/components/FormInputField';
@@ -161,8 +163,13 @@ const EditProfileForm = () => {
         customStyles="mt-4 w-full justify-center bg-color_primary"
         textColor="text-text_light"
         onPress={handleSubmit(onSubmit)}
+        disabled={loading}
       >
-        Salvar alterações
+        {loading ? (
+          <ActivityIndicator size="small" color="white" />
+        ) : (
+          'Salvar alterações'
+        )}
       </Button>
     </View>
   );
@@ -173,11 +180,14 @@ const EditDonorProfile = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      className="flex-1"
     >
-      <View className=" items-center pt-4">
-        <Text className=" text-xl font-bold">Editar Perfil</Text>
-      </View>
-      <EditProfileForm />
+      <ScrollView>
+        <View className=" items-center pt-4">
+          <Text className=" text-xl font-bold">Editar Perfil</Text>
+        </View>
+        <EditProfileForm />
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };
