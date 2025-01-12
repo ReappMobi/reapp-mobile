@@ -14,11 +14,11 @@ const DrawerContent = () => {
       <View className="bg-color_primary px-6 pt-8">
         <HeaderStatisticsProfile
           image={user.media?.remoteUrl || ''}
-          name={user?.name || ''}
+          name={user.name}
           donationsQty={0}
-          followingQty={(user && user.followersCount) || 0}
-          followersQty={(user && user.followingCount) || 0}
-          note={user?.note || ''}
+          followingQty={user.followersCount}
+          followersQty={user.followingCount}
+          note={user.note || ''}
         />
       </View>
       <View className="w-full flex-1 bg-white px-6">
