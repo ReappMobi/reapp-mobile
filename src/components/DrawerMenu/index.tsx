@@ -8,6 +8,13 @@ import { useAuth } from 'src/hooks/useAuth';
 export const DrawerMenu: React.FC = memo(() => {
   const navigation = useNavigation();
   const { signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigation.dispatch(DrawerActions.closeDrawer());
+    router.replace('/welcome');
+  };
+
   return (
     <View className=" flex h-full w-full flex-col pt-4">
       <View className="flex flex-1 flex-col gap-y-2">
@@ -37,10 +44,7 @@ export const DrawerMenu: React.FC = memo(() => {
         </TouchableOpacity>
         <TouchableOpacity
           className="mb-4 flex-row items-center gap-x-2"
-          onPress={() => {
-            signOut();
-            navigation.dispatch(DrawerActions.closeDrawer());
-          }}
+          onPress={handleSignOut}
         >
           <Ionicons name="exit-outline" size={24} color="gray" />
           <Text className="font-reapp_bold text-base">Sair</Text>
