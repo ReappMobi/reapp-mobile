@@ -5,7 +5,9 @@ import { DrawerMenu } from 'src/components/DrawerMenu';
 import { useAuth } from 'src/hooks/useAuth';
 
 const DrawerContent = () => {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
+
+  if (!user || !token) return null;
 
   return (
     <View className="max-w-64 w-full flex-1 rounded-none">
