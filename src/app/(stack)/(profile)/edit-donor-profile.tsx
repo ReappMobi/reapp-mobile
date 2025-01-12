@@ -99,8 +99,8 @@ const EditProfileForm = () => {
         onPress={pickImage}
       >
         <Image
-          source={{ uri: media?.uri || user.media.remoteUrl }}
-          placeholder={{ blurhash: user.media.blurhash }}
+          source={{ uri: media?.uri || user.media?.remoteUrl }}
+          placeholder={{ blurhash: user.media?.blurhash }}
           className="h-full w-full rounded-full"
         />
         <View className="absolute bottom-0 right-1 h-8 w-8 items-center justify-center rounded-full bg-text_primary">
