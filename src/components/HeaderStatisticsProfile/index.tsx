@@ -37,7 +37,7 @@ function HeaderStatisticsProfile({
           if (isDonor) {
             router.push('/edit-donor-profile');
           } else {
-            router.push('/editInformationInstitution');
+            router.push('/edit-institution-profile');
           }
         }}
       >

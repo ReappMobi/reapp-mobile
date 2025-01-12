@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
 import { Image } from 'expo-image';
 import {
   launchImageLibraryAsync,
@@ -7,7 +7,7 @@ import {
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 import { router } from 'expo-router';
-import React from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   View,
@@ -36,8 +36,8 @@ const EditProfileForm = () => {
   });
 
   const { token, user, saveUserAndToken } = useAuth();
-  const [loading, setLoading] = React.useState(false);
-  const [media, setMedia] = React.useState<RequestMedia | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [media, setMedia] = useState<RequestMedia | null>(null);
   const mediaTypes: MediaType[] = ['images'];
 
   const requestGalleryPermission = async () => {
@@ -168,8 +168,7 @@ const EditProfileForm = () => {
   );
 };
 
-const EditDonorProfile = () => {
-  // TODO: Fix when typing, the keyboard is covering the input field
+const Page: React.FC = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -182,4 +181,4 @@ const EditDonorProfile = () => {
   );
 };
 
-export default EditDonorProfile;
+export default Page;
