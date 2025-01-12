@@ -10,9 +10,8 @@ import { SearchProvider } from 'src/contexts/search';
 import { useAuth } from 'src/hooks/useAuth';
 
 const TabLayout = () => {
-  const { user } = useAuth();
   const navigation = useNavigation();
-  const { isDonor, token } = useAuth();
+  const { isDonor, token, user } = useAuth();
 
   if (!user) return <Redirect href="welcome" />;
 
