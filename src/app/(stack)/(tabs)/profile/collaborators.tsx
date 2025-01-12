@@ -1,76 +1,130 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Image } from 'expo-image';
+import { useRoute } from '@react-navigation/native';
 import { router } from 'expo-router';
-import React, { useEffect, useState, memo } from 'react';
-import { FlatList, View, Text } from 'react-native';
+import React, { memo } from 'react';
+import {
+  FlatList,
+  View,
+  Text,
+  ActivityIndicator,
+  TouchableOpacity,
+  ListRenderItem,
+  RefreshControl,
+} from 'react-native';
 import { Button } from 'src/components';
+import { CollaboratorCard } from 'src/components/CollaboratorCard';
 import colors from 'src/constants/colors';
-import { useAuth } from 'src/hooks/useAuth';
-import { getCollaboratorById } from 'src/services/app-core';
+import { useCollaboratorsByInstitution } from 'src/hooks/useCollaboratorsByInstitution';
 import { ICollaborator } from 'src/types/ICollaborator';
 
-const blurhash: string =
-  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
-
-const CollaboratorCard = ({ info }) => {
-  return (
-    <View className="flex-row items-center gap-x-2 border-b border-zinc-200 p-2">
-      <Image
-        className="h-[64] w-[64] rounded-full"
-        source={info.avatar}
-        placeholder={blurhash}
-        contentFit="cover"
-        transition={500}
-      />
-
-      <Text className="font-reapp_medium text-sm">{info.name}</Text>
-    </View>
-  );
+type CollaboratorItemProps = {
+  item: ICollaborator;
 };
+const CollaboratorItem = memo<CollaboratorItemProps>(({ item }) => {
+  return (
+    <CollaboratorCard
+      name={item.name}
+      image={item.media?.remoteUrl}
+      blurhash={item.media?.blurhash}
+    />
+  );
+});
+
+const renderHeader = () => (
+  <View className="mb-3 items-center justify-center">
+    <Button
+      endIcon={
+        <Ionicons
+          name="chevron-forward"
+          size={20}
+          color={colors.text_neutral}
+        />
+      }
+      customStyles="w-64 justify-center space-x-2"
+      onPress={() => {
+        router.push({
+          pathname: 'collaborator-create',
+        });
+      }}
+    >
+      Cadastrar Colaborador
+    </Button>
+  </View>
+);
+
+function CollaboratorList({ institutionId }: { institutionId: number }) {
+  const { collaborators, token, error, loading, refreshing, onRefresh } =
+    useCollaboratorsByInstitution(institutionId);
+
+  if (loading && !token) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    );
+  }
+
+  if (!loading && error) {
+    return (
+      <View className="flex-1 items-center justify-center p-4">
+        <Text className="mb-2 text-lg font-bold text-red-500">
+          Ocorreu um erro!
+        </Text>
+        <Text>{error.message}</Text>
+
+        {/* Botão para tentar novamente */}
+        <TouchableOpacity onPress={onRefresh}>
+          <Text className="mt-4 text-blue-500">Tentar novamente</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  const renderItem: ListRenderItem<ICollaborator> = ({ item }) =>
+    collaborators.length > 0 ? (
+      <CollaboratorItem item={item} />
+    ) : (
+      <View className="flex-1 items-center justify-center p-4">
+        <Text className="font-reapp_medium text-base">
+          Nenhum colaborador encontrado.
+        </Text>
+      </View>
+    );
+
+  return (
+    <FlatList
+      data={collaborators}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id.toString()}
+      ListHeaderComponent={renderHeader}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          colors={['#ff0000']} // Android
+          tintColor="#0000ff" // iOS
+          title="Recarregando..." // iOS
+        />
+      }
+      ListEmptyComponent={
+        <View className="flex-1 items-center justify-center p-4">
+          <Text className="font-reapp_medium text-base">
+            Nenhum colaborador encontrado.
+          </Text>
+        </View>
+      }
+      ItemSeparatorComponent={() => <View className="h-2" />}
+    />
+  );
+}
 
 function Collaborators() {
-  const [collaborators, setCollaborators] = useState<ICollaborator[]>([]);
-
-  const auth = useAuth();
-  useEffect(() => {
-    (async () => {
-      const token = await auth.getToken();
-      const res = await getCollaboratorById(auth.user.id, token);
-      setCollaborators(res);
-    })();
-  }, []);
-
-  const renderHeader = () => (
-    <View className="mb-3 items-center justify-center">
-      <Button
-        endIcon={
-          <Ionicons
-            name="chevron-forward"
-            size={20}
-            color={colors.text_neutral}
-          />
-        }
-        customStyles="w-64 justify-center space-x-2"
-        onPress={() => {
-          router.push({
-            pathname: 'collaborator-create',
-          });
-        }}
-      >
-        Cadastrar Colaborador
-      </Button>
-    </View>
-  );
+  const route = useRoute();
+  const { id } = route.params as { id: number };
 
   return (
     <View className="py-4">
-      <FlatList
-        data={collaborators}
-        renderItem={({ item }) => <CollaboratorCard info={item} />}
-        keyExtractor={(item) => item.id.toString()}
-        ItemSeparatorComponent={() => <View className="h-2" />}
-        ListHeaderComponent={renderHeader}
-      />
+      <CollaboratorList institutionId={id} />
     </View>
   );
 }

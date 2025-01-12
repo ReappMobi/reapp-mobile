@@ -1,5 +1,5 @@
 const config = {
-  API_URL: 'http://10.74.0.2:3000',
+  API_URL: 'http://10.74.0.19:3000',
   ENV: 'development',
 };
 
