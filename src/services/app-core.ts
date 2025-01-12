@@ -453,7 +453,7 @@ export async function getInstitutionTransparency(institutionId: number) {
 
 export async function getInstitutionCategories() {
   try {
-    const response = await api.get('/institution/categories', {
+    const response = await api.get('/account/categories', {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
