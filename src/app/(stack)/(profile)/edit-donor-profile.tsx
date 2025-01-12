@@ -21,54 +21,6 @@ import {
 import { Button } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { RequestMedia, updateAccount } from 'src/services/account';
-import { z } from 'zod';
-
-const MIN_STRING_LEN = 5;
-const MAX_NAME_LEN = 25;
-const MIN_PASSWORD_LEN = 8;
-const MAX_PASSWORD_LEN = 25;
-const MAX_NOTE_LEN = 50;
-
-const MIN_LENGTH_MESSAGE = `Este campo deve ter pelo menos ${MIN_STRING_LEN} caracteres.`;
-const MIN_PASSWORD_MESSAGE = `A senha deve ter pelo menos ${MIN_PASSWORD_LEN} caracteres.`;
-const MAX_LENGTH_MESSAGE = `Este campo deve ter no máximo ${MAX_NAME_LEN} caracteres.`;
-const MAX_NOTE_LENGTH_MESSAGE = `Este campo deve ter no máximo ${MAX_NOTE_LEN} caracteres.`;
-const MAX_PASSWORD_MESSAGE = `A senha deve ter no máximo ${MAX_PASSWORD_LEN} caracteres.`;
-const UNMATCHED_PASSWORD_MESSAGE = 'As senhas devem ser iguais.';
-const INVALID_EMAIL_MESSAGE = 'O email deve ser válido.';
-
-const schema = z
-  .object({
-    name: z
-      .string()
-      .min(MIN_STRING_LEN, { message: MIN_LENGTH_MESSAGE })
-      .max(MAX_NAME_LEN, { message: MAX_LENGTH_MESSAGE })
-      .optional()
-      .or(z.literal('')),
-    note: z
-      .string()
-      .min(MIN_STRING_LEN, { message: MIN_LENGTH_MESSAGE })
-      .max(MAX_NOTE_LEN, { message: MAX_NOTE_LENGTH_MESSAGE })
-      .optional()
-      .or(z.literal('')),
-    email: z.string().email({ message: INVALID_EMAIL_MESSAGE }).optional(),
-    password: z
-      .optional(
-        z
-          .string()
-          .min(MIN_PASSWORD_LEN, { message: MIN_PASSWORD_MESSAGE })
-          .max(MAX_PASSWORD_LEN, { message: MAX_PASSWORD_MESSAGE })
-      )
-      .or(z.literal('')),
-    confirmPassword: z.string().optional(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: UNMATCHED_PASSWORD_MESSAGE,
-    path: ['confirmPassword'],
-  });
-
-type FormData = z.infer<typeof schema>;
-
 type FormInputFieldProps = {
   control: any;
   name: string;
@@ -113,6 +65,10 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
     </View>
   );
 };
+import {
+  schema,
+  FormData,
+} from 'src/utils/profile-page/edit-donor-profile-schema';
 
 const EditProfileForm = () => {
   const {
