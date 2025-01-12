@@ -13,7 +13,7 @@ const TabLayout = () => {
   const navigation = useNavigation();
   const { isDonor, token, user } = useAuth();
 
-  if (!user) return <Redirect href="welcome" />;
+  if (!user || !token) return <Redirect href="welcome" />;
 
   const onToggle = () => {
     navigation.dispatch(DrawerActions.toggleDrawer());
