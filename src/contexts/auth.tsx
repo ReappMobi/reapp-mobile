@@ -14,7 +14,7 @@ interface AuthContextData {
   token: string | null;
   signIn(data: SignInData): Promise<any>;
   signInGoogle(data: any): Promise<any>;
-  signOut(): void;
+  signOut(): Promise<void>;
   signUp(data: SignUpData): Promise<any>;
   donnorSignUpGoogle(data: any): Promise<any>;
   getToken(): Promise<string | null>;
@@ -53,7 +53,7 @@ export function AuthProvider({ children }) {
         setIsDonor(JSON.parse(storagedIsDonor));
         setToken(storagedToken);
       } catch (e) {
-        console.error('Erro ao carregar dados do armazenamento', e);
+        console.log(e);
         await AsyncStorage.clear();
         setUser(null);
         setIsDonor(null);
@@ -66,21 +66,24 @@ export function AuthProvider({ children }) {
   }, []);
 
   // TODO: type user
-  async function saveUserAndToken(user, token: string) {
+  async function saveUserAndToken(user: AccountType, token: string) {
     await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(user));
     await AsyncStorage.setItem('@RNAuth:token', token);
     await AsyncStorage.setItem(
       '@RNAuth:isDonor',
       JSON.stringify(user.accountType === 'DONOR')
     );
+
+    console.debug(user, token);
     setUser(user);
     setIsDonor(user.accountType === 'DONOR');
+    setToken(token);
   }
 
   async function signIn(data: SignInData) {
     const response = await auth.SignIn(data);
     if (response.user) {
-      saveUserAndToken(response.user, response.token);
+      await saveUserAndToken(response.user, response.token);
     }
   }
 
@@ -88,7 +91,7 @@ export function AuthProvider({ children }) {
   async function signInGoogle(data) {
     const response = await auth.SignInGoogle(data);
     if (response.user) {
-      saveUserAndToken(response.user, response.token);
+      await saveUserAndToken(response.user, response.token);
     }
 
     return response;
@@ -104,12 +107,11 @@ export function AuthProvider({ children }) {
     return response;
   }
 
-  function signOut() {
-    AsyncStorage.clear().then(() => {
-      setUser(null);
-      setIsDonor(null);
-      setToken(null);
-    });
+  async function signOut() {
+    await AsyncStorage.clear();
+    setUser(null);
+    setIsDonor(null);
+    setToken(null);
   }
 
   async function getToken() {
