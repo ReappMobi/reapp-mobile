@@ -20,5 +20,12 @@ export interface IPost {
   createdAt: string;
   updatedAt: string;
   comments: any[];
-  likes: any[];
+  likes: {
+    id: number;
+    accountId: number;
+  }[];
+  saves: {
+    id: number;
+    accountId: number;
+  }[];
 }
