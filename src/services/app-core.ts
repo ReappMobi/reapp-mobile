@@ -79,6 +79,58 @@ export async function unlikePost(data: { id: number; token: string }) {
   }
 }
 
+export async function savePost(data: { id: number; token: string }) {
+  try {
+    const response = await api.post(
+      `/post/${data.id}/save`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
+        validateStatus() {
+          return true;
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function unsavePost(data: { id: number; token: string }) {
+  try {
+    const response = await api.delete(`/post/${data.id}/save`, {
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function getSavedPosts(data: { token: string }) {
+  try {
+    const response = await api.get(`/post/saved`, {
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
 export async function getInstitutions(data) {
   try {
     const response = await api.get('/account/institution', {
