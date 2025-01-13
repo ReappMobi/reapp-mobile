@@ -72,16 +72,24 @@ function HeaderStatisticsProfile({
               Doações
             </Text>
           )}
-          {!isDonor ? (
-            <Text className="font-reapp_regular text-sm text-white">
-              <Text className="font-reapp_bold text-sm"> {followingQty} </Text>
-              Seguindo
-            </Text>
-          ) : (
-            <Text className="font-reapp_regular text-sm text-white">
-              <Text className="font-reapp_bold text-sm"> {followersQty} </Text>
-              Seguidores
-            </Text>
+          {!isDonor && (
+            <>
+              <Text className="font-reapp_regular text-sm text-white">
+                <Text className="font-reapp_bold text-sm">
+                  {' '}
+                  {followingQty}{' '}
+                </Text>
+                Seguindo
+              </Text>
+
+              <Text className="font-reapp_regular text-sm text-white">
+                <Text className="font-reapp_bold text-sm">
+                  {' '}
+                  {followersQty}{' '}
+                </Text>
+                Seguidores
+              </Text>
+            </>
           )}
         </View>
       </View>
