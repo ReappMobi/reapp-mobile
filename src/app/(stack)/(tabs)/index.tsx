@@ -13,7 +13,12 @@ import {
 import { Button, CardPost, Carousel } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { usePosts } from 'src/hooks/usePosts';
-import { likePost, unlikePost } from 'src/services/app-core';
+import {
+  likePost,
+  unlikePost,
+  savePost,
+  unsavePost,
+} from 'src/services/app-core';
 import { IPost } from 'src/types';
 
 type PostItemProps = {
@@ -23,8 +28,8 @@ type PostItemProps = {
 };
 
 const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
-  const isLiked = item.likes?.some((like) => like.donor.accountId === userId);
-
+  const isLiked = item.likes?.some((like) => like.accountId === userId);
+  const isSaved = item.saves?.some((save) => save.accountId === userId);
   const handleLike = useCallback(() => {
     if (token) {
       likePost({ id: item.id, token });
@@ -34,6 +39,18 @@ const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
   const handleUnlike = useCallback(() => {
     if (token) {
       unlikePost({ id: item.id, token });
+    }
+  }, [item.id, token]);
+
+  const handleSave = useCallback(() => {
+    if (token) {
+      savePost({ id: item.id, token });
+    }
+  }, [item.id, token]);
+
+  const handleUnsave = useCallback(() => {
+    if (token) {
+      unsavePost({ id: item.id, token });
     }
   }, [item.id, token]);
 
@@ -48,10 +65,12 @@ const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
       nameInstitution={item.institution?.account?.name || ''}
       description={item.body || ''}
       timeAgo={timeString}
-      isSavedInitial={false}
+      isSavedInitial={isSaved}
       isLikedInitial={isLiked}
       onPressLike={handleLike}
       onPressUnlike={handleUnlike}
+      onPressSave={handleSave}
+      onPressUnSave={handleUnsave}
     />
   );
 });
