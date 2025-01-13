@@ -13,9 +13,6 @@ import PartnerCard from 'src/components/PartnerCard';
 import { usePartnersByInstitution } from 'src/hooks/usePartnersByInstitution';
 import { IPartner } from 'src/types/IPartner';
 
-/**
- * Componente que renderiza cada parceiro individual (similar ao ProjectItem).
- */
 type PartnerItemProps = {
   item: IPartner;
 };
@@ -24,14 +21,10 @@ const PartnerItem = memo<PartnerItemProps>(({ item }) => {
   return <PartnerCard image={item.media?.remoteUrl} name={item.name} />;
 });
 
-/**
- * Componente que faz toda a lógica de buscar os parceiros e renderizar a lista (similar ao ProjectList).
- */
 function PartnerList({ institutionId }: { institutionId: number }) {
   const { partners, token, error, loading, refreshing, onRefresh } =
     usePartnersByInstitution(institutionId);
 
-  // Se está carregando e ainda não temos token, mostrar indicador
   if (loading && !token) {
     return (
       <View className="flex-1 items-center justify-center">
@@ -40,7 +33,6 @@ function PartnerList({ institutionId }: { institutionId: number }) {
     );
   }
 
-  // Se houve erro (e não está mais carregando)
   if (!loading && error) {
     return (
       <View className="flex-1 items-center justify-center p-4">
@@ -49,7 +41,6 @@ function PartnerList({ institutionId }: { institutionId: number }) {
         </Text>
         <Text>{error.message}</Text>
 
-        {/* Botão para tentar novamente */}
         <TouchableOpacity onPress={onRefresh}>
           <Text className="mt-4 text-blue-500">Tentar novamente</Text>
         </TouchableOpacity>
@@ -86,7 +77,6 @@ function PartnerList({ institutionId }: { institutionId: number }) {
           title="Recarregando..." // iOS
         />
       }
-      // Se quiser exibir algo quando a lista estiver vazia:
       ListEmptyComponent={
         <View className="flex-1 items-center justify-center p-4">
           <Text className="font-reapp_medium text-base">
@@ -98,9 +88,6 @@ function PartnerList({ institutionId }: { institutionId: number }) {
   );
 }
 
-/**
- * Componente principal, recebe o `id` da rota e apenas renderiza o PartnerList.
- */
 function PartnersView() {
   const route = useRoute();
   const { id } = route.params as { id: number };
