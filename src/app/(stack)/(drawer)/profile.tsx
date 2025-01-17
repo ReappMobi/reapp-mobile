@@ -16,8 +16,8 @@ const DrawerContent = () => {
           image={user?.media?.remoteUrl}
           name={user?.name}
           donationsQty={0}
-          followingQty={user.followersCount}
-          followersQty={user.followingCount}
+          followingQty={user.followingCount}
+          followersQty={user.followersCount}
           note={user.note || ''}
         />
       </View>
