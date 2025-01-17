@@ -135,6 +135,7 @@ const Layout = () => {
         </View>
       ) : (
         <MaterialTopTabs
+          id={undefined}
           screenOptions={{
             tabBarScrollEnabled: true,
             tabBarBounces: true,
