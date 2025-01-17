@@ -115,6 +115,44 @@ export async function unsavePost(data: { id: number; token: string }) {
   }
 }
 
+export async function followAccount(data: { id: number; token: string }) {
+  try {
+    console.log(data.token);
+    const response = await api.post(
+      `/account/follow/${data.id}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        },
+        validateStatus() {
+          return true;
+        },
+      }
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export async function unfollowAccount(data: { id: number; token: string }) {
+  try {
+    const response = await api.delete(`/account/unfollow/${data.id}`, {
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
 export async function getSavedPosts(data: { token: string }) {
   try {
     const response = await api.get(`/post/saved`, {
