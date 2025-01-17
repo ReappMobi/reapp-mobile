@@ -75,18 +75,12 @@ function HeaderStatisticsProfile({
           {!isDonor && (
             <>
               <Text className="font-reapp_regular text-sm text-white">
-                <Text className="font-reapp_bold text-sm">
-                  {' '}
-                  {followingQty}{' '}
-                </Text>
+                <Text className="font-reapp_bold text-sm">{followingQty} </Text>
                 Seguindo
               </Text>
 
               <Text className="font-reapp_regular text-sm text-white">
-                <Text className="font-reapp_bold text-sm">
-                  {' '}
-                  {followersQty}{' '}
-                </Text>
+                <Text className="font-reapp_bold text-sm">{followersQty} </Text>
                 Seguidores
               </Text>
             </>
