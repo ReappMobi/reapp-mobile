@@ -16,4 +16,5 @@ export interface IInstitution {
     media?: IMedia;
     followersCount: number;
   };
+  isFollowing: boolean;
 }
