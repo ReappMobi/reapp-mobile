@@ -1,9 +1,11 @@
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { Image } from 'expo-image';
+import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 
 type CardPostProps = {
+  postId: string | number;
   userImageUrl?: string;
   userImageBlurhash?: string;
   mediaUrl?: string;
@@ -20,6 +22,7 @@ type CardPostProps = {
 };
 
 function CardPost({
+  postId,
   userImageUrl,
   userImageBlurhash,
   mediaUrl,
@@ -66,7 +69,9 @@ function CardPost({
     });
   };
 
-  const handleCommentPress = () => {};
+  const handleCommentPress = () => {
+    router.push(`/post-comments/${postId}`);
+  };
 
   return (
     <View className="w-full bg-white p-4">
@@ -86,33 +91,38 @@ function CardPost({
             {nameInstitution}
           </Text>
         </View>
-
-        <Text className="font-reapp_bold text-sm text-text_neutral">
-          {nameInstitution}
-        </Text>
       </View>
-      <View />
 
-      <View className="mb-2.5">
-        <Text
-          numberOfLines={expanded ? null : 3}
-          className="font-reapp_regular text-sm text-text_neutral "
-          onPress={() => setExpanded(!expanded)}
-        >
-          {description}
-        </Text>
-      </View>
-      {mediaUrl && (
-        <View className="mb-2.5 h-56 w-full items-center justify-center">
-          <Image
-            className="h-full w-full rounded-md"
-            source={{ uri: mediaUrl }}
-            placeholder={{ blurhash: mediaBlurhash }}
-            contentFit="cover"
-            transition={500}
-          />
+      <Pressable
+        className="w-full"
+        onPress={handleCommentPress}
+        style={{ overflow: 'hidden' }}
+      >
+        <View className="mb-2.5">
+          <Text
+            numberOfLines={expanded ? null : 3}
+            className="font-reapp_regular text-sm text-text_neutral "
+          >
+            {description}
+          </Text>
+          <Pressable onPress={() => setExpanded((prev) => !prev)}>
+            <Text className="text-text_blue font-reapp_regular text-xs">
+              {expanded ? 'Ler menos' : 'Ler mais'}
+            </Text>
+          </Pressable>
         </View>
-      )}
+        {mediaUrl && (
+          <View className="mb-2.5 h-56 w-full items-center justify-center">
+            <Image
+              className="h-full w-full rounded-md"
+              source={{ uri: mediaUrl }}
+              placeholder={{ blurhash: mediaBlurhash }}
+              contentFit="cover"
+              transition={500}
+            />
+          </View>
+        )}
+      </Pressable>
 
       <View className="flex-row items-center justify-between">
         <View>
