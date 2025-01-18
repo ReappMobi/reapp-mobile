@@ -1,3 +1,5 @@
+import { IDonor } from 'src/mocks/user-data';
+
 import { IInstitution } from './IInstitution';
 import { IProject } from './IProject';
 
@@ -22,4 +24,5 @@ export interface Donation {
   donorId: number;
   institution?: IInstitution;
   project?: IProject;
+  donor: IDonor & { account: { name: string; media: string } };
 }
