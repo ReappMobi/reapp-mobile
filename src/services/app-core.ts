@@ -13,6 +13,7 @@ import {
 } from 'src/mocks/app-donationSegment-data';
 import { IBanner } from 'src/types';
 
+import { RequestMedia } from './account';
 import api from './api';
 
 export async function getSharedCampaigns(): Promise<IBanner[]> {
@@ -237,21 +238,19 @@ export async function postPublication(postData: {
   }
 }
 
-export async function postPartner(data, token) {
+export async function postPartner(
+  data: { name: string; media: RequestMedia | null; memberType: string },
+  token: string
+) {
   try {
     const formData = new FormData();
     formData.append('name', data.name);
-    formData.append('institutionId', data.institutionId);
-    if (data.image) {
-      const timestamp = Date.now();
-      formData.append('image', {
-        uri: data.image,
-        name: `${timestamp}.jpg`,
-        type: 'image/jpeg',
-      } as any);
+    formData.append('memberType', data.memberType);
+    if (data.media) {
+      formData.append('file', data.media as any);
     }
 
-    const response = await api.post('/partner', formData, {
+    const response = await api.post('/institution-members', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
