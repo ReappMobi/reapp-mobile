@@ -238,7 +238,7 @@ export async function postPublication(postData: {
   }
 }
 
-export async function postPartner(
+export async function postInstitutionMember(
   data: { name: string; media: RequestMedia | null; memberType: string },
   token: string
 ) {
@@ -553,35 +553,6 @@ export async function getInstitutionCategories() {
     return response.data;
   } catch (error) {
     return { error };
-  }
-}
-
-export async function postVolunteer(data, token) {
-  try {
-    const formData = new FormData();
-    formData.append('name', data.name);
-    formData.append('institutionId', data.institutionId);
-    if (data.image) {
-      const timestamp = Date.now();
-      formData.append('image', {
-        uri: data.image,
-        name: `${timestamp}.jpg`,
-        type: 'image/jpeg',
-      } as any);
-    }
-
-    const response = await api.post('/volunteer', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${token}`,
-      },
-      validateStatus() {
-        return true;
-      },
-    });
-    return response.data;
-  } catch (error) {
-    return { error: error.message };
   }
 }
 
