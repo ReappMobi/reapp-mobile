@@ -19,7 +19,7 @@ import {
 import { Button } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { RequestMedia } from 'src/services/account';
-import { postPartner } from 'src/services/app-core';
+import { postInstitutionMember } from 'src/services/app-core';
 import { z } from 'zod';
 
 const partnerCreateFormSchema = z.object({
@@ -147,7 +147,7 @@ const PartnerCreateForm: React.FC = () => {
         memberType: 'PARTNER',
       };
 
-      const res = await postPartner(createPartnerData, token);
+      const res = await postInstitutionMember(createPartnerData, token);
       if (res.error) {
         Alert.alert('Erro no cadastro do parceiro', res.error);
       } else {
