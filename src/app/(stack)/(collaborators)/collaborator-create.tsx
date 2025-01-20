@@ -1,131 +1,219 @@
+import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { View, Text, Alert, Image } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Input } from 'src/components';
+import { Controller, useForm } from 'react-hook-form';
+import {
+  View,
+  Text,
+  Alert,
+  Image,
+  Pressable,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+  TextInput,
+  ActivityIndicator,
+} from 'react-native';
+import { Button } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
-import { postCollaborator } from 'src/services/app-core';
+import { RequestMedia } from 'src/services/account';
+import { postInstitutionMember } from 'src/services/app-core';
 import { z } from 'zod';
 
-export default function CollaboratorCreate() {
-  const auth = useAuth();
-  const [image, setImage] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const collaboratorCreateFormSchema = z.object({
-    name: z
-      .string({ required_error: 'O nome do colaborador é obrigatório.' })
-      .max(25, 'O nome do colaborador deve ter no máximo 200 caracteres.'),
-  });
+const collaboratorCreateFormSchema = z.object({
+  name: z
+    .string({ required_error: 'O nome do colaborador é obrigatório.' })
+    .max(25, 'O nome do colaborador deve ter no máximo 25 caracteres.'),
+});
 
-  type collaboratorCreateFormData = z.infer<
-    typeof collaboratorCreateFormSchema
-  >;
+type FormData = z.infer<typeof collaboratorCreateFormSchema>;
 
+type RequestMediaExtended = RequestMedia & {
+  uri: string;
+  width?: number;
+  height?: number;
+};
+
+type FormInputFieldProps = {
+  control: any;
+  name: keyof FormData;
+  label: string;
+  placeholder?: string;
+  error: any;
+  secureTextEntry?: boolean;
+  children?: React.ReactNode;
+};
+
+const FormInputField: React.FC<FormInputFieldProps> = ({
+  control,
+  name,
+  label,
+  placeholder,
+  error,
+  secureTextEntry,
+  children,
+}) => {
+  return (
+    <View className="my-1 w-full">
+      <Text className="mb-1 text-sm">{label}</Text>
+
+      <View className="border-1 h-12 w-full flex-row items-center rounded-md border border-text_primary px-2">
+        <Controller
+          control={control}
+          name={name}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              placeholder={placeholder}
+              secureTextEntry={secureTextEntry}
+              className="flex-1"
+            />
+          )}
+        />
+        {children && <View className="ml-1">{children}</View>}
+      </View>
+
+      {error[name] && (
+        <Text className="text-sm font-bold text-red-400">
+          {error[name].message}
+        </Text>
+      )}
+    </View>
+  );
+};
+
+const CollaboratorCreateForm: React.FC = () => {
   const {
-    register,
-    setValue,
-    watch,
+    control,
     handleSubmit,
     formState: { errors },
-  } = useForm<collaboratorCreateFormData>({
+  } = useForm<FormData>({
     resolver: zodResolver(collaboratorCreateFormSchema),
+    defaultValues: {
+      name: '',
+    },
   });
 
-  const onSubmit = async (data: any) => {
-    const dataReq = {
-      name: data.name,
-      image,
-      institutionId: auth.user.id,
-    };
+  const { token } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [media, setMedia] = useState<RequestMediaExtended | null>(null);
+  const mediaTypes: ImagePicker.MediaType[] = ['images'];
 
-    const token = await auth.getToken();
-    const res = await postCollaborator(dataReq, token);
-    setLoading(false);
-    if (res.error) {
-      Alert.alert('Erro no cadastro da colaborador', res.error);
-    } else {
-      Alert.alert('Colaborador cadastrado com sucesso!');
-      router.back();
+  const requestGalleryPermission = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Precisamos de permissão para acessar a galeria.');
     }
   };
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
+    await requestGalleryPermission();
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [128, 128],
       quality: 1,
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      const { uri, fileName, mimeType, fileSize, width, height } =
+        result.assets[0];
+      setMedia({
+        uri,
+        name: fileName,
+        type: mimeType,
+        size: fileSize,
+        width,
+        height,
+      });
     }
   };
+
+  const onSubmit = async (data: FormData) => {
+    if (loading) return;
+    setLoading(true);
+
+    try {
+      const createCollaboratorData = {
+        name: data.name,
+        media,
+        memberType: 'COLLABORATOR',
+      };
+
+      const res = await postInstitutionMember(createCollaboratorData, token);
+
+      if (res.error) {
+        Alert.alert('Erro no cadastro do colaborador', res.error);
+      } else {
+        Alert.alert('Colaborador cadastrado com sucesso!');
+        router.back();
+      }
+    } catch (error: any) {
+      Alert.alert('Erro no cadastro', error?.message || 'Tente novamente');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <SafeAreaView className="flex-1 px-4">
-      <Spinner
-        visible={loading}
-        textContent="Carregando..."
-        textStyle={{ color: '#FFF' }}
-      />
-      <View className="gap-3">
-        <View>
-          <Text className="font-reapp_regular text-base">
-            Foto do colaborador
-          </Text>
-          <Button
-            customStyles="w-full justify-center "
-            textColor="text-color_blue"
-            onPress={pickImage}
-          >
-            Selecionar Foto
-          </Button>
-        </View>
+    <View className="w-full flex-col items-center p-4">
+      {/* Seletor da imagem */}
+      <Pressable
+        className="relative h-[128] w-[128] rounded-full bg-color_third"
+        onPress={pickImage}
+      >
+        <Image
+          source={{ uri: media?.uri || '' }}
+          className="h-full w-full rounded-full"
+        />
 
-        {image && (
-          <View className="mt-4 items-center">
-            <Image
-              source={{ uri: image }}
-              style={{ width: 200, height: 200, borderRadius: 10 }}
-            />
-          </View>
+        <View className="absolute bottom-0 right-1 h-8 w-8 items-center justify-center rounded-full bg-text_primary">
+          <Ionicons name="camera" size={18} color="white" />
+        </View>
+      </Pressable>
+
+      <FormInputField
+        control={control}
+        name="name"
+        label="Nome do Colaborador"
+        placeholder="Digite o nome"
+        error={errors}
+      >
+        <Ionicons name="person-sharp" size={16} color="black" />
+      </FormInputField>
+
+      {/* Botão de Enviar */}
+      <Button
+        customStyles="mt-4 w-full justify-center bg-color_primary"
+        textColor="text-text_light"
+        onPress={handleSubmit(onSubmit)}
+        disabled={loading}
+      >
+        {loading ? (
+          <ActivityIndicator size="small" color="white" />
+        ) : (
+          'Cadastrar Colaborador'
         )}
-
-        <View>
-          <Text className="font-reapp_regular text-base">
-            Nome do colaborador
-          </Text>
-          <Input
-            placeholder="Digite o nome do colaborador"
-            inputMode="text"
-            onChangeText={(text) =>
-              setValue('name', text, { shouldValidate: true })
-            }
-            value={watch('name')}
-            {...register('name')}
-          />
-          {errors.name && (
-            <Text className="my-1 font-reapp_regular text-xs text-color_redsh">
-              {errors.name.message}
-            </Text>
-          )}
-        </View>
-
-        <View>
-          <Button
-            customStyles="w-full justify-center bg-color_primary"
-            textColor="text-text_light"
-            onPress={handleSubmit(onSubmit)}
-          >
-            Cadastrar Colaborador
-          </Button>
-        </View>
-      </View>
-    </SafeAreaView>
+      </Button>
+    </View>
   );
-}
+};
+
+const CollaboratorCreate: React.FC = () => {
+  return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      className="flex-1"
+    >
+      <ScrollView>
+        <CollaboratorCreateForm />
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+};
+
+export default CollaboratorCreate;
