@@ -1,50 +1,25 @@
 import { useLocalSearchParams } from 'expo-router';
 import { openBrowserAsync } from 'expo-web-browser';
-import { memo, useState } from 'react';
-import { View, Alert } from 'react-native';
+import { useState } from 'react';
+import { View, Alert, ActivityIndicator } from 'react-native';
 import DonationTaxReceiptImage from 'src/assets/images/DonationTaxReceiptImage.svg';
 import { Button, Input } from 'src/components';
+import { DonationValueInput } from 'src/components/DonationValueInput';
 import { useAuth } from 'src/hooks/useAuth';
 import { requestPaymentUrl } from 'src/services/payment';
 
-const formatCurrency = (value: number) => {
-  return new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  }).format(value / 100);
-};
-
-const DonationValueInput = memo(function DonationValueInput({
-  value,
-  onChangeValue,
-}: {
-  value: number;
-  onChangeValue: (val: number) => void;
-}) {
-  const handleChange = (text: string) => {
-    const onlyNumbers = text.replace(/\D/g, '');
-    onChangeValue(onlyNumbers ? parseInt(onlyNumbers, 10) : 0);
-  };
-
-  return (
-    <Input
-      placeholder="Digite o valor"
-      value={formatCurrency(value)}
-      onChangeText={handleChange}
-      inputMode="decimal"
-      customStyle="text-center text-text_neutral text-xl"
-    />
-  );
-});
-
 const DonationMethodPage = () => {
   const { institutionId, projectId } = useLocalSearchParams();
+
   const [value, setValue] = useState(0);
+  const [loading, setLoading] = useState<boolean>(false);
   const [description, setDescription] = useState('');
   const auth = useAuth();
 
   const requestPayment = async () => {
+    setLoading(true);
     const token = await auth.getToken();
+
     const data = {
       amount: value / 100,
       institutionId: Number(institutionId),
@@ -53,11 +28,13 @@ const DonationMethodPage = () => {
     };
 
     const response = await requestPaymentUrl(data, token);
+
     if (response.error || response.statusCode === 500) {
       Alert.alert('Erro interno, tente novamente mais tarde.');
     } else {
-      openBrowserAsync(response.result);
+      openBrowserAsync(response);
     }
+    setLoading(false);
   };
 
   return (
@@ -65,8 +42,14 @@ const DonationMethodPage = () => {
       <View className="items-center">
         <DonationTaxReceiptImage width={228} height={199} />
       </View>
+
       <View className="mb-4 mt-4 gap-y-3">
-        <DonationValueInput value={value} onChangeValue={setValue} />
+        <DonationValueInput
+          value={value}
+          onChangeValue={setValue}
+          placeholder="Digite o valor"
+          style={{ textAlign: 'center', fontSize: 20 }}
+        />
         <Input
           placeholder="Adicionar Descrição"
           customStyle="text-center text-xl"
@@ -79,10 +62,16 @@ const DonationMethodPage = () => {
         customStyles="justify-center bg-color_primary"
         onPress={requestPayment}
         textColor="text-text_light"
+        disabled={loading}
       >
-        Continuar
+        {loading ? (
+          <ActivityIndicator size="small" color="white" />
+        ) : (
+          'Continuar'
+        )}
       </Button>
     </View>
   );
 };
+
 export default DonationMethodPage;
