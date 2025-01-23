@@ -1,10 +1,27 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { View, Text } from 'react-native';
+import { View, Text, Linking, Alert } from 'react-native';
 import DonationScreenImage from 'src/assets/images/DonationScreenImage.svg';
 import { Button } from 'src/components';
 
 const DonationPage = () => {
-  const { institutionId, projectId } = useLocalSearchParams();
+  const { institutionId, projectId, phone } = useLocalSearchParams();
+
+  const handleInsumosDonation = () => {
+    const phoneNumber = phone ? phone : '98982821387';
+
+    const message =
+      'Olá, estou vindo pelo Reapp e gostaria de realizar uma doação de insumos!';
+
+    const whatsappUrl = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+
+    Linking.openURL(whatsappUrl).catch(() => {
+      Alert.alert(
+        'Atenção',
+        'Não foi possível abrir o WhatsApp. Verifique se ele está instalado no dispositivo.'
+      );
+    });
+  };
+
   return (
     <View className="px-4">
       <View className="items-center">
@@ -13,19 +30,9 @@ const DonationPage = () => {
           Quer nos ajudar? Sinta-se livre com uma das opções abaixo
         </Text>
       </View>
+
       <View className="items-center gap-y-3">
         <View className="flex-row gap-x-1.5">
-          <View className="w-2/4">
-            <Button
-              customStyles="justify-center"
-              onPress={() => {
-                router.push('/donation-method');
-              }}
-            >
-              Doação fixa
-            </Button>
-          </View>
-
           <View className="w-2/4">
             <Button
               customStyles="justify-center"
@@ -45,6 +52,7 @@ const DonationPage = () => {
         </View>
 
         <View className="flex-row gap-x-1.5">
+          {/* 
           <View className="w-2/4">
             <Button
               customStyles="justify-center"
@@ -56,8 +64,15 @@ const DonationPage = () => {
             </Button>
           </View>
 
+          */}
+
           <View className="w-2/4">
-            <Button customStyles="justify-center"> Insumos </Button>
+            <Button
+              customStyles="justify-center"
+              onPress={handleInsumosDonation}
+            >
+              Insumos
+            </Button>
           </View>
         </View>
       </View>
