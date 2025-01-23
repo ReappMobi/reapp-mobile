@@ -7,6 +7,7 @@ export interface IProject {
   name: string;
   institution: {
     id: number;
+    phone: string;
     category: {
       name: string;
     };

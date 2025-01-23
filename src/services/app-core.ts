@@ -118,7 +118,6 @@ export async function unsavePost(data: { id: number; token: string }) {
 
 export async function followAccount(data: { id: number; token: string }) {
   try {
-    console.log(data.token);
     const response = await api.post(
       `/account/follow/${data.id}`,
       {},
@@ -131,7 +130,6 @@ export async function followAccount(data: { id: number; token: string }) {
         },
       }
     );
-    console.log(response);
     return response.data;
   } catch (error) {
     return { error: error.message };
