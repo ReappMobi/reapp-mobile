@@ -120,7 +120,7 @@ const ProjectPage = () => {
                 onPress={() => {
                   return router.navigate({
                     pathname: 'donate',
-                    params: { projectId },
+                    params: { projectId, phone: project.institution.phone },
                   });
                 }}
               >
