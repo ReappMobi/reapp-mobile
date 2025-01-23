@@ -129,7 +129,10 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
                   onPress={() =>
                     router.push({
                       pathname: '/donate',
-                      params: { institutionId: institution?.id },
+                      params: {
+                        institutionId: institution?.id,
+                        phone: institution?.phone,
+                      },
                     })
                   }
                 >
