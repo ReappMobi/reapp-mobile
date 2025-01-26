@@ -15,6 +15,7 @@ type CardPostProps = {
   timeAgo?: string;
   isLikedInitial?: boolean;
   isSavedInitial?: boolean;
+  onPressInstitutionProfile?: () => void;
   onPressLike?: () => void;
   onPressUnlike?: () => void;
   onPressSave?: () => void;
@@ -32,6 +33,7 @@ function CardPost({
   timeAgo,
   isLikedInitial,
   isSavedInitial,
+  onPressInstitutionProfile,
   onPressLike,
   onPressUnlike,
   onPressSave,
@@ -75,7 +77,7 @@ function CardPost({
 
   return (
     <View className="w-full bg-white p-4">
-      <View>
+      <Pressable onPress={onPressInstitutionProfile}>
         <View className="mb-2.5 flex-row items-center gap-x-2">
           <View className="h-8 w-8 items-center justify-center">
             <Image
@@ -91,7 +93,7 @@ function CardPost({
             {nameInstitution}
           </Text>
         </View>
-      </View>
+      </Pressable>
 
       <Pressable
         className="w-full"
