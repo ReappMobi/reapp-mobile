@@ -10,7 +10,7 @@ interface ProjectContextData {
   getProjectCategories(query: string): Promise<Category[]>;
   setCurrentCategory(category: Category): void;
   error: Error | null;
-  category: string | null;
+  category: Category | null;
   loading: boolean;
 }
 
