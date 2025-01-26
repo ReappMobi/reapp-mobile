@@ -102,16 +102,19 @@ function PostList() {
     );
   }
 
-  const renderItem: ListRenderItem<IPost> = ({ item }) =>
-    posts.length > 0 ? (
-      <PostItem item={item} token={token} userId={user?.id} />
-    ) : (
+  if (posts.length === 0) {
+    return (
       <View className="flex-1 items-center justify-center p-4">
         <Text className="font-reapp_medium text-base">
           Nenhum post encontrado.
         </Text>
       </View>
     );
+  }
+
+  const renderItem: ListRenderItem<IPost> = ({ item }) => (
+    <PostItem item={item} token={token} userId={user?.id} />
+  );
 
   return (
     <FlatList
