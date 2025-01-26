@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   Text,
 } from 'react-native';
-import { Button, CardPost, Carousel } from 'src/components';
+import { Button, CardPost } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { usePosts } from 'src/hooks/usePosts';
 import {
@@ -78,7 +78,7 @@ const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
 
 function PostList() {
   const { user, token } = useAuth();
-  const { posts, banners, loading, error, refreshing, onRefresh } = usePosts();
+  const { posts, loading, error, refreshing, onRefresh } = usePosts();
 
   if (loading) {
     return (
@@ -116,7 +116,7 @@ function PostList() {
   return (
     <FlatList
       className="flex-1"
-      ListHeaderComponent={<Carousel banners={banners} />}
+      ListHeaderComponent={null}
       data={posts}
       renderItem={renderItem}
       keyExtractor={(item) => item.id.toString()}
