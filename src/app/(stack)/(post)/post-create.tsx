@@ -73,8 +73,8 @@ export default function PostCreate() {
     await requestGalleryPermission();
     const result = await launchImageLibraryAsync({
       mediaTypes,
-      allowsEditing: false,
-      aspect: [4, 3],
+      allowsEditing: true,
+      aspect: [5, 3],
       quality: 1,
     });
 
@@ -144,13 +144,13 @@ export default function PostCreate() {
 
         {media && (
           <View className="my-4 px-4">
-            <View className="items- relative w-40  items-end px-1">
+            <View className="items-relative w-64 items-end px-1">
               <Pressable onPress={() => setMedia(null)}>
                 <Ionicons name="close-circle" size={26} color="#646464" />
               </Pressable>
               <Image
                 source={{ uri: media }}
-                style={{ width: 150, height: 150, borderRadius: 2 }}
+                style={{ width: 250, height: 150, borderRadius: 2 }}
               />
             </View>
           </View>
