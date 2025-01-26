@@ -1,4 +1,4 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
+import Entypo from '@expo/vector-icons/Entypo';
 import { useRoute } from '@react-navigation/native';
 import { router } from 'expo-router';
 import { memo, useCallback } from 'react';
@@ -24,21 +24,13 @@ type ProjectListProps = {
 const renderHeader = () => (
   <View className="mb-3 items-center justify-center">
     <Button
-      endIcon={
-        <Ionicons
-          name="chevron-forward"
-          size={20}
-          color={colors.text_neutral}
-        />
-      }
-      customStyles="w-full justify-center space-x-2"
+      startIcon={<Entypo name="plus" size={23} color={colors.text_neutral} />}
+      customStyles="w-full justify-center space-x-1"
       onPress={() => {
-        router.push({
-          pathname: 'project-create',
-        });
+        router.push('project/create');
       }}
     >
-      Cadastrar Novo Projeto
+      Adicionar Projeto
     </Button>
   </View>
 );
