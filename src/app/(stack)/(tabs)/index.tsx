@@ -54,6 +54,13 @@ const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
     }
   }, [item.id, token]);
 
+  const handleInstitutionProfileClick = useCallback((item: IPost) => {
+    router.push({
+      pathname: 'institution',
+      params: { id: item.institution.account.id },
+    });
+  }, []);
+
   const timeString = timeAgo(item.updatedAt);
 
   return (
@@ -72,6 +79,7 @@ const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
       onPressUnlike={handleUnlike}
       onPressSave={handleSave}
       onPressUnSave={handleUnsave}
+      onPressInstitutionProfile={() => handleInstitutionProfileClick(item)}
     />
   );
 });
