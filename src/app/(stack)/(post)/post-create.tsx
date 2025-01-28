@@ -22,7 +22,7 @@ export default function PostCreate() {
   const auth = useAuth();
   const [media, setMedia] = useState(null);
   const [loading, setLoading] = useState(false);
-  const mediaTypes: MediaType[] = ['images', 'videos'];
+  const mediaTypes: MediaType[] = ['images'];
 
   const postCreateFormSchema = z.object({
     description: z
