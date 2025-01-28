@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { router, Link } from 'expo-router';
+import { router } from 'expo-router';
 import React, {
   Fragment,
   memo,
@@ -24,7 +24,11 @@ import Colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { useSearch } from 'src/hooks/useSearch';
 import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
-import { getInstitutions } from 'src/services/app-core';
+import {
+  followAccount,
+  getInstitutions,
+  unfollowAccount,
+} from 'src/services/app-core';
 import { IInstitution } from 'src/types';
 
 /**
@@ -82,6 +86,7 @@ function useInstitutions() {
 
   return {
     institutions,
+    setInstitutions,
     categories,
     loading,
     error,
@@ -95,36 +100,65 @@ function useInstitutions() {
  * 2. MODAL: Opções para cada instituição
  * ----------------------------------------------------------------
  */
-const InstitutionModalOptions = memo(() => {
-  return (
-    <View className="gap-y-7 px-6 py-8">
-      <View className="flex-row gap-x-2">
-        <Ionicons name="information-circle-outline" size={24} color="white" />
-        <Link href="#" className="font-reapp_medium text-base text-text_light">
-          Informações
-        </Link>
+const InstitutionModalOptions = memo(
+  ({
+    institution,
+    isFollowing,
+    handleFollow,
+    handleUnfollow,
+  }: {
+    institution: IInstitution | null;
+    isFollowing: boolean;
+    handleFollow: () => Promise<void>;
+    handleUnfollow: () => Promise<void>;
+  }) => {
+    return (
+      <View className="gap-y-7 px-6 py-8">
+        {/** Botão para informações */}
+        <TouchableOpacity
+          onPress={() =>
+            router.push({
+              pathname: 'institution',
+              params: { id: institution?.account.id },
+            })
+          }
+        >
+          <View className="flex-row gap-x-2">
+            <Ionicons
+              name="information-circle-outline"
+              size={24}
+              color="white"
+            />
+            <Text className="font-reapp_medium text-base text-text_light">
+              Informações
+            </Text>
+          </View>
+        </TouchableOpacity>
+
+        {/** Botão para seguir ou deixar de seguir */}
+        {isFollowing ? (
+          <TouchableOpacity onPress={handleUnfollow}>
+            <View className="flex-row gap-x-2">
+              <Ionicons name="close" size={24} color="white" />
+              <Text className="font-reapp_medium text-base text-text_light">
+                Remover dos seguidos
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity onPress={handleFollow}>
+            <View className="flex-row gap-x-2">
+              <Ionicons name="add" size={24} color="white" />
+              <Text className="font-reapp_medium text-base text-text_light">
+                Seguir
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
       </View>
-
-      <TouchableOpacity>
-        <View className="flex-row gap-x-2">
-          <Ionicons name="add" size={24} color="white" />
-          <Text className="font-reapp_medium text-base text-text_light">
-            Seguir
-          </Text>
-        </View>
-      </TouchableOpacity>
-
-      <TouchableOpacity>
-        <View className="flex-row gap-x-2">
-          <Ionicons name="close" size={24} color="white" />
-          <Text className="font-reapp_medium text-base text-text_light">
-            Remover dos seguidos
-          </Text>
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
-});
+    );
+  }
+);
 
 /**
  * ----------------------------------------------------------------
@@ -158,17 +192,22 @@ type RenderItemProps = {
   item: IInstitution;
   onOpen: (item: IInstitution) => void;
   onPressCard: (item: IInstitution) => void;
+  onPressFollow: (item: IInstitution) => void;
+  onPressUnfollow: (item: IInstitution) => void;
 };
 
 const RenderInstitutionCard = memo<RenderItemProps>(
-  ({ item, onOpen, onPressCard }) => {
+  ({ item, onOpen, onPressCard, onPressFollow, onPressUnfollow }) => {
     return (
       <ExploreScreenCard
         title={item.account.name}
         isInstitution
         imageUrl={item.account.media?.remoteUrl}
+        isFollowInitial={item.isFollowing || false}
         onPressInfo={() => onOpen(item)}
         onPressCard={() => onPressCard(item)}
+        onPressFollow={() => onPressFollow(item)}
+        onPressUnfollow={() => onPressUnfollow(item)}
       />
     );
   }
@@ -188,10 +227,20 @@ type InstitutionSectionListProps = {
   onPressCard: (item: IInstitution) => void;
   refreshing: boolean;
   onRefresh: () => void;
+  onPressFollow: (item: IInstitution) => void;
+  onPressUnfollow: (item: IInstitution) => void;
 };
 
 const InstitutionSectionList = memo<InstitutionSectionListProps>(
-  ({ sections, onOpen, onPressCard, refreshing, onRefresh }) => {
+  ({
+    sections,
+    onOpen,
+    onPressCard,
+    refreshing,
+    onRefresh,
+    onPressFollow,
+    onPressUnfollow,
+  }) => {
     return (
       <View className="px-4">
         <SectionList
@@ -218,6 +267,8 @@ const InstitutionSectionList = memo<InstitutionSectionListProps>(
                   item={institution}
                   onOpen={onOpen}
                   onPressCard={onPressCard}
+                  onPressFollow={onPressFollow}
+                  onPressUnfollow={onPressUnfollow}
                 />
               )}
               keyExtractor={(institution) => institution.id.toString()}
@@ -338,27 +389,78 @@ const InstitutionSearchList = memo<InstitutionSearchListProps>(
  */
 const InstitutionsPage = () => {
   // Hook que lida com dados e estado de carregamento/erro
-  const { institutions, categories, loading, error, refreshing, onRefresh } =
-    useInstitutions();
+  const {
+    institutions,
+    setInstitutions,
+    categories,
+    loading,
+    error,
+    refreshing,
+    onRefresh,
+  } = useInstitutions();
 
-  // Hook que controla se a busca está ativa e qual o texto da busca
+  const [selectedInstitution, setSelectedInstitution] =
+    useState<IInstitution | null>(null);
+  const [isFollowing, setIsFollowing] = useState(false);
   const { isSearchActive, searchQuery } = useSearch();
 
-  // Referência para o modal
   const modalizeRef = useRef<Modalize>(null);
 
-  // Ao clicar no "i" (ícone de info) do card:
   const onOpenModal = useCallback((item: IInstitution) => {
+    setSelectedInstitution(item);
+    setIsFollowing(item.isFollowing || false);
     modalizeRef.current?.open();
-    // se quiser armazenar `item` no estado para exibir detalhes no modal, pode fazê-lo aqui
   }, []);
 
-  // Ao clicar no card em si:
+  const { token } = useAuth();
+
   const handleCardClick = useCallback((item: IInstitution) => {
     router.push({ pathname: 'institution', params: { id: item.account.id } });
   }, []);
 
-  // Montar as seções para o SectionList
+  const handleFollow = useCallback(
+    async (institution: IInstitution) => {
+      try {
+        await followAccount({ id: institution.account.id, token });
+        setInstitutions((prevInstitutions) =>
+          prevInstitutions.map((inst) =>
+            inst.account.id === institution.account.id
+              ? { ...inst, isFollowing: true }
+              : inst
+          )
+        );
+        if (selectedInstitution?.account.id === institution.account.id) {
+          setIsFollowing(true);
+        }
+      } catch (error) {
+        console.error('Erro ao seguir a instituição:', error);
+      }
+    },
+    [token, setInstitutions, selectedInstitution]
+  );
+
+  const handleUnfollow = useCallback(
+    async (institution: IInstitution) => {
+      try {
+        await unfollowAccount({ id: institution.account.id, token });
+        setInstitutions((prevInstitutions) =>
+          prevInstitutions.map((inst) =>
+            inst.account.id === institution.account.id
+              ? { ...inst, isFollowing: false }
+              : inst
+          )
+        );
+        if (selectedInstitution?.account.id === institution.account.id) {
+          setIsFollowing(false);
+        }
+      } catch (error) {
+        console.error('Erro ao deixar de seguir a instituição:', error);
+        // Aqui você pode adicionar feedback ao usuário, como um Toast
+      }
+    },
+    [token, setInstitutions, selectedInstitution]
+  );
+
   const sections = useMemo(() => {
     return categories.map((category) => ({
       title: category.name,
@@ -370,12 +472,10 @@ const InstitutionsPage = () => {
     }));
   }, [categories, institutions]);
 
-  // Se estiver carregando e não tiver erro, exibimos placeholder (Skeleton)
   if (loading && !error) {
     return <InstitutionCardPlaceholder />;
   }
 
-  // Se houver erro, exibimos alguma mensagem ou um componente de erro
   if (!loading && error) {
     return (
       <View className="flex-1 items-center justify-center p-4">
@@ -390,7 +490,6 @@ const InstitutionsPage = () => {
     );
   }
 
-  // Se não houver instituições retornadas (ou estiver vazia)
   if (!loading && institutions.length === 0) {
     return (
       <View className="flex-1 items-center justify-center p-4">
@@ -406,12 +505,13 @@ const InstitutionsPage = () => {
 
   return (
     <>
-      {/** Se NÃO estiver em busca, mostra SectionList; caso contrário, mostra lista de busca */}
       {!isSearchActive ? (
         <InstitutionSectionList
           sections={sections}
           onOpen={onOpenModal}
           onPressCard={handleCardClick}
+          onPressFollow={handleFollow}
+          onPressUnfollow={handleUnfollow}
           refreshing={refreshing}
           onRefresh={onRefresh}
         />
@@ -423,15 +523,21 @@ const InstitutionsPage = () => {
         />
       )}
 
-      {/**
-       * MODAL que abre ao clicar no "i" do card
-       */}
       <Modalize
         ref={modalizeRef}
         adjustToContentHeight
         modalStyle={{ backgroundColor: Colors.text_primary }}
       >
-        <InstitutionModalOptions />
+        <InstitutionModalOptions
+          institution={selectedInstitution}
+          isFollowing={isFollowing}
+          handleFollow={() =>
+            selectedInstitution && handleFollow(selectedInstitution)
+          }
+          handleUnfollow={() =>
+            selectedInstitution && handleUnfollow(selectedInstitution)
+          }
+        />
       </Modalize>
     </>
   );
