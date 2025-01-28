@@ -24,7 +24,6 @@ const Page = () => {
       setComments([...comments]);
       setPage(page + 1);
     } catch (error) {
-      console.log(error);
       Alert.alert('Erro ao buscar os comentários da postagem', error.message);
     } finally {
       setLoading(false);
@@ -50,7 +49,7 @@ const Page = () => {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1 bg-white pt-6">
+    <SafeAreaView className="flex-1 bg-white pt-10">
       <View
         className="mb-2 flex h-12  flex-row items-center px-3"
         style={{ borderBottomColor: 'gray', borderBottomWidth: 1 }}
@@ -107,7 +106,10 @@ const Page = () => {
             className="ml-2 flex-1"
           />
           <Pressable onPress={() => sendComment()}>
-            <Text className="text-md font-bold text-green-700"> Comentar </Text>
+            <Text className="text-md font-reapp_bold text-green-700">
+              {' '}
+              Comentar{' '}
+            </Text>
           </Pressable>
         </View>
       </View>
