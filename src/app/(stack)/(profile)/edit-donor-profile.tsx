@@ -53,7 +53,7 @@ const EditProfileForm = () => {
     await requestGalleryPermission();
     const result = await launchImageLibraryAsync({
       mediaTypes,
-      allowsEditing: false,
+      allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
@@ -176,7 +176,6 @@ const EditProfileForm = () => {
 };
 
 const EditDonorProfile = () => {
-  // TODO: Fix when typing, the keyboard is covering the input field
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -184,7 +183,9 @@ const EditDonorProfile = () => {
     >
       <ScrollView>
         <View className=" items-center pt-4">
-          <Text className=" text-xl font-bold">Editar Perfil</Text>
+          <Text className="mb-4 text-center font-reapp_medium text-xl">
+            Editar Perfil
+          </Text>
         </View>
         <EditProfileForm />
       </ScrollView>
