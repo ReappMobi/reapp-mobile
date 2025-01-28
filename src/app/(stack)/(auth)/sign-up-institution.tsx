@@ -1,6 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Image } from 'expo-image';
 import {
   launchImageLibraryAsync,
   MediaType,
@@ -10,6 +9,7 @@ import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import {
+  Image,
   View,
   Text,
   KeyboardAvoidingView,
@@ -344,7 +344,7 @@ const SignUpForm: React.FC = () => {
     await requestGalleryPermission();
     const result = await launchImageLibraryAsync({
       mediaTypes,
-      allowsEditing: false,
+      allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
@@ -381,7 +381,22 @@ const SignUpForm: React.FC = () => {
         note: data.note || '',
       };
 
-      const res = await auth.signUp(signUpData, media);
+      let mediaToUpload = media;
+      if (!mediaToUpload) {
+        const defaultMediaSource = Image.resolveAssetSource(
+          require('src/assets/images/DefaultAvatar.png')
+        );
+        mediaToUpload = {
+          uri: defaultMediaSource.uri,
+          name: 'default-avatar.png',
+          type: 'image/png',
+          size: 0, // Tamanho pode ser ajustado conforme necessidade
+          width: defaultMediaSource.width,
+          height: defaultMediaSource.height,
+        };
+      }
+
+      const res = await auth.signUp(signUpData, mediaToUpload);
       if (res.error) {
         Alert.alert('Erro no cadastro da instituição', res.error);
       } else {
@@ -403,8 +418,13 @@ const SignUpForm: React.FC = () => {
         onPress={pickImage}
       >
         <Image
-          source={{ uri: media?.uri || '' }}
+          source={
+            media?.uri
+              ? { uri: media.uri }
+              : require('src/assets/images/DefaultAvatar.png')
+          }
           className="h-full w-full rounded-full"
+          resizeMode="cover"
         />
 
         <View className="absolute bottom-0 right-1 h-8 w-8 items-center justify-center rounded-full bg-text_primary">
@@ -531,7 +551,9 @@ const SignUpInstitution: React.FC = () => {
     >
       <ScrollView>
         <View className="items-center pt-4">
-          <Text className="text-xl font-bold">Cadastro de Instituição</Text>
+          <Text className="text-center font-reapp_medium text-xl">
+            Cadastro de Instituição
+          </Text>
         </View>
 
         <SignUpForm />
