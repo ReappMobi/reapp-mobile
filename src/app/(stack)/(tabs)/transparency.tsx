@@ -1,3 +1,4 @@
+/*
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 import React, { useEffect, useState } from 'react';
@@ -143,3 +144,4 @@ const Page = () => {
 };
 
 export default Page;
+*/
