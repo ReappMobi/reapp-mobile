@@ -102,6 +102,7 @@ const TabLayout = () => {
             />
           )}
 
+          {/*
           <Tabs.Screen
             name="transparency"
             options={{
@@ -111,6 +112,7 @@ const TabLayout = () => {
               ),
             }}
           />
+          */}
 
           {isDonor ? (
             <Tabs.Screen
