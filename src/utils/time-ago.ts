@@ -2,8 +2,9 @@ export const timeAgo = (dateString: string): string => {
   const date = new Date(dateString);
 
   const now = new Date();
-  const differenceInMinutes = Math.floor(
-    (now.getTime() - date.getTime()) / 60000
+  const differenceInMinutes = Math.max(
+    0,
+    Math.floor((now.getTime() - date.getTime()) / 60000)
   );
 
   if (differenceInMinutes <= 1) {

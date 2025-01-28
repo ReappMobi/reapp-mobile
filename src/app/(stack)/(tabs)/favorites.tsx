@@ -1,6 +1,6 @@
 import { router, useNavigation } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, FlatList, RefreshControl } from 'react-native';
+import { View, FlatList, RefreshControl, Text } from 'react-native';
 import { CardInstitutionProject } from 'src/components';
 import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
@@ -17,11 +17,16 @@ const Page = () => {
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
 
-    const token = await auth.getToken();
-    const res = await getFavoritesProjects(auth.user.id, token);
-    setFavoritesProjects(res);
-    setRefreshing(false);
-  }, []);
+    try {
+      const token = await auth.getToken();
+      const res = await getFavoritesProjects(auth.user.id, token);
+      setFavoritesProjects(res);
+    } catch (error) {
+      console.error('Erro ao atualizar projetos favoritos:', error);
+    } finally {
+      setRefreshing(false);
+    }
+  }, [auth]);
 
   useEffect(() => {
     (async () => {
@@ -34,31 +39,49 @@ const Page = () => {
           color: colors.color_primary,
         },
       });
-      const token = await auth.getToken();
-      const res = await getFavoritesProjects(auth.user.id, token);
-      setFavoritesProjects(res);
+      try {
+        const token = await auth.getToken();
+        const res = await getFavoritesProjects(auth.user.id, token);
+        setFavoritesProjects(res);
+      } catch (error) {
+        console.error('Erro ao buscar projetos favoritos:', error);
+      }
     })();
-  }, []);
+  }, [navigation, auth]);
 
-  const handleFavoriteClick = useCallback(async (item: IProject) => {
-    try {
-      const token = await auth.getToken();
-      await toggleFavoriteProject({
-        projectId: item.id,
-        token,
-      });
+  const handleFavoriteClick = useCallback(
+    async (item: IProject) => {
+      try {
+        const token = await auth.getToken();
+        await toggleFavoriteProject({
+          projectId: item.id,
+          token,
+        });
 
-      setFavoritesProjects((prevFavoriteProjects) => {
-        return prevFavoriteProjects.filter((project) => project.id !== item.id);
-      });
-    } catch (error) {
-      console.error('Error toggling favorite project:', error);
-    }
-  }, []);
+        setFavoritesProjects((prevFavoriteProjects) => {
+          return prevFavoriteProjects.filter(
+            (project) => project.id !== item.id
+          );
+        });
+      } catch (error) {
+        console.error('Erro ao alternar favorito do projeto:', error);
+      }
+    },
+    [auth]
+  );
+
+  // Componente para exibir quando a lista estiver vazia
+  const EmptyListMessage = () => (
+    <View className="flex-1 items-center justify-center p-4">
+      <Text className="text-center text-lg text-gray-500">
+        Você ainda não tem nenhum projeto favoritado.
+      </Text>
+    </View>
+  );
 
   return (
     <FlatList
-      className="gap-y-4"
+      className="flex-1 gap-y-4"
       data={favoritesProjects}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
@@ -82,6 +105,8 @@ const Page = () => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
+      ListEmptyComponent={EmptyListMessage}
+      contentContainerStyle={{ flexGrow: 1 }}
     />
   );
 };

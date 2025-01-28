@@ -7,8 +7,8 @@ import {
 import { ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, withLayoutContext } from 'expo-router';
-import React, { memo, useEffect, useMemo, useState } from 'react';
-import { View, Text } from 'react-native';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { View, Text, Linking, Alert } from 'react-native';
 import { ScreenContainer, LoadingBox, Button } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import {
@@ -69,6 +69,30 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
       console.error('Erro ao deixar de seguir a instituição:', error);
     }
   };
+
+  const handleVolunteerPress = useCallback(() => {
+    const phoneNumber = institution.phone;
+
+    const cleanedNumber = phoneNumber.replace(/\D/g, '');
+
+    const url = `https://wa.me/${cleanedNumber}`;
+
+    Linking.canOpenURL(url)
+      .then((supported) => {
+        if (supported) {
+          Linking.openURL(url);
+        } else {
+          Alert.alert(
+            'Erro',
+            'Não foi possível abrir o WhatsApp. Certifique-se de que o aplicativo está instalado.'
+          );
+        }
+      })
+      .catch((err) => {
+        console.error('Erro ao tentar abrir o WhatsApp:', err);
+        Alert.alert('Erro', 'Ocorreu um erro ao tentar abrir o WhatsApp.');
+      });
+  }, [institution.phone]);
 
   return (
     <View>
@@ -145,6 +169,7 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
                   customStyles="flex-1 items-center justify-start space-x-1"
                   size="small"
                   textSize="text-sm"
+                  onPress={handleVolunteerPress} // Adicionado
                 >
                   Quero ser voluntário
                 </Button>

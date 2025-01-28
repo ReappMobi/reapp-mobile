@@ -11,7 +11,9 @@ import { timeAgo } from 'src/utils/time-ago';
 
 const renderDonorDonations = (donation: Donation) => {
   const destination =
-    donation.project?.name || donation.institution?.account.name;
+    donation.project?.name ||
+    donation.institution?.account.name ||
+    'instituições associadas';
 
   const media =
     donation.project?.media.remoteUrl ||
@@ -62,7 +64,8 @@ const MyDonationsPage = () => {
     setLoading(true);
     try {
       let donations = [];
-      if (isDonor) donations = await getDonationsByDonor(page, user.id, token);
+      if (isDonor)
+        donations = await getDonationsByDonor(page, user.donor.id, token);
       else donations = await getInstitutionDonations(page, token);
       setDonations([...donations]);
       setPage(page + 1);

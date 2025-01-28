@@ -19,6 +19,7 @@ type ExploreScreenCardProps = {
   isInstitution?: boolean;
   onPressFavorite?: () => void;
   onPressFollow?: () => void;
+  onPressUnfollow?: () => void;
   onPressInfo?: () => void;
   onPressCard?: () => void;
 };
@@ -34,6 +35,7 @@ const ExploreScreenCard = ({
   isInstitution,
   onPressFavorite,
   onPressFollow,
+  onPressUnfollow,
   onPressInfo,
   onPressCard,
 }: ExploreScreenCardProps) => {
@@ -50,6 +52,11 @@ const ExploreScreenCard = ({
   const handleFollowPress = () => {
     setIsFollow(!isFollow);
     onPressFollow && onPressFollow();
+  };
+
+  const handleUnfollowPress = () => {
+    setIsFollow(!isFollow);
+    onPressUnfollow && onPressUnfollow();
   };
 
   let cardHeight: string;
@@ -96,7 +103,9 @@ const ExploreScreenCard = ({
 
         {isInstitution && isDonor && (
           <View className="flex-row items-center justify-between">
-            <TouchableOpacity onPress={handleFollowPress}>
+            <TouchableOpacity
+              onPress={isFollow ? handleUnfollowPress : handleFollowPress}
+            >
               <Ionicons
                 name={isFollow ? 'close' : 'add'}
                 size={27}

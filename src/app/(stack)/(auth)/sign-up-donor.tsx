@@ -7,7 +7,6 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 */
-import { Image } from 'expo-image';
 import {
   launchImageLibraryAsync,
   MediaType,
@@ -17,6 +16,7 @@ import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import {
+  Image,
   View,
   Text,
   KeyboardAvoidingView,
@@ -239,7 +239,7 @@ const SignUpForm: React.FC = () => {
     await requestGalleryPermission();
     const result = await launchImageLibraryAsync({
       mediaTypes,
-      allowsEditing: false,
+      allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
@@ -268,16 +268,32 @@ const SignUpForm: React.FC = () => {
         name: data.name,
         password: data.password,
         confirmPassword: data.confirmPassword,
-        phone: data.phone.replace(/\D/g, ''), // remove máscaras
+        phone: data.phone.replace(/\D/g, ''),
         email: data.email,
         note: data.note || '',
       };
 
-      const res = await auth.signUp(signUpData, media);
+      // Cria objeto de mídia padrão se nenhuma imagem for selecionada
+      let mediaToUpload = media;
+      if (!mediaToUpload) {
+        const defaultMediaSource = Image.resolveAssetSource(
+          require('src/assets/images/DefaultAvatar.png')
+        );
+        mediaToUpload = {
+          uri: defaultMediaSource.uri,
+          name: 'default-avatar.png',
+          type: 'image/png',
+          size: 0, // Tamanho pode ser ajustado conforme necessidade
+          width: defaultMediaSource.width,
+          height: defaultMediaSource.height,
+        };
+      }
+
+      const res = await auth.signUp(signUpData, mediaToUpload);
       if (res.error) {
         Alert.alert('Erro no cadastro do doador', res.error);
       } else {
-        Alert.alert('Doador cadastrada com sucesso!');
+        Alert.alert('Doador cadastrado com sucesso!');
         router.replace('/sign-in');
       }
     } catch (error: any) {
@@ -295,8 +311,13 @@ const SignUpForm: React.FC = () => {
         onPress={pickImage}
       >
         <Image
-          source={{ uri: media?.uri || '' }}
+          source={
+            media?.uri
+              ? { uri: media.uri }
+              : require('src/assets/images/DefaultAvatar.png')
+          }
           className="h-full w-full rounded-full"
+          resizeMode="cover"
         />
 
         <View className="absolute bottom-0 right-1 h-8 w-8 items-center justify-center rounded-full bg-text_primary">
@@ -450,6 +471,7 @@ const SignUp: React.FC = () => {
       setGoogleLoading(false);
     }
       */
+    Alert.alert('O cadastro com o Google esta indisponível no momento.');
   };
 
   return (
@@ -459,7 +481,9 @@ const SignUp: React.FC = () => {
     >
       <ScrollView>
         <View className="items-center pt-4">
-          <Text className="mb-4 text-xl font-bold">Cadastro de Doador</Text>
+          <Text className="mb-4 text-center font-reapp_medium text-xl">
+            Cadastro de Doador
+          </Text>
           <View className="flex-row justify-center gap-2">
             <View className="items-center">
               <Button

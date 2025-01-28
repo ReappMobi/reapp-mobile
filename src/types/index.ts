@@ -13,6 +13,8 @@ export type AccountType = {
   updatedAt: Date;
   note?: string;
   media?: IMedia;
+  donor?: { id: number };
+  institution?: { id: number };
 };
 
 export type SignInData = {
