@@ -13,7 +13,7 @@ type InputProps = {
   customStyle?: string;
   multiline?: boolean;
   numberOfLines?: number;
-};
+} & React.ComponentProps<typeof TextInput>;
 
 const Input = React.forwardRef<TextInput, InputProps>(
   (
@@ -27,11 +27,13 @@ const Input = React.forwardRef<TextInput, InputProps>(
       customStyle,
       multiline,
       numberOfLines,
+      ...rest
     },
     ref
   ) => {
     return (
       <TextInput
+        {...rest}
         ref={ref} // Pass the ref to the TextInput component
         className={`border-1 min-h-14 w-full rounded border border-text_secondary 
                   bg-input_background px-2 py-4 font-reapp_regular 

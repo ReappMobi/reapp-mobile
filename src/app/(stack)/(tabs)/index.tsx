@@ -1,4 +1,3 @@
-import { parseISO } from 'date-fns';
 import { router } from 'expo-router';
 import React, { useCallback, memo } from 'react';
 import {
@@ -20,6 +19,7 @@ import {
   unsavePost,
 } from 'src/services/app-core';
 import { IPost } from 'src/types';
+import { timeAgo } from 'src/utils/time-ago';
 
 type PostItemProps = {
   item: IPost;
@@ -84,44 +84,6 @@ const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
   );
 });
 
-function timeAgo(dateString: string): string {
-  const date = parseISO(dateString);
-
-  const now = new Date();
-  const differenceInMinutes = Math.floor(
-    (now.getTime() - date.getTime()) / 60000
-  );
-
-  if (differenceInMinutes <= 1) {
-    return `${differenceInMinutes} minuto atrás`;
-  }
-
-  if (differenceInMinutes < 60) {
-    return `${differenceInMinutes} minutos atrás`;
-  }
-
-  const differenceInHours = Math.floor(differenceInMinutes / 60);
-  if (differenceInHours < 24) {
-    return `${differenceInHours} horas atrás`;
-  }
-
-  const differenceInDays = Math.floor(differenceInHours / 24);
-  if (differenceInDays < 30) {
-    if (differenceInDays === 1) {
-      return `${differenceInDays} dia atrás`;
-    }
-    return `${differenceInDays} dias atrás`;
-  }
-
-  const differenceInMonths = Math.floor(differenceInDays / 30);
-  if (differenceInMonths < 12) {
-    return `${differenceInMonths} meses atrás`;
-  }
-
-  const differenceInYears = Math.floor(differenceInMonths / 12);
-  return `${differenceInYears} anos atrás`;
-}
-
 function PostList() {
   const { user, token } = useAuth();
   const { posts, loading, error, refreshing, onRefresh } = usePosts();
@@ -148,21 +110,24 @@ function PostList() {
     );
   }
 
-  const renderItem: ListRenderItem<IPost> = ({ item }) =>
-    posts.length > 0 ? (
-      <PostItem item={item} token={token} userId={user?.id} />
-    ) : (
+  if (posts.length === 0) {
+    return (
       <View className="flex-1 items-center justify-center p-4">
         <Text className="font-reapp_medium text-base">
           Nenhum post encontrado.
         </Text>
       </View>
     );
+  }
+
+  const renderItem: ListRenderItem<IPost> = ({ item }) => (
+    <PostItem item={item} token={token} userId={user?.id} />
+  );
 
   return (
     <FlatList
       className="flex-1"
-      //ListHeaderComponent={<Carousel banners={banners} />}
+      ListHeaderComponent={null}
       data={posts}
       renderItem={renderItem}
       keyExtractor={(item) => item.id.toString()}
