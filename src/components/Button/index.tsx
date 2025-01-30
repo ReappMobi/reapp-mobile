@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Pressable } from 'react-native';
+import { Text, Pressable, View, useWindowDimensions } from 'react-native';
 
 import { shadowStyle, sizeStyles, variantStyles } from './styles';
 
@@ -28,26 +28,40 @@ export default function Button({
   onPress,
   disabled = false,
 }: ButtonProps) {
+  const { width } = useWindowDimensions();
+
+  const dynamicTextSize = width < 350 ? 'text-xs' : textSize || 'text-base';
+  const dynamicIconSize = width < 350 ? 16 : 20;
+
   return (
     <Pressable
       style={[
         variant === 'contained' && shadowStyle,
-        disabled && { opacity: 0.5 }, // Adiciona opacidade quando desabilitado
+        disabled && { opacity: 0.5 },
       ]}
       className={`${variantStyles.default} 
         ${variantStyles[variant]} 
         ${sizeStyles[size]} 
-        ${customStyles}`}
-      onPress={disabled ? undefined : onPress} // Previne interação quando desativado
-      disabled={disabled} // Desabilita o botão nativamente
+        ${customStyles} 
+        flex-row items-center justify-center`}
+      onPress={disabled ? undefined : onPress}
+      disabled={disabled}
     >
-      {startIcon}
+      {startIcon && (
+        <View className="mr-2">
+          {React.cloneElement(startIcon as React.ReactElement, {
+            size: dynamicIconSize,
+          })}
+        </View>
+      )}
       <Text
-        className={`font-reapp_medium ${textSize || 'text-base'} ${textColor}`}
+        className={`font-reapp_medium ${dynamicTextSize} ${textColor} flex-shrink`}
+        numberOfLines={2}
+        adjustsFontSizeToFit
       >
         {children}
       </Text>
-      {endIcon}
+      {endIcon && <View className="ml-2">{endIcon}</View>}
     </Pressable>
   );
 }
