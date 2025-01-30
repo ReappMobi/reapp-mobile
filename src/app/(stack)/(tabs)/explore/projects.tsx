@@ -13,15 +13,9 @@ import {
   FlatList,
   ScrollView,
   SectionList,
-  TouchableOpacity,
   RefreshControl,
 } from 'react-native';
-import {
-  ExploreScreenCard,
-  CardSearch,
-  LoadingBox,
-  Carousel,
-} from 'src/components';
+import { ExploreScreenCard, CardSearch, LoadingBox } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { useSearch } from 'src/hooks/useSearch';
 import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
@@ -51,15 +45,12 @@ function useProjects() {
     try {
       setLoading(true);
       setError(null);
-      // 1) Buscar banners
       const banners = await getSharedCampaigns();
       setBanners(banners);
 
-      // 2) Buscar projetos
       const token = await auth.getToken();
       const projectsData = await getProjects(token);
 
-      // 3) Extraindo categorias únicas
       const uniqueCategories = Array.from(
         new Map(
           projectsData.map((proj: IProject) => [
@@ -143,9 +134,7 @@ type RenderCardSearchProps = {
 const RenderCardSearch = memo<RenderCardSearchProps>(
   ({ item, searchPhrase, onPressCard }) => {
     const matchSearch = useMemo(() => {
-      // Se não há busca, retorna true (mostra todos)
       if (!searchPhrase) return true;
-      // Faz a comparação de strings sem espaços e sem diferenças de maiúsc./minúsc.
       const normalized = (str: string) =>
         str.toUpperCase().trim().replace(/\s/g, '');
       return normalized(item.name).includes(normalized(searchPhrase));
@@ -182,7 +171,6 @@ const RenderItem = memo<RenderItemProps>(
         title={item.name}
         imageUrl={item.media?.remoteUrl}
         onPressCard={() => onPressCard(item)}
-        // Apenas se for doador, mostramos o botão de "favoritar"
         onPressFavorite={isDonor ? () => onPressFavorite(item) : undefined}
         isFavoritedInitial={isDonor ? item.isFavorite : undefined}
       />
@@ -195,6 +183,7 @@ const RenderItem = memo<RenderItemProps>(
  * 5. CAROUSEL do topo (banners)
  * --------------------------------------------------------------
  */
+/*
 const RenderCarousel = memo(({ banners }: { banners: IBanner[] }) => {
   return (
     <View className="pb-4">
@@ -202,6 +191,7 @@ const RenderCarousel = memo(({ banners }: { banners: IBanner[] }) => {
     </View>
   );
 });
+/*
 
 /**
  * --------------------------------------------------------------
@@ -230,7 +220,6 @@ const ProjectsSectionList = memo<ProjectsSectionListProps>(
     refreshing,
     onRefresh,
   }) => {
-    // Montar dados para SectionList
     const data = useMemo(() => {
       return categories.map((category) => ({
         category,
@@ -250,7 +239,6 @@ const ProjectsSectionList = memo<ProjectsSectionListProps>(
               title="Recarregando..." // iOS
             />
           }
-          ListHeaderComponent={<RenderCarousel banners={banners} />}
           sections={data}
           renderSectionHeader={({ section: { category, data } }) => (
             <Text className="mb-2 font-reapp_medium text-base">
@@ -303,8 +291,6 @@ type ProjectsSearchListProps = {
 
 const ProjectsSearchList = memo<ProjectsSearchListProps>(
   ({ projects, searchQuery, onPressCard }) => {
-    // Se não encontrar nenhum resultado, mostramos um "Nenhum resultado"
-    // ou simplesmente uma lista vazia.
     const filteredProjects = useMemo(() => {
       if (!searchQuery) return projects;
       const norm = (str: string) => str.toUpperCase().trim().replace(/\s/g, '');
@@ -346,7 +332,6 @@ const ProjectsSearchList = memo<ProjectsSearchListProps>(
  * --------------------------------------------------------------
  */
 const ProjectsPage = () => {
-  // 1) Hooks e estados no topo
   const {
     projects,
     categories,
@@ -359,7 +344,6 @@ const ProjectsPage = () => {
   const auth = useAuth();
   const { isSearchActive, searchQuery } = useSearch();
 
-  // 2) Handlers
   const handleCardClick = useCallback((item: IProject) => {
     router.push({ pathname: 'project', params: { projectId: item.id } });
   }, []);
@@ -376,7 +360,6 @@ const ProjectsPage = () => {
     [auth]
   );
 
-  // 3) Tratamento de loading e erro
   if (loading && !error) {
     return <ProjectCardPlaceholder />;
   }
@@ -388,19 +371,10 @@ const ProjectsPage = () => {
           Ocorreu um erro!
         </Text>
         <Text>{error.message}</Text>
-        {/* Botão para tentar novamente, se quiser criar um onRefresh */}
-        <TouchableOpacity
-          onPress={() => {
-            /* re-fetch logic se quiser */
-          }}
-        >
-          <Text className="mt-4 text-blue-500">Tentar novamente</Text>
-        </TouchableOpacity>
       </View>
     );
   }
 
-  // 4) Caso não tenha projetos
   if (!loading && projects.length === 0) {
     return (
       <View className="flex-1 items-center justify-center p-4">
@@ -411,7 +385,6 @@ const ProjectsPage = () => {
     );
   }
 
-  // 5) Exibir lista normal ou lista de busca
   return !isSearchActive ? (
     <ProjectsSectionList
       banners={banners}
