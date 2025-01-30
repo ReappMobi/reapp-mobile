@@ -1,7 +1,7 @@
 {
   "expo": {
     "newArchEnabled": true,
-    "name": "reapp",
+    "name": "Reapp",
     "slug": "reapp",
     "scheme": "reapp",
     "version": "1.0.0",
@@ -9,11 +9,13 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/splash1.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.coperativadigital.reaap",
@@ -56,6 +58,14 @@
           "photosPermission": "Allow Reapp to access your photos."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "e24449cc-1409-49b2-b658-e0e24666d5a9"
+      }
+    }
   }
 }
