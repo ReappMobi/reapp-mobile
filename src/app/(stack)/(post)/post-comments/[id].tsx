@@ -58,7 +58,7 @@ const Page = () => {
           <MaterialIcons name="chevron-left" size={28} color="#646464" />
         </Pressable>
 
-        <Text className="mt-1 flex-1 text-center font-reapp_medium text-lg text-slate-700">
+        <Text className="mt-1 flex-1 pr-5 text-center font-reapp_medium text-lg text-slate-700">
           Comentários
         </Text>
       </View>
@@ -97,7 +97,7 @@ const Page = () => {
             refreshing={loading}
           />
         )}
-        <View className="flex-row items-center border-t  border-gray-400 px-2 pb-2">
+        <View className="h-14 flex-row items-center  border-t border-gray-400 px-2">
           <Octicons name="paper-airplane" size={22} color="#646464" />
           <TextInput
             placeholder="Adicionar um novo comentário"
