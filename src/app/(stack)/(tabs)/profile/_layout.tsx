@@ -167,11 +167,13 @@ const Layout = () => {
             options={{ title: 'Projetos' }}
             initialParams={{ id: institution.id }}
           />
+          {/* 
           <MaterialTopTabs.Screen
             name="transparency"
             options={{ title: 'Transparência' }}
             initialParams={{ id: institution.id }}
           />
+          */}
           <MaterialTopTabs.Screen
             name="contacts"
             options={{ title: 'Contatos' }}
