@@ -116,7 +116,7 @@ export default function PostCreate() {
           <MaterialIcons name="close" size={28} color="#646464" />
         </Pressable>
 
-        <Text className="mt-1 flex-1 text-center font-reapp_medium text-lg text-slate-700">
+        <Text className="mt-1 flex-1 pr-5 text-center font-reapp_medium text-lg text-slate-700">
           Nova Postagem
         </Text>
       </View>
