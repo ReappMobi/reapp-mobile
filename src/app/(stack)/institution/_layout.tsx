@@ -73,25 +73,17 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
   const handleVolunteerPress = useCallback(() => {
     const phoneNumber = institution.phone;
 
-    const cleanedNumber = phoneNumber.replace(/\D/g, '');
+    const message =
+      'Olá, estou vindo pelo Reapp e tenho interesse em ser voluntário!';
 
-    const url = `https://wa.me/${cleanedNumber}`;
+    const whatsappUrl = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
 
-    Linking.canOpenURL(url)
-      .then((supported) => {
-        if (supported) {
-          Linking.openURL(url);
-        } else {
-          Alert.alert(
-            'Erro',
-            'Não foi possível abrir o WhatsApp. Certifique-se de que o aplicativo está instalado.'
-          );
-        }
-      })
-      .catch((err) => {
-        console.error('Erro ao tentar abrir o WhatsApp:', err);
-        Alert.alert('Erro', 'Ocorreu um erro ao tentar abrir o WhatsApp.');
-      });
+    Linking.openURL(whatsappUrl).catch(() => {
+      Alert.alert(
+        'Atenção',
+        'Não foi possível abrir o WhatsApp. Verifique se ele está instalado no dispositivo.'
+      );
+    });
   }, [institution.phone]);
 
   return (
@@ -169,7 +161,7 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
                   customStyles="flex-1 items-center justify-start space-x-1"
                   size="small"
                   textSize="text-sm"
-                  onPress={handleVolunteerPress} // Adicionado
+                  onPress={handleVolunteerPress}
                 >
                   Quero ser voluntário
                 </Button>
@@ -236,6 +228,7 @@ const Layout = () => {
           idNumber,
           token
         );
+        console.log(fetchedInstitution);
         setInstitution(fetchedInstitution);
       } catch (err) {
         console.error('Erro ao buscar a instituição:', err);
@@ -298,11 +291,13 @@ const Layout = () => {
           options={{ title: 'Projetos' }}
           initialParams={{ id: institution.id }}
         />
+        {/* 
         <MaterialTopTabs.Screen
           name="transparency"
           options={{ title: 'Transparência' }}
           initialParams={{ id: institution.id }}
         />
+        */}
         <MaterialTopTabs.Screen
           name="contacts"
           options={{ title: 'Contatos' }}
