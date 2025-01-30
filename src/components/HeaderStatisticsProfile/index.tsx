@@ -66,12 +66,14 @@ function HeaderStatisticsProfile({
       </Pressable>
       <View className="my-4">
         <View className="flex flex-col justify-between gap-y-3">
+          {/* 
           {!isDonor && (
             <Text className="font-reapp_regular text-sm text-white">
               <Text className="font-reapp_bold text-sm">{donationsQty} </Text>
               Doações
             </Text>
           )}
+          */}
           {!isDonor && (
             <>
               <Text className="font-reapp_regular text-sm text-white">

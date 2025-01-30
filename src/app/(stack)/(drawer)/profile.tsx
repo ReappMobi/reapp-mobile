@@ -15,7 +15,6 @@ const DrawerContent = () => {
         <HeaderStatisticsProfile
           image={user?.media?.remoteUrl}
           name={user?.name}
-          donationsQty={0}
           followingQty={user.followingCount}
           followersQty={user.followersCount}
           note={user.note || ''}

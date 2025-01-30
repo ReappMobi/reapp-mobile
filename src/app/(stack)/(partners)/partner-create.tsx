@@ -137,13 +137,38 @@ const PartnerCreateForm: React.FC = () => {
     setLoading(true);
 
     try {
+      let mediaToUpload = media;
+      if (!mediaToUpload) {
+        const imageUri =
+          'https://drive.google.com/uc?id=1HH1UMVe2sSSW4bnNREHJpcVCRGWo589e';
+
+        const { width, height } = await new Promise<{
+          width: number;
+          height: number;
+        }>((resolve, reject) => {
+          Image.getSize(
+            imageUri,
+            (width, height) => resolve({ width, height }),
+            (error) => reject(error)
+          );
+        });
+
+        mediaToUpload = {
+          uri: imageUri,
+          name: 'default-avatar.png',
+          type: 'image/png',
+          size: 0,
+          width,
+          height,
+        };
+      }
       const createPartnerData: {
         name: string;
         media: RequestMediaExtended;
         memberType: string;
       } = {
         name: data.name,
-        media,
+        media: mediaToUpload,
         memberType: 'PARTNER',
       };
 
@@ -169,7 +194,11 @@ const PartnerCreateForm: React.FC = () => {
         onPress={pickImage}
       >
         <Image
-          source={{ uri: media?.uri || '' }}
+          source={{
+            uri:
+              media?.uri ||
+              'https://drive.google.com/uc?id=1HH1UMVe2sSSW4bnNREHJpcVCRGWo589e',
+          }}
           className="h-full w-full rounded-md"
         />
 

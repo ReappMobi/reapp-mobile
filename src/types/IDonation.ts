@@ -1,6 +1,7 @@
 import { IDonor } from 'src/mocks/user-data';
 
 import { IInstitution } from './IInstitution';
+import { IMedia } from './IMedia';
 import { IProject } from './IProject';
 
 enum DonationStatus {
@@ -24,5 +25,5 @@ export interface Donation {
   donorId: number;
   institution?: IInstitution;
   project?: IProject;
-  donor: IDonor & { account: { name: string; media: string } };
+  donor: IDonor & { account: { name: string; media: IMedia } };
 }

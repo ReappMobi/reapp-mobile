@@ -1,12 +1,9 @@
-import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, router } from 'expo-router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { View, Text, Alert, ActivityIndicator } from 'react-native';
 import { Button, Input } from 'src/components';
-import config from 'src/config';
-import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { z } from 'zod';
 
@@ -18,22 +15,6 @@ const signInFormSchema = z.object({
 });
 
 type signInFormData = z.infer<typeof signInFormSchema>;
-
-let GoogleSignin = {
-  configure: (_: any) => {},
-};
-let statusCodes = null;
-
-if (config.ENV !== 'development') {
-  GoogleSignin = require('@react-native-google-signin/google-signin');
-  statusCodes =
-    require('@react-native-google-signin/google-signin').statusCodes;
-}
-
-GoogleSignin.configure({
-  webClientId:
-    '831403833609-voubrli7i5ei1qqr4pmu3sgpq7k9b3mc.apps.googleusercontent.com',
-});
 
 export default function SignIn() {
   const auth = useAuth();
@@ -62,9 +43,7 @@ export default function SignIn() {
     setLoading(true);
     try {
       await auth.signIn(data);
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
+      setLoading(false);
       router.replace('/');
     } catch (error) {
       Alert.alert('Erro no login', error.message);
@@ -72,7 +51,7 @@ export default function SignIn() {
       setLoading(false);
     }
   };
-
+  /*
   const onSubmitGoogle = async () => {
     try {
       await GoogleSignin.hasPlayServices();
@@ -110,16 +89,11 @@ export default function SignIn() {
       }
     }
   };
-
-  const isErrorWithCode = (error: any) => {
-    if (error.code) {
-      return true;
-    }
-    return false;
-  };
+  */
 
   return (
     <View className="gap-3 px-4">
+      {/* 
       <View className="flex-row justify-center gap-2">
         <View className="items-center">
           <Button
@@ -141,9 +115,9 @@ export default function SignIn() {
       <Text className="text-center font-reapp_regular text-xs">
         Ou entre com seu email e senha
       </Text>
-
+      */}
       <View>
-        <Text className="font-reapp_regular text-base">Email</Text>
+        <Text className="py-4 font-reapp_regular text-base">Email</Text>
         <Input
           placeholder="Digite seu email"
           inputMode="email"

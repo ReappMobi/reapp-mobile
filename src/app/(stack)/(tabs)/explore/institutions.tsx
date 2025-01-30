@@ -52,7 +52,6 @@ function useInstitutions() {
       const token = await auth.getToken();
       const institutionsData = await getInstitutions({ token });
 
-      // Extraindo categorias únicas
       const uniqueCategories = Array.from(
         new Map(
           institutionsData.map((inst: IInstitution) => [
@@ -100,6 +99,7 @@ function useInstitutions() {
  * 2. MODAL: Opções para cada instituição
  * ----------------------------------------------------------------
  */
+
 const InstitutionModalOptions = memo(
   ({
     institution,
@@ -112,9 +112,44 @@ const InstitutionModalOptions = memo(
     handleFollow: () => Promise<void>;
     handleUnfollow: () => Promise<void>;
   }) => {
+    const [isFollowingLocal, setIsFollowingLocal] = useState(isFollowing);
+    const [isProcessing, setIsProcessing] = useState(false);
+
+    useEffect(() => {
+      setIsFollowingLocal(isFollowing);
+    }, [isFollowing]);
+
+    const handleFollowInternal = async () => {
+      if (isProcessing) return;
+      setIsProcessing(true);
+      try {
+        setIsFollowingLocal(true);
+        await handleFollow();
+      } catch (error) {
+        console.log(error);
+        setIsFollowingLocal(false);
+      } finally {
+        setIsProcessing(false);
+      }
+    };
+
+    const handleUnfollowInternal = async () => {
+      if (isProcessing) return;
+      setIsProcessing(true);
+      try {
+        setIsFollowingLocal(false);
+        await handleUnfollow();
+      } catch (error) {
+        console.log(error);
+        setIsFollowingLocal(true);
+      } finally {
+        setIsProcessing(false);
+      }
+    };
+
     return (
       <View className="gap-y-7 px-6 py-8">
-        {/** Botão para informações */}
+        {/* Botão de informações... */}
         <TouchableOpacity
           onPress={() =>
             router.push({
@@ -134,10 +169,8 @@ const InstitutionModalOptions = memo(
             </Text>
           </View>
         </TouchableOpacity>
-
-        {/** Botão para seguir ou deixar de seguir */}
-        {isFollowing ? (
-          <TouchableOpacity onPress={handleUnfollow}>
+        {isFollowingLocal ? (
+          <TouchableOpacity onPress={handleUnfollowInternal}>
             <View className="flex-row gap-x-2">
               <Ionicons name="close" size={24} color="white" />
               <Text className="font-reapp_medium text-base text-text_light">
@@ -146,7 +179,7 @@ const InstitutionModalOptions = memo(
             </View>
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity onPress={handleFollow}>
+          <TouchableOpacity onPress={handleFollowInternal}>
             <View className="flex-row gap-x-2">
               <Ionicons name="add" size={24} color="white" />
               <Text className="font-reapp_medium text-base text-text_light">
@@ -343,7 +376,6 @@ type InstitutionSearchListProps = {
 
 const InstitutionSearchList = memo<InstitutionSearchListProps>(
   ({ institutions, searchPhrase, onPressCard }) => {
-    // Exemplo de filtrar e exibir “nenhum resultado encontrado”
     const filtered = useMemo(() => {
       if (!searchPhrase) return institutions;
       return institutions.filter((inst) =>
@@ -388,7 +420,6 @@ const InstitutionSearchList = memo<InstitutionSearchListProps>(
  * ----------------------------------------------------------------
  */
 const InstitutionsPage = () => {
-  // Hook que lida com dados e estado de carregamento/erro
   const {
     institutions,
     setInstitutions,
@@ -401,7 +432,7 @@ const InstitutionsPage = () => {
 
   const [selectedInstitution, setSelectedInstitution] =
     useState<IInstitution | null>(null);
-  const [isFollowing, setIsFollowing] = useState(false);
+  const [, setIsFollowing] = useState(false);
   const { isSearchActive, searchQuery } = useSearch();
 
   const modalizeRef = useRef<Modalize>(null);
@@ -422,43 +453,56 @@ const InstitutionsPage = () => {
     async (institution: IInstitution) => {
       try {
         await followAccount({ id: institution.account.id, token });
-        setInstitutions((prevInstitutions) =>
-          prevInstitutions.map((inst) =>
+        setInstitutions((prevInstitutions) => {
+          const updatedInstitutions = prevInstitutions.map((inst) =>
             inst.account.id === institution.account.id
               ? { ...inst, isFollowing: true }
               : inst
-          )
-        );
-        if (selectedInstitution?.account.id === institution.account.id) {
-          setIsFollowing(true);
-        }
+          );
+
+          if (selectedInstitution?.account.id === institution.account.id) {
+            const updatedInst = updatedInstitutions.find(
+              (inst) => inst.account.id === institution.account.id
+            );
+            setSelectedInstitution(updatedInst);
+          }
+
+          return updatedInstitutions;
+        });
       } catch (error) {
-        console.error('Erro ao seguir a instituição:', error);
+        console.error('Erro ao seguir:', error);
+        throw error;
       }
     },
-    [token, setInstitutions, selectedInstitution]
+    [token, selectedInstitution]
   );
 
   const handleUnfollow = useCallback(
     async (institution: IInstitution) => {
       try {
         await unfollowAccount({ id: institution.account.id, token });
-        setInstitutions((prevInstitutions) =>
-          prevInstitutions.map((inst) =>
+        setInstitutions((prevInstitutions) => {
+          const updatedInstitutions = prevInstitutions.map((inst) =>
             inst.account.id === institution.account.id
               ? { ...inst, isFollowing: false }
               : inst
-          )
-        );
-        if (selectedInstitution?.account.id === institution.account.id) {
-          setIsFollowing(false);
-        }
+          );
+
+          if (selectedInstitution?.account.id === institution.account.id) {
+            const updatedInst = updatedInstitutions.find(
+              (inst) => inst.account.id === institution.account.id
+            );
+            setSelectedInstitution(updatedInst);
+          }
+
+          return updatedInstitutions;
+        });
       } catch (error) {
-        console.error('Erro ao deixar de seguir a instituição:', error);
-        // Aqui você pode adicionar feedback ao usuário, como um Toast
+        console.error('Erro ao deixar de seguir:', error);
+        throw error;
       }
     },
-    [token, setInstitutions, selectedInstitution]
+    [token, selectedInstitution]
   );
 
   const sections = useMemo(() => {
@@ -530,13 +574,19 @@ const InstitutionsPage = () => {
       >
         <InstitutionModalOptions
           institution={selectedInstitution}
-          isFollowing={isFollowing}
-          handleFollow={() =>
-            selectedInstitution && handleFollow(selectedInstitution)
-          }
-          handleUnfollow={() =>
-            selectedInstitution && handleUnfollow(selectedInstitution)
-          }
+          isFollowing={selectedInstitution?.isFollowing ?? false}
+          handleFollow={() => {
+            if (selectedInstitution) {
+              return handleFollow(selectedInstitution);
+            }
+            return Promise.resolve();
+          }}
+          handleUnfollow={() => {
+            if (selectedInstitution) {
+              return handleUnfollow(selectedInstitution);
+            }
+            return Promise.resolve();
+          }}
         />
       </Modalize>
     </>

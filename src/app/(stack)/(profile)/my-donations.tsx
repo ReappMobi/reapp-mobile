@@ -1,5 +1,12 @@
-import { useEffect, useState } from 'react';
-import { View, Text, FlatList, Alert } from 'react-native';
+import { useEffect, useState, useCallback } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  Alert,
+  RefreshControl,
+  ActivityIndicator,
+} from 'react-native';
 import { DonationInformationItem } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import {
@@ -10,6 +17,7 @@ import { Donation } from 'src/types/IDonation';
 import { timeAgo } from 'src/utils/time-ago';
 
 const renderDonorDonations = (donation: Donation) => {
+  console.log(donation);
   const destination =
     donation.project?.name ||
     donation.institution?.account.name ||
@@ -37,7 +45,7 @@ const renderDonorDonations = (donation: Donation) => {
 
 const renderInstitutionDonations = (donation: Donation) => {
   const origin = donation.donor.account.name;
-  const media = donation.donor.account.media;
+  const media = donation.donor.account.media.remoteUrl;
   const destination = donation.project?.name || 'sua instituição';
   const formatedAmount = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
@@ -57,34 +65,83 @@ const renderInstitutionDonations = (donation: Donation) => {
 const MyDonationsPage = () => {
   const { user, token, isDonor } = useAuth();
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [donations, setDonations] = useState<Donation[]>([]);
   const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
-  const fetchDonations = async () => {
-    setLoading(true);
+  const fetchDonations = async (isRefresh = false) => {
+    if (isRefresh) {
+      setRefreshing(true);
+      setPage(1);
+    } else {
+      setLoading(true);
+    }
+
     try {
-      let donations = [];
-      if (isDonor)
-        donations = await getDonationsByDonor(page, user.donor.id, token);
-      else donations = await getInstitutionDonations(page, token);
-      setDonations([...donations]);
-      setPage(page + 1);
-    } catch (error) {
-      Alert.alert('Erro', error.message);
+      let fetchedDonations: Donation[] = [];
+      if (isDonor) {
+        fetchedDonations = await getDonationsByDonor(
+          user.donor.id,
+          isRefresh ? 1 : page,
+          token
+        );
+      } else {
+        fetchedDonations = await getInstitutionDonations(
+          isRefresh ? 1 : page,
+          token
+        );
+      }
+
+      if (isRefresh) {
+        setDonations(fetchedDonations);
+      } else {
+        setDonations((prevDonations) => [
+          ...prevDonations,
+          ...fetchedDonations,
+        ]);
+      }
+
+      if (fetchedDonations.length === 0) {
+        setHasMore(false);
+      } else {
+        setPage((prevPage) => prevPage + 1);
+      }
+    } catch (error: any) {
+      Alert.alert(
+        'Erro',
+        error.message || 'Ocorreu um erro ao carregar as doações.'
+      );
     } finally {
-      setLoading(false);
+      if (isRefresh) {
+        setRefreshing(false);
+      } else {
+        setLoading(false);
+      }
     }
   };
 
   useEffect(() => {
     fetchDonations();
-    setLoading(false);
   }, []);
 
-  return loading ? (
-    <Text>Carregando...</Text>
+  const handleRefresh = useCallback(() => {
+    setHasMore(true);
+    fetchDonations(true);
+  }, []);
+
+  const handleEndReached = () => {
+    if (!loading && hasMore && !refreshing) {
+      fetchDonations();
+    }
+  };
+
+  return loading && donations.length === 0 ? (
+    <View className="flex-1 items-center justify-center">
+      <ActivityIndicator size="large" color="#0000ff" />
+    </View>
   ) : (
-    <View className="px-4 pb-6">
+    <View className="flex-1 px-4 pb-6">
       <Text className="my-2 text-center font-reapp_medium text-xl text-text_primary">
         Minhas doações
       </Text>
@@ -98,12 +155,30 @@ const MyDonationsPage = () => {
 
       <FlatList
         data={donations}
-        onEndReached={() => fetchDonations()}
-        renderItem={({ item }) => {
-          return isDonor
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) =>
+          isDonor
             ? renderDonorDonations(item)
-            : renderInstitutionDonations(item);
-        }}
+            : renderInstitutionDonations(item)
+        }
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.5}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            colors={['#ff0000']} // Android
+            tintColor="#0000ff" // iOS
+            title="Recarregando..." // iOS
+          />
+        }
+        ListFooterComponent={
+          loading && donations.length > 0 ? (
+            <View className="py-4">
+              <ActivityIndicator size="small" color="#0000ff" />
+            </View>
+          ) : null
+        }
       />
     </View>
   );

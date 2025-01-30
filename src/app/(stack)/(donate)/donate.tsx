@@ -7,7 +7,7 @@ const DonationPage = () => {
   const { institutionId, projectId, phone } = useLocalSearchParams();
 
   const handleInsumosDonation = () => {
-    const phoneNumber = phone ? phone : '98982821387';
+    const phoneNumber = phone ? phone : '98986071896';
 
     const message =
       'Olá, estou vindo pelo Reapp e gostaria de realizar uma doação de insumos!';

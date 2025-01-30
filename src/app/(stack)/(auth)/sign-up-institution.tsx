@@ -135,6 +135,7 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
               placeholder={placeholder}
               secureTextEntry={secureTextEntry}
               className="flex-1"
+              autoCapitalize="none"
             />
           )}
         />
@@ -383,16 +384,27 @@ const SignUpForm: React.FC = () => {
 
       let mediaToUpload = media;
       if (!mediaToUpload) {
-        const defaultMediaSource = Image.resolveAssetSource(
-          require('src/assets/images/DefaultAvatar.png')
-        );
+        const imageUri =
+          'https://drive.google.com/uc?id=1HH1UMVe2sSSW4bnNREHJpcVCRGWo589e';
+
+        const { width, height } = await new Promise<{
+          width: number;
+          height: number;
+        }>((resolve, reject) => {
+          Image.getSize(
+            imageUri,
+            (width, height) => resolve({ width, height }),
+            (error) => reject(error)
+          );
+        });
+
         mediaToUpload = {
-          uri: defaultMediaSource.uri,
+          uri: imageUri,
           name: 'default-avatar.png',
           type: 'image/png',
-          size: 0, // Tamanho pode ser ajustado conforme necessidade
-          width: defaultMediaSource.width,
-          height: defaultMediaSource.height,
+          size: 0,
+          width,
+          height,
         };
       }
 
@@ -421,7 +433,9 @@ const SignUpForm: React.FC = () => {
           source={
             media?.uri
               ? { uri: media.uri }
-              : require('src/assets/images/DefaultAvatar.png')
+              : {
+                  uri: 'https://drive.google.com/uc?id=1HH1UMVe2sSSW4bnNREHJpcVCRGWo589e',
+                }
           }
           className="h-full w-full rounded-full"
           resizeMode="cover"
