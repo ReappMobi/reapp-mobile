@@ -4,7 +4,7 @@
     "name": "Reapp",
     "slug": "reapp",
     "scheme": "reapp",
-    "version": "1.0.0",
+    "version": "0.1.0-alpha",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -47,15 +47,15 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow Reapp to access your camera",
-          "microphonePermission": "Allow Reapp to access your microphone",
+          "cameraPermission": "Permitir que Reapp acesse a câmera",
+          "microphonePermission": "Permitir que Reapp acesse o microfone",
           "recordAudioAndroid": true
         }
       ],
       [
         "expo-image-picker",
         {
-          "photosPermission": "Allow Reapp to access your photos."
+          "photosPermission": "Permitir que Reapp acesse suas fotos",
         }
       ]
     ],
