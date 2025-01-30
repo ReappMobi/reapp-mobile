@@ -1,15 +1,21 @@
 import { createContext, useState } from 'react';
-import { getProjectsCategories } from 'src/services/project';
+import { ApiResponseError } from 'src/errors/ApiResponseError';
+import { getProjectsCategories, createProject } from 'src/services/project';
+import { IProject } from 'src/types';
+import { ApiErrorResponse } from 'src/types/IApiResponseError';
 import { Category } from 'src/types/ICategory';
 
 interface ProjectContextData {
   getProjects(): Promise<void>;
-  createProject(data: any): Promise<void>;
+  saveProject(
+    token: string,
+    data: any
+  ): Promise<[IProject, Error | ApiResponseError]>;
   updateProject(data: any): Promise<void>;
   deleteProject(id: string): Promise<void>;
   getProjectCategories(query: string): Promise<Category[]>;
   setCurrentCategory(category: Category): void;
-  error: Error | null;
+  error: ApiErrorResponse | Error | null;
   category: Category | null;
   loading: boolean;
 }
@@ -20,19 +26,15 @@ export const ProjectContext = createContext<ProjectContextData>(
 
 export function ProjectProvider({ children }) {
   const [category, setCategory] = useState<Category | null>(null);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<ApiErrorResponse | Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
   const getProjects = async () => {};
-  const createProject = async (data: any) => {
+  const saveProject = async (token: string, project: any) => {
     setLoading(true);
-    try {
-      // await createProject(data);
-    } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
+    const response = await createProject(token, project);
+    setLoading(false);
+    return response;
   };
 
   const updateProject = async (data: any) => {};
@@ -52,7 +54,7 @@ export function ProjectProvider({ children }) {
     <ProjectContext.Provider
       value={{
         getProjects,
-        createProject,
+        saveProject,
         updateProject,
         deleteProject,
         getProjectCategories,
