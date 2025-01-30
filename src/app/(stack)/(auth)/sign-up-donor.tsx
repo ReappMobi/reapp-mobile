@@ -29,7 +29,6 @@ import {
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import { Button } from 'src/components';
-import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { RequestMedia } from 'src/services/account';
 import { SignUpData } from 'src/types';
@@ -48,7 +47,7 @@ const MIN_PASSWORD_LEN = 8;
 const MAX_PASSWORD_LEN = 25;
 
 const INVALID_EMAIL_MESSAGE = 'O email deve ser válido.';
-const PHONE_REGEX = /^\(\d{2}\)\s*\d{5}-\d{4}$/; // (99) 99999-9999
+const PHONE_REGEX = /^\(\d{2}\)\s*\d{5}-\d{4}$/;
 
 const schema = z
   .object({
@@ -131,6 +130,7 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
               placeholder={placeholder}
               secureTextEntry={secureTextEntry}
               className="flex-1"
+              autoCapitalize="none"
             />
           )}
         />
@@ -273,19 +273,29 @@ const SignUpForm: React.FC = () => {
         note: data.note || '',
       };
 
-      // Cria objeto de mídia padrão se nenhuma imagem for selecionada
       let mediaToUpload = media;
       if (!mediaToUpload) {
-        const defaultMediaSource = Image.resolveAssetSource(
-          require('src/assets/images/DefaultAvatar.png')
-        );
+        const imageUri =
+          'https://drive.google.com/uc?id=1HH1UMVe2sSSW4bnNREHJpcVCRGWo589e';
+
+        const { width, height } = await new Promise<{
+          width: number;
+          height: number;
+        }>((resolve, reject) => {
+          Image.getSize(
+            imageUri,
+            (width, height) => resolve({ width, height }),
+            (error) => reject(error)
+          );
+        });
+
         mediaToUpload = {
-          uri: defaultMediaSource.uri,
+          uri: imageUri,
           name: 'default-avatar.png',
           type: 'image/png',
-          size: 0, // Tamanho pode ser ajustado conforme necessidade
-          width: defaultMediaSource.width,
-          height: defaultMediaSource.height,
+          size: 0,
+          width,
+          height,
         };
       }
 
@@ -314,7 +324,9 @@ const SignUpForm: React.FC = () => {
           source={
             media?.uri
               ? { uri: media.uri }
-              : require('src/assets/images/DefaultAvatar.png')
+              : {
+                  uri: 'https://drive.google.com/uc?id=1HH1UMVe2sSSW4bnNREHJpcVCRGWo589e',
+                }
           }
           className="h-full w-full rounded-full"
           resizeMode="cover"
@@ -419,7 +431,7 @@ const SignUpForm: React.FC = () => {
 // -------------------------
 
 const SignUp: React.FC = () => {
-  const [googleLoading] = useState<boolean>(false);
+  //const [googleLoading] = useState<boolean>(false);
   //const auth = useAuth();
 
   /*
@@ -431,8 +443,9 @@ const SignUp: React.FC = () => {
   }, [auth]);
 
   */
+  /*
   const onSubmitGoogle = async () => {
-    /*
+    
     try {
       setGoogleLoading(true);
       await GoogleSignin.hasPlayServices();
@@ -470,9 +483,10 @@ const SignUp: React.FC = () => {
     finally{
       setGoogleLoading(false);
     }
-      */
+      
     Alert.alert('O cadastro com o Google esta indisponível no momento.');
   };
+  */
 
   return (
     <KeyboardAvoidingView
@@ -484,6 +498,7 @@ const SignUp: React.FC = () => {
           <Text className="mb-4 text-center font-reapp_medium text-xl">
             Cadastro de Doador
           </Text>
+          {/* 
           <View className="flex-row justify-center gap-2">
             <View className="items-center">
               <Button
@@ -509,6 +524,7 @@ const SignUp: React.FC = () => {
           <Text className="mt-4 text-center font-reapp_regular text-xs">
             Ou cadastre-se com seu email
           </Text>
+          */}
         </View>
 
         <SignUpForm />
