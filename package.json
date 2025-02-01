@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.26.0",
+    "@expo-google-fonts/roboto": "^0.2.3",
     "@hookform/resolvers": "^3.3.4",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-google-signin/google-signin": "^13.1.0",
@@ -28,6 +29,7 @@
     "expo-av": "~15.0.1",
     "expo-camera": "~16.0.10",
     "expo-constants": "~17.0.3",
+    "expo-font": "~13.0.3",
     "expo-image": "~2.0.3",
     "expo-image-picker": "~16.0.3",
     "expo-linking": "~7.0.3",
@@ -55,8 +57,7 @@
     "react-native-screens": "~4.4.0",
     "react-native-svg": "15.8.0",
     "react-native-tab-view": "^3.5.2",
-    "zod": "^3.23.4",
-    "expo-font": "~13.0.3"
+    "zod": "^3.23.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
