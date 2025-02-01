@@ -5,18 +5,10 @@ import { useForm } from 'react-hook-form';
 import { View, Text, Alert, ActivityIndicator } from 'react-native';
 import { Button, Input } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
-import { z } from 'zod';
-
-const signInFormSchema = z.object({
-  email: z
-    .string({ required_error: 'O email é obrigatório.' })
-    .email('Email inválido.'),
-  password: z
-    .string({ required_error: 'A senha é obrigatória.' })
-    .min(8, { message: 'A senha deve ter no mínimo 8 caracteres.' }),
-});
-
-type signInFormData = z.infer<typeof signInFormSchema>;
+import {
+  signInFormData,
+  signInFormSchema,
+} from 'src/schemas/auth/sign-in.schema';
 
 export default function SignIn() {
   const auth = useAuth();
