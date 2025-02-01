@@ -55,14 +55,15 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Permitir que Reapp acesse suas fotos",
+          "photosPermission": "Permitir que Reapp acesse suas fotos"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "extra": {
       "router": {
         "origin": false
-      },
+      }
     }
   }
 }
