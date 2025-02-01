@@ -1,5 +1,6 @@
 import { Stack } from 'expo-router';
 import { headerDefault } from 'src/constants/header';
+import { headerTitleStyleSmall } from 'src/constants/styles';
 
 const Layout = () => (
   <Stack
@@ -13,7 +14,7 @@ const Layout = () => (
       options={{
         headerTitle: 'Editar perfil',
         ...headerDefault,
-        headerTitleStyle: { fontSize: 18, fontFamily: 'reapp_medium' },
+        headerTitleStyle: headerTitleStyleSmall,
       }}
     />
     <Stack.Screen
@@ -21,7 +22,7 @@ const Layout = () => (
       options={{
         headerTitle: 'Editar perfil',
         ...headerDefault,
-        headerTitleStyle: { fontSize: 18, fontFamily: 'reapp_medium' },
+        headerTitleStyle: headerTitleStyleSmall,
       }}
     />
     <Stack.Screen
@@ -29,7 +30,7 @@ const Layout = () => (
       options={{
         headerTitle: 'Minhas doações',
         ...headerDefault,
-        headerTitleStyle: { fontSize: 18, fontFamily: 'reapp_medium' },
+        headerTitleStyle: headerTitleStyleSmall,
       }}
     />
     <Stack.Screen
@@ -37,7 +38,7 @@ const Layout = () => (
       options={{
         headerTitle: 'Publicações salvas',
         ...headerDefault,
-        headerTitleStyle: { fontSize: 18, fontFamily: 'reapp_medium' },
+        headerTitleStyle: headerTitleStyleSmall,
       }}
     />
   </Stack>
