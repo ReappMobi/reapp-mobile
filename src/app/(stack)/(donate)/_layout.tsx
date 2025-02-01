@@ -1,20 +1,30 @@
 import { Stack } from 'expo-router';
-import colors from 'src/constants/colors';
+import { headerDefault } from 'src/constants/header';
+import { headerTitleStyleSmall } from 'src/constants/styles';
 
 const Layout = () => (
   <Stack
     screenOptions={{
       title: 'REAPP',
-      headerBackTitleVisible: false,
-      headerBackVisible: false,
-      headerTintColor: colors.color_primary,
-      headerShadowVisible: false,
-      headerTitleStyle: {
-        fontSize: 24,
-        fontFamily: 'reapp_bold',
-      },
+      ...headerDefault,
     }}
-  />
+  >
+    <Stack.Screen
+      name="donate"
+      options={{
+        headerTitle: 'Doar',
+        headerTitleStyle: headerTitleStyleSmall,
+      }}
+    />
+
+    <Stack.Screen
+      name="donation-method"
+      options={{
+        headerTitle: 'Doação pontual',
+        headerTitleStyle: headerTitleStyleSmall,
+      }}
+    />
+  </Stack>
 );
 
 export default Layout;
