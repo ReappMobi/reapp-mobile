@@ -115,6 +115,7 @@ export default function SignIn() {
         <Input
           placeholder="Digite seu email"
           inputMode="email"
+          autoFocus
           onChangeText={(text) =>
             setValue('email', text, { shouldValidate: true })
           }
