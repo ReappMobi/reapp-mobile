@@ -11,7 +11,6 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   View,
-  Text,
   KeyboardAvoidingView,
   Alert,
   Pressable,
@@ -173,11 +172,6 @@ const Page: React.FC = () => {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <View className=" items-center pt-4">
-        <Text className="mb-4 text-center font-reapp_medium text-xl">
-          Editar Perfil
-        </Text>
-      </View>
       <EditProfileForm />
     </KeyboardAvoidingView>
   );

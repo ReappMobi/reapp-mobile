@@ -176,9 +176,6 @@ function PostList() {
 const SavedPage = () => {
   return (
     <View className="flex-1 px-2 pb-12">
-      <Text className="my-2 text-center font-reapp_medium text-xl text-text_primary">
-        Postagens salvas
-      </Text>
       <PostList />
     </View>
   );

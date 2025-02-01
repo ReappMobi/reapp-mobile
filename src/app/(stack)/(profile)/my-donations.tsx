@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { DonationInformationItem } from 'src/components';
+import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import {
   getDonationsByDonor,
@@ -17,7 +18,6 @@ import { Donation } from 'src/types/IDonation';
 import { timeAgo } from 'src/utils/time-ago';
 
 const renderDonorDonations = (donation: Donation) => {
-  console.log(donation);
   const destination =
     donation.project?.name ||
     donation.institution?.account.name ||
@@ -81,6 +81,8 @@ const MyDonationsPage = () => {
     try {
       let fetchedDonations: Donation[] = [];
       if (isDonor) {
+        console.log(user);
+
         fetchedDonations = await getDonationsByDonor(
           user.donor.id,
           isRefresh ? 1 : page,
@@ -138,15 +140,12 @@ const MyDonationsPage = () => {
 
   return loading && donations.length === 0 ? (
     <View className="flex-1 items-center justify-center">
-      <ActivityIndicator size="large" color="#0000ff" />
+      <ActivityIndicator size="large" color={colors.color_primary} />
     </View>
   ) : (
-    <View className="flex-1 px-4 pb-6">
-      <Text className="my-2 text-center font-reapp_medium text-xl text-text_primary">
-        Minhas doações
-      </Text>
+    <View className="flex-1 items-center justify-center px-4 pb-6">
       {donations.length === 0 && (
-        <Text className="mt-6 text-center">
+        <Text className="mt-6 text-center font-reapp_medium">
           {isDonor
             ? 'Você ainda não fez nenhuma doação'
             : 'Você ainda não recebeu nenhuma doação'}

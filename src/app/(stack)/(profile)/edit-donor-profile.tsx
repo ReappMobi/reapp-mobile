@@ -11,7 +11,6 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import {
   View,
-  Text,
   KeyboardAvoidingView,
   Alert,
   Pressable,
@@ -53,9 +52,8 @@ const EditProfileForm = () => {
     await requestGalleryPermission();
     const result = await launchImageLibraryAsync({
       mediaTypes,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      allowsEditing: false,
+      quality: 0.5,
     });
 
     if (!result.canceled) {
@@ -160,7 +158,7 @@ const EditProfileForm = () => {
       />
 
       <Button
-        customStyles="mt-4 w-full justify-center bg-color_primary"
+        customStyles="mt-4 w-full justify-center bg-color_primary py-3"
         textColor="text-text_light"
         onPress={handleSubmit(onSubmit)}
         disabled={loading}
@@ -182,11 +180,6 @@ const EditDonorProfile = () => {
       className="flex-1"
     >
       <ScrollView>
-        <View className=" items-center pt-4">
-          <Text className="mb-4 text-center font-reapp_medium text-xl">
-            Editar Perfil
-          </Text>
-        </View>
         <EditProfileForm />
       </ScrollView>
     </KeyboardAvoidingView>
