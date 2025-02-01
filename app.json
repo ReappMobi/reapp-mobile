@@ -4,7 +4,7 @@
     "name": "Reapp",
     "slug": "reapp",
     "scheme": "reapp",
-    "version": "1.1.0-alpha",
+    "version": "1.2.6-alpha",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
