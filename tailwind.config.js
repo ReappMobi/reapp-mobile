@@ -23,11 +23,13 @@ module.exports = {
         text_white: '#ffffff',
         input_background: '#f4f5f2',
       },
-
       fontFamily: {
+        reapp_thin: ['reapp_thin', 'sans-serif'],
+        reapp_ligth: ['reapp_ligth', 'sans-serif'],
         reapp_regular: ['reapp_regular', 'sans-serif'],
-        reapp_medium: ['reapp_medium', 'sans-serif'],
+        reapp_regium: ['reapp_medium', 'sans-serif'],
         reapp_bold: ['reapp_bold', 'sans-serif'],
+        reapp_black: ['reapp_black', 'sans-serif'],
       },
     },
   },
