@@ -174,8 +174,8 @@ export default function SignIn() {
         </Button>
       </View>
 
-      <Text className="text-center font-reapp_regular text-base">
-        Não possui conta?
+      <View className="flex-row items-center justify-center gap-x-1">
+        <Text className="text-base">Não possui conta?</Text>
         <Link
           href="/profile-selector"
           push
@@ -183,7 +183,7 @@ export default function SignIn() {
         >
           Cadastre-se
         </Link>
-      </Text>
+      </View>
     </View>
   );
 }
