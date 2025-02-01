@@ -4,7 +4,7 @@
     "name": "Reapp",
     "slug": "reapp",
     "scheme": "reapp",
-    "version": "0.1.0-alpha",
+    "version": "1.1.0-alpha",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -63,9 +63,6 @@
       "router": {
         "origin": false
       },
-      "eas": {
-        "projectId": "e24449cc-1409-49b2-b658-e0e24666d5a9"
-      }
     }
   }
 }
