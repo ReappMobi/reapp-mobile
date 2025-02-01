@@ -116,8 +116,8 @@ export default function SignIn() {
         Ou entre com seu email e senha
       </Text>
       */}
-      <View>
-        <Text className="py-4 font-reapp_regular text-base">Email</Text>
+      <View className="pt-6">
+        <Text className="font-reapp_regular text-base">Email</Text>
         <Input
           placeholder="Digite seu email"
           inputMode="email"
