@@ -27,6 +27,10 @@ const TabLayout = () => {
             tabBarShowLabel: false,
             tabBarActiveTintColor: colors.color_primary,
             tabBarInactiveTintColor: colors.text_dark,
+            tabBarStyle: {
+              borderTopWidth: 1,
+              paddingTop: 4,
+            },
           }}
         >
           <Tabs.Screen
@@ -36,7 +40,7 @@ const TabLayout = () => {
               headerTitleStyle: {
                 fontFamily: 'reapp_bold',
                 color: colors.color_primary,
-                fontSize: 24,
+                fontSize: 20,
               },
               headerRight: () =>
                 !isDonor ? (
