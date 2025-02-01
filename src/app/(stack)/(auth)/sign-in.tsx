@@ -117,7 +117,7 @@ export default function SignIn() {
       </Text>
       */}
       <View className="pt-6">
-        <Text className="font-reapp_regular text-base">Email</Text>
+        <Text className="text-base">Email</Text>
         <Input
           placeholder="Digite seu email"
           inputMode="email"
@@ -128,14 +128,14 @@ export default function SignIn() {
           {...register('email')}
         />
         {errors.email && (
-          <Text className="my-1 font-reapp_regular text-xs text-color_redsh">
+          <Text className="my-1 text-xs font-semibold text-color_redsh">
             {errors.email.message}
           </Text>
         )}
       </View>
 
       <View>
-        <Text className="font-reapp_regular text-base">Senha</Text>
+        <Text className="text-base">Senha</Text>
         <Input
           placeholder="Digite sua senha"
           secureTextEntry
@@ -146,7 +146,7 @@ export default function SignIn() {
           value={watch('password')}
         />
         {errors.password && (
-          <Text className="my-1 font-reapp_regular text-xs text-color_redsh">
+          <Text className="my-1 text-xs font-semibold text-color_redsh">
             {errors.password.message}
           </Text>
         )}
