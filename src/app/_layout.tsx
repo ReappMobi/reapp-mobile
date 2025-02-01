@@ -22,10 +22,10 @@ export default function RootLayout() {
   const fonts = {
     reapp_thin: Roboto_100Thin,
     reapp_ligth: Roboto_300Light,
-    repp_regular: Roboto_400Regular,
-    repp_medium: Roboto_500Medium,
-    repp_bold: Roboto_700Bold,
-    repp_black: Roboto_900Black,
+    reapp_regular: Roboto_400Regular,
+    reapp_medium: Roboto_500Medium,
+    reapp_bold: Roboto_700Bold,
+    reapp_black: Roboto_900Black,
   };
 
   const [fontsLoaded, fontError] = useFonts(fonts);
@@ -42,7 +42,7 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
       <AuthProvider>
         <Drawer
           drawerContent={DrawerContent}
