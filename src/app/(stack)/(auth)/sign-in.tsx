@@ -169,8 +169,10 @@ export default function SignIn() {
         </Button>
       </View>
 
-      <View className="flex-row items-center justify-center gap-x-1">
-        <Text className="text-base">Não possui conta?</Text>
+      <View className="flex-row justify-center gap-2">
+        <Text className="text-center font-reapp_regular text-base">
+          Não possui conta?
+        </Text>
         <Link
           href="/profile-selector"
           push
