@@ -16,6 +16,9 @@ export const timeAgo = (dateString: string): string => {
   }
 
   const differenceInHours = Math.floor(differenceInMinutes / 60);
+  if (differenceInHours === 1) {
+    return `${differenceInHours} hora atrás`;
+  }
   if (differenceInHours < 24) {
     return `${differenceInHours} horas atrás`;
   }
