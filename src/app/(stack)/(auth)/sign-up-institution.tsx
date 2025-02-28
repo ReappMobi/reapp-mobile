@@ -412,7 +412,10 @@ const SignUpForm: React.FC = () => {
       if (res.error) {
         Alert.alert('Erro no cadastro da instituição', res.error);
       } else {
-        Alert.alert('Instituição cadastrada com sucesso!');
+        Alert.alert(
+          'Solicitação de cadastro efetuada!',
+          'Sua solicitação foi enviada com sucesso e será analisada em até 5 dias úteis. Você receberá um email com o resultado final. \n\nObrigado(a)!!'
+        );
         router.replace('/sign-in');
       }
     } catch (error: any) {
