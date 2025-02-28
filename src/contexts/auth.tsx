@@ -141,7 +141,7 @@ export function AuthProvider({ children }) {
         signOut,
         signUp,
         donnorSignUpGoogle,
-        getToken, // TODO: remove this, no need anymore
+        getToken,
         saveUserAndToken,
       }}
     >
