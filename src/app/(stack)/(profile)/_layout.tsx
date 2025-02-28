@@ -34,6 +34,30 @@ const Layout = () => (
       }}
     />
     <Stack.Screen
+      name="my-donations-institution"
+      options={{
+        headerTitle: 'Doações para instituição',
+        ...headerDefault,
+        headerTitleStyle: headerTitleStyleSmall,
+      }}
+    />
+    <Stack.Screen
+      name="my-donations-institution-general"
+      options={{
+        headerTitle: 'Doações Gerais',
+        ...headerDefault,
+        headerTitleStyle: headerTitleStyleSmall,
+      }}
+    />
+    <Stack.Screen
+      name="my-donations-institution-project"
+      options={{
+        headerTitle: 'Doações para Projetos',
+        ...headerDefault,
+        headerTitleStyle: headerTitleStyleSmall,
+      }}
+    />
+    <Stack.Screen
       name="saved"
       options={{
         headerTitle: 'Publicações salvas',
