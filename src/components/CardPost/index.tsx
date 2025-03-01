@@ -79,9 +79,9 @@ function CardPost({
     <View className="w-full bg-white p-4">
       <Pressable onPress={onPressInstitutionProfile}>
         <View className="mb-2.5 flex-row items-center gap-x-2">
-          <View className="h-8 w-8 items-center justify-center">
+          <View className="h-10 w-10 items-center justify-center">
             <Image
-              className="h-full w-full"
+              className="h-full w-full rounded-full"
               source={{ uri: userImageUrl }}
               placeholder={{ blurhash: userImageBlurhash }}
               contentFit="cover"

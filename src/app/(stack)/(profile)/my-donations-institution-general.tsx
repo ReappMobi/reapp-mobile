@@ -7,14 +7,14 @@ import {
   Alert,
   RefreshControl,
   ActivityIndicator,
-  TouchableOpacity,
   ScrollView,
+  TouchableOpacity,
   StyleSheet,
 } from 'react-native';
 import { DonationInformationItem } from 'src/components';
 import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
-import { getDonationsByDonor } from 'src/services/donations';
+import { getGeneralDonations } from 'src/services/donations';
 import { Donation } from 'src/types/IDonation';
 import { timeAgo } from 'src/utils/time-ago';
 
@@ -28,25 +28,18 @@ const PERIODS = [
   { id: 'all', label: 'Todos' },
 ];
 
-const renderDonorDonations = (donation: Donation) => {
-  const destination =
-    donation.project?.name ||
-    donation.institution?.account.name ||
-    'instituições associadas';
-
-  const media =
-    donation.project?.media.remoteUrl ||
-    donation.institution?.account.media.remoteUrl;
-
+const renderInstitutionDonations = (donation: Donation) => {
+  const origin = donation.donor.account.name;
+  const media = donation.donor.account.media.remoteUrl;
   const formatedAmount = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
   }).format(+donation.amount);
 
-  const message = `Você doou ${formatedAmount} para ${destination}`;
-
+  const message = `${origin} doou ${formatedAmount} para o Fundo Reapp`;
   return (
     <DonationInformationItem
+      key={donation.id}
       title={message}
       subtitle={`Há ${timeAgo(donation.createdAt)}`}
       image={media}
@@ -54,8 +47,8 @@ const renderDonorDonations = (donation: Donation) => {
   );
 };
 
-const MyDonationsPage = () => {
-  const { user, token } = useAuth();
+const MyDonationsInstitutionGeneralPage = () => {
+  const { token } = useAuth();
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [data, setData] = useState<{
@@ -74,13 +67,7 @@ const MyDonationsPage = () => {
     const targetPage = isRefresh ? 1 : page;
 
     try {
-      const result = await getDonationsByDonor(
-        user.donor.id,
-        targetPage,
-        token,
-        period
-      );
-
+      const result = await getGeneralDonations(targetPage, period, token);
       if (isRefresh) {
         setData(result);
       } else {
@@ -93,10 +80,7 @@ const MyDonationsPage = () => {
       setHasMore(result.donations.length > 0);
       setPage(isRefresh ? 2 : (prev) => prev + 1);
     } catch (error: any) {
-      Alert.alert(
-        'Erro',
-        error.message || 'Ocorreu um erro ao carregar as doações.'
-      );
+      Alert.alert('Erro', error.message || 'Erro ao carregar doações');
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -128,7 +112,7 @@ const MyDonationsPage = () => {
         <View style={styles.card} className="mx-4 mt-4 rounded-xl p-6">
           <View className="mb-4 flex-row items-center justify-between">
             <Text className="font-reapp_medium text-lg text-gray-700">
-              Total doado
+              Total arrecadado
             </Text>
             <MaterialIcons
               name="attach-money"
@@ -200,7 +184,7 @@ const MyDonationsPage = () => {
           data={data.donations}
           className="mt-4 px-4"
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => renderDonorDonations(item)}
+          renderItem={({ item }) => renderInstitutionDonations(item)}
           onEndReached={handleEndReached}
           onEndReachedThreshold={0.5}
           refreshControl={
@@ -240,4 +224,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyDonationsPage;
+export default MyDonationsInstitutionGeneralPage;

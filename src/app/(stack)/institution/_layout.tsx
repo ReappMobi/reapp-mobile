@@ -228,7 +228,6 @@ const Layout = () => {
           idNumber,
           token
         );
-        console.log(fetchedInstitution);
         setInstitution(fetchedInstitution);
       } catch (err) {
         console.error('Erro ao buscar a instituição:', err);
