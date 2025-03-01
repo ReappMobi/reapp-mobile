@@ -31,7 +31,6 @@ const Page = () => {
     setLoading(true);
     try {
       const newComments = await getPostComments(+id, token, page);
-
       if (newComments.length === 0) {
         setHasMore(false);
       } else {
@@ -48,12 +47,9 @@ const Page = () => {
   const sendComment = async () => {
     if (!comment.trim()) return;
     try {
-      await addComment(+id, token, comment);
+      const response = await addComment(+id, token, comment);
       setComment('');
-      setComments([]);
-      setPage(1);
-      setHasMore(true);
-      fetchPostComments();
+      setComments((prevComments) => [response, ...prevComments]);
     } catch (error: any) {
       Alert.alert('Erro ao adicionar um comentário', error.message);
     }
