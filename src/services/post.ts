@@ -21,6 +21,7 @@ export const addComment = async (
         response.data?.message || 'Erro ao adicionar um comentário.'
       );
     }
+    return response.data;
   } catch (error) {
     throw new Error(error.message);
   }
