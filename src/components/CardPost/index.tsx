@@ -20,6 +20,7 @@ type CardPostProps = {
   onPressUnlike?: () => void;
   onPressSave?: () => void;
   onPressUnSave?: () => void;
+  onPressDelete?: () => void;
 };
 
 function CardPost({
@@ -38,6 +39,7 @@ function CardPost({
   onPressUnlike,
   onPressSave,
   onPressUnSave,
+  onPressDelete,
 }: CardPostProps) {
   const [isLiked, setIsLiked] = useState<boolean>(isLikedInitial);
   const [isSaved, setIsSaved] = useState<boolean>(isSavedInitial);
@@ -77,23 +79,30 @@ function CardPost({
 
   return (
     <View className="w-full bg-white p-4">
-      <Pressable onPress={onPressInstitutionProfile}>
-        <View className="mb-2.5 flex-row items-center gap-x-2">
-          <View className="h-10 w-10 items-center justify-center">
-            <Image
-              className="h-full w-full rounded-full"
-              source={{ uri: userImageUrl }}
-              placeholder={{ blurhash: userImageBlurhash }}
-              contentFit="cover"
-              transition={500}
-            />
-          </View>
+      <View className="flex flex-row justify-between">
+        <Pressable onPress={onPressInstitutionProfile}>
+          <View className="mb-2.5 flex-row items-center gap-x-2">
+            <View className="h-10 w-10 items-center justify-center">
+              <Image
+                className="h-full w-full rounded-full"
+                source={{ uri: userImageUrl }}
+                placeholder={{ blurhash: userImageBlurhash }}
+                contentFit="cover"
+                transition={500}
+              />
+            </View>
 
-          <Text className="font-reapp_medium text-base text-text_neutral">
-            {nameInstitution}
-          </Text>
-        </View>
-      </Pressable>
+            <Text className="font-reapp_medium text-base text-text_neutral">
+              {nameInstitution}
+            </Text>
+          </View>
+        </Pressable>
+        {onPressDelete && (
+          <Pressable onPress={onPressDelete}>
+            <Ionicons name="trash-outline" size={26} color="black" />
+          </Pressable>
+        )}
+      </View>
 
       <Pressable
         className="w-full"
