@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "831403833609",
+    "project_id": "auth-and-facebook",
+    "storage_bucket": "auth-and-facebook.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831403833609:android:29469fb652b7b94364bbd8",
+        "android_client_info": {
+          "package_name": "com.coperativadigital.reapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "831403833609-ekpq9qcbp3b0a1h2pm9a04ov54cen1q3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.coperativadigital.reapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "831403833609-voubrli7i5ei1qqr4pmu3sgpq7k9b3mc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLrJbCfB0RF_uq21QHH9_1wlN1QDG2vDY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "831403833609-voubrli7i5ei1qqr4pmu3sgpq7k9b3mc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

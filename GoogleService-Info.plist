@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>831403833609-ccp7u2l8gsb5k9qun8omq62keahc9tts.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.831403833609-ccp7u2l8gsb5k9qun8omq62keahc9tts</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>831403833609-ekpq9qcbp3b0a1h2pm9a04ov54cen1q3.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC_t4li4BOPWCU0AiumHnsMTCiIZTCnLEY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>831403833609</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.reapp.reappmobi</string>
+	<key>PROJECT_ID</key>
+	<string>auth-and-facebook</string>
+	<key>STORAGE_BUCKET</key>
+	<string>auth-and-facebook.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:831403833609:ios:b56e81672d4c6dce64bbd8</string>
+</dict>
+</plist>
