@@ -43,6 +43,7 @@ export const usePostsByInstitution = (institutionId: number) => {
 
   return {
     posts,
+    setPosts,
     token,
     error,
     loading,
