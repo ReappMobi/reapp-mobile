@@ -149,7 +149,7 @@ export default function SignIn() {
 
       <Text
         className="text-base text-text_primary underline underline-offset-1"
-        onPress={() => router.push('/forgot-password')}
+        onPress={() => router.replace('/forgot-password')}
       >
         Esqueci minha senha
       </Text>
