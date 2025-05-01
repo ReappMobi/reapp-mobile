@@ -18,7 +18,7 @@ export default function App() {
     getPermission();
   }, []);
 
-  const handleBarcodeScanned = ({ type, data }) => {
+  const handleBarcodeScanned = () => {
     setScanned(true);
     setModalVisible(true);
   };

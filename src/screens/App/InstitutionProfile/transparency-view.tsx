@@ -9,7 +9,7 @@ type TransparencyViewProps = {
   institution: IInstitution;
 };
 
-function TransparencyView({ institution }: TransparencyViewProps) {
+function TransparencyView(_props: TransparencyViewProps) {
   useEffect(() => {}, []);
 
   return (

@@ -20,7 +20,6 @@ const blurhash: string =
 function HeaderStatisticsProfile({
   image,
   name,
-  donationsQty,
   followingQty,
   followersQty,
   note,
