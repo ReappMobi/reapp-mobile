@@ -1,7 +1,7 @@
 import { Camera, CameraView } from 'expo-camera';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Text, View, Modal } from 'react-native';
+import { Modal, Text, View } from 'react-native';
 import { Button } from 'src/components';
 
 export default function App() {

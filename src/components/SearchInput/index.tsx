@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useRef, useState } from 'react';
-import { View, TextInput, Pressable, Keyboard } from 'react-native';
+import { Keyboard, Pressable, TextInput, View } from 'react-native';
 
 type SearchInputProps = {
   isFocused?: boolean;

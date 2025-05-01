@@ -2,16 +2,16 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRoute } from '@react-navigation/native';
 import { parseISO } from 'date-fns';
 import { router } from 'expo-router';
-import { useCallback, memo } from 'react';
+import { memo, useCallback } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   ListRenderItem,
-  View,
+  RefreshControl,
   Text,
   TouchableOpacity,
-  RefreshControl,
-  Alert,
+  View,
 } from 'react-native';
 import { Button, CardPost } from 'src/components';
 import colors from 'src/constants/colors';

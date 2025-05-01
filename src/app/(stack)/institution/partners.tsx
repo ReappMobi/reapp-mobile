@@ -1,13 +1,13 @@
 import { useRoute } from '@react-navigation/native';
 import { memo } from 'react';
 import {
-  View,
-  FlatList,
   ActivityIndicator,
-  Text,
-  TouchableOpacity,
+  FlatList,
   ListRenderItem,
   RefreshControl,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import PartnerCard from 'src/components/PartnerCard';
 import { usePartnersByInstitution } from 'src/hooks/usePartnersByInstitution';

@@ -2,9 +2,9 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Camera } from 'expo-camera';
 import {
+  MediaType,
   launchCameraAsync,
   launchImageLibraryAsync,
-  MediaType,
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 import { router } from 'expo-router';

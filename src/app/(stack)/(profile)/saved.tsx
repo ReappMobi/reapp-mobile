@@ -1,13 +1,13 @@
 import { parseISO } from 'date-fns';
 import { memo, useCallback } from 'react';
 import {
-  View,
-  Text,
-  FlatList,
   ActivityIndicator,
-  TouchableOpacity,
+  FlatList,
   ListRenderItem,
   RefreshControl,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { CardPost } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';

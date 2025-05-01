@@ -1,5 +1,5 @@
 import { Controller } from 'react-hook-form';
-import { View, Text, TextInput } from 'react-native';
+import { Text, TextInput, View } from 'react-native';
 
 type FormInputFieldProps = {
   control: any;

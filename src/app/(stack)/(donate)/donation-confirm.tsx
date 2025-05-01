@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { useLocalSearchParams } from 'expo-router';
-import { View, Text } from 'react-native';
+import { Text, View } from 'react-native';
 import DonationConfirmScreenImage from 'src/assets/images/DonationConfirmScreenImage.svg';
 import { useAuth } from 'src/hooks/useAuth';
 

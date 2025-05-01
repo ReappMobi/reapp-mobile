@@ -6,13 +6,13 @@ import { router } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import {
-  View,
-  Text,
-  Pressable,
   ActivityIndicator,
+  Alert,
   KeyboardAvoidingView,
   Platform,
-  Alert,
+  Pressable,
+  Text,
+  View,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';

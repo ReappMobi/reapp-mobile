@@ -8,24 +8,24 @@ import {
 } from '@react-native-google-signin/google-signin';
 */
 import {
-  launchImageLibraryAsync,
   MediaType,
+  launchImageLibraryAsync,
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import {
-  Image,
-  View,
-  Text,
-  KeyboardAvoidingView,
-  TextInput,
-  Alert,
-  Pressable,
-  Platform,
   ActivityIndicator,
+  Alert,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
   ScrollView,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import { Button } from 'src/components';
@@ -259,7 +259,7 @@ const SignUpForm: React.FC = () => {
   };
 
   const onSubmit = async (data: FormData) => {
-    if (loading) return;
+    if (loading) { return; }
     setLoading(true);
 
     try {

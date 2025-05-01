@@ -1,5 +1,5 @@
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { router, Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import React from 'react';
 import { Pressable } from 'react-native';
 import { ProjectProvider } from 'src/contexts/project';

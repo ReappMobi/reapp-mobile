@@ -1,11 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
 import { StackActions } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 import {
-  ScreenContainer,
-  Header,
   CardInstitutionProject,
+  Header,
+  ScreenContainer,
 } from 'src/components';
 import { getFavoritesProjects } from 'src/services/user';
 import { IProject } from 'src/types';

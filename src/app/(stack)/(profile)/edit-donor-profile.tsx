@@ -2,29 +2,29 @@ import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Image } from 'expo-image';
 import {
-  launchImageLibraryAsync,
   MediaType,
+  launchImageLibraryAsync,
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 import { router } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import {
-  View,
-  KeyboardAvoidingView,
-  Alert,
-  Pressable,
-  Platform,
   ActivityIndicator,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
   ScrollView,
+  View,
 } from 'react-native';
 import { Button } from 'src/components';
 import { FormInputField } from 'src/components/FormInputField';
 import { useAuth } from 'src/hooks/useAuth';
 import { RequestMedia, updateAccount } from 'src/services/account';
 import {
-  schema,
   FormData,
+  schema,
 } from 'src/utils/profile-page/edit-donor-profile-schema';
 
 const EditProfileForm = () => {
@@ -71,7 +71,7 @@ const EditProfileForm = () => {
   };
 
   const onSubmit = async (data: FormData) => {
-    if (loading) return;
+    if (loading) { return; }
     setLoading(true);
     try {
       const response = await updateAccount(

@@ -1,5 +1,5 @@
 import React, { useEffect, memo } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import BeneficiariesIcon from 'src/assets/images/BeneficiariesIcon.svg';
 import CoinsICon from 'src/assets/images/CoinsIcon.svg';
 import WalletIcon from 'src/assets/images/WalletIcon.svg';

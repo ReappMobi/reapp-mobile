@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { View, Text, Linking, Alert } from 'react-native';
+import { Alert, Linking, Text, View } from 'react-native';
 import DonationScreenImage from 'src/assets/images/DonationScreenImage.svg';
 import { Button } from 'src/components';
 

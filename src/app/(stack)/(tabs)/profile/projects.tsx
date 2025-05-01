@@ -3,14 +3,14 @@ import { useRoute } from '@react-navigation/native';
 import { router } from 'expo-router';
 import { memo, useCallback } from 'react';
 import {
-  View,
-  FlatList,
   ActivityIndicator,
-  Text,
-  TouchableOpacity,
+  Alert,
+  FlatList,
   ListRenderItem,
   RefreshControl,
-  Alert,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { Button } from 'src/components';
 import CardInstitutionProject from 'src/components/CardInstitutionProject';

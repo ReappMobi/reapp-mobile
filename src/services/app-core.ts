@@ -535,7 +535,7 @@ export async function getInstituitionPosts(
   }
 }
 
-export async function getInstitutionTransparency(institutionId: number) {
+export async function getInstitutionTransparency(_institutionId: number) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([]);

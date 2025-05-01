@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { Button, Input } from 'src/components';
 
 export default function SetNewPassword() {

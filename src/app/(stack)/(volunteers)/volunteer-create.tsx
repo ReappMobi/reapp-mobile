@@ -5,16 +5,16 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
-  View,
-  Text,
+  ActivityIndicator,
   Alert,
   Image,
-  Pressable,
   KeyboardAvoidingView,
-  ScrollView,
   Platform,
+  Pressable,
+  ScrollView,
+  Text,
   TextInput,
-  ActivityIndicator,
+  View,
 } from 'react-native';
 import { Button } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
@@ -134,7 +134,7 @@ const VolunteerCreateForm: React.FC = () => {
   };
 
   const onSubmit = async (data: FormData) => {
-    if (loading) return;
+    if (loading) { return; }
     setLoading(true);
 
     try {

@@ -1,7 +1,7 @@
-import { Octicons, Ionicons } from '@expo/vector-icons';
+import { Ionicons, Octicons } from '@expo/vector-icons';
 import { DrawerActions } from '@react-navigation/native';
 import { Image } from 'expo-image';
-import { Redirect, Tabs, useNavigation, router } from 'expo-router';
+import { Redirect, Tabs, router, useNavigation } from 'expo-router';
 import React from 'react';
 import { Pressable } from 'react-native';
 import colors from 'src/constants/colors';
@@ -13,7 +13,7 @@ const TabLayout = () => {
   const navigation = useNavigation();
   const { isDonor, token, user } = useAuth();
 
-  if (!user || !token) return <Redirect href="welcome" />;
+  if (!user || !token) { return <Redirect href="welcome" />; }
 
   const onToggle = () => {
     navigation.dispatch(DrawerActions.toggleDrawer());

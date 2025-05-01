@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Image } from 'expo-image';
 import React, { useState } from 'react';
-import { View, Text, Pressable, ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 
 import colors from '../../constants/colors';
 import Button from '../Button';

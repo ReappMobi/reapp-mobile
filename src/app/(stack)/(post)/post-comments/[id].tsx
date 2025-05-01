@@ -1,14 +1,14 @@
 import { MaterialIcons, Octicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
-import { useLocalSearchParams, router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import {
-  View,
-  Text,
+  ActivityIndicator,
   Alert,
   Pressable,
   SafeAreaView,
-  ActivityIndicator,
+  Text,
+  View,
 } from 'react-native';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { useAuth } from 'src/hooks/useAuth';
@@ -26,7 +26,7 @@ const Page = () => {
   const [comment, setComment] = useState('');
 
   const fetchPostComments = async () => {
-    if (loading || !hasMore) return;
+    if (loading || !hasMore) { return; }
 
     setLoading(true);
     try {
@@ -45,7 +45,7 @@ const Page = () => {
   };
 
   const sendComment = async () => {
-    if (!comment.trim()) return;
+    if (!comment.trim()) { return; }
     try {
       const response = await addComment(+id, token, comment);
       setComment('');

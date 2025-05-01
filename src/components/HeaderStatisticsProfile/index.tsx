@@ -2,7 +2,7 @@ import { DrawerActions } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { router, useNavigation } from 'expo-router';
 import React from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { useAuth } from 'src/hooks/useAuth';
 
 type Props = {

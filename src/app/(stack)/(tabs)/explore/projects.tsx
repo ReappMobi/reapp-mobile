@@ -8,14 +8,14 @@ import React, {
   useState,
 } from 'react';
 import {
-  View,
-  Text,
   FlatList,
+  RefreshControl,
   ScrollView,
   SectionList,
-  RefreshControl,
+  Text,
+  View,
 } from 'react-native';
-import { ExploreScreenCard, CardSearch, LoadingBox } from 'src/components';
+import { CardSearch, ExploreScreenCard, LoadingBox } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { useSearch } from 'src/hooks/useSearch';
 import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
@@ -134,13 +134,13 @@ type RenderCardSearchProps = {
 const RenderCardSearch = memo<RenderCardSearchProps>(
   ({ item, searchPhrase, onPressCard }) => {
     const matchSearch = useMemo(() => {
-      if (!searchPhrase) return true;
+      if (!searchPhrase) { return true; }
       const normalized = (str: string) =>
         str.toUpperCase().trim().replace(/\s/g, '');
       return normalized(item.name).includes(normalized(searchPhrase));
     }, [item.name, searchPhrase]);
 
-    if (!matchSearch) return null;
+    if (!matchSearch) { return null; }
 
     return (
       <CardSearch
@@ -292,7 +292,7 @@ type ProjectsSearchListProps = {
 const ProjectsSearchList = memo<ProjectsSearchListProps>(
   ({ projects, searchQuery, onPressCard }) => {
     const filteredProjects = useMemo(() => {
-      if (!searchQuery) return projects;
+      if (!searchQuery) { return projects; }
       const norm = (str: string) => str.toUpperCase().trim().replace(/\s/g, '');
       return projects.filter((project) =>
         norm(project.name).includes(norm(searchQuery))

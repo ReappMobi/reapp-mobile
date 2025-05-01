@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { View, Text } from 'react-native';
+import { Text, View } from 'react-native';
 import ForgetPasswordImage from 'src/assets/images/ForgetPassowordImage.svg';
 import { Button, Input } from 'src/components';
 
