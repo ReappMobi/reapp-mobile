@@ -10,6 +10,4 @@ export type GetPostCommentsParams = {
   page: number;
 };
 
-export type GetPostCommentsResponse = {
-  comments: Comment[];
-};
+export type GetPostCommentsResponse = Comment[];
