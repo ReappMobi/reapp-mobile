@@ -1,3 +1,5 @@
+import { Comment } from 'src/types/Comment';
+
 export type AddCommentData = {
   token: string;
   postId: number;
