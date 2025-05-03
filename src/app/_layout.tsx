@@ -15,6 +15,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AuthProvider } from 'src/contexts/auth';
 
 import DrawerContent from './(stack)/(drawer)/profile';
+import { Query, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -40,20 +41,24 @@ export default function RootLayout() {
     return null;
   }
 
+  const queryClient = new QueryClient();
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar style="dark" />
-      <AuthProvider>
-        <Drawer
-          drawerContent={DrawerContent}
-          screenOptions={{
-            headerShown: false,
-            swipeEnabled: true,
-            swipeEdgeWidth: 0,
-            drawerStyle: { width: '78%' },
-          }}
-        />
-      </AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <Drawer
+            drawerContent={DrawerContent}
+            screenOptions={{
+              headerShown: false,
+              swipeEnabled: true,
+              swipeEdgeWidth: 0,
+              drawerStyle: { width: '78%' },
+            }}
+          />
+        </AuthProvider>
+      </QueryClientProvider>
     </GestureHandlerRootView>
   );
 }
