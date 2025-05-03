@@ -1,0 +1,25 @@
+export type MediaAttachment = {
+  id: string;
+  statusId: bigint | null;
+  fileFileName: string | null;
+  fileContentType: string | null;
+  fileFileSize: number | null;
+  fileUpdatedAt: Date | null;
+  remoteUrl: string;
+  createdAt: Date;
+  updatedAt: Date;
+  shortcode: string | null;
+  type: number;
+  fileMeta: string | null;
+  accountId: number | null;
+  description: string | null;
+  scheduledStatusId: bigint | null;
+  blurhash: string | null;
+  processing: number | null;
+  fileStorageSchemaVersion: number | null;
+  thumbnailFileName: string | null;
+  thumbnailContentType: string | null;
+  thumbnailFileSize: number | null;
+  thumbnailUpdatedAt: Date | null;
+  thumbnailRemoteUrl: string | null;
+};
