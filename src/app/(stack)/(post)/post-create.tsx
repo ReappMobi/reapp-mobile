@@ -1,5 +1,6 @@
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { Camera } from 'expo-camera';
 import {
   MediaType,
@@ -16,6 +17,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { postPublication } from 'src/services/app-core';
+import { POSTS_PREFIX_KEY } from 'src/services/posts/post.service';
 import { z } from 'zod';
 
 export default function PostCreate() {
@@ -23,6 +25,8 @@ export default function PostCreate() {
   const [media, setMedia] = useState(null);
   const [loading, setLoading] = useState(false);
   const mediaTypes: MediaType[] = ['images'];
+  const queryClient = useQueryClient();
+
 
   const postCreateFormSchema = z.object({
     description: z
@@ -53,7 +57,8 @@ export default function PostCreate() {
     };
 
     const res = await postPublication(dataReq);
-
+ 
+    queryClient.invalidateQueries({queryKey: [POSTS_PREFIX_KEY]});
     setLoading(false);
     if (res.error) {
       Alert.alert('Erro no cadastro da postagem', res.error);
