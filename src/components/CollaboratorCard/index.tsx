@@ -1,5 +1,5 @@
 import { Image } from 'expo-image';
-import { View, Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 interface CollaboratorCardProps {
   image?: string;

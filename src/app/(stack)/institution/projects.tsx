@@ -2,13 +2,13 @@ import { useRoute } from '@react-navigation/native';
 import { router } from 'expo-router';
 import { memo, useCallback } from 'react';
 import {
-  View,
-  FlatList,
   ActivityIndicator,
-  Text,
-  TouchableOpacity,
+  FlatList,
   ListRenderItem,
   RefreshControl,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import CardInstitutionProject from 'src/components/CardInstitutionProject';
 import { useProjectsByInstitution } from 'src/hooks/useProjectsByInstitution';

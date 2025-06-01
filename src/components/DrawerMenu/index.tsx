@@ -3,14 +3,14 @@ import { DrawerActions } from '@react-navigation/native';
 import { router, useNavigation } from 'expo-router';
 import React, { memo, useState } from 'react';
 import {
+  Alert,
+  LayoutAnimation,
+  Linking,
+  Platform,
   Text,
   TouchableOpacity,
-  View,
-  LayoutAnimation,
-  Platform,
   UIManager,
-  Linking,
-  Alert,
+  View,
 } from 'react-native';
 import { useAuth } from 'src/hooks/useAuth';
 

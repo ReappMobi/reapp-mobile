@@ -1,4 +1,4 @@
-import { Octicons, FontAwesome5, Ionicons } from '@expo/vector-icons';
+import { FontAwesome5, Ionicons, Octicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import colors from 'src/constants/colors';

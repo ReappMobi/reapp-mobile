@@ -1,6 +1,6 @@
 import { Image } from 'expo-image';
 import React, { useState } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
 import colors from 'src/constants/colors';
 
 type Props = {

@@ -236,6 +236,23 @@ export async function postPublication(postData: {
   }
 }
 
+export async function deletePublication(data: { id: number; token: string }) {
+  try {
+    const response = await api.delete(`/post/${data.id}`, {
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
 export async function postInstitutionMember(
   data: { name: string; media: RequestMedia | null; memberType: string },
   token: string
@@ -386,6 +403,23 @@ export async function postProject(projectData) {
   }
 }
 
+export async function deleteProject(data: { id: number; token: string }) {
+  try {
+    const response = await api.delete(`/project/${data.id}`, {
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+      validateStatus() {
+        return true;
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
 export async function getProjects(token: string) {
   try {
     const response = await api.get(`/project`, {
@@ -501,7 +535,7 @@ export async function getInstituitionPosts(
   }
 }
 
-export async function getInstitutionTransparency(institutionId: number) {
+export async function getInstitutionTransparency(_institutionId: number) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([]);

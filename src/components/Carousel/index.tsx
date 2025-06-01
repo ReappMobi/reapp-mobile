@@ -1,6 +1,6 @@
 import { Image } from 'expo-image';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { FlatList, ListRenderItem, View, Dimensions } from 'react-native';
+import { Dimensions, FlatList, ListRenderItem, View } from 'react-native';
 import { IBanner } from 'src/types';
 
 type BannersContainerProps = {

@@ -10,16 +10,16 @@ import React, {
   useState,
 } from 'react';
 import {
-  View,
-  Text,
   FlatList,
-  TouchableOpacity,
+  RefreshControl,
   ScrollView,
   SectionList,
-  RefreshControl,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { Modalize } from 'react-native-modalize';
-import { ExploreScreenCard, CardSearch, LoadingBox } from 'src/components';
+import { CardSearch, ExploreScreenCard, LoadingBox } from 'src/components';
 import Colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { useSearch } from 'src/hooks/useSearch';
@@ -120,7 +120,7 @@ const InstitutionModalOptions = memo(
     }, [isFollowing]);
 
     const handleFollowInternal = async () => {
-      if (isProcessing) return;
+      if (isProcessing) { return; }
       setIsProcessing(true);
       try {
         setIsFollowingLocal(true);
@@ -134,7 +134,7 @@ const InstitutionModalOptions = memo(
     };
 
     const handleUnfollowInternal = async () => {
-      if (isProcessing) return;
+      if (isProcessing) { return; }
       setIsProcessing(true);
       try {
         setIsFollowingLocal(false);
@@ -310,7 +310,7 @@ const InstitutionSectionList = memo<InstitutionSectionListProps>(
               className="mb-2.5"
             />
           )}
-          keyExtractor={(item, index) => `section-${index}`}
+          keyExtractor={(_item, index) => `section-${index}`}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -377,7 +377,7 @@ type InstitutionSearchListProps = {
 const InstitutionSearchList = memo<InstitutionSearchListProps>(
   ({ institutions, searchPhrase, onPressCard }) => {
     const filtered = useMemo(() => {
-      if (!searchPhrase) return institutions;
+      if (!searchPhrase) { return institutions; }
       return institutions.filter((inst) =>
         inst.account.name
           .toUpperCase()

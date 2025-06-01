@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Image } from 'expo-image';
 import React, { useState } from 'react';
-import { View, Text, Pressable, ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 
 import colors from '../../constants/colors';
 import Button from '../Button';
@@ -14,6 +14,7 @@ type CardInstitutionProjectProps = {
   isFavoriteCard?: boolean;
   onPressLike?: () => void;
   onPress?: () => void;
+  onPressDelete?: () => void;
 };
 
 const blurhash: string =
@@ -27,6 +28,7 @@ function CardInstitutionProject({
   isFavoriteCard,
   onPressLike,
   onPress,
+  onPressDelete,
 }: CardInstitutionProjectProps) {
   const [isLiked, setIsLiked] = useState<boolean>(true);
   const [isLoadingImage, setIsLoadingImage] = useState<boolean>(true);
@@ -42,6 +44,7 @@ function CardInstitutionProject({
         {isLoadingImage && (
           <ActivityIndicator size="large" color={colors.color_primary} />
         )}
+
         <Image
           className="h-full w-full"
           source={imagePath}
@@ -59,6 +62,14 @@ function CardInstitutionProject({
                 size={34}
                 color="red"
               />
+            </Pressable>
+          </View>
+        )}
+
+        {onPressDelete && (
+          <View className="absolute right-3 top-3">
+            <Pressable onPress={onPressDelete}>
+              <Ionicons name="trash-outline" size={26} color="red" />
             </Pressable>
           </View>
         )}

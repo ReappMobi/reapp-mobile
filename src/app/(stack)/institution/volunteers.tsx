@@ -1,13 +1,13 @@
 import { useRoute } from '@react-navigation/native';
 import { memo } from 'react';
 import {
-  View,
-  Text,
-  FlatList,
   ActivityIndicator,
-  TouchableOpacity,
+  FlatList,
   ListRenderItem,
   RefreshControl,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import VolunteerCard from 'src/components/VolunteerCard';
 import { useVolunteersByInstitution } from 'src/hooks/useVolunteersByInstitution';

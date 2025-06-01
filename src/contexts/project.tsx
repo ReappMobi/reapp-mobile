@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react';
 import { ApiResponseError } from 'src/errors/ApiResponseError';
-import { getProjectsCategories, createProject } from 'src/services/project';
+import { createProject, getProjectsCategories } from 'src/services/project';
 import { IProject } from 'src/types';
 import { ApiErrorResponse } from 'src/types/IApiResponseError';
 import { Category } from 'src/types/ICategory';
@@ -37,8 +37,8 @@ export function ProjectProvider({ children }) {
     return response;
   };
 
-  const updateProject = async (data: any) => {};
-  const deleteProject = async (id: string) => {};
+  const updateProject = async (_data: any) => {};
+  const deleteProject = async (_id: string) => {};
   const getProjectCategories = async (query: string) => {
     try {
       return await getProjectsCategories(query);

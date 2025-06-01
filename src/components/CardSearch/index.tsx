@@ -1,6 +1,6 @@
 import { Image } from 'expo-image';
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 
 type CardSearchProps = {
   imageUrl?: string;

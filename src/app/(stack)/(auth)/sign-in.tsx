@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, router } from 'expo-router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { View, Text, Alert, ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Alert, Text, View } from 'react-native';
 import { Button, Input } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import {

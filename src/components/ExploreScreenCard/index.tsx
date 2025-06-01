@@ -2,11 +2,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import React, { useState, memo } from 'react';
 import {
-  View,
-  Text,
-  Pressable,
-  TouchableOpacity,
   ActivityIndicator,
+  Pressable,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';

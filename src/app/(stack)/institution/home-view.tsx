@@ -1,14 +1,14 @@
 import { useRoute } from '@react-navigation/native';
 import { parseISO } from 'date-fns';
-import { useCallback, memo } from 'react';
+import { memo, useCallback } from 'react';
 import {
   ActivityIndicator,
   FlatList,
   ListRenderItem,
-  View,
+  RefreshControl,
   Text,
   TouchableOpacity,
-  RefreshControl,
+  View,
 } from 'react-native';
 import { CardPost } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';

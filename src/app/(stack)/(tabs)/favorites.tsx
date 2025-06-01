@@ -1,6 +1,6 @@
 import { router, useNavigation } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, FlatList, RefreshControl, Text } from 'react-native';
+import { FlatList, RefreshControl, Text, View } from 'react-native';
 import { CardInstitutionProject } from 'src/components';
 import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';

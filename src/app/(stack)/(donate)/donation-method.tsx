@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from 'expo-router';
 import { openBrowserAsync } from 'expo-web-browser';
 import { useState } from 'react';
-import { View, Alert, ActivityIndicator, Text } from 'react-native';
+import { ActivityIndicator, Alert, Text, View } from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 import DonationTaxReceiptImage from 'src/assets/images/DonationTaxReceiptImage.svg';
 import { Button, Input } from 'src/components';

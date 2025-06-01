@@ -2,11 +2,11 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { StackActions } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import React, { useEffect, useState } from 'react';
-import { View, Text, useWindowDimensions } from 'react-native';
+import { Text, View, useWindowDimensions } from 'react-native';
 import {
-  ScreenContainer,
   Button,
   LoadingBox,
+  ScreenContainer,
   TabViewWrapper,
 } from 'src/components';
 import { getCategoryById } from 'src/services/app-core';

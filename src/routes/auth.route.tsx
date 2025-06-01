@@ -2,14 +2,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 
 import {
-  ProfileSelectorScreen,
-  SignUpPageScreen,
-  WelcomeScreen,
-  LoginPageScreen,
+  CheckCodeScreen,
   ForgetPasswordResetScreen,
   ForgetPasswordScreen,
   IdentityVerificationScreen,
-  CheckCodeScreen,
+  LoginPageScreen,
+  ProfileSelectorScreen,
+  SignUpPageScreen,
+  WelcomeScreen,
 } from '../screens/Auth';
 
 const Stack = createNativeStackNavigator();

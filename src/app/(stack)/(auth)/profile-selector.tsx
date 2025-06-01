@@ -1,6 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from 'expo-router';
-import { View, Text } from 'react-native';
+import { Text, View } from 'react-native';
 import ProfileSelectorPageImage from 'src/assets/images/ProfileSelectorPageImage.svg';
 import { Button } from 'src/components';
 import colors from 'src/constants/colors';

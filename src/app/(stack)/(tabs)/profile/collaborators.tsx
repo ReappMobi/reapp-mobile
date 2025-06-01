@@ -3,13 +3,13 @@ import { useRoute } from '@react-navigation/native';
 import { router } from 'expo-router';
 import React, { memo } from 'react';
 import {
-  FlatList,
-  View,
-  Text,
   ActivityIndicator,
-  TouchableOpacity,
+  FlatList,
   ListRenderItem,
   RefreshControl,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { Button } from 'src/components';
 import { CollaboratorCard } from 'src/components/CollaboratorCard';

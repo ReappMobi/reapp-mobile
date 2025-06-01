@@ -1,21 +1,21 @@
 import { router } from 'expo-router';
 import React, { useCallback, memo } from 'react';
 import {
-  View,
+  ActivityIndicator,
   FlatList,
   ListRenderItem,
-  ActivityIndicator,
   RefreshControl,
-  TouchableOpacity,
   Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { Button, CardPost } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { usePosts } from 'src/hooks/usePosts';
 import {
   likePost,
-  unlikePost,
   savePost,
+  unlikePost,
   unsavePost,
 } from 'src/services/app-core';
 import { IPost } from 'src/types';

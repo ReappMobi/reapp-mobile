@@ -4,12 +4,12 @@ import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { View, Text, Alert, Image, ScrollView } from 'react-native';
+import { Alert, Image, ScrollView, Text, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Input } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
-import { postProject, getProjectCategories } from 'src/services/app-core';
+import { getProjectCategories, postProject } from 'src/services/app-core';
 import { z } from 'zod';
 
 export default function ProjectCreate() {

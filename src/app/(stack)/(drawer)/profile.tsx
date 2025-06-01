@@ -7,7 +7,7 @@ import { useAuth } from 'src/hooks/useAuth';
 const DrawerContent = () => {
   const { user, token } = useAuth();
 
-  if (!user || !token) return null;
+  if (!user || !token) { return null; }
 
   return (
     <View className="max-w-64 w-full flex-1 rounded-none">

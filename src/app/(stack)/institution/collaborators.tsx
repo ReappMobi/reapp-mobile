@@ -1,13 +1,13 @@
 import { useRoute } from '@react-navigation/native';
 import React, { memo } from 'react';
 import {
-  FlatList,
-  View,
-  Text,
   ActivityIndicator,
-  TouchableOpacity,
+  FlatList,
   ListRenderItem,
   RefreshControl,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { CollaboratorCard } from 'src/components/CollaboratorCard';
 import { useCollaboratorsByInstitution } from 'src/hooks/useCollaboratorsByInstitution';

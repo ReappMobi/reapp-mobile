@@ -43,6 +43,7 @@ export const useProjectsByInstitution = (institutionId: number) => {
 
   return {
     projects,
+    setProjects,
     token,
     error,
     loading,

@@ -1,15 +1,15 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
-  View,
-  Text,
-  FlatList,
-  Alert,
-  RefreshControl,
   ActivityIndicator,
+  Alert,
+  FlatList,
+  RefreshControl,
   ScrollView,
-  TouchableOpacity,
   StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { DonationInformationItem } from 'src/components';
 import colors from 'src/constants/colors';

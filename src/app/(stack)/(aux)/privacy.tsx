@@ -1,6 +1,6 @@
 import { useNavigation } from 'expo-router';
 import React, { useLayoutEffect } from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import colors from 'src/constants/colors';
 

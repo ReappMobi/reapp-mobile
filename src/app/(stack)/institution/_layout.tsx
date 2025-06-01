@@ -1,15 +1,15 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import {
-  createMaterialTopTabNavigator,
-  MaterialTopTabNavigationOptions,
   MaterialTopTabNavigationEventMap,
+  MaterialTopTabNavigationOptions,
+  createMaterialTopTabNavigator,
 } from '@react-navigation/material-top-tabs';
 import { ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, withLayoutContext } from 'expo-router';
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { View, Text, Linking, Alert } from 'react-native';
-import { ScreenContainer, LoadingBox, Button } from 'src/components';
+import { Alert, Linking, Text, View } from 'react-native';
+import { Button, LoadingBox, ScreenContainer } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import {
   followAccount,
@@ -49,7 +49,7 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
   }, [institution?.isFollowing]);
 
   const handleFollow = async () => {
-    if (!institution?.account) return;
+    if (!institution?.account) { return; }
     try {
       await followAccount({ id: institution.account.id, token });
       setIsFollowing(true);
@@ -60,7 +60,7 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
   };
 
   const handleUnfollow = async () => {
-    if (!institution?.account) return;
+    if (!institution?.account) { return; }
     try {
       await unfollowAccount({ id: institution.account.id, token });
       setIsFollowing(false);

@@ -1,14 +1,14 @@
 import {
-  createMaterialTopTabNavigator,
-  MaterialTopTabNavigationOptions,
   MaterialTopTabNavigationEventMap,
+  MaterialTopTabNavigationOptions,
+  createMaterialTopTabNavigator,
 } from '@react-navigation/material-top-tabs';
 import { ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { withLayoutContext } from 'expo-router';
 import { memo, useEffect, useMemo, useState } from 'react';
-import { View, Text } from 'react-native';
-import { ScreenContainer, LoadingBox } from 'src/components';
+import { Text, View } from 'react-native';
+import { LoadingBox, ScreenContainer } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { getInstitutionByAccountId } from 'src/services/app-core';
 import { IInstitution } from 'src/types';

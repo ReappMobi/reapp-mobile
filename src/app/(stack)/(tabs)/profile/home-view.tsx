@@ -2,21 +2,23 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRoute } from '@react-navigation/native';
 import { parseISO } from 'date-fns';
 import { router } from 'expo-router';
-import { useCallback, memo } from 'react';
+import { memo, useCallback } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   ListRenderItem,
-  View,
+  RefreshControl,
   Text,
   TouchableOpacity,
-  RefreshControl,
+  View,
 } from 'react-native';
 import { Button, CardPost } from 'src/components';
 import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { usePostsByInstitution } from 'src/hooks/usePostsByInstitution';
 import {
+  deletePublication,
   likePost,
   savePost,
   unlikePost,
@@ -28,6 +30,7 @@ type PostItemProps = {
   item: IPost;
   token: string | null;
   userId?: string | number;
+  onDelete: (postId: number) => void;
 };
 
 const renderHeader = () => (
@@ -51,7 +54,7 @@ const renderHeader = () => (
     </Button>
   </View>
 );
-const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
+const PostItem = memo<PostItemProps>(({ item, token, userId, onDelete }) => {
   const isLiked = item.likes?.some((like) => like.accountId === userId);
   const isSaved = item.saves?.some((save) => save.accountId === userId);
   const handleLike = useCallback(() => {
@@ -78,6 +81,34 @@ const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
     }
   }, [item.id, token]);
 
+  const handleDelete = useCallback(() => {
+    if (token) {
+      Alert.alert(
+        'Confirmar exclusão',
+        'Tem certeza que deseja excluir esta postagem?',
+        [
+          {
+            text: 'Cancelar',
+            style: 'cancel',
+          },
+          {
+            text: 'Confirmar',
+            onPress: () => {
+              deletePublication({ id: item.id, token })
+                .then(() => onDelete(item.id))
+                .catch((error) => {
+                  Alert.alert('Erro', 'Não foi possível excluir a postagem');
+                  console.error(error);
+                });
+            },
+            style: 'destructive',
+          },
+        ],
+        { cancelable: true }
+      );
+    }
+  }, [item.id, token, onDelete]);
+
   const timeString = timeAgo(item.updatedAt);
   return (
     <CardPost
@@ -95,6 +126,7 @@ const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
       onPressUnlike={handleUnlike}
       onPressSave={handleSave}
       onPressUnSave={handleUnsave}
+      onPressDelete={handleDelete}
     />
   );
 });
@@ -137,10 +169,13 @@ function timeAgo(dateString: string): string {
 
 function PostList({ institutionId }) {
   const { user } = useAuth();
-  const { posts, token, error, loading, refreshing, onRefresh } =
+  const { posts, setPosts, token, error, loading, refreshing, onRefresh } =
     usePostsByInstitution(institutionId);
 
-  // Se estiver carregando e não tiver token, mostra spinner
+  const handleDeletePost = useCallback((postId: number) => {
+    setPosts((prev) => prev.filter((post) => post.id !== postId));
+  }, []);
+
   if (loading && !token) {
     return (
       <View className="flex-1 items-center justify-center">
@@ -167,7 +202,12 @@ function PostList({ institutionId }) {
 
   const renderItem: ListRenderItem<IPost> = ({ item }) =>
     posts.length > 0 ? (
-      <PostItem item={item} token={token} userId={user?.id} />
+      <PostItem
+        item={item}
+        token={token}
+        userId={user?.id}
+        onDelete={handleDeletePost}
+      />
     ) : (
       <View className="flex-1 items-center justify-center p-4">
         <Text className="font-reapp_medium text-base">

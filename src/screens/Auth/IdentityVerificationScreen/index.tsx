@@ -3,7 +3,7 @@ import { useNavigation } from 'expo-router';
 import React from 'react';
 import { Text, View } from 'react-native';
 import IdentifyVerifyIllustation from 'src/assets/images/IdentityVerifyIlustration.svg';
-import { ScreenContainer, Header, Input, Button } from 'src/components';
+import { Button, Header, Input, ScreenContainer } from 'src/components';
 
 export default function IdentityVerificationScreen() {
   const navigation = useNavigation();

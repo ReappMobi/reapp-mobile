@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Pressable, View, useWindowDimensions } from 'react-native';
+import { Pressable, Text, View, useWindowDimensions } from 'react-native';
 
 import { shadowStyle, sizeStyles, variantStyles } from './styles';
 

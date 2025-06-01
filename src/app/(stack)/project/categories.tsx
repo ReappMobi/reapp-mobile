@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { FlatList, Pressable, View, Text } from 'react-native';
+import { FlatList, Pressable, Text, View } from 'react-native';
 import { Input } from 'src/components';
 import { useProject } from 'src/hooks/useProject';
 import { Category } from 'src/types/ICategory';

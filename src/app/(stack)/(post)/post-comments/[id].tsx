@@ -1,63 +1,128 @@
 import { MaterialIcons, Octicons } from '@expo/vector-icons';
+import { useQueryClient } from '@tanstack/react-query';
 import { Image } from 'expo-image';
-import { useLocalSearchParams, router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import {
-  View,
-  Text,
+  ActivityIndicator,
   Alert,
   Pressable,
   SafeAreaView,
-  ActivityIndicator,
+  Text,
+  View,
 } from 'react-native';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { useAuth } from 'src/hooks/useAuth';
-import { addComment, getPostComments } from 'src/services/post';
+import {
+  COMMENTS_PREFIX_KEY,
+  useAddComment,
+  useGetPostComments,
+} from 'src/services/comments/comments.service';
 import { timeAgo } from 'src/utils/time-ago';
 
 const Page = () => {
   const { token } = useAuth();
   const { id } = useLocalSearchParams<{ id: string }>();
-
-  const [comments, setComments] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
   const [comment, setComment] = useState('');
+  const [comments, setComments] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
 
-  const fetchPostComments = async () => {
-    if (loading || !hasMore) return;
-
-    setLoading(true);
-    try {
-      const newComments = await getPostComments(+id, token, page);
-      if (newComments.length === 0) {
-        setHasMore(false);
-      } else {
-        setComments((prev) => [...prev, ...newComments]);
-        setPage((prev) => prev + 1);
-      }
-    } catch (error: any) {
-      Alert.alert('Erro ao buscar os comentários da postagem', error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const sendComment = async () => {
-    if (!comment.trim()) return;
-    try {
-      const response = await addComment(+id, token, comment);
-      setComment('');
-      setComments((prevComments) => [response, ...prevComments]);
-    } catch (error: any) {
-      Alert.alert('Erro ao adicionar um comentário', error.message);
-    }
-  };
+  const queryClient = useQueryClient();
+  const {
+    data,
+    isPending: loading,
+    isFetching,
+  } = useGetPostComments({
+    page,
+    token,
+    postId: +id,
+  });
+  const { mutate: addCommentMutate, isPending: isAddCommentLoading } =
+    useAddComment();
 
   useEffect(() => {
-    fetchPostComments();
-  }, []);
+    if (!data) {
+      return;
+    }
+
+    setComments((prevComments) => {
+      if (page === 1) {
+        return data;
+      }
+
+      const existingCommentIds = new Set(
+        prevComments.map((comment) => comment.id)
+      );
+      const newComments = data.filter(
+        (comment) => !existingCommentIds.has(comment.id)
+      );
+
+      return [...prevComments, ...newComments];
+    });
+
+    setHasMore(data.length > 0);
+  }, [data, page]);
+
+  const sendComment = () => {
+    const trimmedComment = comment.trim();
+    if (!trimmedComment) {
+      return;
+    }
+
+    if (comment.trim() !== '') {
+      addCommentMutate(
+        { token, postId: Number(id), content: trimmedComment },
+        {
+          onSuccess: () => {
+            setPage(1);
+            queryClient.invalidateQueries({
+              queryKey: [COMMENTS_PREFIX_KEY, +id],
+            });
+            setComment('');
+          },
+          onError: () => {
+            Alert.alert('Erro', 'Problema ao adicionar o comentário.');
+            setComment('');
+          },
+        }
+      );
+    }
+  };
+
+  const loadMoreComments = () => {
+    if (!loading && !isFetching && hasMore) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  const refreshComments = () => {
+    setPage(1);
+    queryClient.invalidateQueries({
+      queryKey: [COMMENTS_PREFIX_KEY, +id],
+    });
+  };
+
+  if ((loading || isFetching) && page === 1) {
+    return (
+      <SafeAreaView className="flex-1 bg-white pt-10">
+        <View
+          className="mb-2 flex h-12 flex-row items-center px-3"
+          style={{ borderBottomColor: 'gray', borderBottomWidth: 1 }}
+        >
+          <Pressable onPress={() => router.dismiss()}>
+            <MaterialIcons name="chevron-left" size={28} color="#646464" />
+          </Pressable>
+
+          <Text className="mt-1 flex-1 pr-5 text-center font-reapp_medium text-lg text-slate-700">
+            Comentários
+          </Text>
+        </View>
+
+        <ActivityIndicator size="large" color="#000" />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-white pt-10">
@@ -98,23 +163,20 @@ const Page = () => {
                   </View>
                   <Text className="text-sm">{item.body}</Text>
                   <Text className="text-xs text-gray-400">
-                    {timeAgo(item.createdAt)}
+                    {timeAgo(item.createdAt.toString())}
                   </Text>
                 </View>
               </View>
             )}
             keyExtractor={(item) => item.id.toString()}
-            onEndReached={fetchPostComments}
+            onEndReached={loadMoreComments}
             onEndReachedThreshold={0.5}
-            onRefresh={() => {
-              setComments([]);
-              setPage(1);
-              setHasMore(true);
-              fetchPostComments();
-            }}
-            refreshing={loading}
+            onRefresh={refreshComments}
+            refreshing={loading && page === 1}
             ListFooterComponent={
-              loading ? <ActivityIndicator size="small" color="#000" /> : null
+              isFetching && page > 1 ? (
+                <ActivityIndicator size="small" color="#000" />
+              ) : null
             }
           />
         )}
@@ -127,10 +189,9 @@ const Page = () => {
             value={comment}
             className="ml-2 flex-1"
           />
-          <Pressable onPress={sendComment}>
+          <Pressable onPress={sendComment} disabled={isAddCommentLoading}>
             <Text className="text-md font-reapp_bold text-green-700">
-              {' '}
-              Comentar{' '}
+              {isAddCommentLoading ? 'Enviando...' : 'Comentar'}
             </Text>
           </Pressable>
         </View>
