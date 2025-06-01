@@ -99,7 +99,7 @@ function CardPost({
         </Pressable>
         {onPressDelete && (
           <Pressable onPress={onPressDelete}>
-            <Ionicons name="trash-outline" size={26} color="black" />
+            <Ionicons name="trash-outline" size={20} color="black" />
           </Pressable>
         )}
       </View>
@@ -149,7 +149,7 @@ function CardPost({
           <Pressable onPress={handleLikePress}>
             <Ionicons
               name={isLiked ? 'heart-sharp' : 'heart-outline'}
-              size={26}
+              size={20}
               color="black"
             />
           </Pressable>
@@ -157,13 +157,13 @@ function CardPost({
           <Pressable onPress={handleSavePress}>
             <Ionicons
               name={isSaved ? 'bookmark' : 'bookmark-outline'}
-              size={26}
+              size={20}
               color="black"
             />
           </Pressable>
 
           <Pressable onPress={handleCommentPress}>
-            <FontAwesome name="comments-o" size={26} color="black" />
+            <Ionicons name="chatbubbles-outline" size={20} color="black" />
           </Pressable>
         </View>
       </View>
