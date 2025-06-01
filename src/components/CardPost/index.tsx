@@ -114,13 +114,16 @@ function CardPost({
             numberOfLines={expanded ? null : 3}
             className="font-reapp_regular text-sm text-text_neutral "
           >
-            {description}
+            {description.length > 100 && !expanded
+              ? `${description.slice(0, 100)}...`
+              : description}
           </Text>
+          { description && description.length > 100 &&
           <Pressable onPress={() => setExpanded((prev) => !prev)}>
             <Text className="text-text_blue font-reapp_regular text-xs">
               {expanded ? 'Ler menos' : 'Ler mais'}
             </Text>
-          </Pressable>
+          </Pressable>}
         </View>
         {mediaUrl && (
           <View className="mb-2.5 h-56 w-full items-center justify-center">
