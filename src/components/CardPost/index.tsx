@@ -1,4 +1,4 @@
-import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -15,6 +15,7 @@ type CardPostProps = {
   timeAgo?: string;
   isLikedInitial?: boolean;
   isSavedInitial?: boolean;
+  mediaAspect?: number;
   onPressInstitutionProfile?: () => void;
   onPressLike?: () => void;
   onPressUnlike?: () => void;
@@ -30,6 +31,7 @@ function CardPost({
   mediaUrl,
   mediaBlurhash,
   nameInstitution,
+  mediaAspect = 1,
   description,
   timeAgo,
   isLikedInitial,
@@ -118,21 +120,23 @@ function CardPost({
               ? `${description.slice(0, 100)}...`
               : description}
           </Text>
-          { description && description.length > 100 &&
-          <Pressable onPress={() => setExpanded((prev) => !prev)}>
-            <Text className="text-text_blue font-reapp_regular text-xs">
-              {expanded ? 'Ler menos' : 'Ler mais'}
-            </Text>
-          </Pressable>}
+          {description && description.length > 100 && (
+            <Pressable onPress={() => setExpanded((prev) => !prev)}>
+              <Text className="text-text_blue font-reapp_regular text-xs">
+                {expanded ? 'Ler menos' : 'Ler mais'}
+              </Text>
+            </Pressable>
+          )}
         </View>
         {mediaUrl && (
-          <View className="mb-2.5 h-56 w-full items-center justify-center">
+          <View className="h-max w-full items-center justify-center rounded-lg p-4">
             <Image
-              className="h-full w-full rounded-md"
+              className="max-w-md w-full rounded-lg"
               source={{ uri: mediaUrl }}
               placeholder={{ blurhash: mediaBlurhash }}
               contentFit="cover"
               transition={500}
+              style={{ aspectRatio: mediaAspect }}
             />
           </View>
         )}
