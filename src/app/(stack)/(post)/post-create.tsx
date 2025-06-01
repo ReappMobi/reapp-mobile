@@ -74,7 +74,6 @@ export default function PostCreate() {
     const result = await launchImageLibraryAsync({
       mediaTypes,
       allowsEditing: true,
-      aspect: [5, 3],
       quality: 1,
     });
 
