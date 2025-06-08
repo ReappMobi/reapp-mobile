@@ -1,4 +1,4 @@
-import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -15,6 +15,7 @@ type CardPostProps = {
   timeAgo?: string;
   isLikedInitial?: boolean;
   isSavedInitial?: boolean;
+  mediaAspect?: number;
   onPressInstitutionProfile?: () => void;
   onPressLike?: () => void;
   onPressUnlike?: () => void;
@@ -30,6 +31,7 @@ function CardPost({
   mediaUrl,
   mediaBlurhash,
   nameInstitution,
+  mediaAspect = 1,
   description,
   timeAgo,
   isLikedInitial,
@@ -99,7 +101,7 @@ function CardPost({
         </Pressable>
         {onPressDelete && (
           <Pressable onPress={onPressDelete}>
-            <Ionicons name="trash-outline" size={26} color="black" />
+            <Ionicons name="trash-outline" size={20} color="black" />
           </Pressable>
         )}
       </View>
@@ -114,22 +116,27 @@ function CardPost({
             numberOfLines={expanded ? null : 3}
             className="font-reapp_regular text-sm text-text_neutral "
           >
-            {description}
+            {description.length > 100 && !expanded
+              ? `${description.slice(0, 100)}...`
+              : description}
           </Text>
-          <Pressable onPress={() => setExpanded((prev) => !prev)}>
-            <Text className="text-text_blue font-reapp_regular text-xs">
-              {expanded ? 'Ler menos' : 'Ler mais'}
-            </Text>
-          </Pressable>
+          {description && description.length > 100 && (
+            <Pressable onPress={() => setExpanded((prev) => !prev)}>
+              <Text className="text-text_blue font-reapp_regular text-xs">
+                {expanded ? 'Ler menos' : 'Ler mais'}
+              </Text>
+            </Pressable>
+          )}
         </View>
         {mediaUrl && (
-          <View className="mb-2.5 h-56 w-full items-center justify-center">
+          <View className="h-max w-full items-center justify-center rounded-lg p-4">
             <Image
-              className="h-full w-full rounded-md"
+              className="max-w-md w-full rounded-lg"
               source={{ uri: mediaUrl }}
               placeholder={{ blurhash: mediaBlurhash }}
               contentFit="cover"
               transition={500}
+              style={{ aspectRatio: mediaAspect }}
             />
           </View>
         )}
@@ -146,7 +153,7 @@ function CardPost({
           <Pressable onPress={handleLikePress}>
             <Ionicons
               name={isLiked ? 'heart-sharp' : 'heart-outline'}
-              size={26}
+              size={20}
               color="black"
             />
           </Pressable>
@@ -154,13 +161,13 @@ function CardPost({
           <Pressable onPress={handleSavePress}>
             <Ionicons
               name={isSaved ? 'bookmark' : 'bookmark-outline'}
-              size={26}
+              size={20}
               color="black"
             />
           </Pressable>
 
           <Pressable onPress={handleCommentPress}>
-            <FontAwesome name="comments-o" size={26} color="black" />
+            <Ionicons name="chatbubbles-outline" size={20} color="black" />
           </Pressable>
         </View>
       </View>

@@ -18,6 +18,7 @@ import {
   unlikePost,
   unsavePost,
 } from 'src/services/app-core';
+import { useGetPosts } from 'src/services/posts/post.service';
 import { IPost } from 'src/types';
 import { timeAgo } from 'src/utils/time-ago';
 
@@ -67,6 +68,7 @@ const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
     <CardPost
       postId={item.id}
       mediaUrl={item.media?.remoteUrl || ''}
+      mediaAspect={item.media?.fileMeta.original.aspect || 1}
       mediaBlurhash={item.media?.blurhash || ''}
       userImageUrl={item.institution?.account?.media?.remoteUrl || ''}
       userImageBlurhash={item.institution?.account?.media?.blurhash || ''}
@@ -86,7 +88,13 @@ const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
 
 function PostList() {
   const { user, token } = useAuth();
-  const { posts, loading, error, refreshing, onRefresh } = usePosts();
+  const {
+    data: posts,
+    isLoading: loading,
+    error,
+    isRefetching: refreshing,
+    refetch: onRefresh,
+  } = useGetPosts(token || '', 1);
 
   if (loading) {
     return (
@@ -103,7 +111,7 @@ function PostList() {
           Ocorreu um erro!
         </Text>
         <Text>{error?.message || 'Ocorreu um erro ao carregar os posts'}</Text>
-        <TouchableOpacity onPress={onRefresh}>
+        <TouchableOpacity onPress={() => onRefresh()}>
           <Text className="mt-4 text-blue-500">Tentar novamente</Text>
         </TouchableOpacity>
       </View>
@@ -136,9 +144,9 @@ function PostList() {
         <RefreshControl
           refreshing={refreshing}
           onRefresh={onRefresh}
-          colors={['#ff0000']} // Android
-          tintColor="#0000ff" // iOS
-          title="Recarregando..." // iOS
+          colors={['#ff0000']}
+          tintColor="#0000ff"
+          title="Recarregando..."
         />
       }
       ItemSeparatorComponent={() => (

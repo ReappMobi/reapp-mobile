@@ -9,6 +9,10 @@ export const useGetPostComments = (params: GetPostCommentsParams) => {
     queryKey: [COMMENTS_PREFIX_KEY, params.postId, params.page],
     queryFn: () => getPostComments(params),
     enabled: !!params.token,
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 5,
+    retry: 1,
+    retryDelay: 1000,
   });
 };
 
