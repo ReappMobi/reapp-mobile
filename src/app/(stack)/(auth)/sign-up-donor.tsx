@@ -75,12 +75,8 @@ const schema = z
         MAX_PASSWORD_LEN,
         `A senha deve ter no máximo ${MAX_PASSWORD_LEN} caracteres.`
       ),
-    confirmPassword: z.string(),
   })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'As senhas devem ser iguais.',
-    path: ['confirmPassword'],
-  });
+  
 
 // Tipagem do formulário
 type FormData = z.infer<typeof schema>;
@@ -215,7 +211,6 @@ const SignUpForm: React.FC = () => {
       email: '',
       phone: '',
       password: '',
-      confirmPassword: '',
     },
   });
 
@@ -267,7 +262,6 @@ const SignUpForm: React.FC = () => {
         accountType: 'DONOR',
         name: data.name,
         password: data.password,
-        confirmPassword: data.confirmPassword,
         phone: data.phone.replace(/\D/g, ''),
         email: data.email,
         note: data.note || '',
@@ -397,17 +391,6 @@ const SignUpForm: React.FC = () => {
         <Ionicons name="key" size={16} color="black" />
       </FormInputField>
 
-      {/* Confirmar Senha */}
-      <FormInputField
-        control={control}
-        name="confirmPassword"
-        label="Confirmar Senha"
-        placeholder="●●●●●●●●"
-        error={errors}
-        secureTextEntry
-      >
-        <Ionicons name="key" size={16} color="black" />
-      </FormInputField>
 
       {/* Botão de Enviar */}
       <Button
