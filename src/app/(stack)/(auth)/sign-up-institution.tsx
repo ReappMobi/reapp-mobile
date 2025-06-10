@@ -374,7 +374,6 @@ const SignUpForm: React.FC = () => {
         accountType: 'INSTITUTION',
         name: data.name,
         password: data.password,
-        confirmPassword: data.confirmPassword,
         phone: data.phone.replace(/\D/g, ''), // remove máscaras
         email: data.email,
         cnpj: data.cnpj.replace(/\D/g, ''), // remove máscaras
