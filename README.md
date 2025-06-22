@@ -1,53 +1,78 @@
-# Reapp Frontend
+# Reapp Mobile App
 
-## New commits
+> [Versão em Português](README.pt.md)
 
-New commits that have the potential to impact the project, such as adding features, fixing bugs, updating dependencies, changing business logic, among others, should be submitted in a new branch and later integrated through the merge process. It is imperative to avoid committing directly to the main branch, thus ensuring a more controlled and stable code management.
+## Setup Environment to Run Locally
 
-## branch names
-
-`feature`: used to add, refactor, or remove a feature.
-
-`bugfix`: used to fix a bug.
-
-`test`: used to experiment outside of a specific problem/task.
-
-#### Examples
-
-You need to add, refactor, or remove a feature:
-
-- `git branch feature/create-new-button-component`
-
-You need to fix a bug:
-
-- `git branch bugfix/button-not-working-iphone`
-
-You need to perform experiments:
-
-- `git branch test/apply-new-hover-effect`
-
-## Running Locally
-
-Clone the project
+### 1. Clone the Repository
 
 ```bash
-  git clone [link-projeto]
+git clone https://github.com/ReappMobi/reapp-mobile
+cd reapp-mobile
 ```
 
-Go to the project directory
+### 2. Install Node, Yarn, and Dependencies
+
+Make sure you have `nvm` (Node Version Manager) and `corepack` installed.
+
+```sh
+
+nvm use               # Installs correct node version
+corepack use yarn     # Installs the correct Yarn version
+yarn                  # Installs dependencies
+```
+
+### 3. Set Up Expo and Java
+
+Read the [Expo documentation](https://docs.expo.dev/get-started/set-up-your-environment).
+
+- Use **Development builds** — **do not use Expo Go**
+- For Android builds, use **Java SDK 17**
+
+### 4. Run the App
+
+```sh
+yarn expo prebuild        # Creates binary directories
+yarn expo run:android     # Runs on Android
+yarn expo run:ios         # Runs on iOS
+```
+
+---
+
+## Commits
+
+Any commit that affects the project significantly (new features, bug fixes, dependency updates, business logic changes, etc.) should be made on a **new branch** and later merged into `main`.
+
+Avoid committing directly to the `main` branch. This helps keep the code stable and organized.
+
+## Branch Naming
+
+- `feature`: for adding, refactoring, or removing a feature
+- `bugfix`: for fixing bugs
+- `test`: for experimenting outside a specific task
+
+### Examples
+
+To add, refactor, or remove a feature:
 
 ```bash
-  cd reaap-frontend
+git checkout -b feature/create-button-component
 ```
 
-Install dependencies
+To fix a bug:
 
 ```bash
-  npm install
+git checkout -b bugfix/button-not-working-iphone
 ```
 
-Run the project
+To run experiments:
 
 ```bash
-  npm run start
+git checkout -b test/new-hover-effect
 ```
+
+---
+
+## Portuguese Version
+
+[Voltar para a versão em português](README.pt.md)
