@@ -2991,6 +2991,44 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rn-primitives/avatar@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@rn-primitives/avatar@npm:1.2.0"
+  dependencies:
+    "@rn-primitives/hooks": "npm:1.3.0"
+    "@rn-primitives/slot": "npm:1.2.0"
+    "@rn-primitives/types": "npm:1.2.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-web: "*"
+  peerDependenciesMeta:
+    react-native:
+      optional: true
+    react-native-web:
+      optional: true
+  checksum: 10c0/4fad85ae618b9b36c6e93a87867427b05dc5ad6fc8d8ff58ace5afc054c372ad0f63a5438eb28a620ca3797d14205efeac83205bc00d6e852de5fefba2b30293
+  languageName: node
+  linkType: hard
+
+"@rn-primitives/hooks@npm:1.3.0":
+  version: 1.3.0
+  resolution: "@rn-primitives/hooks@npm:1.3.0"
+  dependencies:
+    "@rn-primitives/types": "npm:1.2.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-web: "*"
+  peerDependenciesMeta:
+    react-native:
+      optional: true
+    react-native-web:
+      optional: true
+  checksum: 10c0/49f5676b97f1adb8a1c39dfe7a976df905aafb7dcec9eaba6bb1aa10f5abda9676fcd972565b0dc9aece39f4d4bda2f7d40e4292ff71d2dabddcbf5d0ec1c473
+  languageName: node
+  linkType: hard
+
 "@rn-primitives/portal@npm:^1.3.0":
   version: 1.3.0
   resolution: "@rn-primitives/portal@npm:1.3.0"
@@ -3009,7 +3047,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rn-primitives/slot@npm:^1.2.0":
+"@rn-primitives/slot@npm:1.2.0, @rn-primitives/slot@npm:^1.2.0":
   version: 1.2.0
   resolution: "@rn-primitives/slot@npm:1.2.0"
   peerDependencies:
@@ -3022,6 +3060,22 @@ __metadata:
     react-native-web:
       optional: true
   checksum: 10c0/ffcafb5ff7c7c104067e9f0bd9ea3516eec902db1ef7dfb3dc7a194bd3704ae6d3d227f4f83e3ead98ed40c644850fcf235db933848ba66b0a78874bf46ea1dd
+  languageName: node
+  linkType: hard
+
+"@rn-primitives/types@npm:1.2.0":
+  version: 1.2.0
+  resolution: "@rn-primitives/types@npm:1.2.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-web: "*"
+  peerDependenciesMeta:
+    react-native:
+      optional: true
+    react-native-web:
+      optional: true
+  checksum: 10c0/059ef0662797bebb491f369e0ab4ee871e154cf6e156f7808e637ddba29498a13fa44d298b67090552fa74142577361d25ef48aa573509387db6c71adad5c738
   languageName: node
   linkType: hard
 
@@ -9282,6 +9336,7 @@ __metadata:
     "@react-navigation/drawer": "npm:^7.5.0"
     "@react-navigation/material-top-tabs": "npm:^7.0.18"
     "@react-navigation/native": "npm:^7.1.8"
+    "@rn-primitives/avatar": "npm:^1.2.0"
     "@rn-primitives/portal": "npm:^1.3.0"
     "@rn-primitives/slot": "npm:^1.2.0"
     "@tanstack/react-query": "npm:^5.75.1"
