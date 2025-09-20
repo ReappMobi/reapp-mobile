@@ -1,3 +1,9 @@
+import {
+  Avatar,
+  AvatarFallback,
+  ExpoAvatarImage,
+} from '@/components/ui/avatar';
+import { Text } from '@/components/ui/text';
 import { Ionicons, Octicons } from '@expo/vector-icons';
 import { DrawerActions } from '@react-navigation/native';
 import { Image } from 'expo-image';
@@ -13,7 +19,9 @@ const TabLayout = () => {
   const navigation = useNavigation();
   const { isDonor, token, user } = useAuth();
 
-  if (!user || !token) { return <Redirect href="welcome" />; }
+  if (!user || !token) {
+    return <Redirect href="welcome" />;
+  }
 
   const onToggle = () => {
     navigation.dispatch(DrawerActions.toggleDrawer());
@@ -60,12 +68,16 @@ const TabLayout = () => {
                 shadowColor: '#000',
               },
               headerLeft: () => (
-                <Pressable onPress={onToggle}>
-                  <Image
-                    source={{ uri: user.media?.remoteUrl }}
-                    placeholder={{ blurhash: user.media?.blurhash }}
-                    className="h-9 w-9 rounded-full"
-                  />
+                <Pressable onPress={onToggle} className="pl-1">
+                  <Avatar alt="User Avatar" className="w-9 h-9">
+                    <ExpoAvatarImage
+                      source={{ uri: user.media?.remoteUrl }}
+                      placeholder={{ blurhash: user.media?.blurhash }}
+                    />
+                    <AvatarFallback>
+                      <Text>{user.name[0]}</Text>
+                    </AvatarFallback>
+                  </Avatar>
                 </Pressable>
               ),
               tabBarIcon: ({ color, size }) => (
@@ -105,18 +117,6 @@ const TabLayout = () => {
               }}
             />
           )}
-
-          {/*
-          <Tabs.Screen
-            name="transparency"
-            options={{
-              headerShown: true,
-              tabBarIcon: ({ size, color }) => (
-                <Ionicons name="receipt-outline" size={size} color={color} />
-              ),
-            }}
-          />
-          */}
 
           {isDonor ? (
             <Tabs.Screen
