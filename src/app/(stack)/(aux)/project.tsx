@@ -1,5 +1,4 @@
 import { Ionicons } from '@expo/vector-icons';
-//import { Video, ResizeMode } from 'expo-av';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -18,8 +17,6 @@ const ProjectPage = () => {
 
   const [project, setProject] = useState<IProject>();
 
-  //const video = useRef(null);
-  //const [isPreloading, setIsPreloading] = useState(true);
   const auth = useAuth();
 
   useEffect(() => {
@@ -76,36 +73,7 @@ const ProjectPage = () => {
             <Text className="mb-5 font-reapp_regular text-base">
               {project.description}
             </Text>
-            {/*
-            {project.introdutionVideo && isPreloading && (
-              <ActivityIndicator
-                animating
-                color={colors.color_primary}
-                size="large"
-                style={{
-                  flex: 1,
-                  position: 'absolute',
-                  top: '50%',
-                  left: '45%',
-                }}
-              />
-            )}
 
-            {project.introdutionVideo && (
-              <Video
-                ref={video}
-                className="mb-5 h-56 w-full"
-                source={{
-                  uri: project.introdutionVideo,
-                }}
-                useNativeControls
-                resizeMode={ResizeMode.CONTAIN}
-                isLooping
-                onLoadStart={() => setIsPreloading(true)}
-                onReadyForDisplay={() => setIsPreloading(false)}
-              />
-            )}
-            */}
             {isDonor && (
               <Button
                 customStyles="w-full justify-center bg-color_primary"

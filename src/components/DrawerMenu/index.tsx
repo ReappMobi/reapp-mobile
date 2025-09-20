@@ -16,15 +16,31 @@ interface DrawerMenuProps {
   navigation: DrawerNavigationHelpers;
 }
 
+const handleCanalDuvidas = () => {
+  const phoneNumber = '9898607-1896';
+
+  const message =
+    'Olá, tudo bem? Estou entrando em contato pelo Canal de Dúvidas e gostaria de tirar uma dúvida. Poderia me ajudar?';
+
+  const whatsappUrl = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+
+  Linking.openURL(whatsappUrl).catch(() => {
+    Alert.alert(
+      'Atenção',
+      'Não foi possível abrir o WhatsApp. Verifique se ele está instalado no dispositivo.'
+    );
+  });
+};
+
 export const DrawerMenu: React.FC<DrawerMenuProps> = memo(({ navigation }) => {
   const { signOut, isDonor } = useAuth();
 
   const [isDonationsOpen, setIsDonationsOpen] = useState(false);
 
   const handleSignOut = async () => {
-    await signOut();
     navigation.closeDrawer();
     router.replace('/welcome');
+    await signOut();
   };
 
   const handleDonationsPress = () => {
@@ -32,26 +48,9 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = memo(({ navigation }) => {
     setIsDonationsOpen(!isDonationsOpen);
   };
 
-  const handleCanalDuvidas = () => {
-    const phoneNumber = '9898607-1896';
-
-    const message =
-      'Olá, tudo bem? Estou entrando em contato pelo Canal de Dúvidas e gostaria de tirar uma dúvida. Poderia me ajudar?';
-
-    const whatsappUrl = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
-
-    Linking.openURL(whatsappUrl).catch(() => {
-      Alert.alert(
-        'Atenção',
-        'Não foi possível abrir o WhatsApp. Verifique se ele está instalado no dispositivo.'
-      );
-    });
-  };
-
   return (
     <View className="flex h-full w-full flex-col pt-4">
       <View className="flex flex-1 flex-col">
-        {/* Acordeão de "Minhas Doações" */}
         {isDonor ? (
           <TouchableOpacity
             className="flex-row justify-between"
@@ -80,7 +79,6 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = memo(({ navigation }) => {
           </TouchableOpacity>
         )}
 
-        {/* Opções internas do acordeão */}
         {isDonationsOpen && (
           <View className="ml-4 flex-col gap-y-2">
             <TouchableOpacity
@@ -113,7 +111,6 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = memo(({ navigation }) => {
           </View>
         )}
 
-        {/* Postagens Salvas */}
         <TouchableOpacity
           className="mt-4 flex-row justify-between"
           onPress={() => {
