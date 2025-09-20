@@ -1,36 +1,28 @@
 import { Ionicons } from '@expo/vector-icons';
-import { DrawerActions } from '@react-navigation/native';
-import { router, useNavigation } from 'expo-router';
+import { router } from 'expo-router';
+import { DrawerNavigationHelpers } from 'node_modules/@react-navigation/drawer/lib/typescript/src/types';
 import React, { memo, useState } from 'react';
 import {
   Alert,
   LayoutAnimation,
   Linking,
-  Platform,
-  Text,
   TouchableOpacity,
-  UIManager,
   View,
 } from 'react-native';
 import { useAuth } from 'src/hooks/useAuth';
 
-if (
-  Platform.OS === 'android' &&
-  UIManager &&
-  UIManager.setLayoutAnimationEnabledExperimental
-) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
+interface DrawerMenuProps {
+  navigation: DrawerNavigationHelpers;
 }
 
-export const DrawerMenu: React.FC = memo(() => {
-  const navigation = useNavigation();
+export const DrawerMenu: React.FC<DrawerMenuProps> = memo(({ navigation }) => {
   const { signOut, isDonor } = useAuth();
 
   const [isDonationsOpen, setIsDonationsOpen] = useState(false);
 
   const handleSignOut = async () => {
     await signOut();
-    navigation.dispatch(DrawerActions.closeDrawer());
+    navigation.closeDrawer();
     router.replace('/welcome');
   };
 
@@ -59,12 +51,11 @@ export const DrawerMenu: React.FC = memo(() => {
     <View className="flex h-full w-full flex-col pt-4">
       <View className="flex flex-1 flex-col">
         {/* Acordeão de "Minhas Doações" */}
-
         {isDonor ? (
           <TouchableOpacity
             className="flex-row justify-between"
             onPress={() => {
-              navigation.dispatch(DrawerActions.closeDrawer());
+              navigation.closeDrawer();
               router.push('/my-donations');
             }}
           >
@@ -94,7 +85,7 @@ export const DrawerMenu: React.FC = memo(() => {
             <TouchableOpacity
               className="mt-4"
               onPress={() => {
-                navigation.dispatch(DrawerActions.closeDrawer());
+                navigation.closeDrawer();
                 router.push('/my-donations-institution-general');
               }}
             >
@@ -103,7 +94,7 @@ export const DrawerMenu: React.FC = memo(() => {
 
             <TouchableOpacity
               onPress={() => {
-                navigation.dispatch(DrawerActions.closeDrawer());
+                navigation.closeDrawer();
                 router.push('/my-donations-institution');
               }}
             >
@@ -112,7 +103,7 @@ export const DrawerMenu: React.FC = memo(() => {
 
             <TouchableOpacity
               onPress={() => {
-                navigation.dispatch(DrawerActions.closeDrawer());
+                navigation.closeDrawer();
                 router.push('/my-donations-institution-project');
               }}
             >
@@ -125,7 +116,7 @@ export const DrawerMenu: React.FC = memo(() => {
         <TouchableOpacity
           className="mt-4 flex-row justify-between"
           onPress={() => {
-            navigation.dispatch(DrawerActions.closeDrawer());
+            navigation.closeDrawer();
             router.push('/saved');
           }}
         >
@@ -137,7 +128,7 @@ export const DrawerMenu: React.FC = memo(() => {
         <TouchableOpacity
           className="mb-4 flex-row items-center gap-x-2"
           onPress={() => {
-            navigation.dispatch(DrawerActions.closeDrawer());
+            navigation.closeDrawer();
             router.push('/privacy');
           }}
         >
