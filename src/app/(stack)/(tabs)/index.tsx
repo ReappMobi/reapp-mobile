@@ -1,3 +1,5 @@
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import { router } from 'expo-router';
 import React, { useCallback, memo } from 'react';
 import {
@@ -5,13 +7,11 @@ import {
   FlatList,
   ListRenderItem,
   RefreshControl,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Button, CardPost } from 'src/components';
+import { CardPost } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
-import { usePosts } from 'src/hooks/usePosts';
 import {
   likePost,
   savePost,
@@ -163,15 +163,12 @@ export default function Page() {
     <View className="flex-1 bg-white px-2 pt-1">
       {isDonor && (
         <Button
-          size="small"
-          textColor="text-white"
-          customStyles="mb-2 justify-center bg-color_third"
           onPress={() => router.push('/donate')}
+          className="bg-color_third active:bg-color_third/90 mb-2 w-full"
         >
-          Doar para instituições sociais
+          <Text>Doar para instituições sociais</Text>
         </Button>
       )}
-
       <PostList />
     </View>
   );

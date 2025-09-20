@@ -70,10 +70,13 @@ const TabLayout = () => {
               headerLeft: () => (
                 <Pressable onPress={onToggle} className="pl-1">
                   <Avatar alt="User Avatar" className="w-9 h-9">
-                    <ExpoAvatarImage
-                      source={{ uri: user.media?.remoteUrl }}
-                      placeholder={{ blurhash: user.media?.blurhash }}
-                    />
+                    {user.media &&
+                      (user.media.remoteUrl || user.media.blurhash) && (
+                        <ExpoAvatarImage
+                          source={{ uri: user.media?.remoteUrl }}
+                          placeholder={{ blurhash: user.media?.blurhash }}
+                        />
+                      )}
                     <AvatarFallback>
                       <Text>{user.name[0]}</Text>
                     </AvatarFallback>
