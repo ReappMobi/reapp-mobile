@@ -1,10 +1,11 @@
+import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import React from 'react';
 import { View } from 'react-native';
 import { HeaderStatisticsProfile } from 'src/components';
 import { DrawerMenu } from 'src/components/DrawerMenu';
 import { useAuth } from 'src/hooks/useAuth';
 
-const DrawerContent = () => {
+const DrawerContent = ({navigation}: DrawerContentComponentProps) => {
   const { user, token } = useAuth();
 
   if (!user || !token) { return null; }
@@ -22,7 +23,7 @@ const DrawerContent = () => {
       </View>
       <View className="w-full flex-1 bg-white px-6">
         <View className="mt-4">
-          <DrawerMenu />
+          <DrawerMenu navigation={navigation} />
         </View>
       </View>
     </View>
