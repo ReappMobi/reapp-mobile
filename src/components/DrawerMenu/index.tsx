@@ -6,21 +6,10 @@ import {
   Alert,
   LayoutAnimation,
   Linking,
-  Platform,
-  Text,
   TouchableOpacity,
-  UIManager,
   View,
 } from 'react-native';
 import { useAuth } from 'src/hooks/useAuth';
-
-if (
-  Platform.OS === 'android' &&
-  UIManager &&
-  UIManager.setLayoutAnimationEnabledExperimental
-) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
 
 interface DrawerMenuProps {
   navigation: DrawerNavigationHelpers;
