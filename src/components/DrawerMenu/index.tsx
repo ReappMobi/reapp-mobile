@@ -6,6 +6,7 @@ import {
   Alert,
   LayoutAnimation,
   Linking,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';

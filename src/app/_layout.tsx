@@ -13,9 +13,11 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AuthProvider } from 'src/contexts/auth';
-
 import DrawerContent from './(stack)/(drawer)/profile';
-import { Query, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { PortalHost } from '@rn-primitives/portal';
+
+import '../styles/global.css';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -57,6 +59,7 @@ export default function RootLayout() {
               drawerStyle: { width: '78%' },
             }}
           />
+          <PortalHost />
         </AuthProvider>
       </QueryClientProvider>
     </GestureHandlerRootView>
