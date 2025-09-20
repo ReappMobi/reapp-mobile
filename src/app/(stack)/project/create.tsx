@@ -34,10 +34,10 @@ type ModalOptionsProps = {
 const ModalOptions: React.FC<ModalOptionsProps> = React.memo(
   ({ selectGallery, selectCamera }) => {
     return (
-      <View className="h-54 space-y-4 p-4">
+      <View className="h-54 gap-y-4 p-4">
         <Text className="text-lg font-bold">Selecionar Mídia</Text>
         <Pressable onPress={selectGallery}>
-          <View className="flex-row items-center space-x-4">
+          <View className="flex-row items-center gap-x-4">
             <Ionicons name="images-outline" size={24} color="black" />
             <View>
               <Text className="text-md font-medium">Galeria</Text>
@@ -47,7 +47,7 @@ const ModalOptions: React.FC<ModalOptionsProps> = React.memo(
         </Pressable>
 
         <Pressable onPress={selectCamera}>
-          <View className="flex-row items-center space-x-4">
+          <View className="flex-row items-center gap-x-4">
             <Feather name="camera" size={24} color="black" />
             <View>
               <Text className="text-md font-medium">Câmera</Text>
@@ -124,7 +124,7 @@ const Page: React.FC = () => {
           <Text className="font-reapp_bold text-xl">Adicionar projeto</Text>
           <Text className="mt-3 text-xs">* item obrigatório</Text>
         </View>
-        <ScrollView className="mt-2 space-y-4">
+        <ScrollView className="mt-2 gap-y-4">
           <View className="mt-4">
             <Text className="mb-1 font-reapp_medium text-sm">
               Nome do projeto*
@@ -195,7 +195,7 @@ const Page: React.FC = () => {
             <Button
               startIcon={<AntDesign name="plus" size={24} color="#6b7280" />}
               variant="outlined"
-              customStyles="border-1 justify-start space-x-4 rounded-full border border-gray-400 bg-transparent p-3"
+              customStyles="border-1 justify-start gap-x-4 rounded-full border border-gray-400 bg-transparent p-3"
               onPress={onOpenModal}
             >
               <Text className="text-sm text-gray-800">Adicionar mídia</Text>

@@ -22,7 +22,7 @@ export default function ProfileSelector() {
                 color={colors.text_neutral}
               />
             }
-            customStyles="w-64 justify-center space-x-2"
+            customStyles="w-64 justify-center gap-x-2"
             onPress={() => {
               router.replace({ pathname: 'sign-up-donor' });
             }}
@@ -40,7 +40,7 @@ export default function ProfileSelector() {
                 color={colors.text_neutral}
               />
             }
-            customStyles="w-64 justify-center space-x-2"
+            customStyles="w-64 justify-center gap-x-2"
             onPress={() => router.replace({ pathname: '/sign-up-institution' })}
           >
             Sou Instituição

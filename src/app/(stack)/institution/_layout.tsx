@@ -49,7 +49,9 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
   }, [institution?.isFollowing]);
 
   const handleFollow = async () => {
-    if (!institution?.account) { return; }
+    if (!institution?.account) {
+      return;
+    }
     try {
       await followAccount({ id: institution.account.id, token });
       setIsFollowing(true);
@@ -60,7 +62,9 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
   };
 
   const handleUnfollow = async () => {
-    if (!institution?.account) { return; }
+    if (!institution?.account) {
+      return;
+    }
     try {
       await unfollowAccount({ id: institution.account.id, token });
       setIsFollowing(false);
@@ -88,7 +92,7 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
 
   return (
     <View>
-      <View className="mt-4 flex-row items-center space-x-2 py-4">
+      <View className="mt-4 flex-row items-center gap-x-2 py-4">
         <Image
           className="h-16 w-16 rounded-full"
           source={
@@ -104,7 +108,7 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
           contentFit="cover"
           transition={500}
         />
-        <View className="w-full flex-1 space-y-0 pt-4">
+        <View className="w-full flex-1 gap-y-0 pt-4">
           <Text className="font-reapp_bold text-lg">
             {institution?.account?.name ?? ''}
           </Text>
@@ -124,7 +128,7 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
             </View>
           )}
 
-          <View className="space-y-2">
+          <View className="gap-y-2">
             <Button
               textColor="text-white"
               size="small"
@@ -158,7 +162,7 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
                   startIcon={
                     <Ionicons name="chevron-forward" size={20} color="#000" />
                   }
-                  customStyles="flex-1 items-center justify-start space-x-1"
+                  customStyles="flex-1 items-center justify-start gap-x-1"
                   size="small"
                   textSize="text-sm"
                   onPress={handleVolunteerPress}
@@ -171,7 +175,7 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
         </View>
       </View>
 
-      <View className="flex-row justify-center space-x-2 py-4">
+      <View className="flex-row justify-center gap-x-2 py-4">
         <Text className="text-md font-reapp_medium">
           <Text className="text-md font-reapp_bold text-text_primary">
             {followersCount}
