@@ -1,4 +1,6 @@
-import api from './api';
+import api, { ApiError } from './api';
+import { useMutation, type UseMutationOptions } from '@tanstack/react-query';
+import type { Account } from '@/types/Account';
 
 export type RequestMedia = {
   uri: string;
@@ -17,43 +19,45 @@ type UpdateAccountRequest = {
   fields?: Record<string, string>;
   password?: string;
   passwordConfirmation?: string;
+  media?: RequestMedia | null;
 };
 
-export const updateAccount = async (
-  token: string,
-  accountType: string,
-  media: RequestMedia | null,
-  requestData: UpdateAccountRequest
-) => {
-  try {
-    const formData = new FormData();
+type UpdateAccountParams = {
+  accountId: number;
+  token: string;
+  payload: UpdateAccountRequest;
+};
 
-    formData.append('accountType', accountType);
+export const updateAccount = async ({
+  token,
+  accountId,
+  payload,
+}: UpdateAccountParams) => {
 
-    for (const key in requestData) {
-      if (requestData[key]) {
-        formData.append(key, requestData[key]);
-      }
+  const formData = new FormData();
+  for (const key in payload) {
+    if (payload[key]) {
+      formData.append(key, payload[key]);
     }
-
-    if (media) {
-      formData.append('media', media as any);
-    }
-
-    const response = await api.put('/account', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (response.status !== 200) {
-      throw new Error(response.data.message || 'Erro ao atualizar perfil');
-    }
-
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
   }
+
+  const response = await api.putForm<Account | ApiError>(`/account/${accountId}`, formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (response.status !== 200) {
+    const { message } = response.data as ApiError;
+    throw new ApiError(message || 'Erro ao atualizar perfil', response.status);
+  }
+
+  return response.data;
+};
+
+export const useUpdateAccount = (options?: UseMutationOptions<Account, ApiError, UpdateAccountParams, unknown>) => {
+  return useMutation({
+    mutationFn: updateAccount,
+    ...options,
+  });
 };
