@@ -2407,6 +2407,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-label@npm:^2.1.7":
+  version: 2.1.7
+  resolution: "@radix-ui/react-label@npm:2.1.7"
+  dependencies:
+    "@radix-ui/react-primitive": "npm:2.1.3"
+  peerDependencies:
+    "@types/react": "*"
+    "@types/react-dom": "*"
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: 10c0/d8c81411d5327b6db5cbf4b900bfcc52030315539911701cf8d82b4970aed80cbd66df5b62d2242859572c666cf4b0e147a8b39dc3c04bd024a4b4405e1183fe
+  languageName: node
+  linkType: hard
+
 "@radix-ui/react-portal@npm:1.1.9":
   version: 1.1.9
   resolution: "@radix-ui/react-portal@npm:1.1.9"
@@ -3026,6 +3045,26 @@ __metadata:
     react-native-web:
       optional: true
   checksum: 10c0/49f5676b97f1adb8a1c39dfe7a976df905aafb7dcec9eaba6bb1aa10f5abda9676fcd972565b0dc9aece39f4d4bda2f7d40e4292ff71d2dabddcbf5d0ec1c473
+  languageName: node
+  linkType: hard
+
+"@rn-primitives/label@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@rn-primitives/label@npm:1.2.0"
+  dependencies:
+    "@radix-ui/react-label": "npm:^2.1.7"
+    "@rn-primitives/slot": "npm:1.2.0"
+    "@rn-primitives/types": "npm:1.2.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-web: "*"
+  peerDependenciesMeta:
+    react-native:
+      optional: true
+    react-native-web:
+      optional: true
+  checksum: 10c0/76b1519481157e5c09d00d6f883d7f147953486f0aa4df28639978a153f45d9f9a1619d93b0bf346c7718ce94040ded8c4a6de54297903919af06546ccd1eb5f
   languageName: node
   linkType: hard
 
@@ -7214,6 +7253,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lucide-react-native@npm:^0.544.0":
+  version: 0.544.0
+  resolution: "lucide-react-native@npm:0.544.0"
+  peerDependencies:
+    react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-native: "*"
+    react-native-svg: ^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0
+  checksum: 10c0/050d3875af679eff153462d21ab68b8fc29d88c40e4110c7ec5e4ab3955283120984777c2978df849bc37b7e348f984c78462c8daa128032a20fb259d77f29ea
+  languageName: node
+  linkType: hard
+
 "make-fetch-happen@npm:^14.0.3":
   version: 14.0.3
   resolution: "make-fetch-happen@npm:14.0.3"
@@ -9337,6 +9387,7 @@ __metadata:
     "@react-navigation/material-top-tabs": "npm:^7.0.18"
     "@react-navigation/native": "npm:^7.1.8"
     "@rn-primitives/avatar": "npm:^1.2.0"
+    "@rn-primitives/label": "npm:^1.2.0"
     "@rn-primitives/portal": "npm:^1.3.0"
     "@rn-primitives/slot": "npm:^1.2.0"
     "@tanstack/react-query": "npm:^5.75.1"
@@ -9366,6 +9417,7 @@ __metadata:
     install: "npm:^0.13.0"
     jsonwebtoken: "npm:^9.0.2"
     jwt-decode: "npm:^4.0.0"
+    lucide-react-native: "npm:^0.544.0"
     nativewind: "npm:^4.2.1"
     react: "npm:19.1.0"
     react-dom: "npm:19.1.0"
