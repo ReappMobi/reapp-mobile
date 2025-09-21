@@ -1,9 +1,17 @@
 import axios from 'axios';
 
-
-// TODO: Test real cases to define the best timeout value
 const MAX_TIMEOUT = 5 * 1000; // 5 seconds
 const TIMEOUT_ERROR_MESSAGE = 'Erro ao conectar com o servidor';
+
+export class ApiError extends Error {
+  status?: number;
+  message: string;
+  constructor(message: string, status?: number) {
+    super(message);
+    this.status = status;
+    this.message = message;
+  }
+}
 
 const api = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
@@ -15,6 +23,7 @@ const api = axios.create({
   validateStatus() {
     return true;
   },
+  withCredentials: true,
 });
 
 export default api;
