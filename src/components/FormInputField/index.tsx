@@ -1,5 +1,8 @@
 import { Controller } from 'react-hook-form';
-import { Text, TextInput, View } from 'react-native';
+import { View } from 'react-native';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { Text } from '../ui/text';
 
 type FormInputFieldProps = {
   control: any;
@@ -7,38 +10,35 @@ type FormInputFieldProps = {
   label: string;
   placeholder: string;
   error: any;
-  Icon: React.FC;
 };
 
-export const FormInputField: React.FC<FormInputFieldProps> = ({
+export const FormInput: React.FC<FormInputFieldProps> = ({
   control,
   name,
   label,
   placeholder,
   error,
-  Icon,
 }) => {
   return (
-    <View className="my-2 w-full">
-      <Text className="w-content mb-2 text-sm">{label}</Text>
-      <View className="h-16 w-full flex-row items-center gap-x-1 rounded-md border border-2 border-text_primary px-2">
-        <Controller
-          control={control}
-          name={name}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholder={placeholder}
-              className="flex-1"
-            />
-          )}
-        />
-        <Icon />
-      </View>
+    <View className="my-1 w-full">
+      <Label className="w-content text-xs font-bold text-foreground">
+        {label}
+      </Label>
+      <Controller
+        control={control}
+        name={name}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            placeholder={placeholder}
+            className="active:border-color_primary focus:border-color_primary border-color_primary/50 h-11 rounded-sm"
+          />
+        )}
+      />
       {error[name] && (
-        <Text className="text-red-401 text-sm font-bold">
+        <Text className="text-red-400 text-sm font-bold">
           {error[name].message}
         </Text>
       )}
