@@ -1,12 +1,7 @@
+import { useMediaPicker } from '@/hooks/useMediaPicker';
 import { Ionicons } from '@expo/vector-icons';
-import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Image } from 'expo-image';
-import {
-  MediaType,
-  launchImageLibraryAsync,
-  requestMediaLibraryPermissionsAsync,
-} from 'expo-image-picker';
-import { router } from 'expo-router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
@@ -17,12 +12,12 @@ import {
   View,
 } from 'react-native';
 import { Button } from 'src/components';
-import { FormInputField } from 'src/components/FormInputField';
+import { FormInput } from 'src/components/FormInputField';
 import { useAuth } from 'src/hooks/useAuth';
-import { RequestMedia, updateAccount } from 'src/services/account';
+import { type RequestMedia, useUpdateAccount } from 'src/services/account';
 import {
-  FormData,
-  schema,
+  type EditDonorProfileData,
+  editDonorProfileSchema,
 } from 'src/utils/profile-page/edit-donor-profile-schema';
 
 const EditProfileForm = () => {
@@ -31,64 +26,48 @@ const EditProfileForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(editDonorProfileSchema),
+  });
+  const { token, user, saveUserAndToken } = useAuth();
+  const [media, setMedia] = useState<RequestMedia | null>(null);
+  const { pickMedia } = useMediaPicker();
+
+  const { mutateAsync: updateAccount, isPending: loading } = useUpdateAccount({
+    onSuccess: async (response) => {
+      await saveUserAndToken(response, token);
+      Alert.alert('Sucesso!', 'Perfil atualizado com sucesso.');
+    },
+    onError: (error) => {
+      Alert.alert('Erro ao atualizar perfil', error.message);
+    },
   });
 
-  const { token, user, saveUserAndToken } = useAuth();
-  const [loading, setLoading] = useState(false);
-  const [media, setMedia] = useState<RequestMedia | null>(null);
-  const mediaTypes: MediaType[] = ['images'];
-
-  const requestGalleryPermission = async () => {
-    const { status } = await requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('Precisamos de permissão para acessar a galeria.');
-    }
-  };
-
   const pickImage = async () => {
-    await requestGalleryPermission();
-    const result = await launchImageLibraryAsync({
-      mediaTypes,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      const { uri, fileName, mimeType, fileSize, width, height } =
-        result.assets[0];
+    await pickMedia(['images'], (image) => {
       setMedia({
-        uri,
-        name: fileName,
-        type: mimeType,
-        size: fileSize,
-        width,
-        height,
+        uri: image.uri,
+        name: image.fileName,
+        type: image.type,
+        size: image.fileSize,
+        width: image.width,
+        height: image.height,
       });
-    }
+    });
   };
 
-  const onSubmit = async (data: FormData) => {
-    if (loading) { return; }
-    setLoading(true);
-    try {
-      const response = await updateAccount(
-        token,
-        user.accountType,
-        media,
-        data
-      );
-      if (response) {
-        await saveUserAndToken(response, token);
-        Alert.alert('Sucesso!', 'Perfil atualizado com sucesso.');
-      }
-    } catch (error) {
-      Alert.alert('Erro ao atualizar perfil', error.message);
-    } finally {
-      router.replace('/');
-      setLoading(false);
+  const onSubmit = async (data: EditDonorProfileData) => {
+    if (loading) {
+      return;
     }
+
+    await updateAccount({
+      accountId: user.id,
+      token,
+      payload: {
+        ...data,
+        media,
+      },
+    });
   };
 
   return (
@@ -107,53 +86,44 @@ const EditProfileForm = () => {
         </View>
       </Pressable>
 
-      <FormInputField
+      <FormInput
         control={control}
         name="name"
         label="Nome"
         placeholder={user.name}
         error={errors}
-        Icon={() => <Ionicons name="person-sharp" size={16} color="black" />}
       />
 
-      <FormInputField
+      <FormInput
         control={control}
         name="note"
         label="Nota"
         placeholder={user.note}
         error={errors}
-        Icon={() => <Ionicons name="sparkles" size={16} color="black" />}
       />
 
-      <FormInputField
+      <FormInput
         control={control}
         name="email"
         label="Email"
         placeholder={user.email}
         error={errors}
-        Icon={() => <Ionicons name="mail-sharp" size={16} color="black" />}
       />
 
-      <FormInputField
+      <FormInput
         control={control}
         name="password"
         label="Senha"
         placeholder="●●●●●●●●"
         error={errors}
-        Icon={() => (
-          <Ionicons name="ellipsis-horizontal" size={20} color="black" />
-        )}
       />
 
-      <FormInputField
+      <FormInput
         control={control}
         name="confirmPassword"
         label="Confirmar Senha"
         placeholder="●●●●●●●●"
         error={errors}
-        Icon={() => (
-          <Ionicons name="ellipsis-horizontal" size={20} color="black" />
-        )}
       />
 
       <Button
