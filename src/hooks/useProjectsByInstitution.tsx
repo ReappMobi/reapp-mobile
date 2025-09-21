@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getProjectByInstitutionId } from 'src/services/app-core';
-import { IProject } from 'src/types';
+import type { IProject } from 'src/types';
 
 import { useAuth } from './useAuth';
 

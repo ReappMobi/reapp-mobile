@@ -1,4 +1,4 @@
-import { DrawerContentComponentProps } from '@react-navigation/drawer';
+import type { DrawerContentComponentProps } from '@react-navigation/drawer';
 import React from 'react';
 import { View } from 'react-native';
 import { HeaderStatisticsProfile } from 'src/components';

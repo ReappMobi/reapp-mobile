@@ -3,7 +3,7 @@ import { memo } from 'react';
 import {
   ActivityIndicator,
   FlatList,
-  ListRenderItem,
+  type ListRenderItem,
   RefreshControl,
   Text,
   TouchableOpacity,
@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import VolunteerCard from 'src/components/VolunteerCard';
 import { useVolunteersByInstitution } from 'src/hooks/useVolunteersByInstitution';
-import { IVolunteer } from 'src/types/IVolunteer';
+import type { IVolunteer } from 'src/types/IVolunteer';
 
 type VolunteerItemProps = {
   item: IVolunteer;

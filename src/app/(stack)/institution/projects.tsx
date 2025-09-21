@@ -4,7 +4,7 @@ import { memo, useCallback } from 'react';
 import {
   ActivityIndicator,
   FlatList,
-  ListRenderItem,
+  type ListRenderItem,
   RefreshControl,
   Text,
   TouchableOpacity,
@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import CardInstitutionProject from 'src/components/CardInstitutionProject';
 import { useProjectsByInstitution } from 'src/hooks/useProjectsByInstitution';
-import { IProject } from 'src/types';
+import type { IProject } from 'src/types';
 
 type ProjectListProps = {
   item: IProject;

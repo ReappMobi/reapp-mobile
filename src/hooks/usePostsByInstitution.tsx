@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getInstituitionPosts } from 'src/services/app-core';
-import { IPost } from 'src/types';
+import type { IPost } from 'src/types';
 
 import { useAuth } from './useAuth';
 

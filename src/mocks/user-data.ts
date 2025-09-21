@@ -1,4 +1,4 @@
-import { IProject } from 'src/types';
+import type { IProject } from 'src/types';
 
 export interface IDonor {
   id: number;

@@ -15,7 +15,7 @@ import {
   UNMATCHED_PASSWORD_MESSAGE,
 } from './constants';
 
-export const schema = z
+export const editDonorProfileSchema = z
   .object({
     name: z
       .string()
@@ -45,4 +45,4 @@ export const schema = z
     path: ['confirmPassword'],
   });
 
-export type FormData = z.infer<typeof schema>;
+export type EditDonorProfileData = z.infer<typeof editDonorProfileSchema>;

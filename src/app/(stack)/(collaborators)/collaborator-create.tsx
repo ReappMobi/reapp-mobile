@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 import { Button } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
-import { RequestMedia } from 'src/services/account';
+import type { RequestMedia } from 'src/services/account';
 import { postInstitutionMember } from 'src/services/app-core';
 import { z } from 'zod';
 

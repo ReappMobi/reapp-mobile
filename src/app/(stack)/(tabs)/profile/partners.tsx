@@ -5,7 +5,7 @@ import { memo } from 'react';
 import {
   ActivityIndicator,
   FlatList,
-  ListRenderItem,
+  type ListRenderItem,
   RefreshControl,
   Text,
   TouchableOpacity,
@@ -15,7 +15,7 @@ import { Button } from 'src/components';
 import PartnerCard from 'src/components/PartnerCard';
 import colors from 'src/constants/colors';
 import { usePartnersByInstitution } from 'src/hooks/usePartnersByInstitution';
-import { IPartner } from 'src/types/IPartner';
+import type { IPartner } from 'src/types/IPartner';
 
 const renderHeader = () => (
   <View className="mb-3 items-center justify-center">

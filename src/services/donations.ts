@@ -4,7 +4,7 @@ const DONATIONS_LIST_LIMIT = 10;
 
 export const getDonationsByDonor = async (
   donorId: number,
-  page: number = 1,
+  page = 1,
   token: string,
   period: string
 ) => {
@@ -27,7 +27,7 @@ export const getDonationsByDonor = async (
 };
 
 export const getInstitutionDonations = async (
-  page: number = 1,
+  page = 1,
   period: string,
   token: string
 ) => {
@@ -50,7 +50,7 @@ export const getInstitutionDonations = async (
 };
 
 export const getGeneralDonations = async (
-  page: number = 1,
+  page = 1,
   period: string,
   token: string
 ) => {
@@ -73,7 +73,7 @@ export const getGeneralDonations = async (
 };
 
 export const getProjectDonations = async (
-  page: number = 1,
+  page = 1,
   period: string,
   token: string
 ) => {

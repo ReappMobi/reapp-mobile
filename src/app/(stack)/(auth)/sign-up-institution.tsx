@@ -1,12 +1,13 @@
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  MediaType,
+  type MediaType,
   launchImageLibraryAsync,
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 import { router } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
   ActivityIndicator,
@@ -24,9 +25,9 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 import { Button } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
-import { RequestMedia } from 'src/services/account';
+import type { RequestMedia } from 'src/services/account';
 import { getInstitutionCategories } from 'src/services/app-core';
-import { SignUpData } from 'src/types';
+import type { SignUpData } from 'src/types';
 import { z } from 'zod';
 
 // ----------------------

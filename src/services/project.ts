@@ -1,6 +1,6 @@
 import { ApiResponseError } from 'src/errors/ApiResponseError';
-import { ApiErrorResponse } from 'src/types/IApiResponseError';
-import { Category } from 'src/types/ICategory';
+import type { ApiErrorResponse } from 'src/types/IApiResponseError';
+import type { Category } from 'src/types/ICategory';
 
 import api from './api';
 

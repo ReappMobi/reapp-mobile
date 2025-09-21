@@ -6,7 +6,7 @@ import { ActivityIndicator, Alert, Text, View } from 'react-native';
 import { Button, Input } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import {
-  signInFormData,
+  type signInFormData,
   signInFormSchema,
 } from 'src/schemas/auth/sign-in.schema';
 

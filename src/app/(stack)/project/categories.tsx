@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native';
 import { Input } from 'src/components';
 import { useProject } from 'src/hooks/useProject';
-import { Category } from 'src/types/ICategory';
+import type { Category } from 'src/types/ICategory';
 import { debounce } from 'src/utils/functools';
 
 const Page = () => {

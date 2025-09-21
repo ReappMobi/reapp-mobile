@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
   Alert,
   FlatList,
-  ListRenderItem,
+  type ListRenderItem,
   RefreshControl,
   Text,
   TouchableOpacity,
@@ -24,7 +24,7 @@ import {
   unlikePost,
   unsavePost,
 } from 'src/services/app-core';
-import { IPost } from 'src/types';
+import type { IPost } from 'src/types';
 
 type PostItemProps = {
   item: IPost;

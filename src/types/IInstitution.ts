@@ -1,6 +1,6 @@
-import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
+import type { ICategory } from 'src/mocks/app-InstitutionCategory-data';
 
-import { IMedia } from './IMedia';
+import type { IMedia } from './IMedia';
 
 export interface IInstitution {
   id: number;

@@ -1,19 +1,19 @@
 import {
-  ICategory,
+  type ICategory,
   institutionCategories,
 } from 'src/mocks/app-InstitutionCategory-data';
 import { banners } from 'src/mocks/app-banners-data';
 import {
-  IDonationEixo,
+  type IDonationEixo,
   donationsByEixo,
 } from 'src/mocks/app-donationEixo-data';
 import {
-  IDonationSegment,
+  type IDonationSegment,
   donationsBySegment,
 } from 'src/mocks/app-donationSegment-data';
-import { IBanner } from 'src/types';
+import type { IBanner } from 'src/types';
 
-import { RequestMedia } from './account';
+import type { RequestMedia } from './account';
 import api from './api';
 
 export async function getSharedCampaigns(): Promise<IBanner[]> {

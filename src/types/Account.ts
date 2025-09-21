@@ -1,14 +1,14 @@
 export enum AccountType {
-  ADMIN,
-  DONOR,
-  INSTITUTION,
+  ADMIN = 0,
+  DONOR = 1,
+  INSTITUTION = 2,
 }
 export enum AccountStatus {
-  ACTIVE,
-  INACTIVE,
-  SUSPENDED,
-  BANNED,
-  PENDING,
+  ACTIVE = 0,
+  INACTIVE = 1,
+  SUSPENDED = 2,
+  BANNED = 3,
+  PENDING = 4,
 }
 
 export type Account = {

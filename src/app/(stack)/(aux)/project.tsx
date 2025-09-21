@@ -8,7 +8,7 @@ import { Button } from 'src/components';
 import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { getProjectById } from 'src/services/app-core';
-import { IProject } from 'src/types';
+import type { IProject } from 'src/types';
 
 const ProjectPage = () => {
   const navigation = useNavigation();

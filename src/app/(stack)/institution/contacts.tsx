@@ -1,7 +1,7 @@
 import { useRoute } from '@react-navigation/native';
 import React, { memo } from 'react';
 import { Text, View } from 'react-native';
-import { IInstitution } from 'src/types';
+import type { IInstitution } from 'src/types';
 
 function Contacts() {
   const route = useRoute();

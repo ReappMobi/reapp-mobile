@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   Alert,
   FlatList,
-  ListRenderItem,
+  type ListRenderItem,
   RefreshControl,
   Text,
   TouchableOpacity,
@@ -17,7 +17,7 @@ import CardInstitutionProject from 'src/components/CardInstitutionProject';
 import colors from 'src/constants/colors';
 import { useProjectsByInstitution } from 'src/hooks/useProjectsByInstitution';
 import { deleteProject } from 'src/services/app-core';
-import { IProject } from 'src/types';
+import type { IProject } from 'src/types';
 
 type ProjectListProps = {
   item: IProject;

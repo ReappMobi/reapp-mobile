@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { IPost } from 'src/types';
+import type { IPost } from 'src/types';
 
 const createPost = (id: number): IPost => {
   return {

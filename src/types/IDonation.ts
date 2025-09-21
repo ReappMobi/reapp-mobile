@@ -1,15 +1,15 @@
-import { IDonor } from 'src/mocks/user-data';
+import type { IDonor } from 'src/mocks/user-data';
 
-import { IInstitution } from './IInstitution';
-import { IMedia } from './IMedia';
-import { IProject } from './IProject';
+import type { IInstitution } from './IInstitution';
+import type { IMedia } from './IMedia';
+import type { IProject } from './IProject';
 
 enum DonationStatus {
-  PENDING,
-  APPROVED,
-  REJECTED,
-  FAILED,
-  CANCELLED,
+  PENDING = 0,
+  APPROVED = 1,
+  REJECTED = 2,
+  FAILED = 3,
+  CANCELLED = 4,
 }
 
 export interface Donation {

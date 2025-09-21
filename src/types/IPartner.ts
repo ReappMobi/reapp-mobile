@@ -1,4 +1,4 @@
-import { IMedia } from './IMedia';
+import type { IMedia } from './IMedia';
 
 export interface IPartner {
   id: number;

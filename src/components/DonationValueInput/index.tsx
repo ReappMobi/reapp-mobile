@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { TextInput, TextInputProps } from 'react-native';
+import { TextInput, type TextInputProps } from 'react-native';
 
 type DonationValueInputProps = Omit<
   TextInputProps,
@@ -23,7 +23,7 @@ export const DonationValueInput = memo(function DonationValueInput({
 
   const handleChange = (text: string) => {
     const digitsOnly = text.replace(/\D/g, '');
-    const newValueInCents = digitsOnly ? parseInt(digitsOnly, 10) : 0;
+    const newValueInCents = digitsOnly ? Number.parseInt(digitsOnly, 10) : 0;
     onChangeValue(newValueInCents);
   };
 

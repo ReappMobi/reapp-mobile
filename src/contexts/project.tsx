@@ -1,9 +1,9 @@
 import { createContext, useState } from 'react';
-import { ApiResponseError } from 'src/errors/ApiResponseError';
+import type { ApiResponseError } from 'src/errors/ApiResponseError';
 import { createProject, getProjectsCategories } from 'src/services/project';
-import { IProject } from 'src/types';
-import { ApiErrorResponse } from 'src/types/IApiResponseError';
-import { Category } from 'src/types/ICategory';
+import type { IProject } from 'src/types';
+import type { ApiErrorResponse } from 'src/types/IApiResponseError';
+import type { Category } from 'src/types/ICategory';
 
 interface ProjectContextData {
   getProjects(): Promise<void>;

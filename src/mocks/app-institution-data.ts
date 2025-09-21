@@ -1,4 +1,4 @@
-import { IInstitution } from 'src/types';
+import type { IInstitution } from 'src/types';
 
 export const institutions: IInstitution[] = [
   {

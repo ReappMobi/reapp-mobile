@@ -6,7 +6,7 @@ import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { toggleFavoriteProject } from 'src/services/app-core';
 import { getFavoritesProjects } from 'src/services/user';
-import { IProject } from 'src/types';
+import type { IProject } from 'src/types';
 
 const Page = () => {
   const navigation = useNavigation();

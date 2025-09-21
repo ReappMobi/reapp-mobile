@@ -14,7 +14,7 @@ const Tab = createMaterialTopTabNavigator();
 // Simple debounce function
 const debounce = (func, delay) => {
   let timeoutId: any;
-  return function (...args) {
+  return (...args) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
       func(...args);

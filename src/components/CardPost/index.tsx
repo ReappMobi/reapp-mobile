@@ -3,6 +3,9 @@ import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
+import { Icon } from '../ui/icon';
+import { Bookmark, Heart, MessageCircle } from 'lucide-react-native';
+import { cn } from '@/lib/utils';
 
 type CardPostProps = {
   postId: string | number;
@@ -80,7 +83,7 @@ function CardPost({
   };
 
   return (
-    <View className="w-full bg-white p-4">
+    <View className="w-full bg-white pt-4 px-4">
       <View className="flex flex-row justify-between">
         <Pressable onPress={onPressInstitutionProfile}>
           <View className="mb-2.5 flex-row items-center gap-x-2">
@@ -151,23 +154,29 @@ function CardPost({
 
         <View className="flex-row gap-x-4">
           <Pressable onPress={handleLikePress}>
-            <Ionicons
-              name={isLiked ? 'heart-sharp' : 'heart-outline'}
-              size={20}
-              color="black"
+            <Icon
+              as={Heart}
+              size={24}
+              className={cn(
+                'text-foreground',
+                isLiked && 'text-rose-500 fill-rose-500'
+              )}
             />
           </Pressable>
 
           <Pressable onPress={handleSavePress}>
-            <Ionicons
-              name={isSaved ? 'bookmark' : 'bookmark-outline'}
-              size={20}
-              color="black"
+            <Icon
+              as={Bookmark}
+              size={24}
+              className={cn(
+                'text-foreground',
+                isSaved && 'fill-gray-800 text-gray-800'
+              )}
             />
           </Pressable>
 
           <Pressable onPress={handleCommentPress}>
-            <Ionicons name="chatbubbles-outline" size={20} color="black" />
+            <Icon as={MessageCircle} size={24} className="text-gray-700" />
           </Pressable>
         </View>
       </View>

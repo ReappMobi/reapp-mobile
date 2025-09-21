@@ -1,5 +1,5 @@
-import { IInstitution } from './IInstitution';
-import { IMedia } from './IMedia';
+import type { IInstitution } from './IInstitution';
+import type { IMedia } from './IMedia';
 
 export type AccountType = {
   accountType: 'DONOR' | 'INSTITUTION';

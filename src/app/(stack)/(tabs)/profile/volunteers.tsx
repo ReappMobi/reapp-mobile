@@ -5,7 +5,7 @@ import { memo } from 'react';
 import {
   ActivityIndicator,
   FlatList,
-  ListRenderItem,
+  type ListRenderItem,
   RefreshControl,
   Text,
   TouchableOpacity,
@@ -15,7 +15,7 @@ import { Button } from 'src/components';
 import VolunteerCard from 'src/components/VolunteerCard';
 import colors from 'src/constants/colors';
 import { useVolunteersByInstitution } from 'src/hooks/useVolunteersByInstitution';
-import { IVolunteer } from 'src/types/IVolunteer';
+import type { IVolunteer } from 'src/types/IVolunteer';
 
 type VolunteerItemProps = {
   item: IVolunteer;

@@ -1,11 +1,11 @@
 import { memo } from 'react';
 import {
-  NavigationState,
-  Route,
-  SceneRendererProps,
+  type NavigationState,
+  type Route,
+  type SceneRendererProps,
   TabView,
 } from 'react-native-tab-view';
-import { IInstitution } from 'src/types';
+import type { IInstitution } from 'src/types';
 
 import { TabBarWrapper } from './tab-bar';
 

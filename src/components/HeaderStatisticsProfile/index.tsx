@@ -1,6 +1,6 @@
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
-import { DrawerNavigationHelpers } from 'node_modules/@react-navigation/drawer/lib/typescript/src/types';
+import type { DrawerNavigationHelpers } from 'node_modules/@react-navigation/drawer/lib/typescript/src/types';
 import React from 'react';
 import { Pressable, View } from 'react-native';
 import { useAuth } from 'src/hooks/useAuth';
@@ -18,7 +18,7 @@ function HeaderStatisticsProfile({ navigation }: HeaderStatisticsProfileProps) {
 
   const onPressEditProfile = () => {
     navigation.closeDrawer();
-    const route = isDonor ? '/edit-donor-profile' : '/edit-institution-profile';
+    const route = isDonor ? '/edit/donor' : '/edit/institution';
     router.push(route);
   };
 

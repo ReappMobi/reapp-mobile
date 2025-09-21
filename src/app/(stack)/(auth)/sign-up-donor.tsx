@@ -8,12 +8,13 @@ import {
 } from '@react-native-google-signin/google-signin';
 */
 import {
-  MediaType,
+  type MediaType,
   launchImageLibraryAsync,
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 import { router } from 'expo-router';
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
   ActivityIndicator,
@@ -30,8 +31,8 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 import { Button } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
-import { RequestMedia } from 'src/services/account';
-import { SignUpData } from 'src/types';
+import type { RequestMedia } from 'src/services/account';
+import type { SignUpData } from 'src/types';
 import { z } from 'zod';
 
 // ----------------------

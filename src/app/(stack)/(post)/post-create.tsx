@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Camera } from 'expo-camera';
 import {
-  MediaType,
+  type MediaType,
   launchCameraAsync,
   launchImageLibraryAsync,
   requestMediaLibraryPermissionsAsync,

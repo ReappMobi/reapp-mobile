@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getVolunteersByInstitutionId } from 'src/services/app-core';
-import { IPartner } from 'src/types/IPartner';
+import type { IPartner } from 'src/types/IPartner';
 
 import { useAuth } from './useAuth';
 

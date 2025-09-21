@@ -5,7 +5,7 @@ import React, { memo } from 'react';
 import {
   ActivityIndicator,
   FlatList,
-  ListRenderItem,
+  type ListRenderItem,
   RefreshControl,
   Text,
   TouchableOpacity,
@@ -15,7 +15,7 @@ import { Button } from 'src/components';
 import { CollaboratorCard } from 'src/components/CollaboratorCard';
 import colors from 'src/constants/colors';
 import { useCollaboratorsByInstitution } from 'src/hooks/useCollaboratorsByInstitution';
-import { ICollaborator } from 'src/types/ICollaborator';
+import type { ICollaborator } from 'src/types/ICollaborator';
 
 type CollaboratorItemProps = {
   item: ICollaborator;

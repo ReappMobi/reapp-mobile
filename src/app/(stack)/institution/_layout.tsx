@@ -1,22 +1,24 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import {
-  MaterialTopTabNavigationEventMap,
-  MaterialTopTabNavigationOptions,
+  type MaterialTopTabNavigationEventMap,
+  type MaterialTopTabNavigationOptions,
   createMaterialTopTabNavigator,
 } from '@react-navigation/material-top-tabs';
-import { ParamListBase, TabNavigationState } from '@react-navigation/native';
+import type { ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, withLayoutContext } from 'expo-router';
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { Alert, Linking, Text, View } from 'react-native';
-import { Button, LoadingBox, ScreenContainer } from 'src/components';
+import { Alert, Linking, View } from 'react-native';
+import { LoadingBox, ScreenContainer } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import {
   followAccount,
   getInstitutionByAccountId,
   unfollowAccount,
 } from 'src/services/app-core';
-import { IInstitution } from 'src/types';
+import type { IInstitution } from 'src/types';
 
 const { Navigator } = createMaterialTopTabNavigator();
 
@@ -120,32 +122,18 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
               <Text className="text-md pb-2 font-reapp_medium">
                 {institution?.category?.name ?? ''}
               </Text>
-              {/*
-                <Text className="text-md pb-2 font-reapp_medium">
-                  {institution ? `${institution.city}/${institution.state}` : ''}
-                </Text>
-              */}
             </View>
           )}
 
           <View className="gap-y-2">
-            <Button
-              textColor="text-white"
-              size="small"
-              customStyles={`justify-center ${
-                isFollowing ? 'bg-gray-400' : 'bg-color_primary'
-              }`}
-              onPress={isFollowing ? handleUnfollow : handleFollow}
-            >
-              {isFollowing ? 'Seguindo' : 'Seguir'}
+            <Button onPress={isFollowing ? handleUnfollow : handleFollow}>
+              <Text>{isFollowing ? 'Seguindo' : 'Seguir'}</Text>
             </Button>
 
             {isDonor && (
               <View className="flex-row">
                 <Button
-                  textColor="text-white"
-                  size="small"
-                  customStyles="mr-2 w-20 justify-center bg-color_primary"
+                  className="mr-2 w-20 justify-center bg-color_primary"
                   onPress={() =>
                     router.push({
                       pathname: '/donate',
@@ -156,18 +144,14 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
                     })
                   }
                 >
-                  Doar
+                  <Text>Doar</Text>
                 </Button>
                 <Button
-                  startIcon={
-                    <Ionicons name="chevron-forward" size={20} color="#000" />
-                  }
-                  customStyles="flex-1 items-center justify-start gap-x-1"
-                  size="small"
-                  textSize="text-sm"
+                  variant="outline"
+                  className="flex-1 items-center justify-start gap-x-1"
                   onPress={handleVolunteerPress}
                 >
-                  Quero ser voluntário
+                  <Text>Quero ser voluntário</Text>
                 </Button>
               </View>
             )}
@@ -182,22 +166,6 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
           </Text>
           {` Seguidores`}
         </Text>
-        {/*
-        <Text className="text-md font-reapp_medium">
-          <Text className="text-md font-reapp_bold text-text_primary">
-            {institution ? institution.donations : ''}
-          </Text>
-          {` Doadores`}
-        </Text>
-        */}
-        {/*
-        <Text className="text-md font-reapp_medium">
-          <Text className="text-md font-reapp_bold text-text_primary">
-            {institution ? institution.partnersQty : ''}
-          </Text>
-          {` Parceiros`}
-        </Text>
-        */}
       </View>
     </View>
   );
@@ -216,7 +184,7 @@ const Layout = () => {
     return ({ children, focused }: { focused: boolean; children: string }) => (
       <Text
         className={`font-reapp_medium text-base text-text_neutral ${
-          focused ? 'text-text_primary underline' : ''
+          focused ? ' bg-gray-400 rounded-md' : ''
         }`}
       >
         {children}
@@ -270,15 +238,17 @@ const Layout = () => {
           tabBarItemStyle: {
             width: 'auto',
             height: 'auto',
-            paddingHorizontal: 0,
-            marginRight: 8,
+            paddingHorizontal: 12,
+            paddingVertical: 0,
+            marginRight: 4,
           },
           tabBarLabel: renderLabel,
-          swipeEnabled: true,
+          swipeEnabled: false,
           tabBarIndicator: () => null,
           tabBarStyle: {
             marginLeft: 16,
-            backgroundColor: 'transparent',
+            backgroundColor: '#cecece',
+            borderBottomWidth: 0,
             shadowColor: 'transparent',
           },
           lazy: true,
@@ -294,13 +264,6 @@ const Layout = () => {
           options={{ title: 'Projetos' }}
           initialParams={{ id: institution.id }}
         />
-        {/* 
-        <MaterialTopTabs.Screen
-          name="transparency"
-          options={{ title: 'Transparência' }}
-          initialParams={{ id: institution.id }}
-        />
-        */}
         <MaterialTopTabs.Screen
           name="contacts"
           options={{ title: 'Contatos' }}

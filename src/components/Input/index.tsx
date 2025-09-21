@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputModeOptions, TextInput } from 'react-native';
+import { type InputModeOptions, TextInput } from 'react-native';
 
 import colors from '../../constants/colors';
 

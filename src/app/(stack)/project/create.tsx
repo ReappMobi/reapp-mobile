@@ -1,7 +1,7 @@
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Image } from 'expo-image';
-import { MediaType } from 'expo-image-picker';
+import type { MediaType } from 'expo-image-picker';
 import { router } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -18,11 +18,10 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';
 import { Button, Input } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
-import { useCamera } from 'src/hooks/useCamera';
-import { useGallery } from 'src/hooks/useGallery';
+import { useMediaPicker } from 'src/hooks/useMediaPicker';
 import { useProject } from 'src/hooks/useProject';
 import {
-  CreateProjectFormData,
+  type CreateProjectFormData,
   createProjectSchema,
 } from 'src/schemas/create-project.schema';
 
@@ -61,12 +60,11 @@ const ModalOptions: React.FC<ModalOptionsProps> = React.memo(
 );
 
 // TODO: Migrate the react state context to a global state management library like Zustand or Redux
-const Page: React.FC = () => {
+function Page() {
   const mediaTypes: MediaType[] = ['images', 'videos'];
 
   const { token } = useAuth();
-  const { takePicture } = useCamera();
-  const { pickMedia } = useGallery();
+  const { takePicture, pickMedia } = useMediaPicker();
   const { saveProject, loading, category } = useProject();
 
   const {
@@ -248,6 +246,6 @@ const Page: React.FC = () => {
       </KeyboardAvoidingView>
     </View>
   );
-};
+}
 
 export default Page;

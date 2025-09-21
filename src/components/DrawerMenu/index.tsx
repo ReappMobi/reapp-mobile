@@ -1,7 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { DrawerNavigationHelpers } from 'node_modules/@react-navigation/drawer/lib/typescript/src/types';
-import React, { memo, useState } from 'react';
+import type { DrawerNavigationHelpers } from 'node_modules/@react-navigation/drawer/lib/typescript/src/types';
+import type React from 'react';
+import { memo, useState } from 'react';
 import {
   Alert,
   LayoutAnimation,

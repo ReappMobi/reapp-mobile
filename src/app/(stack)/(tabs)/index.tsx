@@ -5,7 +5,7 @@ import React, { useCallback, memo } from 'react';
 import {
   ActivityIndicator,
   FlatList,
-  ListRenderItem,
+  type ListRenderItem,
   RefreshControl,
   TouchableOpacity,
   View,
@@ -19,7 +19,7 @@ import {
   unsavePost,
 } from 'src/services/app-core';
 import { useGetPosts } from 'src/services/posts/post.service';
-import { IPost } from 'src/types';
+import type { IPost } from 'src/types';
 import { timeAgo } from 'src/utils/time-ago';
 
 type PostItemProps = {
@@ -136,6 +136,7 @@ function PostList() {
     <FlatList
       className="flex-1"
       ListHeaderComponent={null}
+      ListFooterComponent={<View className="h-4" />}
       data={posts}
       renderItem={renderItem}
       keyExtractor={(item) => item.id.toString()}

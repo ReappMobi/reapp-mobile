@@ -3,7 +3,7 @@ import { memo } from 'react';
 import {
   ActivityIndicator,
   FlatList,
-  ListRenderItem,
+  type ListRenderItem,
   RefreshControl,
   Text,
   TouchableOpacity,
@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import PartnerCard from 'src/components/PartnerCard';
 import { usePartnersByInstitution } from 'src/hooks/usePartnersByInstitution';
-import { IPartner } from 'src/types/IPartner';
+import type { IPartner } from 'src/types/IPartner';
 
 type PartnerItemProps = {
   item: IPartner;

@@ -1,4 +1,4 @@
-import { IBanner } from 'src/types/IBanner';
+import type { IBanner } from 'src/types/IBanner';
 
 export const banners: IBanner[] = [
   {

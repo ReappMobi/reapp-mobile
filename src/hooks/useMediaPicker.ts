@@ -1,6 +1,6 @@
 import {
-  ImagePickerAsset,
-  MediaType,
+  type ImagePickerAsset,
+  type MediaType,
   launchCameraAsync,
   launchImageLibraryAsync,
   requestCameraPermissionsAsync,

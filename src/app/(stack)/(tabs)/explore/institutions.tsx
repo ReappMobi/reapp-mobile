@@ -23,13 +23,13 @@ import { CardSearch, ExploreScreenCard, LoadingBox } from 'src/components';
 import Colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { useSearch } from 'src/hooks/useSearch';
-import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
+import type { ICategory } from 'src/mocks/app-InstitutionCategory-data';
 import {
   followAccount,
   getInstitutions,
   unfollowAccount,
 } from 'src/services/app-core';
-import { IInstitution } from 'src/types';
+import type { IInstitution } from 'src/types';
 
 /**
  * ----------------------------------------------------------------

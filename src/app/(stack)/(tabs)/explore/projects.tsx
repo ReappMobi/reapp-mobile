@@ -18,13 +18,13 @@ import {
 import { CardSearch, ExploreScreenCard, LoadingBox } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { useSearch } from 'src/hooks/useSearch';
-import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
+import type { ICategory } from 'src/mocks/app-InstitutionCategory-data';
 import {
   getProjects,
   getSharedCampaigns,
   toggleFavoriteProject,
 } from 'src/services/app-core';
-import { IBanner, IProject } from 'src/types';
+import type { IBanner, IProject } from 'src/types';
 
 /**
  * --------------------------------------------------------------

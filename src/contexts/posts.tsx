@@ -1,6 +1,6 @@
 import { createContext, useCallback, useEffect, useState } from 'react';
 import { getPosts, getSharedCampaigns } from 'src/services/app-core';
-import { IBanner, IPost } from 'src/types';
+import type { IBanner, IPost } from 'src/types';
 
 export type PostContextData = {
   posts: IPost[];

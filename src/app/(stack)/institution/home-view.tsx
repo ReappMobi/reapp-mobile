@@ -4,7 +4,7 @@ import { memo, useCallback } from 'react';
 import {
   ActivityIndicator,
   FlatList,
-  ListRenderItem,
+  type ListRenderItem,
   RefreshControl,
   Text,
   TouchableOpacity,
@@ -19,7 +19,7 @@ import {
   unlikePost,
   unsavePost,
 } from 'src/services/app-core';
-import { IPost } from 'src/types';
+import type { IPost } from 'src/types';
 
 type PostItemProps = {
   item: IPost;
@@ -115,7 +115,6 @@ function PostList({ institutionId }) {
   const { posts, token, error, loading, refreshing, onRefresh } =
     usePostsByInstitution(institutionId);
 
-  // Se estiver carregando e não tiver token, mostra spinner
   if (loading && !token) {
     return (
       <View className="flex-1 items-center justify-center">

@@ -1,5 +1,5 @@
 import { Text } from 'react-native';
-import { Route, TabBar, TabBarProps } from 'react-native-tab-view';
+import { type Route, TabBar, type TabBarProps } from 'react-native-tab-view';
 
 export const TabBarWrapper = ({ ...props }: TabBarProps<Route>) => {
   const renderLabel = ({

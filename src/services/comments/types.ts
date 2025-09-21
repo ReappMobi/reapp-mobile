@@ -1,4 +1,4 @@
-import { Comment } from 'src/types/Comment';
+import type { Comment } from 'src/types/Comment';
 
 export type AddCommentData = {
   token: string;

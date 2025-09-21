@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getCollaboratorByInstitutionId } from 'src/services/app-core';
-import { ICollaborator } from 'src/types/ICollaborator';
+import type { ICollaborator } from 'src/types/ICollaborator';
 
 import { useAuth } from './useAuth';
 
