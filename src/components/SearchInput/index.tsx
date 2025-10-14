@@ -1,55 +1,75 @@
-import { Ionicons } from '@expo/vector-icons';
+import { cn } from '@/lib/utils';
+import { Search, X } from 'lucide-react-native';
 import React, { useRef, useState } from 'react';
-import { Keyboard, Pressable, TextInput, View } from 'react-native';
+import { Keyboard, TextInput, View } from 'react-native';
+import { Button } from '../ui/button';
+import { Icon } from '../ui/icon';
 
 type SearchInputProps = {
-  isFocused?: boolean;
   value?: string;
   onFocus?: () => void;
+  onBlur?: () => void;
   onChangeText?: (text: string) => void;
-  onDimiss?: () => void;
+  onDismiss?: () => void;
 };
 
 const SearchInput = ({
   value,
   onFocus,
+  onBlur,
   onChangeText,
-  onDimiss,
+  onDismiss,
 }: SearchInputProps) => {
   const textInputRef = useRef<TextInput>(null);
-
   const [isFocused, setIsFocused] = useState(false);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+    onFocus?.();
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+    onBlur?.();
+  };
+
+  const handleClearAndDismiss = () => {
+    Keyboard.dismiss();
+    onChangeText?.('');
+    onDismiss?.();
+    textInputRef.current?.blur();
+  };
+
   return (
-    <View className="flex-1 flex-row">
-      <View className="w-full flex-row items-center justify-between rounded border border-text_secondary bg-input_background px-2 py-2">
+    <View className="w-full p-1">
+      <View
+        className={cn(
+          'w-full flex-row rounded-full items-center justify-between border bg-color_primary/5 border-color_primary px-2',
+          'duration-200',
+          isFocused && 'bg-white'
+        )}
+      >
         <TextInput
           ref={textInputRef}
-          className="font-regular flex-1 text-base text-text_gray"
-          placeholder="O que você está procurando?"
+          className="flex-1 text-base text-text_neutral/90"
+          placeholder={isFocused ? 'O que você está procurando?' : 'Buscar'}
           onChangeText={onChangeText}
-          onFocus={() => {
-            setIsFocused(true);
-            onFocus && onFocus();
-          }}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           value={value}
         />
 
         {isFocused ? (
-          <Pressable
-            onPress={() => {
-              Keyboard.dismiss();
-              setIsFocused(false);
-              onChangeText('');
-              textInputRef.current?.clear();
-              onDimiss && onDimiss();
-            }}
+          <Button
+            variant="ghost"
+            onPress={handleClearAndDismiss}
             className="h-8 w-8 items-center justify-center"
           >
-            <Ionicons name="close" size={20} color="black" />
-          </Pressable>
+            <Icon as={X} className="stroke-text_neutral size-6" />
+          </Button>
         ) : (
           <View className="h-8 w-8 items-center justify-center">
-            <Ionicons name="search-outline" size={20} color="black" />
+            <Icon as={Search} className="stroke-text_neutral size-6" />
           </View>
         )}
       </View>
@@ -57,4 +77,6 @@ const SearchInput = ({
   );
 };
 
-export default SearchInput;
+SearchInput.displayName = 'SearchInput';
+
+export { SearchInput };
