@@ -133,7 +133,9 @@ const PartnerCreateForm: React.FC = () => {
   };
 
   const onSubmit = async (data: FormData) => {
-    if (loading) { return; }
+    if (loading) {
+      return;
+    }
     setLoading(true);
 
     try {

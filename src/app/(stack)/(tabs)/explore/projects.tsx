@@ -221,7 +221,7 @@ const ProjectsSectionList = memo<ProjectsSectionListProps>(
     onPressFavorite,
     refreshing,
     onRefresh,
-    categories
+    categories,
   }) => {
     const data = useMemo(() => {
       return categories.map((category) => ({

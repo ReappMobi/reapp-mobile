@@ -120,7 +120,9 @@ const InstitutionModalOptions = memo(
     }, [isFollowing]);
 
     const handleFollowInternal = async () => {
-      if (isProcessing) { return; }
+      if (isProcessing) {
+        return;
+      }
       setIsProcessing(true);
       try {
         setIsFollowingLocal(true);
@@ -134,7 +136,9 @@ const InstitutionModalOptions = memo(
     };
 
     const handleUnfollowInternal = async () => {
-      if (isProcessing) { return; }
+      if (isProcessing) {
+        return;
+      }
       setIsProcessing(true);
       try {
         setIsFollowingLocal(false);
@@ -377,7 +381,9 @@ type InstitutionSearchListProps = {
 const InstitutionSearchList = memo<InstitutionSearchListProps>(
   ({ institutions, searchPhrase, onPressCard }) => {
     const filtered = useMemo(() => {
-      if (!searchPhrase) { return institutions; }
+      if (!searchPhrase) {
+        return institutions;
+      }
       return institutions.filter((inst) =>
         inst.account.name
           .toUpperCase()

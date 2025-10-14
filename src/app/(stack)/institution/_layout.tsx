@@ -4,7 +4,10 @@ import {
   type MaterialTopTabNavigationOptions,
   createMaterialTopTabNavigator,
 } from '@react-navigation/material-top-tabs';
-import type { ParamListBase, TabNavigationState } from '@react-navigation/native';
+import type {
+  ParamListBase,
+  TabNavigationState,
+} from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, withLayoutContext } from 'expo-router';
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';

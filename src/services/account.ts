@@ -33,7 +33,6 @@ export const updateAccount = async ({
   accountId,
   payload,
 }: UpdateAccountParams) => {
-
   const formData = new FormData();
   for (const key in payload) {
     if (payload[key]) {
@@ -41,11 +40,15 @@ export const updateAccount = async ({
     }
   }
 
-  const response = await api.putForm<Account | ApiError>(`/account/${accountId}`, formData, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await api.putForm<Account | ApiError>(
+    `/account/${accountId}`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 
   if (response.status !== 200) {
     const { message } = response.data as ApiError;
@@ -55,7 +58,9 @@ export const updateAccount = async ({
   return response.data;
 };
 
-export const useUpdateAccount = (options?: UseMutationOptions<Account, ApiError, UpdateAccountParams, unknown>) => {
+export const useUpdateAccount = (
+  options?: UseMutationOptions<Account, ApiError, UpdateAccountParams, unknown>
+) => {
   return useMutation({
     mutationFn: updateAccount,
     ...options,

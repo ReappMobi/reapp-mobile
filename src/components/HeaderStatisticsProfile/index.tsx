@@ -1,11 +1,10 @@
-import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import type { DrawerNavigationHelpers } from 'node_modules/@react-navigation/drawer/lib/typescript/src/types';
 import React from 'react';
 import { Pressable, View } from 'react-native';
 import { useAuth } from 'src/hooks/useAuth';
-import { Text } from '../ui/text';
 import { Avatar, AvatarFallback, ExpoAvatarImage } from '../ui/avatar';
+import { Text } from '../ui/text';
 
 type HeaderStatisticsProfileProps = {
   navigation: DrawerNavigationHelpers;
@@ -65,6 +64,7 @@ function HeaderStatisticsProfile({ navigation }: HeaderStatisticsProfileProps) {
           <Text className="font-bold text-white text-sm">{followingCount}</Text>
           <Text className="text-sm text-white font-medium">Seguindo</Text>
         </View>
+
         {!isDonor && (
           <View className="flex-row items-center gap-1">
             <Text className="font-bold text-white text-sm">
