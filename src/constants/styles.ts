@@ -1,5 +1,5 @@
 export const headerTitleStyle = {
-  fontSize: 20,
+  fontSize: 22,
   fontFamily: 'reapp_bold',
 };
 
