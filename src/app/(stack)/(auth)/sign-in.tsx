@@ -1,19 +1,28 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Link, router } from 'expo-router';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { ActivityIndicator, Alert, Text, View } from 'react-native';
-import { Button, Input } from 'src/components';
-import { useAuth } from 'src/hooks/useAuth';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Text } from '@/components/ui/text';
+import { useAuth } from '@/hooks/useAuth';
 import {
   type signInFormData,
   signInFormSchema,
-} from 'src/schemas/auth/sign-in.schema';
+} from '@/schemas/auth/sign-in.schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Link, router } from 'expo-router';
+import { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Alert, TextInput, View } from 'react-native';
 
 export default function SignIn() {
+  const passwordInputRef = useRef<TextInput>(null);
+
+  function onEmailSubmitEditing() {
+    passwordInputRef.current?.focus();
+  }
+
   const auth = useAuth();
 
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const {
     register,
@@ -30,7 +39,7 @@ export default function SignIn() {
   });
 
   const onSubmit = async (data: any) => {
-    if (loading) {
+    if (isLoading) {
       return;
     }
 
@@ -45,93 +54,47 @@ export default function SignIn() {
       setLoading(false);
     }
   };
-  /*
-  const onSubmitGoogle = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      const res = await auth.signInGoogle({
-        idToken: userInfo.idToken,
-        clientId: userInfo.user.id,
-      });
-      if (res.user !== undefined) {
-        router.replace('/');
-      } else {
-        Alert.alert('Erro no login', res.error);
-      }
-    } catch (error) {
-      if (isErrorWithCode(error)) {
-        switch (error.code) {
-          case statusCodes.SIGN_IN_CANCELLED:
-            Alert.alert('Autenticação cancelada');
-            break;
-          case statusCodes.IN_PROGRESS:
-            Alert.alert('Autenticação em andamento');
-            break;
-          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-            Alert.alert('Autenticação com o Google não disponível no momento');
-            break;
-          default:
-            Alert.alert(
-              'Autenticação com o Google falhou. Tente novamente mais tarde'
-            );
-        }
-      } else {
-        Alert.alert(
-          'Autenticação com o Google falhou. Tente novamente mais tarde'
-        );
-      }
-    }
-  };
-  */
 
   return (
-    <View className="gap-3 px-4">
-      {/* 
-      <View className="flex-row justify-center gap-2">
-        <View className="items-center">
-          <Button
-            customStyles="w-3/4"
-            startIcon={
-              <Ionicons
-                name="logo-google"
-                size={24}
-                color={colors.text_neutral}
-              />
-            }
-            onPress={onSubmitGoogle}
-          >
-            Login com Google
-          </Button>
-        </View>
-      </View>
-
-      <Text className="text-center font-reapp_regular text-xs">
-        Ou entre com seu email e senha
-      </Text>
-      */}
-      <View className="pt-6">
-        <Text className="text-base">Email</Text>
+    <View className="gap-2 px-4">
+      <View className="pt-4 group">
+        <Label className="text-color_primary font-semibold group-focus:text-color_secundary">
+          Email
+        </Label>
         <Input
+          id="email"
           placeholder="Digite seu email"
           inputMode="email"
+          keyboardType="email-address"
+          textContentType="emailAddress"
+          autoCapitalize="none"
+          autoCorrect={false}
+          onSubmitEditing={onEmailSubmitEditing}
+          returnKeyType="next"
+          submitBehavior="submit"
           autoFocus
           onChangeText={(text) =>
             setValue('email', text, { shouldValidate: true })
           }
           value={watch('email')}
           {...register('email')}
+          className="border-color_primary/60 border-2 focus:border-color_primary rounded-sm h-12"
         />
         {errors.email && (
-          <Text className="my-1 text-xs font-semibold text-color_redsh">
+          <Text className="my-0.5 text-xs font-semibold text-rose-500">
             {errors.email.message}
           </Text>
         )}
       </View>
 
-      <View>
-        <Text className="text-base">Senha</Text>
+      <View className="group">
+        <Label className="text-color_primary/70 font-semibold group-focus:text-color_secundary">
+          Senha
+        </Label>
         <Input
+          ref={passwordInputRef}
+          id="password"
+          textContentType="password"
           placeholder="Digite sua senha"
           secureTextEntry
           {...register('password')}
@@ -139,46 +102,46 @@ export default function SignIn() {
             setValue('password', text, { shouldValidate: true })
           }
           value={watch('password')}
+          returnKeyType="done"
+          submitBehavior="submit"
+          onSubmitEditing={handleSubmit(onSubmit)}
+          className="border-color_primary/60  border-2 focus:border-color_primary rounded-sm h-12"
         />
         {errors.password && (
-          <Text className="my-1 text-xs font-semibold text-color_redsh">
+          <Text className="my-0.5 text-xs font-semibold text-rose-500">
             {errors.password.message}
           </Text>
         )}
       </View>
 
       <Text
-        className="text-base text-text_primary underline underline-offset-1"
+        className="text-color_primary font-semibold underline underline-offset-3 text-sm"
         onPress={() => router.push('/forgot-password')}
       >
         Esqueci minha senha
       </Text>
 
-      <View>
+      <View className="gap-2 pt-4">
         <Button
-          customStyles="w-full justify-center bg-color_primary"
-          textColor="text-text_light"
+          className="w-full justify-center h-11 bg-color_primary active:bg-color_secundary/90 disabled:opacity-85 disabled:bg-color_primary/50"
           onPress={handleSubmit(onSubmit)}
-          disabled={loading}
+          disabled={isLoading}
         >
-          {loading ? (
-            <ActivityIndicator size="small" color="white" />
-          ) : (
-            'Entrar'
-          )}
+          <Text className="text-white">Entrar</Text>
         </Button>
-      </View>
 
-      <View className="flex-row justify-center gap-2">
-        <Text className="text-center font-reapp_regular text-base">
-          Não possui conta?
+        <Text className="text-center text-xs text-color_secundary">
+          Não tem uma conta?
         </Text>
-        <Link
-          href="/profile-selector"
-          push
-          className="text-base text-text_primary underline underline-offset-1"
-        >
-          Cadastre-se
+
+        <Link asChild href="/profile-selector" push>
+          <Button
+            variant="outline"
+            size="lg"
+            className="w-full border-2 h-11 justify-center items-center border-color_primary active:border-color_primary/60 active:bg-color_primary/20"
+          >
+            <Text className="text-color_primary h-min">Criar conta</Text>
+          </Button>
         </Link>
       </View>
     </View>
