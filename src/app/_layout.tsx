@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import {
   Roboto_100Thin,
   Roboto_300Light,
@@ -11,15 +12,15 @@ import {
 import { NAV_THEME } from '@/lib/theme';
 import { useColorScheme } from 'nativewind';
 
+import { DrawerContent } from '@/components/drawer/drawer-content';
+import { PortalHost } from '@rn-primitives/portal';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Drawer } from 'expo-router/drawer';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AuthProvider } from 'src/contexts/auth';
-import { DrawerContent } from '@/components/drawer/drawer-content';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { PortalHost } from '@rn-primitives/portal';
 
 export {
   // Catch any errors thrown by the Layout component.
