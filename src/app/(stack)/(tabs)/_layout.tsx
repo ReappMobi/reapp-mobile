@@ -3,13 +3,15 @@ import {
   AvatarFallback,
   ExpoAvatarImage,
 } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { Ionicons, Octicons } from '@expo/vector-icons';
 import { DrawerActions } from '@react-navigation/native';
-import { Image } from 'expo-image';
-import { Redirect, Tabs, router, useNavigation } from 'expo-router';
+import { Link, Redirect, Tabs, useNavigation } from 'expo-router';
+import { CopyPlus, Globe, Star } from 'lucide-react-native';
 import React from 'react';
-import { Pressable } from 'react-native';
+import { View } from 'react-native';
 import colors from 'src/constants/colors';
 import { PostProvider } from 'src/contexts/posts';
 import { SearchProvider } from 'src/contexts/search';
@@ -34,7 +36,7 @@ const TabLayout = () => {
           screenOptions={{
             tabBarShowLabel: false,
             tabBarActiveTintColor: colors.color_primary,
-            tabBarInactiveTintColor: colors.text_dark,
+            tabBarInactiveTintColor: 'rgb(46 56 77 / 0.8)',
             tabBarStyle: {
               borderTopWidth: 1,
               paddingTop: 4,
@@ -50,25 +52,27 @@ const TabLayout = () => {
                 color: colors.color_primary,
                 fontSize: 20,
               },
-              headerRight: () =>
-                !isDonor ? (
-                  <Ionicons
-                    name="duplicate-outline"
-                    size={28}
-                    color={colors.text_neutral}
-                    onPress={() => {
-                      router.push({ pathname: 'post-create' });
-                    }}
-                  />
-                ) : null,
+              headerRight: () => {
+                if (isDonor) {
+                  return null;
+                }
+                return (
+                  <Link href="/create-post" asChild replace>
+                    <Button variant="ghost" className="p-2 rounded-full">
+                      <Icon as={CopyPlus} size={24} />
+                    </Button>
+                  </Link>
+                );
+              },
               headerTitleAlign: 'center',
               headerLeftContainerStyle: { paddingLeft: 16 },
               headerRightContainerStyle: { paddingRight: 16 },
-              headerStyle: {
-                shadowColor: '#000',
-              },
               headerLeft: () => (
-                <Pressable onPress={onToggle} className="pl-1">
+                <Button
+                  variant="ghost"
+                  onPress={onToggle}
+                  className="p-0 active:bg-transparent"
+                >
                   <Avatar alt="User Avatar" className="w-9 h-9">
                     {user.media &&
                       (user.media.remoteUrl || user.media.blurhash) && (
@@ -81,20 +85,42 @@ const TabLayout = () => {
                       <Text>{user.name[0]}</Text>
                     </AvatarFallback>
                   </Avatar>
-                </Pressable>
+                </Button>
               ),
-              tabBarIcon: ({ color, size }) => (
-                <Octicons name="home" size={size} color={color} />
-              ),
+              tabBarIcon: ({ color, size, focused }) =>
+                focused ? (
+                  <View
+                    style={{
+                      width: 2.5 * size,
+                      height: size + 8,
+                    }}
+                    className="items-center justify-center bg-green-700/20 rounded-full"
+                  >
+                    <Octicons name="home-fill" size={size} color={color} />
+                  </View>
+                ) : (
+                  <Octicons name="home" size={size} color={color} />
+                ),
             }}
           />
           <Tabs.Screen
             name="explore"
             options={{
               headerShown: true,
-              tabBarIcon: ({ size, color }) => (
-                <Octicons name="search" size={size} color={color} />
-              ),
+              tabBarIcon: ({ size, color, focused }) =>
+                focused ? (
+                  <View
+                    style={{
+                      width: 2.5 * size,
+                      height: size + 8,
+                    }}
+                    className="items-center justify-center bg-green-700/20 rounded-full"
+                  >
+                    <Icon as={Globe} size={size} color={color} />
+                  </View>
+                ) : (
+                  <Icon as={Globe} size={size} color={color} />
+                ),
             }}
           />
 
@@ -103,9 +129,25 @@ const TabLayout = () => {
               name="favorites"
               options={{
                 headerShown: true,
-                tabBarIcon: ({ size, color }) => (
-                  <Octicons name="heart" size={size} color={color} />
-                ),
+                tabBarIcon: ({ size, color, focused }) =>
+                  focused ? (
+                    <View
+                      style={{
+                        width: 2.5 * size,
+                        height: size + 8,
+                      }}
+                      className="items-center justify-center bg-green-700/20 rounded-full"
+                    >
+                      <Icon
+                        as={Star}
+                        size={size}
+                        color={color}
+                        className="fill-color_primary"
+                      />
+                    </View>
+                  ) : (
+                    <Icon as={Star} size={size} color={color} />
+                  ),
               }}
             />
           ) : (
