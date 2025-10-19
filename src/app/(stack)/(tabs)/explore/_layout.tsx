@@ -1,11 +1,12 @@
+import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useNavigation } from 'expo-router';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SearchInput } from 'src/components';
 import { useSearch } from 'src/hooks/useSearch';
-
 import InstitutionsPage from './institutions';
 import ProjectsPage from './projects';
 
@@ -24,17 +25,28 @@ const debounce = (func, delay) => {
 
 const ExploreLayout = () => {
   const { updateSearchQuery, updateSearchActive } = useSearch();
+  const [_currentPage, _setCurrentPage] = useState<'institutions' | 'projects'>(
+    'institutions'
+  );
   const navigation = useNavigation();
 
-  const renderLabel = useMemo(() => {
+  const tabBarLabel = useMemo(() => {
     return ({ children, focused }: { focused: boolean; children: string }) => (
-      <Text
-        className={`font-reapp_medium text-base text-text_neutral ${
-          focused && 'text-text_primary underline'
-        }`}
+      <Badge
+        className={cn(
+          'p-1 px-4 bg-gray-200 rounded-full',
+          focused && 'bg-color_primary'
+        )}
       >
-        {children}
-      </Text>
+        <Text
+          className={cn(
+            `font-medium text-base text-text_neutral`,
+            focused && 'text-white'
+          )}
+        >
+          {children}
+        </Text>
+      </Badge>
     );
   }, []);
 
@@ -44,7 +56,7 @@ const ExploreLayout = () => {
         <SearchInput
           onChangeText={debounce(handleSearchChange, 500)}
           onFocus={() => updateSearchActive(true)}
-          onDimiss={() => {
+          onDismiss={() => {
             updateSearchActive(false);
             updateSearchQuery('');
           }}
@@ -66,14 +78,14 @@ const ExploreLayout = () => {
           tabBarItemStyle: {
             width: 'auto',
             height: 'auto',
-            paddingHorizontal: 0,
-            marginRight: 8,
+            padding: 4,
           },
-          tabBarLabel: renderLabel,
-          swipeEnabled: true,
+          tabBarLabel,
+          swipeEnabled: false,
           tabBarIndicator: () => null,
           tabBarStyle: {
-            marginLeft: 16,
+            marginHorizontal: 10,
+            marginVertical: 8,
             backgroundColor: 'transparent',
             shadowColor: 'transparent',
           },
