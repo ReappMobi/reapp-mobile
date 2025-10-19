@@ -1,12 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
-/*
-import {
-  GoogleSignin,
-  isErrorWithCode,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
-*/
 import {
   type MediaType,
   launchImageLibraryAsync,
@@ -50,34 +43,32 @@ const MAX_PASSWORD_LEN = 25;
 const INVALID_EMAIL_MESSAGE = 'O email deve ser válido.';
 const PHONE_REGEX = /^\(\d{2}\)\s*\d{5}-\d{4}$/;
 
-const schema = z
-  .object({
-    name: z
-      .string()
-      .min(MIN_NAME_LEN, `Nome deve ter pelo menos ${MIN_NAME_LEN} caracteres.`)
-      .max(MAX_NAME_LEN, `Nome deve ter no máximo ${MAX_NAME_LEN} caracteres.`),
-    note: z
-      .string()
-      .min(MIN_NOTE_LEN, `Nota deve ter pelo menos ${MIN_NOTE_LEN} caracteres.`)
-      .max(MAX_NOTE_LEN, `Nota deve ter no máximo ${MAX_NOTE_LEN} caracteres.`)
-      .optional()
-      .or(z.literal('')),
-    email: z.string().email({ message: INVALID_EMAIL_MESSAGE }),
-    phone: z
-      .string()
-      .regex(PHONE_REGEX, 'Telefone inválido (use o formato (00) 00000-0000).'),
-    password: z
-      .string()
-      .min(
-        MIN_PASSWORD_LEN,
-        `A senha deve ter pelo menos ${MIN_PASSWORD_LEN} caracteres.`
-      )
-      .max(
-        MAX_PASSWORD_LEN,
-        `A senha deve ter no máximo ${MAX_PASSWORD_LEN} caracteres.`
-      ),
-  })
-  
+const schema = z.object({
+  name: z
+    .string()
+    .min(MIN_NAME_LEN, `Nome deve ter pelo menos ${MIN_NAME_LEN} caracteres.`)
+    .max(MAX_NAME_LEN, `Nome deve ter no máximo ${MAX_NAME_LEN} caracteres.`),
+  note: z
+    .string()
+    .min(MIN_NOTE_LEN, `Nota deve ter pelo menos ${MIN_NOTE_LEN} caracteres.`)
+    .max(MAX_NOTE_LEN, `Nota deve ter no máximo ${MAX_NOTE_LEN} caracteres.`)
+    .optional()
+    .or(z.literal('')),
+  email: z.string().email({ message: INVALID_EMAIL_MESSAGE }),
+  phone: z
+    .string()
+    .regex(PHONE_REGEX, 'Telefone inválido (use o formato (00) 00000-0000).'),
+  password: z
+    .string()
+    .min(
+      MIN_PASSWORD_LEN,
+      `A senha deve ter pelo menos ${MIN_PASSWORD_LEN} caracteres.`
+    )
+    .max(
+      MAX_PASSWORD_LEN,
+      `A senha deve ter no máximo ${MAX_PASSWORD_LEN} caracteres.`
+    ),
+});
 
 // Tipagem do formulário
 type FormData = z.infer<typeof schema>;
@@ -255,7 +246,9 @@ const SignUpForm: React.FC = () => {
   };
 
   const onSubmit = async (data: FormData) => {
-    if (loading) { return; }
+    if (loading) {
+      return;
+    }
     setLoading(true);
 
     try {
@@ -391,7 +384,6 @@ const SignUpForm: React.FC = () => {
       >
         <Ionicons name="key" size={16} color="black" />
       </FormInputField>
-
 
       {/* Botão de Enviar */}
       <Button
