@@ -31,12 +31,6 @@ import {
 } from 'src/services/app-core';
 import type { IInstitution } from 'src/types';
 
-/**
- * ----------------------------------------------------------------
- * 1. CUSTOM HOOK: useInstitutions
- *    - Centraliza o fetching de dados, loading, erro e refresh
- * ----------------------------------------------------------------
- */
 function useInstitutions() {
   const auth = useAuth();
   const [institutions, setInstitutions] = useState<IInstitution[]>([]);
@@ -93,12 +87,6 @@ function useInstitutions() {
     onRefresh,
   };
 }
-
-/**
- * ----------------------------------------------------------------
- * 2. MODAL: Opções para cada instituição
- * ----------------------------------------------------------------
- */
 
 const InstitutionModalOptions = memo(
   ({
@@ -220,11 +208,6 @@ const InstitutionCardPlaceholder = memo(() => (
   </View>
 ));
 
-/**
- * ----------------------------------------------------------------
- * 4. LISTA DE CARDS (para SectionList) - RenderItem
- * ----------------------------------------------------------------
- */
 type RenderItemProps = {
   item: IInstitution;
   onOpen: (item: IInstitution) => void;
@@ -250,11 +233,6 @@ const RenderInstitutionCard = memo<RenderItemProps>(
   }
 );
 
-/**
- * ----------------------------------------------------------------
- * 5. LISTA PRINCIPAL: SectionList (sem busca)
- * ----------------------------------------------------------------
- */
 type InstitutionSectionListProps = {
   sections: {
     title: string;
@@ -330,11 +308,6 @@ const InstitutionSectionList = memo<InstitutionSectionListProps>(
   }
 );
 
-/**
- * ----------------------------------------------------------------
- * 6. LISTA DE BUSCA (FlatList)
- * ----------------------------------------------------------------
- */
 type RenderCardSearchProps = {
   item: IInstitution;
   searchPhrase: string;
@@ -420,11 +393,6 @@ const InstitutionSearchList = memo<InstitutionSearchListProps>(
   }
 );
 
-/**
- * ----------------------------------------------------------------
- * 7. COMPONENTE PRINCIPAL: InstitutionsPage
- * ----------------------------------------------------------------
- */
 const InstitutionsPage = () => {
   const {
     institutions,
