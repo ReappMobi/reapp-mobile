@@ -1,51 +1,48 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { router } from 'expo-router';
-import { Text, View } from 'react-native';
+import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
+import { Text } from '@/components/ui/text';
+import { Link } from 'expo-router';
+import { HandCoins, University } from 'lucide-react-native';
+import { cssInterop } from 'nativewind';
+import { View } from 'react-native';
 import ProfileSelectorPageImage from 'src/assets/images/ProfileSelectorPageImage.svg';
-import { Button } from 'src/components';
-import colors from 'src/constants/colors';
+
+const StyledProfileSelectorPageImage = cssInterop(ProfileSelectorPageImage, {
+  className: 'style',
+});
 
 export default function ProfileSelector() {
   return (
-    <View className="flex-1  items-center gap-y-8 bg-white p-4">
-      <ProfileSelectorPageImage width={256} height={274.96} />
-      <Text className="text-text-dark text-center font-reapp_bold text-base">
-        Obrigado por escolher ser juntar a nós
-      </Text>
+    <View className="flex-1  items-center gap-y-2 bg-white p-4">
+      <View className="gap-y-6 mt-12 mb-8 items-center">
+        <StyledProfileSelectorPageImage className="w-64 h-64" />
+        <Text
+          variant="h3"
+          className="text-text_neutral text-center font-reapp_bold"
+        >
+          Que bom ter você aqui!
+        </Text>
+      </View>
       <View className="gap-y-4">
-        <View>
+        <Link href="/sign-up-donor" asChild replace>
           <Button
-            endIcon={
-              <Ionicons
-                name="chevron-forward"
-                size={20}
-                color={colors.text_neutral}
-              />
-            }
-            customStyles="w-64 justify-center gap-x-2"
-            onPress={() => {
-              router.replace({ pathname: 'sign-up-donor' });
-            }}
+            variant="outline"
+            className="w-64 justify-center h-12 items-center gap-x-2 border-text_neutral/30 border-2 active:border-text_neutral/60"
           >
-            Sou doador
+            <Icon as={HandCoins} size={20} className="text-text_neutral/80" />
+            <Text className="text-text_neutral/90">Sou Doador</Text>
           </Button>
-        </View>
+        </Link>
 
-        <View>
+        <Link href="/sign-up-institution" asChild replace>
           <Button
-            endIcon={
-              <Ionicons
-                name="chevron-forward"
-                size={20}
-                color={colors.text_neutral}
-              />
-            }
-            customStyles="w-64 justify-center gap-x-2"
-            onPress={() => router.replace({ pathname: '/sign-up-institution' })}
+            variant="outline"
+            className="w-64 justify-center gap-x-2 h-12 border-text_neutral/30 border-2 active:border-text_neutral/60"
           >
-            Sou Instituição
+            <Icon as={University} size={20} className="text-text_neutral/80" />
+            <Text className="text-text_neutral/90">Sou Instituição</Text>
           </Button>
-        </View>
+        </Link>
       </View>
     </View>
   );
