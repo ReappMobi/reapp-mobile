@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import React, { useState, memo } from 'react';
@@ -71,7 +72,10 @@ const ExploreScreenCard = ({
   return (
     <TouchableOpacity onPress={onPressCard}>
       <View
-        className={`${cardHeight} w-32 justify-between rounded-md border border-color_gray bg-white p-2`}
+        className={cn(
+          cardHeight,
+          'w-40 justify-between rounded-md border border-primary bg-white p-2'
+        )}
       >
         {onPressFavorite && (
           <View className="items-end justify-end">
@@ -94,21 +98,22 @@ const ExploreScreenCard = ({
             source={imageUrl}
             placeholder={blurhash}
             contentFit="cover"
-            transition={500}
             onLoadStart={() => setIsLoadingImage(false)}
           />
         </View>
 
-        <Text className="text-center font-reapp_medium text-xs">{title}</Text>
+        <Text className="text-center">{title}</Text>
 
         {isInstitution && isDonor && (
           <View className="flex-row items-center justify-between">
             <TouchableOpacity
-              onPress={isFollow ? handleUnfollowPress : handleFollowPress}
+              onPress={() => {
+                isFollow ? handleUnfollowPress : handleFollowPress;
+              }}
             >
               <Ionicons
                 name={isFollow ? 'close' : 'add'}
-                size={27}
+                size={22}
                 color="black"
               />
             </TouchableOpacity>
