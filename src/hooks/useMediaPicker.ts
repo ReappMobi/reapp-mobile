@@ -30,7 +30,9 @@ const requestGalleryPermission = async () => {
 
 const takePicture = async (mediaTypes: MediaType[], callback: CallbackFn) => {
   const hasPermission = await requestCameraPermission();
-  if (!hasPermission) { return; }
+  if (!hasPermission) {
+    return;
+  }
 
   const result = await launchCameraAsync({
     mediaTypes,
@@ -45,7 +47,9 @@ const takePicture = async (mediaTypes: MediaType[], callback: CallbackFn) => {
 
 const pickMedia = async (mediaTypes: MediaType[], callback: CallbackFn) => {
   const hasPermission = await requestGalleryPermission();
-  if (!hasPermission) { return; }
+  if (!hasPermission) {
+    return;
+  }
 
   const result = await launchImageLibraryAsync({
     mediaTypes,
