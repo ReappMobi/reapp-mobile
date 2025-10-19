@@ -3,9 +3,16 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  Pressable,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { useAuth } from 'src/hooks/useAuth';
 import {
   COMMENTS_PREFIX_KEY,
@@ -14,7 +21,7 @@ import {
 } from 'src/services/comments/comments.service';
 import { timeAgo } from 'src/utils/time-ago';
 
-const Page = () => {
+export default function Page() {
   const { token } = useAuth();
   const { id } = useLocalSearchParams<{ id: string }>();
   const [page, setPage] = useState(1);
@@ -192,6 +199,4 @@ const Page = () => {
       </View>
     </SafeAreaView>
   );
-};
-
-export default Page;
+}
