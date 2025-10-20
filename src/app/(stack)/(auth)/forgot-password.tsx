@@ -38,7 +38,7 @@ export default function ForgotPassword() {
       {
         onSuccess: ({ token }) => {
           toast('O código foi enviado para o seu email!');
-          router.replace('recovery-password/' + encodeURIComponent(token));
+          router.replace(`confirm-code/${token}`);
         },
         onError: (error) => {
           toast('Erro ao enviar o email de recuperação.');
