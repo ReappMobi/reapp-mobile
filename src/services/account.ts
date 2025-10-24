@@ -20,16 +20,13 @@ type UpdateAccountRequest = {
 };
 
 export const updateAccount = async (
+  accountId: number,
   token: string,
-  accountType: string,
   media: RequestMedia | null,
   requestData: UpdateAccountRequest
 ) => {
   try {
     const formData = new FormData();
-
-    formData.append('accountType', accountType);
-
     for (const key in requestData) {
       if (requestData[key]) {
         formData.append(key, requestData[key]);
@@ -40,7 +37,7 @@ export const updateAccount = async (
       formData.append('media', media as any);
     }
 
-    const response = await api.put('/account', formData, {
+    const response = await api.put(`/account/${accountId}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
