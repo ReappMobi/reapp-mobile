@@ -70,15 +70,12 @@ const EditProfileForm = () => {
   };
 
   const onSubmit = async (data: FormData) => {
-    if (loading) { return; }
+    if (loading) {
+      return;
+    }
     setLoading(true);
     try {
-      const response = await updateAccount(
-        token,
-        user.accountType,
-        media,
-        data
-      );
+      const response = await updateAccount(user.id, token, media, data);
       if (response) {
         await saveUserAndToken(response, token);
         Alert.alert('Sucesso!', 'Perfil atualizado com sucesso.');
