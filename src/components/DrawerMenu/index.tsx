@@ -8,6 +8,7 @@ import {
   Linking,
   TouchableOpacity,
   View,
+  Text,
 } from 'react-native';
 import { useAuth } from 'src/hooks/useAuth';
 
@@ -50,7 +51,6 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = memo(({ navigation }) => {
   return (
     <View className="flex h-full w-full flex-col pt-4">
       <View className="flex flex-1 flex-col">
-        {/* Acordeão de "Minhas Doações" */}
         {isDonor ? (
           <TouchableOpacity
             className="flex-row justify-between"
@@ -79,7 +79,6 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = memo(({ navigation }) => {
           </TouchableOpacity>
         )}
 
-        {/* Opções internas do acordeão */}
         {isDonationsOpen && (
           <View className="ml-4 flex-col gap-y-2">
             <TouchableOpacity
