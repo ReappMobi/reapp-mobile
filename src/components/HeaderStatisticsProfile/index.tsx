@@ -7,6 +7,7 @@ import { useAuth } from 'src/hooks/useAuth';
 
 type Props = {
   image?: string;
+  blurhash?: string;
   name?: string;
   donationsQty?: number;
   followingQty?: number;
@@ -14,15 +15,13 @@ type Props = {
   note?: string;
 };
 
-const blurhash: string =
-  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
-
 function HeaderStatisticsProfile({
   image,
   name,
   followingQty,
   followersQty,
   note,
+  blurhash,
 }: Props) {
   const { isDonor } = useAuth();
   const navigation = useNavigation();
@@ -65,16 +64,8 @@ function HeaderStatisticsProfile({
       </Pressable>
       <View className="my-4">
         <View className="flex flex-col justify-between gap-y-3">
-          {/* 
           {!isDonor && (
-            <Text className="font-reapp_regular text-sm text-white">
-              <Text className="font-reapp_bold text-sm">{donationsQty} </Text>
-              Doações
-            </Text>
-          )}
-          */}
-          {!isDonor && (
-            <>
+            <View>
               <Text className="font-reapp_regular text-sm text-white">
                 <Text className="font-reapp_bold text-sm">{followingQty} </Text>
                 Seguindo
@@ -84,7 +75,7 @@ function HeaderStatisticsProfile({
                 <Text className="font-reapp_bold text-sm">{followersQty} </Text>
                 Seguidores
               </Text>
-            </>
+            </View>
           )}
         </View>
       </View>
