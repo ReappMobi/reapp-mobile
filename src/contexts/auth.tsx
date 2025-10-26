@@ -7,8 +7,6 @@ import type { AccountType, SignInData, SignUpData } from 'src/types';
 
 import * as auth from '../services/auth';
 
-import 'core-js/stable/atob';
-
 interface AuthContextData {
   signed: boolean;
   user: AccountType;
@@ -50,6 +48,8 @@ export function AuthProvider({ children }) {
         if (!decodedToken || decodedToken.exp < currentTime) {
           throw new Error('Token expired');
         }
+
+        console.log(storagedUser);
 
         setUser(JSON.parse(storagedUser));
         setIsDonor(JSON.parse(storagedIsDonor));
