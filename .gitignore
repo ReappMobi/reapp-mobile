@@ -43,3 +43,6 @@ ios/
 # yarn 
 .yarn
 .env
+
+# build
+build/
