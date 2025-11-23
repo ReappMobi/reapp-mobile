@@ -17,6 +17,10 @@ import { AuthProvider } from 'src/contexts/auth';
 import DrawerContent from './(stack)/(drawer)/profile';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+import { cssInterop } from 'nativewind';
+import { Image } from 'expo-image';
+
+cssInterop(Image, { className: "style" })
 
 SplashScreen.preventAutoHideAsync();
 
