@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, Text, View, useWindowDimensions } from 'react-native';
 
-import { shadowStyle, sizeStyles, variantStyles } from './styles';
+import { sizeStyles, variantStyles } from './styles';
 
 type ButtonProps = {
   variant?: keyof typeof variantStyles;
@@ -35,14 +35,11 @@ export default function Button({
 
   return (
     <Pressable
-      style={[
-        variant === 'contained' && shadowStyle,
-        disabled && { opacity: 0.5 },
-      ]}
-      className={`${variantStyles.default} 
-        ${variantStyles[variant]} 
+      style={[disabled && { opacity: 0.5 }]}
+      className={`${variantStyles.default}
+        ${variantStyles[variant]}
         ${sizeStyles[size]}
-        ${customStyles} 
+        ${customStyles}
         flex-row items-center justify-center`}
       onPress={disabled ? undefined : onPress}
       disabled={disabled}
