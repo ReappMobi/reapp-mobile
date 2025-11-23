@@ -22,6 +22,7 @@ const DrawerContent = ({ navigation }: DrawerContentComponentProps) => {
           followingQty={user.followingCount}
           followersQty={user.followersCount}
           note={user.note || ''}
+          navigation={navigation}
         />
       </View>
       <View className="w-full flex-1 bg-white px-6">
