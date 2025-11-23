@@ -36,7 +36,7 @@ const Page = () => {
         headerTitleStyle: {
           fontSize: 20,
           fontFamily: 'reapp_bold',
-          color: colors.color_primary,
+          color: colors.primary,
         },
       });
       try {

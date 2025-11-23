@@ -7,7 +7,7 @@ const Layout = () => (
       title: 'REAPP',
       headerBackTitleVisible: false,
       headerBackVisible: false,
-      headerTintColor: colors.color_primary,
+      headerTintColor: colors.primary,
       headerShadowVisible: false,
       headerTitleStyle: {
         fontSize: 24,

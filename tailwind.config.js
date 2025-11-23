@@ -1,13 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  presets: [require('nativewind/preset')],
   theme: {
     extend: {
       colors: {
-        color_primary: '#7B9D7C',
-        color_secundary: '#566E58',
-        color_third: '#7B9B9D',
-        color_third_light: '#d7e1e2',
+        primary: '#7B9D7C',
+        secundary: '#566E58',
+        third: '#7B9B9D',
+        third_light: '#d7e1e2',
         color_white: '#ffffff',
         color_blue: '#3B82F6',
         color_gray: '#909090',

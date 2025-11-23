@@ -150,13 +150,13 @@ const Page = () => {
           <FlatList
             data={comments}
             renderItem={({ item }) => (
-              <View className="my-3 flex-row items-start space-x-2 px-2">
+              <View className="my-3 flex-row items-start gap-x-2 px-2">
                 <Image
                   className="h-8 w-8 rounded-full"
                   source={{ uri: item.account.media?.remoteUrl }}
                 />
                 <View className="flex-1">
-                  <View className="flex-row space-x-2">
+                  <View className="flex-row gap-x-2">
                     <Text className="font-reapp_medium text-xs">
                       {item.account.name}
                     </Text>

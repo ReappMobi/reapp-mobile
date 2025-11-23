@@ -134,7 +134,9 @@ const CollaboratorCreateForm: React.FC = () => {
   };
 
   const onSubmit = async (data: FormData) => {
-    if (loading) { return; }
+    if (loading) {
+      return;
+    }
     setLoading(true);
 
     try {
@@ -189,7 +191,7 @@ const CollaboratorCreateForm: React.FC = () => {
     <View className="w-full flex-col items-center p-4">
       {/* Seletor da imagem */}
       <Pressable
-        className="relative h-[128] w-[128] rounded-full bg-color_third"
+        className="relative h-[128] w-[128] rounded-full bg-third"
         onPress={pickImage}
       >
         <Image
@@ -218,7 +220,7 @@ const CollaboratorCreateForm: React.FC = () => {
 
       {/* Botão de Enviar */}
       <Button
-        customStyles="mt-4 w-full justify-center bg-color_primary"
+        customStyles="mt-4 w-full justify-center bg-primary"
         textColor="text-text_light"
         onPress={handleSubmit(onSubmit)}
         disabled={loading}

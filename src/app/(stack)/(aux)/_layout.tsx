@@ -13,7 +13,7 @@ export default function AuxLayout() {
       screenOptions={{
         title: 'REAPP',
         headerShown: true,
-        headerTintColor: colors.color_primary,
+        headerTintColor: colors.primary,
         headerShadowVisible: false,
         headerBackVisible: false,
         headerTitleStyle: {

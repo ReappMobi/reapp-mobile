@@ -40,11 +40,7 @@ const ProjectPage = () => {
   if (!project) {
     return (
       <View className="flex-1 items-center justify-center">
-        <ActivityIndicator
-          animating
-          color={colors.color_primary}
-          size="large"
-        />
+        <ActivityIndicator animating color={colors.primary} size="large" />
       </View>
     );
   }
@@ -80,7 +76,7 @@ const ProjectPage = () => {
             {project.introdutionVideo && isPreloading && (
               <ActivityIndicator
                 animating
-                color={colors.color_primary}
+                color={colors.primary}
                 size="large"
                 style={{
                   flex: 1,
@@ -108,7 +104,7 @@ const ProjectPage = () => {
             */}
             {isDonor && (
               <Button
-                customStyles="w-full justify-center bg-color_primary"
+                customStyles="w-full justify-center bg-primary"
                 textColor="text-text_light"
                 endIcon={
                   <Ionicons

@@ -30,7 +30,7 @@ export default function SetNewPassword() {
         </View>
         <View>
           <Button
-            customStyles="w-full justify-center bg-color_primary"
+            customStyles="w-full justify-center bg-primary"
             textColor="text-text_light"
           >
             Atualizar senha

@@ -3,7 +3,7 @@ import { headerTitleStyle } from './styles';
 
 export const headerDefault = {
   headerBackVisible: true,
-  headerTintColor: colors.color_primary,
+  headerTintColor: colors.primary,
   headerShadowVisible: false,
   headerTitleStyle,
 };

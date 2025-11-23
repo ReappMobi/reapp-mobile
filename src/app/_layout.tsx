@@ -1,3 +1,4 @@
+import '../styles/global.css';
 import {
   Roboto_100Thin,
   Roboto_300Light,
@@ -13,9 +14,13 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AuthProvider } from 'src/contexts/auth';
-
 import DrawerContent from './(stack)/(drawer)/profile';
-import { Query, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import { cssInterop } from 'nativewind';
+import { Image } from 'expo-image';
+
+cssInterop(Image, { className: "style" })
 
 SplashScreen.preventAutoHideAsync();
 

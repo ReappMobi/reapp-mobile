@@ -1,6 +1,6 @@
-import { DrawerActions } from '@react-navigation/native';
 import { Image } from 'expo-image';
-import { router, useNavigation } from 'expo-router';
+import { router } from 'expo-router';
+import { DrawerNavigationHelpers } from 'node_modules/@react-navigation/drawer/lib/typescript/src/types';
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { useAuth } from 'src/hooks/useAuth';
@@ -13,6 +13,7 @@ type Props = {
   followingQty?: number;
   followersQty?: number;
   note?: string;
+  navigation: DrawerNavigationHelpers;
 };
 
 function HeaderStatisticsProfile({
@@ -22,21 +23,21 @@ function HeaderStatisticsProfile({
   followersQty,
   note,
   blurhash,
+  navigation,
 }: Props) {
   const { isDonor } = useAuth();
-  const navigation = useNavigation();
 
   return (
     <View className="flex w-full flex-col justify-start">
       <Pressable
         className="mb-4 flex-row justify-between"
         onPress={() => {
-          navigation.dispatch(DrawerActions.closeDrawer());
           if (isDonor) {
             router.push('/edit-donor-profile');
           } else {
             router.push('/edit-institution-profile');
           }
+          navigation.closeDrawer();
         }}
       >
         <View className="mb-2 flex flex-col gap-y-1">

@@ -119,7 +119,7 @@ const MyDonationsInstitution = () => {
             <MaterialIcons
               name="attach-money"
               size={24}
-              color={colors.color_primary}
+              color={colors.primary}
             />
           </View>
           <Text className="font-reapp_bold text-3xl text-gray-900">
@@ -152,9 +152,7 @@ const MyDonationsInstitution = () => {
               key={period.id}
               onPress={() => handlePeriodChange(period.id as Period)}
               className={`mb-2 mr-3 min-h-[40px] justify-center ${
-                selectedPeriod === period.id
-                  ? 'bg-color_primary'
-                  : 'bg-gray-200'
+                selectedPeriod === period.id ? 'bg-primary' : 'bg-gray-200'
               }`}
               style={{
                 borderRadius: 20,
@@ -179,7 +177,7 @@ const MyDonationsInstitution = () => {
 
       {loading ? (
         <View className="items-center justify-center">
-          <ActivityIndicator size="large" color={colors.color_primary} />
+          <ActivityIndicator size="large" color={colors.primary} />
         </View>
       ) : (
         <FlatList
@@ -193,8 +191,8 @@ const MyDonationsInstitution = () => {
             <RefreshControl
               refreshing={refreshing}
               onRefresh={handleRefresh}
-              colors={[colors.color_primary]}
-              tintColor={colors.color_primary}
+              colors={[colors.primary]}
+              tintColor={colors.primary}
             />
           }
           ListEmptyComponent={
@@ -205,7 +203,7 @@ const MyDonationsInstitution = () => {
           ListFooterComponent={
             hasMore && (
               <View className="py-4">
-                <ActivityIndicator size="small" color={colors.color_primary} />
+                <ActivityIndicator size="small" color={colors.primary} />
               </View>
             )
           }

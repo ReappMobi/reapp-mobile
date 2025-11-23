@@ -40,7 +40,7 @@ const renderHeader = () => (
           color={colors.text_neutral}
         />
       }
-      customStyles="w-64 justify-center space-x-2"
+      customStyles="w-64 justify-center gap-x-2"
       onPress={() => {
         router.push({
           pathname: 'collaborator-create',

@@ -165,7 +165,7 @@ export default function Page() {
         <Button
           size="small"
           textColor="text-white"
-          customStyles="mb-2 justify-center bg-color_third"
+          customStyles="mb-2 justify-center bg-third"
           onPress={() => router.push('/donate')}
         >
           Doar para instituições sociais

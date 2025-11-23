@@ -14,7 +14,7 @@ const DrawerContent = ({ navigation }: DrawerContentComponentProps) => {
 
   return (
     <View className="max-w-64 w-full flex-1 rounded-none">
-      <View className="bg-color_primary px-6 pt-8">
+      <View className="bg-primary px-6 pt-8">
         <HeaderStatisticsProfile
           image={user?.media?.remoteUrl}
           blurhash={user?.media?.blurhash}
@@ -22,6 +22,7 @@ const DrawerContent = ({ navigation }: DrawerContentComponentProps) => {
           followingQty={user.followingCount}
           followersQty={user.followersCount}
           note={user.note || ''}
+          navigation={navigation}
         />
       </View>
       <View className="w-full flex-1 bg-white px-6">
