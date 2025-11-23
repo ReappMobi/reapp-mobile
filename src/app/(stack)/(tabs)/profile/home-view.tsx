@@ -43,7 +43,7 @@ const renderHeader = () => (
           color={colors.text_neutral}
         />
       }
-      customStyles="justify-center space-x-2"
+      customStyles="justify-center gap-x-2"
       onPress={() => {
         router.push({
           pathname: 'post-create',

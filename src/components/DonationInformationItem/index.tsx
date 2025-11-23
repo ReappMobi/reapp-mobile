@@ -18,7 +18,7 @@ function DonationInformationItem({ image, title, subtitle }: Props) {
     <View className="mb-5 flex flex-row items-center gap-5 border-b-2 border-color_gray_light pb-2">
       <View className="h-16 w-16 items-center justify-center">
         {isLoadingImage && (
-          <ActivityIndicator size="small" color={colors.color_primary} />
+          <ActivityIndicator size="small" color={colors.primary} />
         )}
         <Image
           className="h-full w-full rounded-full"

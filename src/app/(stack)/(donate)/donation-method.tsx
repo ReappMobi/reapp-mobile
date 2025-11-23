@@ -96,7 +96,7 @@ const DonationMethodPage = () => {
       </View>
 
       <Button
-        customStyles="justify-center bg-color_primary"
+        customStyles="justify-center bg-primary"
         onPress={requestPayment}
         textColor="text-text_light"
         disabled={loading || value < 10 || description.length > 25}

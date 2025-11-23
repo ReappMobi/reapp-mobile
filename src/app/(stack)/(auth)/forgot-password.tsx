@@ -24,7 +24,7 @@ export default function ForgotPassword() {
 
       <View>
         <Button
-          customStyles="w-full justify-center bg-color_primary"
+          customStyles="w-full justify-center bg-primary"
           textColor="text-text_light"
           onPress={() => {
             router.replace('set-new-password');

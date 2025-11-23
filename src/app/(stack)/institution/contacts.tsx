@@ -37,7 +37,7 @@ function Contacts() {
             <Ionicons
               name="logo-facebook"
               size={50}
-              color={Colors.color_primary}
+              color={Colors.primary}
             />
           </Pressable>
         )}
@@ -47,7 +47,7 @@ function Contacts() {
             <Ionicons
               name="logo-instagram"
               size={50}
-              color={Colors.color_primary}
+              color={Colors.primary}
             />
           </Pressable>
         )}

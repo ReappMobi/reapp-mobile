@@ -30,7 +30,7 @@ type HeaderProps = {
 const Header = memo<HeaderProps>(({ institution, loading }) => {
   return (
     <View>
-      <View className="mt-4 flex-row items-center space-x-2 py-4">
+      <View className="mt-4 flex-row items-center gap-x-2 py-4">
         <Image
           className="h-16 w-16 rounded-full"
           source={institution ? institution.account?.media?.remoteUrl : ''}
@@ -38,7 +38,7 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
           contentFit="cover"
           transition={500}
         />
-        <View className="w-full flex-1 space-y-0 pt-4">
+        <View className="w-full flex-1 gap-y-0 pt-4">
           <Text className="font-reapp_bold text-lg">
             {institution ? institution.account?.name : ''}
           </Text>
@@ -60,7 +60,7 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
           )}
         </View>
       </View>
-      <View className="flex-row justify-center space-x-2 py-4">
+      <View className="flex-row justify-center gap-x-2 py-4">
         <Text className="text-md font-reapp_medium">
           <Text className="text-md font-reapp_bold text-text_primary">
             {institution ? institution.account?.followersCount : ''}

@@ -29,7 +29,7 @@ const renderHeader = () => (
   <View className="mb-3 items-center justify-center">
     <Button
       startIcon={<Entypo name="plus" size={23} color={colors.text_neutral} />}
-      customStyles="w-full justify-center space-x-1"
+      customStyles="w-full justify-center gap-x-1"
       onPress={() => {
         router.push('project/create');
       }}

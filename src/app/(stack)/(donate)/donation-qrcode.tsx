@@ -39,7 +39,7 @@ export default function App() {
         </Text>
         <Button
           onPress={() => getPermission()}
-          customStyles="mb-2 justify-center bg-color_third"
+          customStyles="mb-2 justify-center bg-third"
         >
           Conceder permissão
         </Button>
@@ -72,7 +72,7 @@ export default function App() {
 
               <Button
                 textColor="text-white"
-                customStyles="mb-2 justify-center bg-color_third"
+                customStyles="mb-2 justify-center bg-third"
                 onPress={() => {
                   setScanned(false);
                   setModalVisible(false);

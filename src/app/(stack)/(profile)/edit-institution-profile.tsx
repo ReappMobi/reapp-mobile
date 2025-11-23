@@ -91,7 +91,7 @@ const EditProfileForm = () => {
   return (
     <View className="w-full flex-col items-center p-4">
       <Pressable
-        className="relative h-20 w-20 rounded-full bg-color_third"
+        className="relative h-20 w-20 rounded-full bg-third"
         onPress={pickImage}
       >
         <Image
@@ -154,7 +154,7 @@ const EditProfileForm = () => {
       />
 
       <Button
-        customStyles="mt-4 w-full justify-center bg-color_primary"
+        customStyles="mt-4 w-full justify-center bg-primary"
         textColor="text-text_light"
         onPress={handleSubmit(onSubmit)}
       >

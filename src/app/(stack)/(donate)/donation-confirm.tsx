@@ -18,7 +18,7 @@ const DonationConfirmPage = () => {
   const date = formatDate();
   return (
     <>
-      <View className="items-center bg-color_primary px-4 pb-4">
+      <View className="items-center bg-primary px-4 pb-4">
         <View className="my-5">
           <DonationConfirmScreenImage width={256} height={199} />
         </View>

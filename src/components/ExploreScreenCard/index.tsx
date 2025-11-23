@@ -87,7 +87,7 @@ const ExploreScreenCard = ({
 
         <View className="h-16 w-full">
           {isLoadingImage && (
-            <ActivityIndicator size="large" color={colors.color_primary} />
+            <ActivityIndicator size="large" color={colors.primary} />
           )}
           <Image
             className="h-full w-full"

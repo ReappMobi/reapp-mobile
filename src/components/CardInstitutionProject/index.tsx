@@ -42,7 +42,7 @@ function CardInstitutionProject({
     <View className="w-full rounded-md bg-white p-4 shadow-xl">
       <View className="relative mb-2.5 h-56 w-full items-center justify-center">
         {isLoadingImage && (
-          <ActivityIndicator size="large" color={colors.color_primary} />
+          <ActivityIndicator size="large" color={colors.primary} />
         )}
 
         <Image
@@ -90,7 +90,7 @@ function CardInstitutionProject({
       )}
 
       <Button
-        customStyles="w-full justify-center bg-color_primary"
+        customStyles="w-full justify-center bg-primary"
         textColor="text-text_light"
         endIcon={
           <Ionicons

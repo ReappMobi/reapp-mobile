@@ -13,7 +13,9 @@ const TabLayout = () => {
   const navigation = useNavigation();
   const { isDonor, token, user } = useAuth();
 
-  if (!user || !token) { return <Redirect href="welcome" />; }
+  if (!user || !token) {
+    return <Redirect href="welcome" />;
+  }
 
   const onToggle = () => {
     navigation.dispatch(DrawerActions.toggleDrawer());
@@ -25,7 +27,7 @@ const TabLayout = () => {
         <Tabs
           screenOptions={{
             tabBarShowLabel: false,
-            tabBarActiveTintColor: colors.color_primary,
+            tabBarActiveTintColor: colors.primary,
             tabBarInactiveTintColor: colors.text_dark,
             tabBarStyle: {
               borderTopWidth: 1,
@@ -39,7 +41,7 @@ const TabLayout = () => {
               title: 'REAPP',
               headerTitleStyle: {
                 fontFamily: 'reapp_bold',
-                color: colors.color_primary,
+                color: colors.primary,
                 fontSize: 20,
               },
               headerRight: () =>

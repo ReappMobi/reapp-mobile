@@ -41,7 +41,7 @@ export default function Button({
       ]}
       className={`${variantStyles.default} 
         ${variantStyles[variant]} 
-        ${sizeStyles[size]} 
+        ${sizeStyles[size]}
         ${customStyles} 
         flex-row items-center justify-center`}
       onPress={disabled ? undefined : onPress}

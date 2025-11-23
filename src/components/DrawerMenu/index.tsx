@@ -67,7 +67,7 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = memo(({ navigation }) => {
             onPress={handleDonationsPress}
           >
             <Text
-              className={`font-reapp_bold text-lg ${isDonationsOpen ? 'text-color_primary' : ''}`}
+              className={`font-reapp_bold text-lg ${isDonationsOpen ? 'text-primary' : ''}`}
             >
               Minhas doações
             </Text>

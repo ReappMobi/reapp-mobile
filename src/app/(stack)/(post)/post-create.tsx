@@ -27,7 +27,6 @@ export default function PostCreate() {
   const mediaTypes: MediaType[] = ['images'];
   const queryClient = useQueryClient();
 
-
   const postCreateFormSchema = z.object({
     description: z
       .string({ required_error: 'O conteúdo da postagem é obrigatório.' })
@@ -57,8 +56,8 @@ export default function PostCreate() {
     };
 
     const res = await postPublication(dataReq);
- 
-    queryClient.invalidateQueries({queryKey: [POSTS_PREFIX_KEY]});
+
+    queryClient.invalidateQueries({ queryKey: [POSTS_PREFIX_KEY] });
     setLoading(false);
     if (res.error) {
       Alert.alert('Erro no cadastro da postagem', res.error);
@@ -177,7 +176,7 @@ export default function PostCreate() {
           size="small"
           variant="contained"
           textColor="text-text_light"
-          customStyles="shadow-full w-24 items-center justify-center rounded-full bg-color_primary"
+          customStyles="shadow-full w-24 items-center justify-center rounded-full bg-primary"
         >
           Postar
         </Button>

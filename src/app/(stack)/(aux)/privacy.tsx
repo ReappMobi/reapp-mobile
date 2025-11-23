@@ -11,7 +11,7 @@ const PrivacyPolicyScreen = () => {
     navigation.setOptions({
       title: 'Política de Privacidade',
       headerBackVisible: true,
-      headerTintColor: colors.color_primary,
+      headerTintColor: colors.primary,
       headerShadowVisible: false,
       headerTitleStyle: {
         fontSize: 18,
