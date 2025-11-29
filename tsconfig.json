@@ -3,7 +3,7 @@
     "baseUrl": "./",
     "jsx": "react-jsx",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"]
     }
   },
   "extends": "expo/tsconfig.base"
