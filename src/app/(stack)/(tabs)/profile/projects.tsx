@@ -8,16 +8,16 @@ import {
   FlatList,
   ListRenderItem,
   RefreshControl,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Button } from 'src/components';
 import CardInstitutionProject from 'src/components/CardInstitutionProject';
 import colors from 'src/constants/colors';
 import { useProjectsByInstitution } from 'src/hooks/useProjectsByInstitution';
 import { deleteProject } from 'src/services/app-core';
 import { IProject } from 'src/types';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 type ProjectListProps = {
   item: IProject;
@@ -28,13 +28,14 @@ type ProjectListProps = {
 const renderHeader = () => (
   <View className="mb-3 items-center justify-center">
     <Button
-      startIcon={<Entypo name="plus" size={23} color={colors.text_neutral} />}
-      customStyles="w-full justify-center gap-x-1"
+      variant="outline"
+      className="w-full"
       onPress={() => {
         router.push('project/create');
       }}
     >
-      Adicionar Projeto
+      <Entypo name="plus" size={23} color={colors.text_neutral} />
+      <Text>Adicionar Projeto</Text>
     </Button>
   </View>
 );

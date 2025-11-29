@@ -11,14 +11,15 @@ import {
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Alert, Image, Pressable, Text, TextInput, View } from 'react-native';
+import { Alert, Image, Pressable, TextInput, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { postPublication } from 'src/services/app-core';
 import { POSTS_PREFIX_KEY } from 'src/services/posts/post.service';
 import { z } from 'zod';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 export default function PostCreate() {
   const auth = useAuth();
@@ -173,12 +174,10 @@ export default function PostCreate() {
         </View>
         <Button
           onPress={handleSubmit(onSubmit)}
-          size="small"
-          variant="contained"
-          textColor="text-text_light"
-          customStyles="shadow-full w-24 items-center justify-center rounded-full bg-primary"
+          size="sm"
+          className="w-24 rounded-full"
         >
-          Postar
+          <Text>Postar</Text>
         </Button>
       </View>
     </SafeAreaView>

@@ -8,36 +8,30 @@ import {
   FlatList,
   ListRenderItem,
   RefreshControl,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Button, CardPost } from 'src/components';
+import { CardPost } from 'src/components';
 import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { usePostsByInstitution } from 'src/hooks/usePostsByInstitution';
 import { deletePublication } from 'src/services/app-core';
 import { IPost } from 'src/types';
-import { timeAgo } from 'src/utils/time-ago';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 const renderHeader = () => (
   <View className="mb-3 items-center justify-center">
     <Button
-      endIcon={
-        <Ionicons
-          name="chevron-forward"
-          size={20}
-          color={colors.text_neutral}
-        />
-      }
-      customStyles="justify-center gap-x-2"
+      variant="outline"
       onPress={() => {
         router.push({
           pathname: 'post-create',
         });
       }}
     >
-      Cadastrar Nova Postagem
+      <Text>Cadastrar Nova Postagem</Text>
+      <Ionicons name="chevron-forward" size={20} color={colors.text_neutral} />
     </Button>
   </View>
 );

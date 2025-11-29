@@ -1,4 +1,3 @@
-import Button from './Button';
 import CardInstitutionProject from './CardInstitutionProject';
 import CardPost from './CardPost';
 import CardSearch from './CardSearch';
@@ -14,7 +13,6 @@ import SearchInput from './SearchInput';
 import TabViewWrapper from './TabViewWrapper';
 
 export {
-  Button,
   CardInstitutionProject,
   CardPost,
   CardSearch,

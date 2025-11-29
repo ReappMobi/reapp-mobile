@@ -8,8 +8,8 @@ import { ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, withLayoutContext } from 'expo-router';
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { Alert, Linking, Text, View } from 'react-native';
-import { Button, LoadingBox, ScreenContainer } from 'src/components';
+import { Alert, Linking, View } from 'react-native';
+import { LoadingBox, ScreenContainer } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import {
   followAccount,
@@ -17,6 +17,8 @@ import {
   unfollowAccount,
 } from 'src/services/app-core';
 import { IInstitution } from 'src/types';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 const { Navigator } = createMaterialTopTabNavigator();
 
@@ -80,7 +82,9 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
     const message =
       'Olá, estou vindo pelo Reapp e tenho interesse em ser voluntário!';
 
-    const whatsappUrl = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(
+      message
+    )}`;
 
     Linking.openURL(whatsappUrl).catch(() => {
       Alert.alert(
@@ -130,22 +134,18 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
 
           <View className="gap-y-2">
             <Button
-              textColor="text-white"
-              size="small"
-              customStyles={`justify-center ${
-                isFollowing ? 'bg-gray-400' : 'bg-primary'
-              }`}
+              size="sm"
+              className={`${isFollowing ? 'bg-gray-400' : 'bg-primary'}`}
               onPress={isFollowing ? handleUnfollow : handleFollow}
             >
-              {isFollowing ? 'Seguindo' : 'Seguir'}
+              <Text>{isFollowing ? 'Seguindo' : 'Seguir'}</Text>
             </Button>
 
             {isDonor && (
               <View className="flex-row">
                 <Button
-                  textColor="text-white"
-                  size="small"
-                  customStyles="mr-2 w-20 justify-center bg-primary"
+                  size="sm"
+                  className="mr-2 w-20"
                   onPress={() =>
                     router.push({
                       pathname: '/donate',
@@ -156,18 +156,16 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
                     })
                   }
                 >
-                  Doar
+                  <Text>Doar</Text>
                 </Button>
                 <Button
-                  startIcon={
-                    <Ionicons name="chevron-forward" size={20} color="#000" />
-                  }
-                  customStyles="flex-1 items-center justify-start gap-x-1"
-                  size="small"
-                  textSize="text-sm"
+                  variant="outline"
+                  size="sm"
+                  className="flex-1 justify-start"
                   onPress={handleVolunteerPress}
                 >
-                  Quero ser voluntário
+                  <Ionicons name="chevron-forward" size={20} color="#000" />
+                  <Text>Quero ser voluntário</Text>
                 </Button>
               </View>
             )}

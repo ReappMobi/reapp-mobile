@@ -1,8 +1,9 @@
 import { Camera, CameraView } from 'expo-camera';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Modal, Text, View } from 'react-native';
-import { Button } from 'src/components';
+import { Modal, View } from 'react-native';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -38,10 +39,11 @@ export default function App() {
           Precisamos da sua permissão para acessar a câmera
         </Text>
         <Button
+          variant="secondary"
+          className="mb-2"
           onPress={() => getPermission()}
-          customStyles="mb-2 justify-center bg-third"
         >
-          Conceder permissão
+          <Text>Conceder permissão</Text>
         </Button>
       </View>
     );
@@ -71,20 +73,17 @@ export default function App() {
               </Text>
 
               <Button
-                textColor="text-white"
-                customStyles="mb-2 justify-center bg-third"
+                variant="secondary"
+                className="mb-2"
                 onPress={() => {
                   setScanned(false);
                   setModalVisible(false);
                 }}
               >
-                Escanear novamente
+                <Text>Escanear novamente</Text>
               </Button>
-              <Button
-                customStyles="mb-2 justify-center"
-                onPress={() => router.back()}
-              >
-                Finalizar
+              <Button className="mb-2" onPress={() => router.back()}>
+                <Text>Finalizar</Text>
               </Button>
             </View>
           </View>

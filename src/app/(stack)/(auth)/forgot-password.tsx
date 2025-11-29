@@ -1,7 +1,9 @@
 import { router } from 'expo-router';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import ForgetPasswordImage from 'src/assets/images/ForgetPassowordImage.svg';
-import { Button, Input } from 'src/components';
+import { Input } from 'src/components';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 export default function ForgotPassword() {
   return (
@@ -24,13 +26,12 @@ export default function ForgotPassword() {
 
       <View>
         <Button
-          customStyles="w-full justify-center bg-primary"
-          textColor="text-text_light"
+          className="w-full"
           onPress={() => {
             router.replace('set-new-password');
           }}
         >
-          Enviar email
+          <Text>Enviar email</Text>
         </Button>
       </View>
     </View>

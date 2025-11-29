@@ -18,7 +18,6 @@ import {
   ScrollView,
   View,
 } from 'react-native';
-import { Button } from 'src/components';
 import { FormInputField } from 'src/components/FormInputField';
 import { useAuth } from 'src/hooks/useAuth';
 import { RequestMedia, updateAccount } from 'src/services/account';
@@ -26,6 +25,8 @@ import {
   FormData,
   schema,
 } from 'src/utils/profile-page/edit-donor-profile-schema';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 const EditProfileForm = () => {
   const {
@@ -155,15 +156,14 @@ const EditProfileForm = () => {
       />
 
       <Button
-        customStyles="mt-4 w-full justify-center bg-primary py-3"
-        textColor="text-text_light"
+        className="mt-4 w-full"
         onPress={handleSubmit(onSubmit)}
         disabled={loading}
       >
         {loading ? (
           <ActivityIndicator size="small" color="white" />
         ) : (
-          'Salvar alterações'
+          <Text>Salvar alterações</Text>
         )}
       </Button>
     </View>

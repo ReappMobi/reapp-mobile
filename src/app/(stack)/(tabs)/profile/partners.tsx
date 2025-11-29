@@ -7,34 +7,29 @@ import {
   FlatList,
   ListRenderItem,
   RefreshControl,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Button } from 'src/components';
 import PartnerCard from 'src/components/PartnerCard';
 import colors from 'src/constants/colors';
 import { usePartnersByInstitution } from 'src/hooks/usePartnersByInstitution';
 import { IPartner } from 'src/types/IPartner';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 const renderHeader = () => (
   <View className="mb-3 items-center justify-center">
     <Button
-      endIcon={
-        <Ionicons
-          name="chevron-forward"
-          size={20}
-          color={colors.text_neutral}
-        />
-      }
-      customStyles="w-64 justify-center gap-x-2"
+      variant="outline"
+      className="w-64"
       onPress={() => {
         router.push({
           pathname: 'partner-create',
         });
       }}
     >
-      Cadastrar Novo Parceiro
+      <Text>Cadastrar Novo Parceiro</Text>
+      <Ionicons name="chevron-forward" size={20} color={colors.text_neutral} />
     </Button>
   </View>
 );

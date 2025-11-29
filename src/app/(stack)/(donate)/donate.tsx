@@ -1,7 +1,10 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { Alert, Linking, Text, View } from 'react-native';
+import { Banknote, Package } from 'lucide-react-native';
+import { Alert, Linking, View } from 'react-native';
 import DonationScreenImage from 'src/assets/images/DonationScreenImage.svg';
-import { Button } from 'src/components';
+import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
+import { Text } from '@/components/ui/text';
 
 const DonationPage = () => {
   const { institutionId, projectId, phone } = useLocalSearchParams();
@@ -12,7 +15,9 @@ const DonationPage = () => {
     const message =
       'Olá, estou vindo pelo Reapp e gostaria de realizar uma doação de insumos!';
 
-    const whatsappUrl = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(
+      message
+    )}`;
 
     Linking.openURL(whatsappUrl).catch(() => {
       Alert.alert(
@@ -23,7 +28,7 @@ const DonationPage = () => {
   };
 
   return (
-    <View className="px-4">
+    <View className="px-4 bg-white flex-1">
       <View className="items-center">
         <DonationScreenImage width={256} height={274.96} />
         <Text className="mb-4 text-center font-bold text-lg">
@@ -35,7 +40,7 @@ const DonationPage = () => {
         <View className="flex-row gap-x-1.5">
           <View className="w-2/4">
             <Button
-              customStyles="justify-center"
+              variant="outline"
               onPress={() => {
                 router.push({
                   pathname: '/donation-method',
@@ -46,32 +51,22 @@ const DonationPage = () => {
                 });
               }}
             >
-              Doação pontual
+              <Text className="text-text-neutral">Doação pontual</Text>
+
+              <Icon as={Banknote} size={18} className="stroke-text-neutral" />
             </Button>
           </View>
         </View>
 
         <View className="flex-row gap-x-1.5">
-          {/* 
           <View className="w-2/4">
             <Button
-              customStyles="justify-center"
-              onPress={() => {
-                router.push('/donation-invoice');
-              }}
-            >
-              Nota Fiscal
-            </Button>
-          </View>
-
-          */}
-
-          <View className="w-2/4">
-            <Button
-              customStyles="justify-center"
+              variant="outline"
+              className="gap-x-4"
               onPress={handleInsumosDonation}
             >
-              Insumos
+              <Text className="text-text-neutral">Insumos</Text>
+              <Icon as={Package} size={18} className="stroke-text-neutral" />
             </Button>
           </View>
         </View>

@@ -4,13 +4,15 @@ import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Alert, Image, ScrollView, Text, View } from 'react-native';
+import { Alert, Image, ScrollView, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Input } from 'src/components';
+import { Input } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { getProjectCategories, postProject } from 'src/services/app-core';
 import { z } from 'zod';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 export default function ProjectCreate() {
   const auth = useAuth();
@@ -195,12 +197,8 @@ export default function ProjectCreate() {
 
           <View className="">
             <Text className="font-regular text-base">Imagem de capa</Text>
-            <Button
-              customStyles="w-full justify-center "
-              textColor="text-color_blue"
-              onPress={pickImage}
-            >
-              Selecionar Imagem de capa
+            <Button variant="link" className="w-full" onPress={pickImage}>
+              <Text>Selecionar Imagem de capa</Text>
             </Button>
           </View>
           {image && (
@@ -214,12 +212,8 @@ export default function ProjectCreate() {
 
           {/* Opção para inserir vídeo */}
           <View>
-            <Button
-              customStyles="w-full justify-center bg-primary"
-              textColor="text-text_light"
-              onPress={handleSubmit(onSubmit)}
-            >
-              Cadastrar Projeto
+            <Button className="w-full" onPress={handleSubmit(onSubmit)}>
+              <Text>Cadastrar Projeto</Text>
             </Button>
           </View>
         </View>

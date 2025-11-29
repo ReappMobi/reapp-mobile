@@ -12,15 +12,15 @@ import {
   Platform,
   Pressable,
   ScrollView,
-  Text,
   TextInput,
   View,
 } from 'react-native';
-import { Button } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { RequestMedia } from 'src/services/account';
 import { postInstitutionMember } from 'src/services/app-core';
 import { z } from 'zod';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 const volunteerCreateFormSchema = z.object({
   name: z
@@ -220,15 +220,14 @@ const VolunteerCreateForm: React.FC = () => {
 
       {/* Botão de Enviar */}
       <Button
-        customStyles="mt-4 w-full justify-center bg-primary"
-        textColor="text-text_light"
+        className="mt-4 w-full"
         onPress={handleSubmit(onSubmit)}
         disabled={loading}
       >
         {loading ? (
           <ActivityIndicator size="small" color="white" />
         ) : (
-          'Cadastrar Voluntário'
+          <Text>Cadastrar Voluntário</Text>
         )}
       </Button>
     </View>

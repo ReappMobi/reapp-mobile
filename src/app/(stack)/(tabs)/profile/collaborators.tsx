@@ -7,15 +7,15 @@ import {
   FlatList,
   ListRenderItem,
   RefreshControl,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Button } from 'src/components';
 import { CollaboratorCard } from 'src/components/CollaboratorCard';
 import colors from 'src/constants/colors';
 import { useCollaboratorsByInstitution } from 'src/hooks/useCollaboratorsByInstitution';
 import { ICollaborator } from 'src/types/ICollaborator';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 type CollaboratorItemProps = {
   item: ICollaborator;
@@ -33,21 +33,16 @@ const CollaboratorItem = memo<CollaboratorItemProps>(({ item }) => {
 const renderHeader = () => (
   <View className="mb-3 items-center justify-center">
     <Button
-      endIcon={
-        <Ionicons
-          name="chevron-forward"
-          size={20}
-          color={colors.text_neutral}
-        />
-      }
-      customStyles="w-64 justify-center gap-x-2"
+      variant="outline"
+      className="w-64"
       onPress={() => {
         router.push({
           pathname: 'collaborator-create',
         });
       }}
     >
-      Cadastrar Colaborador
+      <Text>Cadastrar Colaborador</Text>
+      <Ionicons name="chevron-forward" size={20} color={colors.text_neutral} />
     </Button>
   </View>
 );

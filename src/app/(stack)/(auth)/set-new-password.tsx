@@ -1,5 +1,7 @@
-import { Text, View } from 'react-native';
-import { Button, Input } from 'src/components';
+import { View } from 'react-native';
+import { Input } from 'src/components';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 export default function SetNewPassword() {
   return (
@@ -29,11 +31,8 @@ export default function SetNewPassword() {
           <Input placeholder="Confirme a senha" secureTextEntry />
         </View>
         <View>
-          <Button
-            customStyles="w-full justify-center bg-primary"
-            textColor="text-text_light"
-          >
-            Atualizar senha
+          <Button className="w-full">
+            <Text>Atualizar senha</Text>
           </Button>
         </View>
       </View>

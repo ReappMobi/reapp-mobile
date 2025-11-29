@@ -3,13 +3,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button } from 'src/components';
 import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { getProjectById } from 'src/services/app-core';
 import { IProject } from 'src/types';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 const ProjectPage = () => {
   const navigation = useNavigation();
@@ -102,15 +103,7 @@ const ProjectPage = () => {
             */}
             {isDonor && (
               <Button
-                customStyles="w-full justify-center bg-primary"
-                textColor="text-text_light"
-                endIcon={
-                  <Ionicons
-                    name="chevron-forward"
-                    size={20}
-                    color={colors.text_white}
-                  />
-                }
+                className="w-full"
                 onPress={() => {
                   return router.navigate({
                     pathname: 'donate',
@@ -122,7 +115,12 @@ const ProjectPage = () => {
                   });
                 }}
               >
-                Clique aqui e faça sua doação
+                <Text>Clique aqui e faça sua doação</Text>
+                <Ionicons
+                  name="chevron-forward"
+                  size={20}
+                  color={colors.text_white}
+                />
               </Button>
             )}
           </View>

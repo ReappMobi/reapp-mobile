@@ -1,12 +1,14 @@
 import { useLocalSearchParams } from 'expo-router';
 import { openBrowserAsync } from 'expo-web-browser';
 import { useState } from 'react';
-import { ActivityIndicator, Alert, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, View } from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 import DonationTaxReceiptImage from 'src/assets/images/DonationTaxReceiptImage.svg';
-import { Button, Input } from 'src/components';
+import { Input } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { requestPaymentUrl } from 'src/services/payment';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 const DonationMethodPage = () => {
   const { institutionId, projectId } = useLocalSearchParams();
@@ -96,15 +98,14 @@ const DonationMethodPage = () => {
       </View>
 
       <Button
-        customStyles="justify-center bg-primary"
+        className="w-full"
         onPress={requestPayment}
-        textColor="text-text_light"
         disabled={loading || value < 10 || description.length > 25}
       >
         {loading ? (
           <ActivityIndicator size="small" color="white" />
         ) : (
-          'Continuar'
+          <Text>Continuar</Text>
         )}
       </Button>
     </View>
