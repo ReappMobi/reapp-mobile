@@ -1,15 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
-/*
 import {
-  GoogleSignin,
-  isErrorWithCode,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
-*/
-import {
-  MediaType,
   launchImageLibraryAsync,
+  MediaType,
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 import { router } from 'expo-router';
@@ -28,15 +21,12 @@ import {
   View,
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
-import { Button } from 'src/components';
+import { Button } from 'src/components/ui/button';
 import { useAuth } from 'src/hooks/useAuth';
 import { RequestMedia } from 'src/services/account';
 import { SignUpData } from 'src/types';
 import { z } from 'zod';
 
-// ----------------------
-// Configurações do Zod
-// ----------------------
 const MIN_NAME_LEN = 3;
 const MAX_NAME_LEN = 25;
 
@@ -86,9 +76,6 @@ type RequestMediaExtended = RequestMedia & {
   height?: number;
 };
 
-// -------------------
-// Campo de input base
-// -------------------
 type FormInputFieldProps = {
   control: any;
   name: keyof FormData;
@@ -140,9 +127,6 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
   );
 };
 
-// ----------------------------------------------------------------
-// Campo específico para tratar input mascarado (Telefone e CNPJ)
-// ----------------------------------------------------------------
 type MaskInputFieldProps = {
   control: any;
   name: keyof FormData;
@@ -193,10 +177,7 @@ const MaskInputField: React.FC<MaskInputFieldProps> = ({
   );
 };
 
-// -----------------------
-// Formulário de Cadastro
-// -----------------------
-const SignUpForm: React.FC = () => {
+const SignUpForm = () => {
   const {
     control,
     handleSubmit,
@@ -393,122 +374,28 @@ const SignUpForm: React.FC = () => {
 
       {/* Botão de Enviar */}
       <Button
-        customStyles="mt-4 w-full justify-center bg-primary"
-        textColor="text-text_light"
+        className="w-full mt-4"
+        size="lg"
         onPress={handleSubmit(onSubmit)}
         disabled={loading}
       >
         {loading ? (
           <ActivityIndicator size="small" color="white" />
         ) : (
-          'Cadastrar'
+          <Text className="text-white">Cadastrar</Text>
         )}
       </Button>
     </View>
   );
 };
 
-// -------------------------
-// Página principal do Signup
-// -------------------------
-
-const SignUp: React.FC = () => {
-  //const [googleLoading] = useState<boolean>(false);
-  //const auth = useAuth();
-
-  /*
-  const clearHistory = useCallback(() => {
-    while (router.canGoBack()) {
-      router.back();
-    }
-    router.replace('/sign-in');
-  }, [auth]);
-
-  */
-  /*
-  const onSubmitGoogle = async () => {
-    
-    try {
-      setGoogleLoading(true);
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      const res = await auth.donnorSignUpGoogle({ idToken: userInfo.idToken });
-      if (res.error) {
-        Alert.alert('Erro no cadastro de doador', res.error);
-      } else {
-        Alert.alert('Doador cadastrado com sucesso!');
-        clearHistory();
-      }
-    } catch (error) {
-      if (isErrorWithCode(error)) {
-        switch (error.code) {
-          case statusCodes.SIGN_IN_CANCELLED:
-            Alert.alert('Autenticação cancelada');
-            break;
-          case statusCodes.IN_PROGRESS:
-            Alert.alert('Autenticação em andamento');
-            break;
-          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-            Alert.alert('Autenticação com o Google não disponível no momento');
-            break;
-          default:
-            Alert.alert(
-              'Autenticação com o Google falhou. Tente novamente mais tarde'
-            );
-        }
-      } else {
-        Alert.alert(
-          'Autenticação com o Google falhou. Tente novamente mais tarde'
-        );
-      }
-    }
-    finally{
-      setGoogleLoading(false);
-    }
-      
-    Alert.alert('O cadastro com o Google esta indisponível no momento.');
-  };
-  */
-
+const SignUp = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       className="flex-1"
     >
       <ScrollView>
-        <View className="items-center pt-4">
-          <Text className="mb-4 text-center font-reapp_medium text-xl">
-            Cadastro de Doador
-          </Text>
-          {/* 
-          <View className="flex-row justify-center gap-2">
-            <View className="items-center">
-              <Button
-                customStyles="w-10/12"
-                startIcon={
-                  <Ionicons
-                    name="logo-google"
-                    size={24}
-                    color={colors.text_neutral}
-                  />
-                }
-                onPress={onSubmitGoogle}
-                disabled={googleLoading}
-              >
-                {googleLoading ? (
-                  <ActivityIndicator size="small" color="white" />
-                ) : (
-                  'Cadastre-se com Google'
-                )}
-              </Button>
-            </View>
-          </View>
-          <Text className="mt-4 text-center font-reapp_regular text-xs">
-            Ou cadastre-se com seu email
-          </Text>
-          */}
-        </View>
-
         <SignUpForm />
       </ScrollView>
     </KeyboardAvoidingView>
