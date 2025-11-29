@@ -2,13 +2,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, router } from 'expo-router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ActivityIndicator, Alert, Text, View } from 'react-native';
-import { Button, Input } from 'src/components';
+import { ActivityIndicator, Alert, View } from 'react-native';
+import { Button } from 'src/components/ui/button';
+import { Input } from 'src/components/ui/input';
+import { Text } from 'src/components/ui/text';
 import { useAuth } from 'src/hooks/useAuth';
 import {
   signInFormData,
   signInFormSchema,
 } from 'src/schemas/auth/sign-in.schema';
+import { cn } from '@/lib/utils';
 
 export default function SignIn() {
   const auth = useAuth();
@@ -17,12 +20,11 @@ export default function SignIn() {
 
   const {
     register,
-    setValue,
-    watch,
     handleSubmit,
     formState: { errors },
   } = useForm<signInFormData>({
     resolver: zodResolver(signInFormSchema),
+    reValidateMode: 'onSubmit',
     defaultValues: {
       email: '',
       password: '',
@@ -47,78 +49,65 @@ export default function SignIn() {
   };
 
   return (
-    <View className="gap-3 px-4">
-      <View className="pt-6">
-        <Text className="text-base">Email</Text>
+    <View className="gap-3 px-4 flex-1 bg-white">
+      <View className="pt-1">
+        <Text className="text-base text-sm">Email</Text>
         <Input
-          placeholder="Digite seu email"
-          inputMode="email"
           autoFocus
-          onChangeText={(text) =>
-            setValue('email', text, { shouldValidate: true })
-          }
-          value={watch('email')}
+          placeholder="Digite seu email"
+          className={cn(errors.email && 'border-rose-400')}
+          inputMode="email"
           {...register('email')}
         />
         {errors.email && (
-          <Text className="my-1 text-xs font-semibold text-color_redsh">
+          <Text className="my-1 text-xs font-semibold text-destructive">
             {errors.email.message}
           </Text>
         )}
       </View>
 
       <View>
-        <Text className="text-base">Senha</Text>
+        <Text className="text-base text-sm">Senha</Text>
         <Input
+          className={cn(errors.password && 'border-rose-400')}
           placeholder="Digite sua senha"
           secureTextEntry
           {...register('password')}
-          onChangeText={(text) =>
-            setValue('password', text, { shouldValidate: true })
-          }
-          value={watch('password')}
         />
         {errors.password && (
-          <Text className="my-1 text-xs font-semibold text-color_redsh">
+          <Text className="my-1 text-xs font-semibold text-destructive">
             {errors.password.message}
           </Text>
         )}
       </View>
 
       <Text
-        className="text-base text-text_primary underline underline-offset-1"
+        className="text-base font-semibold text-primary underline underline-offset-1"
         onPress={() => router.push('/forgot-password')}
       >
         Esqueci minha senha
       </Text>
 
       <View>
-        <Button
-          customStyles="w-full justify-center bg-primary"
-          textColor="text-foreground"
-          onPress={handleSubmit(onSubmit)}
-          disabled={loading}
-        >
+        <Button size="lg" onPress={handleSubmit(onSubmit)} disabled={loading}>
           {loading ? (
             <ActivityIndicator size="small" color="white" />
           ) : (
-            'Entrar'
+            <Text> Entrar </Text>
           )}
         </Button>
       </View>
-
-      <View className="flex-row justify-center gap-2">
-        <Text className="text-center font-reapp_regular text-base">
-          Não possui conta?
-        </Text>
-        <Link
-          href="/profile-selector"
-          push
-          className="text-base text-text_primary underline underline-offset-1"
-        >
+      <Text className="text-center text-xs font-bold"> ou se preferir </Text>
+      <Button
+        size="default"
+        onPress={() => router.push('/profile-selector')}
+        disabled={loading}
+        variant="outline"
+      >
+        <Text className="text-foreground font-semibold text-md">
           Cadastre-se
-        </Link>
-      </View>
+        </Text>
+      </Button>
     </View>
   );
 }
