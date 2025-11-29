@@ -2,14 +2,7 @@ import { Octicons } from '@expo/vector-icons';
 import { DrawerActions } from '@react-navigation/native';
 import { debounce } from 'es-toolkit/function';
 import { Image } from 'expo-image';
-import {
-  Link,
-  Redirect,
-  router,
-  Tabs,
-  useNavigation,
-  useRouter,
-} from 'expo-router';
+import { Redirect, Tabs, useNavigation, useRouter } from 'expo-router';
 import { CopyPlus, Globe, Star, UserRound } from 'lucide-react-native';
 import { useCallback } from 'react';
 import { Pressable, View } from 'react-native';
