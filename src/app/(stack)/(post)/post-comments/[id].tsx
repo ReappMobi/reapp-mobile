@@ -7,10 +7,10 @@ import {
   ActivityIndicator,
   Alert,
   Pressable,
-  SafeAreaView,
   Text,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { useAuth } from 'src/hooks/useAuth';
 import {
