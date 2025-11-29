@@ -16,6 +16,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AuthProvider } from 'src/contexts/auth';
 import DrawerContent from './(stack)/(drawer)/profile';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { PortalHost } from '@rn-primitives/portal';
 
 import { cssInterop } from 'nativewind';
 import { Image } from 'expo-image';
@@ -62,6 +63,7 @@ export default function RootLayout() {
               drawerStyle: { width: '78%' },
             }}
           />
+          <PortalHost />
         </AuthProvider>
       </QueryClientProvider>
     </GestureHandlerRootView>
