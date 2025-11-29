@@ -1,22 +1,23 @@
 import { createContext, useState } from 'react';
 import { ApiResponseError } from 'src/errors/ApiResponseError';
-import { createProject, getProjectsCategories } from 'src/services/project';
-import { IProject } from 'src/types';
-import { ApiErrorResponse } from 'src/types/IApiResponseError';
-import { Category } from 'src/types/ICategory';
+import {
+  createProject,
+  getProjectsCategories,
+  CreateProjectResponse,
+} from 'src/services/project';
 
 interface ProjectContextData {
   getProjects(): Promise<void>;
   saveProject(
     token: string,
     data: any
-  ): Promise<[IProject, Error | ApiResponseError]>;
+  ): Promise<[CreateProjectResponse, Error | ApiResponseError]>;
   updateProject(data: any): Promise<void>;
   deleteProject(id: string): Promise<void>;
-  getProjectCategories(query: string): Promise<Category[]>;
-  setCurrentCategory(category: Category): void;
-  error: ApiErrorResponse | Error | null;
-  category: Category | null;
+  getProjectCategories(query: string): Promise<Record<string, any>[]>;
+  setCurrentCategory(category: Record<string, any>): void;
+  error: ApiResponseError | Error | null;
+  category: Record<string, any> | null;
   loading: boolean;
 }
 
@@ -25,17 +26,23 @@ export const ProjectContext = createContext<ProjectContextData>(
 );
 
 export function ProjectProvider({ children }) {
-  const [category, setCategory] = useState<Category | null>(null);
-  const [error, setError] = useState<ApiErrorResponse | Error | null>(null);
+  const [category, setCategory] = useState<Record<string, any> | null>(null);
+  const [error, setError] = useState<ApiResponseError | Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
   const getProjects = async () => {};
-  const saveProject = async (token: string, project: any) => {
-    setLoading(true);
-    const response = await createProject(token, project);
-    setLoading(false);
-    return response;
-  };
+  const saveProject = async (
+  token: string,
+  project: any
+): Promise<[CreateProjectResponse, Error | ApiResponseError]> => {
+  setLoading(true);
+  const [response, error] = await createProject(token, project);
+  setLoading(false);
+  if (error) {
+    setError(error);
+  }
+  return [response, error];
+};
 
   const updateProject = async (_data: any) => {};
   const deleteProject = async (_id: string) => {};
@@ -46,7 +53,7 @@ export function ProjectProvider({ children }) {
       setError(error);
     }
   };
-  const setCurrentCategory = (category: Category) => {
+  const setCurrentCategory = (category: Record<string, any>) => {
     setCategory(category);
   };
 

@@ -3,13 +3,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native';
 import { Input } from 'src/components';
 import { useProject } from 'src/hooks/useProject';
-import { Category } from 'src/types/ICategory';
+
 import { debounce } from 'src/utils/functools';
 
 const Page = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { getProjectCategories, setCurrentCategory } = useProject();
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<Record<string, any>[]>([]);
 
   const updateSearchQuery = useCallback((query: string) => {
     setSearchQuery(query);
@@ -27,12 +27,12 @@ const Page = () => {
     setCategories(categories);
   };
 
-  const handleSelectedCategory = (category: Category) => {
+  const handleSelectedCategory = (category: Record<string, any>) => {
     setCurrentCategory(category);
     router.dismiss();
   };
 
-  const renderCategory = (item: Category) => {
+  const renderCategory = (item: Record<string, any>) => {
     if (categories.length === 0) {
       return (
         <View className="flex-1 items-center justify-center">

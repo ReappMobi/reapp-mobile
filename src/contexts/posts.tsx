@@ -1,5 +1,5 @@
 import { createContext, useCallback, useEffect, useState } from 'react';
-import { getPosts, getSharedCampaigns } from 'src/services/app-core';
+import { getPosts } from 'src/services/app-core';
 import { IBanner, IPost } from 'src/types';
 
 export type PostContextData = {
@@ -35,8 +35,7 @@ export const PostProvider: React.FC<PostProviderProps> = ({
       setLoading(true);
       setError(null);
 
-      const banners = await getSharedCampaigns();
-      setBanners(banners);
+      setBanners([]);
 
       const posts = await getPosts({ token });
       setPosts(posts);

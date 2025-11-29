@@ -23,7 +23,6 @@ import { CardSearch, ExploreScreenCard, LoadingBox } from 'src/components';
 import Colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { useSearch } from 'src/hooks/useSearch';
-import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
 import {
   followAccount,
   getInstitutions,
@@ -40,7 +39,7 @@ import { IInstitution } from 'src/types';
 function useInstitutions() {
   const auth = useAuth();
   const [institutions, setInstitutions] = useState<IInstitution[]>([]);
-  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [categories, setCategories] = useState<Record<string, any>[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
   const [refreshing, setRefreshing] = useState<boolean>(false);
@@ -59,7 +58,7 @@ function useInstitutions() {
             { id: inst.category.id, name: inst.category.name },
           ])
         ).values()
-      ) as ICategory[];
+      ) as Record<string, any>[];
 
       setInstitutions(institutionsData);
       setCategories(uniqueCategories);

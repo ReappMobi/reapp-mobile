@@ -1,12 +1,10 @@
 import { ApiResponseError } from 'src/errors/ApiResponseError';
-import { ApiErrorResponse } from 'src/types/IApiResponseError';
-import { Category } from 'src/types/ICategory';
 
 import api from './api';
 
 export const getProjectsCategories = async (
   query: string
-): Promise<Category[]> => {
+): Promise<Record<string, any>[]> => {
   try {
     const response = await api.get('/project/categories', {
       params: {
@@ -33,12 +31,12 @@ type CreateProject = {
   media: string;
 };
 
-type CreateProjectResponse = {
+export type CreateProjectResponse = {
   description: string;
   name: string;
   media: string;
   subtitle: string;
-  category: Category;
+  category: Record<string, any>;
   institutionId: number;
   accountId: number;
 };
@@ -46,7 +44,7 @@ type CreateProjectResponse = {
 export const createProject = async (
   token: string,
   data: CreateProject
-): Promise<[CreateProjectResponse | null, ApiErrorResponse | Error | null]> => {
+): Promise<[CreateProjectResponse | null, ApiResponseError | Error | null]> => {
   const formData = new FormData();
   for (const key in data) {
     if (key === 'media') {

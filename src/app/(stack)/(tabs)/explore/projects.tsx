@@ -18,10 +18,8 @@ import {
 import { CardSearch, ExploreScreenCard, LoadingBox } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { useSearch } from 'src/hooks/useSearch';
-import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
 import {
   getProjects,
-  getSharedCampaigns,
   toggleFavoriteProject,
 } from 'src/services/app-core';
 import { IBanner, IProject } from 'src/types';
@@ -35,7 +33,7 @@ import { IBanner, IProject } from 'src/types';
 function useProjects() {
   const auth = useAuth();
   const [projects, setProjects] = useState<IProject[]>([]);
-  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [categories, setCategories] = useState<Record<string, any>[]>([]);
   const [banners, setBanners] = useState<IBanner[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -45,8 +43,7 @@ function useProjects() {
     try {
       setLoading(true);
       setError(null);
-      const banners = await getSharedCampaigns();
-      setBanners(banners);
+      setBanners([]);
 
       const token = await auth.getToken();
       const projectsData = await getProjects(token);
@@ -58,7 +55,7 @@ function useProjects() {
             { id: proj.category.id, name: proj.category.name },
           ])
         ).values()
-      ) as ICategory[];
+      ) as Record<string, any>[];
 
       setProjects(projectsData);
       setCategories(uniqueCategories);
@@ -204,7 +201,7 @@ const RenderCarousel = memo(({ banners }: { banners: IBanner[] }) => {
  */
 type ProjectsSectionListProps = {
   banners: IBanner[];
-  categories: ICategory[];
+  categories: Record<string, any>[];
   projects: IProject[];
   isDonor: boolean;
   onPressCard: (item: IProject) => void;

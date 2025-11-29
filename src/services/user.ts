@@ -1,15 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { userDonations, userSavedPosts } from '../mocks/user-data';
 import api from './api';
-
-export async function getDonations() {
-  return userDonations;
-}
-
-export async function getSavedPosts() {
-  return userSavedPosts;
-}
 
 export async function getFavoritesProjects(_donorId: number, token) {
   try {
