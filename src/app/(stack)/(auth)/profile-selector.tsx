@@ -38,7 +38,7 @@ export default function ProfileSelector() {
             size="lg"
             variant="outline"
             className="w-full"
-            onPress={() => handleButtonClick('donor')}
+            onPress={() => handleButtonClick('institution')}
           >
             <Text> Sou uma instituição </Text>
             <Icon as={University} size={18} />
