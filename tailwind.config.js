@@ -13,7 +13,6 @@ module.exports = {
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
-
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
@@ -90,12 +89,12 @@ module.exports = {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
       fontFamily: {
-        reapp_thin: ['reapp_thin', 'sans-serif'],
-        reapp_ligth: ['reapp_ligth', 'sans-serif'],
-        reapp_regular: ['reapp_regular', 'sans-serif'],
-        reapp_medium: ['reapp_medium', 'sans-serif'],
-        reapp_bold: ['reapp_bold', 'sans-serif'],
-        reapp_black: ['reapp_black', 'sans-serif'],
+        thin: ['reapp_thin', 'sans-serif'],
+        ligth: ['reapp_ligth', 'sans-serif'],
+        regular: ['reapp_regular', 'sans-serif'],
+        medium: ['reapp_medium', 'sans-serif'],
+        bold: ['reapp_bold', 'sans-serif'],
+        black: ['reapp_black', 'sans-serif'],
       },
     },
   },
