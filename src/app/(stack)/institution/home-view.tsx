@@ -13,6 +13,7 @@ import { CardPost } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { usePostsByInstitution } from 'src/hooks/usePostsByInstitution';
 import { IPost } from 'src/types';
+import { Separator } from '@/components/ui/separator';
 
 function PostList({ institutionId }) {
   const { user, token } = useAuth();
@@ -84,7 +85,7 @@ function PostList({ institutionId }) {
           title="Recarregando..." // iOS
         />
       }
-      ItemSeparatorComponent={() => <View className="mb-2.5" />}
+      ItemSeparatorComponent={Separator}
     />
   );
 }
@@ -94,7 +95,7 @@ const HomeView = () => {
   const { id } = route.params as { id: number };
 
   return (
-    <View className="w-full flex-1 items-center justify-center">
+    <View className="w-full bg-white flex-1 items-center justify-center">
       <PostList institutionId={id} />
     </View>
   );

@@ -106,7 +106,7 @@ const ProjectsView = () => {
   const { id } = route.params as { id: number };
 
   return (
-    <View className="flex-1 items-center justify-center">
+    <View className="flex-1 bg-white items-center justify-center">
       <ProjectList institutionId={id} />
     </View>
   );

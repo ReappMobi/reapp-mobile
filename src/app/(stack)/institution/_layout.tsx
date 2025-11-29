@@ -95,7 +95,7 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
   }, [institution.phone]);
 
   return (
-    <View>
+    <View className="bg-white">
       <View className="mt-4 flex-row items-center gap-x-2 py-4">
         <Image
           className="h-16 w-16 rounded-full"
@@ -269,13 +269,12 @@ const Layout = () => {
             width: 'auto',
             height: 'auto',
             paddingHorizontal: 0,
-            marginRight: 8,
+            marginRight: 16,
           },
           tabBarLabel: renderLabel,
           swipeEnabled: true,
           tabBarIndicator: () => null,
           tabBarStyle: {
-            marginLeft: 16,
             backgroundColor: 'transparent',
             shadowColor: 'transparent',
           },
@@ -292,13 +291,7 @@ const Layout = () => {
           options={{ title: 'Projetos' }}
           initialParams={{ id: institution.id }}
         />
-        {/* 
-        <MaterialTopTabs.Screen
-          name="transparency"
-          options={{ title: 'Transparência' }}
-          initialParams={{ id: institution.id }}
-        />
-        */}
+
         <MaterialTopTabs.Screen
           name="contacts"
           options={{ title: 'Contatos' }}

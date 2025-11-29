@@ -95,7 +95,7 @@ function Volunteers() {
   const { id } = route.params as { id: number };
 
   return (
-    <View className="flex-1 py-4">
+    <View className="flex-1 bg-white py-4">
       <VolunteerList institutionId={id} />
     </View>
   );

@@ -188,7 +188,7 @@ const VolunteerCreateForm: React.FC = () => {
   };
 
   return (
-    <View className="w-full flex-col items-center p-4">
+    <View className="w-full bg-white flex-col items-center p-4">
       {/* Seletor da imagem */}
       <Pressable
         className="relative h-[128] w-[128] rounded-full bg-third"

@@ -96,7 +96,7 @@ function Collaborators() {
   const { id } = route.params as { id: number };
 
   return (
-    <View className="py-4">
+    <View className="flex-1 bg-white py-4">
       <CollaboratorList institutionId={id} />
     </View>
   );
