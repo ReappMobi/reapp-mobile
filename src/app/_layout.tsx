@@ -8,20 +8,19 @@ import {
   Roboto_900Black,
   useFonts,
 } from '@expo-google-fonts/roboto';
+import { PortalHost } from '@rn-primitives/portal';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Image } from 'expo-image';
 import { Drawer } from 'expo-router/drawer';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
+import { cssInterop } from 'nativewind';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AuthProvider } from 'src/contexts/auth';
 import DrawerContent from './(stack)/(drawer)/profile';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { PortalHost } from '@rn-primitives/portal';
 
-import { cssInterop } from 'nativewind';
-import { Image } from 'expo-image';
-
-cssInterop(Image, { className: "style" })
+cssInterop(Image, { className: 'style' });
 
 SplashScreen.preventAutoHideAsync();
 
