@@ -56,7 +56,7 @@ function CardPost({
 
   return (
     <View className="w-full bg-white py-3">
-      <View className="flex-row w-full gap-x-1">
+      <View className="flex-row w-full gap-x-3">
         <View className="max-w-10">
           <Pressable onPress={onPressInstitutionProfile}>
             <View className="h-10 w-10 items-center justify-center">
