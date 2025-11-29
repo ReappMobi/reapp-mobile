@@ -2334,6 +2334,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-primitive@npm:2.1.4":
+  version: 2.1.4
+  resolution: "@radix-ui/react-primitive@npm:2.1.4"
+  dependencies:
+    "@radix-ui/react-slot": "npm:1.2.4"
+  peerDependencies:
+    "@types/react": "*"
+    "@types/react-dom": "*"
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: 10c0/90d687b222a25975371ed1f9f08648d75237214b8dec4cbaf09ec9ac951339b17421278f1aff2fb7c5672ba8bd03774a94904efdba73805dd5cc947ce5be8c4a
+  languageName: node
+  linkType: hard
+
 "@radix-ui/react-roving-focus@npm:1.1.11":
   version: 1.1.11
   resolution: "@radix-ui/react-roving-focus@npm:1.1.11"
@@ -2358,6 +2377,25 @@ __metadata:
     "@types/react-dom":
       optional: true
   checksum: 10c0/2cd43339c36e89a3bf1db8aab34b939113dfbde56bf3a33df2d74757c78c9489b847b1962f1e2441c67e41817d120cb6177943e0f655f47bc1ff8e44fd55b1a2
+  languageName: node
+  linkType: hard
+
+"@radix-ui/react-separator@npm:^1.1.7":
+  version: 1.1.8
+  resolution: "@radix-ui/react-separator@npm:1.1.8"
+  dependencies:
+    "@radix-ui/react-primitive": "npm:2.1.4"
+  peerDependencies:
+    "@types/react": "*"
+    "@types/react-dom": "*"
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: 10c0/92e1353f696a22167c90f2c610b440be1fae3c05128287560914f124eef83d74c06ad25431923f3595032e6d89c23d479c95434390f4c0d9d4a68ec8d563ae0c
   languageName: node
   linkType: hard
 
@@ -2388,6 +2426,21 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10c0/5913aa0d760f505905779515e4b1f0f71a422350f077cc8d26d1aafe53c97f177fec0e6d7fbbb50d8b5e498aa9df9f707ca75ae3801540c283b26b0136138eef
+  languageName: node
+  linkType: hard
+
+"@radix-ui/react-slot@npm:1.2.4":
+  version: 1.2.4
+  resolution: "@radix-ui/react-slot@npm:1.2.4"
+  dependencies:
+    "@radix-ui/react-compose-refs": "npm:1.1.2"
+  peerDependencies:
+    "@types/react": "*"
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/8b719bb934f1ae5ac0e37214783085c17c2f1080217caf514c1c6cc3d9ca56c7e19d25470b26da79aa6e605ab36589edaade149b76f5fc0666f1063e2fc0a0dc
   languageName: node
   linkType: hard
 
@@ -2861,7 +2914,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rn-primitives/slot@npm:^1.2.0":
+"@rn-primitives/separator@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@rn-primitives/separator@npm:1.2.0"
+  dependencies:
+    "@radix-ui/react-separator": "npm:^1.1.7"
+    "@rn-primitives/slot": "npm:1.2.0"
+    "@rn-primitives/types": "npm:1.2.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-web: "*"
+  peerDependenciesMeta:
+    react-native:
+      optional: true
+    react-native-web:
+      optional: true
+  checksum: 10c0/892d1bedfe40bbe35f6573f75ba9b6d3e7de7c1c3acb4cef8117ee9236d34d29b0361683b64b80ecd201dc2e9d818441860b69b5e35ffa3920f95000de6e07c6
+  languageName: node
+  linkType: hard
+
+"@rn-primitives/slot@npm:1.2.0, @rn-primitives/slot@npm:^1.2.0":
   version: 1.2.0
   resolution: "@rn-primitives/slot@npm:1.2.0"
   peerDependencies:
@@ -2874,6 +2947,22 @@ __metadata:
     react-native-web:
       optional: true
   checksum: 10c0/ffcafb5ff7c7c104067e9f0bd9ea3516eec902db1ef7dfb3dc7a194bd3704ae6d3d227f4f83e3ead98ed40c644850fcf235db933848ba66b0a78874bf46ea1dd
+  languageName: node
+  linkType: hard
+
+"@rn-primitives/types@npm:1.2.0":
+  version: 1.2.0
+  resolution: "@rn-primitives/types@npm:1.2.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-web: "*"
+  peerDependenciesMeta:
+    react-native:
+      optional: true
+    react-native-web:
+      optional: true
+  checksum: 10c0/059ef0662797bebb491f369e0ab4ee871e154cf6e156f7808e637ddba29498a13fa44d298b67090552fa74142577361d25ef48aa573509387db6c71adad5c738
   languageName: node
   linkType: hard
 
@@ -8904,6 +8993,7 @@ __metadata:
     "@react-navigation/material-top-tabs": "npm:^7.0.18"
     "@react-navigation/native": "npm:^7.1.8"
     "@rn-primitives/portal": "npm:^1.3.0"
+    "@rn-primitives/separator": "npm:^1.2.0"
     "@rn-primitives/slot": "npm:^1.2.0"
     "@tanstack/react-query": "npm:^5.75.1"
     "@types/react": "npm:~19.1.10"
