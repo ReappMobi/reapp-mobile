@@ -30,8 +30,8 @@
     --chart-5: 27 87% 67%;
 
     /* Additional colors from your second config */
-    --tertiary: 183 21% 55%; /* #7B9B9D */
-    --tertiary-light: 183 25% 85%; /* #d7e1e2 */
+    --tertiary: 184 15% 55%; /* #7B9B9D */
+    --tertiary-light: 184 15% 55%; /* #7B9B9D */
     --blue: 217 91% 60%; /* #3B82F6 */
     --gray: 0 0% 56%; /* #909090 */
     --gray-light: 340 31% 94%; /* #F5EDF0 */
@@ -73,22 +73,22 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
 
-    /* Dark mode variants for additional colors */
-    --tertiary: 183 21% 65%; /* Lighter for dark mode */
-    --tertiary-light: 183 25% 25%; /* Darker for dark mode */
-    --blue: 217 91% 70%; /* Lighter for dark mode */
-    --gray: 0 0% 66%; /* Lighter for dark mode */
-    --gray-light: 340 31% 20%; /* Darker for dark mode */
-    --red: 339 75% 61%; /* Lighter for dark mode */
+    /* Additional colors from your second config */
+    --tertiary: 184 15% 55%; /* #7B9B9D */
+    --tertiary-light: 184 15% 55%; /* #7B9B9D */
+    --blue: 217 91% 60%; /* #3B82F6 */
+    --gray: 0 0% 56%; /* #909090 */
+    --gray-light: 340 31% 94%; /* #F5EDF0 */
+    --red: 339 75% 51%; /* #D81E5B */
 
-    /* Text colors for dark mode */
-    --text-primary: 90 11% 79%; /* Lighter for dark mode */
-    --text-secondary: 90 11% 75%; /* Lighter for dark mode */
-    --text-secondary-light: 90 11% 75%; /* Lighter for dark mode */
-    --text-neutral: 220 24% 85%; /* Lighter for dark mode */
-    --text-dark: 240 3% 89%; /* Lighter for dark mode */
-    --text-light: 210 5% 15%; /* Darker for dark mode */
-    --text-gray: 240 1% 77%; /* Lighter for dark mode */
-    --text-white: 0 0% 100%; /* Same for dark mode */
+    /* Text colors */
+    --text-primary: 90 11% 39%; /* #636E56 */
+    --text-secondary: 90 11% 55%; /* #8E9D7B */
+    --text-secondary-light: 90 11% 55%; /* #8E9D7B */
+    --text-neutral: 220 24% 25%; /* #2E384D */
+    --text-dark: 240 3% 9%; /* #161617 */
+    --text-light: 210 5% 95%; /* #F1F2F3 */
+    --text-gray: 240 1% 67%; /* #A9A9AA */
+    --text-white: 0 0% 100%; /* #ffffff */
   }
 }
