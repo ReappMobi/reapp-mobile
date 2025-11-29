@@ -1,43 +1,67 @@
-import { useNavigation } from 'expo-router';
-import React, { useLayoutEffect } from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { Stack } from 'expo-router';
+import { useState } from 'react';
+import { ActivityIndicator, Platform, StyleSheet, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import colors from 'src/constants/colors';
 
 const PrivacyPolicyScreen = () => {
-  const navigation = useNavigation();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      title: 'Política de Privacidade',
-      headerBackVisible: true,
-      headerTintColor: colors.primary,
-      headerShadowVisible: false,
-      headerTitleStyle: {
-        fontSize: 18,
-        fontFamily: 'reapp_medium',
-      },
-    });
-  }, [navigation]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const pdfUrl =
-    'https://drive.google.com/uc?export=download&id=1JFzrN3mGUSaeRGfyJ7aiay79EEFLJT0h';
-  const googleDocsUrl = `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(pdfUrl)}`;
+    'https://drive.google.com/uc?export=download&id=1QKwgcPY1RZY5Trt_ZeE9VhOT8-l_Xp0L';
+
+  const uri = Platform.select({
+    ios: pdfUrl,
+    android: `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(pdfUrl)}`,
+  });
 
   return (
-    <View className="flex-1">
-      <WebView
-        source={{ uri: googleDocsUrl }}
-        style={styles.webview}
-        startInLoadingState
+    <View className="flex-1 bg-white">
+      <Stack.Screen
+        options={{
+          title: 'Política de Privacidade',
+          headerBackVisible: true,
+          headerTintColor: colors.primary,
+          headerShadowVisible: false,
+          headerTitleStyle: {
+            fontSize: 18,
+            fontFamily: 'reapp_medium',
+          },
+        }}
       />
+
+      <View className="flex-1 relative">
+        <WebView
+          source={{ uri: uri }}
+          style={styles.webview}
+          onLoadStart={() => setIsLoading(true)}
+          onLoadEnd={() => setIsLoading(false)}
+          originWhitelist={['*']}
+          showsVerticalScrollIndicator={false}
+        />
+
+        {isLoading && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={colors.primary} />
+          </View>
+        )}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  webview: { flex: 1, width: Dimensions.get('window').width },
+  webview: {
+    flex: 1,
+    backgroundColor: 'transparent',
+  },
+  loadingContainer: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    zIndex: 10,
+  },
 });
 
 export default PrivacyPolicyScreen;
