@@ -6,6 +6,14 @@ module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   presets: [require('nativewind/preset')],
   theme: {
+    fontFamily: {
+      thin: ['reapp_thin', 'sans-serif'],
+      ligth: ['reapp_ligth', 'sans-serif'],
+      regular: ['reapp_regular', 'sans-serif'],
+      medium: ['reapp_medium', 'sans-serif'],
+      bold: ['reapp_bold', 'sans-serif'],
+      black: ['reapp_black', 'sans-serif'],
+    },
     extend: {
       colors: {
         border: 'hsl(var(--border))',
@@ -87,14 +95,6 @@ module.exports = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-      },
-      fontFamily: {
-        thin: ['reapp_thin', 'sans-serif'],
-        ligth: ['reapp_ligth', 'sans-serif'],
-        regular: ['reapp_regular', 'sans-serif'],
-        medium: ['reapp_medium', 'sans-serif'],
-        bold: ['reapp_bold', 'sans-serif'],
-        black: ['reapp_black', 'sans-serif'],
       },
     },
   },
