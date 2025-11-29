@@ -1,4 +1,4 @@
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Camera } from 'expo-camera';
@@ -9,9 +9,19 @@ import {
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 import { router } from 'expo-router';
+import { CameraIcon, Images } from 'lucide-react-native';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Alert, Image, Pressable, TextInput, View } from 'react-native';
+import {
+  Alert,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  TextInput,
+  View,
+} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from 'src/hooks/useAuth';
@@ -19,22 +29,26 @@ import { postPublication } from 'src/services/app-core';
 import { POSTS_PREFIX_KEY } from 'src/services/posts/post.service';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
+
+const postCreateFormSchema = z.object({
+  description: z
+    .string({ required_error: 'O conteúdo da postagem é obrigatório.' })
+    .max(200, 'O conteúdo da postagem deve ter no máximo 200 caracteres.'),
+});
+
+type postCreateFormData = z.infer<typeof postCreateFormSchema>;
 
 export default function PostCreate() {
   const auth = useAuth();
-  const [media, setMedia] = useState(null);
+  const [media, setMedia] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const mediaTypes: MediaType[] = ['images'];
   const queryClient = useQueryClient();
 
-  const postCreateFormSchema = z.object({
-    description: z
-      .string({ required_error: 'O conteúdo da postagem é obrigatório.' })
-      .max(200, 'O conteúdo da postagem deve ter no máximo 200 caracteres.'),
-  });
-
-  type postCreateFormData = z.infer<typeof postCreateFormSchema>;
+  const userAvatarUrl = auth.user.media?.remoteUrl;
+  const username = auth.user.name;
 
   const {
     register,
@@ -44,9 +58,13 @@ export default function PostCreate() {
     formState: { errors },
   } = useForm<postCreateFormData>({
     resolver: zodResolver(postCreateFormSchema),
+    mode: 'onChange',
   });
 
-  const onSubmit = async (data: any) => {
+  const descriptionValue = watch('description');
+  const isPostEmpty = !descriptionValue && !media;
+
+  const onSubmit = async (data: postCreateFormData) => {
     setLoading(true);
     const token = await auth.getToken();
 
@@ -99,7 +117,6 @@ export default function PostCreate() {
     const result = await launchCameraAsync({
       mediaTypes,
       allowsEditing: false,
-      aspect: [4, 3],
       quality: 1,
     });
 
@@ -111,75 +128,99 @@ export default function PostCreate() {
   return loading ? (
     <Spinner visible={loading} />
   ) : (
-    <SafeAreaView className="h-screen flex-1 py-4">
-      <View
-        className="mb-2 flex h-12  flex-row items-center px-3"
-        style={{ borderBottomColor: 'gray', borderBottomWidth: 1 }}
+    <SafeAreaView className="flex-1 bg-white">
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        className="flex-1"
       >
-        <Pressable onPress={() => router.dismiss()}>
-          <MaterialIcons name="close" size={28} color="#646464" />
-        </Pressable>
+        <View className="flex-row items-center justify-between px-4 py-3">
+          <Pressable onPress={() => router.dismiss()}>
+            <Ionicons name="close" size={28} color="black" />
+          </Pressable>
 
-        <Text className="mt-1 flex-1 pr-5 text-center font-medium text-lg text-slate-700">
-          Nova Postagem
-        </Text>
-      </View>
-      <View className="flex-1">
-        {errors.description && (
-          <Text className="my-1 px-2 font-regular text-xs text-color_redsh">
-            {errors.description.message}
-          </Text>
-        )}
-        <TextInput
-          placeholder="Este é um rascunho da sua postagem..."
-          inputMode="text"
-          onChangeText={(text) =>
-            setValue('description', text, { shouldValidate: true })
-          }
-          value={watch('description')}
-          {...register('description')}
-          multiline
-          numberOfLines={5}
-          textAlign="left"
-          textAlignVertical="top"
-          style={{ color: '' }}
-          className="flex-1 px-4 text-base text-[#e2e2e2]"
-        />
+          <Text className="font-bold text-lg text-black">Nova postagem</Text>
 
-        {media && (
-          <View className="my-4 px-4">
-            <View className="items-relative w-64 items-end px-1">
-              <Pressable onPress={() => setMedia(null)}>
-                <Ionicons name="close-circle" size={26} color="#646464" />
-              </Pressable>
+          <Ionicons
+            name="ellipsis-horizontal-circle-outline"
+            size={24}
+            color="#ccc"
+          />
+        </View>
+
+        <ScrollView className="flex-1 px-4 pt-4">
+          <View className="flex-row">
+            <View className="items-center mr-3">
               <Image
-                source={{ uri: media }}
-                style={{ width: 250, height: 150, borderRadius: 2 }}
+                source={{ uri: userAvatarUrl }}
+                className="h-10 w-10 rounded-full bg-gray-200"
               />
+              <View className="w-[2px] flex-1 bg-gray-200 my-2 rounded-full" />
+              <View className="h-4 w-4 rounded-full bg-gray-200 opacity-50" />
+            </View>
+
+            <View className="flex-1 pb-20">
+              <Text className="font-semibold text-base text-black mb-1">
+                {username}
+              </Text>
+
+              <TextInput
+                placeholder="Compartilhe com a rede suas ações..."
+                placeholderTextColor="#999"
+                multiline
+                autoFocus
+                textAlignVertical="top"
+                className="text-base text-black mb-2 min-h-[40px]"
+                onChangeText={(text) =>
+                  setValue('description', text, { shouldValidate: true })
+                }
+                value={watch('description')}
+                {...register('description')}
+              />
+
+              {errors.description && (
+                <Text className="mb-2 text-xs text-rose-500">
+                  {errors.description.message}
+                </Text>
+              )}
+
+              {media && (
+                <View className="mb-4 relative">
+                  <Image
+                    source={{ uri: media }}
+                    className="w-full h-64 rounded-xl bg-gray-100"
+                    resizeMode="cover"
+                  />
+                  <Pressable
+                    onPress={() => setMedia(null)}
+                    className="absolute top-2 right-2 bg-black/50 rounded-full p-1"
+                  >
+                    <Ionicons name="close" size={16} color="white" />
+                  </Pressable>
+                </View>
+              )}
             </View>
           </View>
-        )}
-      </View>
-      <View
-        className="flex-row items-center justify-between px-4 pt-2"
-        style={{ borderTopColor: '#a8a8a8', borderTopWidth: 1 }}
-      >
-        <View className="w-20 flex-row items-start gap-x-4">
-          <Pressable onPress={takePicture}>
-            <Ionicons name="camera" size={26} color="#646464" />
-          </Pressable>
-          <Pressable onPress={pickImage}>
-            <Ionicons name="image" size={26} color="#646464" />
-          </Pressable>
+        </ScrollView>
+
+        <View className="flex-row items-center justify-between px-4 py-3 bg-white">
+          <View className="flex-row gap-4 mt-2">
+            <Pressable onPress={pickImage}>
+              <Icon as={Images} size={22} className="stroke-text-neutral" />
+            </Pressable>
+            <Pressable onPress={takePicture}>
+              <Icon as={CameraIcon} size={24} className="stroke-text-neutral" />
+            </Pressable>
+          </View>
+
+          <Button
+            onPress={handleSubmit(onSubmit)}
+            disabled={isPostEmpty}
+            className="rounded-full px-5 py-2"
+          >
+            <Text className="font-semibold">Postar</Text>
+          </Button>
         </View>
-        <Button
-          onPress={handleSubmit(onSubmit)}
-          size="sm"
-          className="w-24 rounded-full"
-        >
-          <Text>Postar</Text>
-        </Button>
-      </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
