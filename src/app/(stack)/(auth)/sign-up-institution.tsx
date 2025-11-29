@@ -565,7 +565,7 @@ const SignUpInstitution: React.FC = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1"
+      className="flex-1 bg-white"
     >
       <ScrollView>
         <SignUpForm />
