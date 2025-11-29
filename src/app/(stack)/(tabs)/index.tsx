@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { memo, useCallback } from 'react';
+import { useCallback } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -8,84 +8,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { CardPost } from 'src/components';
+import CardPost from 'src/components/CardPost';
 import { useAuth } from 'src/hooks/useAuth';
-import {
-  likePost,
-  savePost,
-  unlikePost,
-  unsavePost,
-} from 'src/services/app-core';
 import { useGetPosts } from 'src/services/posts/post.service';
 import { IPost } from 'src/types';
-import { timeAgo } from 'src/utils/time-ago';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Text } from '@/components/ui/text';
-
-type PostItemProps = {
-  item: IPost;
-  token: string | null;
-  userId?: string | number;
-};
-
-const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
-  const isLiked = item.likes?.some((like) => like.accountId === userId);
-  const isSaved = item.saves?.some((save) => save.accountId === userId);
-  const handleLike = useCallback(() => {
-    if (token) {
-      likePost({ id: item.id, token });
-    }
-  }, [item.id, token]);
-
-  const handleUnlike = useCallback(() => {
-    if (token) {
-      unlikePost({ id: item.id, token });
-    }
-  }, [item.id, token]);
-
-  const handleSave = useCallback(() => {
-    if (token) {
-      savePost({ id: item.id, token });
-    }
-  }, [item.id, token]);
-
-  const handleUnsave = useCallback(() => {
-    if (token) {
-      unsavePost({ id: item.id, token });
-    }
-  }, [item.id, token]);
-
-  const handleInstitutionProfileClick = useCallback((item: IPost) => {
-    router.push({
-      pathname: 'institution',
-      params: { id: item.institution.account.id },
-    });
-  }, []);
-
-  const timeString = timeAgo(item.updatedAt);
-
-  return (
-    <CardPost
-      postId={item.id}
-      mediaUrl={item.media?.remoteUrl || ''}
-      mediaAspect={item.media?.fileMeta.original.aspect || 1}
-      mediaBlurhash={item.media?.blurhash || ''}
-      userImageUrl={item.institution?.account?.media?.remoteUrl || ''}
-      userImageBlurhash={item.institution?.account?.media?.blurhash || ''}
-      nameInstitution={item.institution?.account?.name || ''}
-      description={item.body || ''}
-      timeAgo={timeString}
-      isSavedInitial={isSaved}
-      isLikedInitial={isLiked}
-      onPressLike={handleLike}
-      onPressUnlike={handleUnlike}
-      onPressSave={handleSave}
-      onPressUnSave={handleUnsave}
-      onPressInstitutionProfile={() => handleInstitutionProfileClick(item)}
-    />
-  );
-});
 
 function PostList() {
   const { user, token } = useAuth();
@@ -96,6 +25,13 @@ function PostList() {
     isRefetching: refreshing,
     refetch: onRefresh,
   } = useGetPosts(token || '', 1);
+
+  const handleInstitutionProfileClick = useCallback((item: IPost) => {
+    router.push({
+      pathname: 'institution',
+      params: { id: item.institution.account.id },
+    });
+  }, []);
 
   if (loading) {
     return (
@@ -127,9 +63,26 @@ function PostList() {
     );
   }
 
-  const renderItem: ListRenderItem<IPost> = ({ item }) => (
-    <PostItem item={item} token={token} userId={user?.id} />
-  );
+  const renderItem: ListRenderItem<IPost> = ({ item }) => {
+    const isLiked = item.likes?.some((like) => like.accountId === user?.id);
+    const isSaved = item.saves?.some((save) => save.accountId === user?.id);
+    return (
+      <CardPost
+        postId={item.id}
+        mediaUrl={item.media?.remoteUrl || ''}
+        mediaAspect={item.media?.fileMeta.original.aspect || 1}
+        mediaBlurhash={item.media?.blurhash || ''}
+        userImageUrl={item.institution?.account?.media?.remoteUrl || ''}
+        userImageBlurhash={item.institution?.account?.media?.blurhash || ''}
+        name={item.institution?.account?.name || ''}
+        updatedAt={item.updatedAt}
+        description={item.body || ''}
+        isSavedInitial={isSaved}
+        isLikedInitial={isLiked}
+        onPressInstitutionProfile={() => handleInstitutionProfileClick(item)}
+      />
+    );
+  };
 
   return (
     <FlatList
