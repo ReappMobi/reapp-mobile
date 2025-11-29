@@ -1,17 +1,15 @@
 import { router } from 'expo-router';
-import React, { memo, useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import {
   ActivityIndicator,
   FlatList,
   ListRenderItem,
   RefreshControl,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Button, CardPost } from 'src/components';
+import { CardPost } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
-import { usePosts } from 'src/hooks/usePosts';
 import {
   likePost,
   savePost,
@@ -21,6 +19,9 @@ import {
 import { useGetPosts } from 'src/services/posts/post.service';
 import { IPost } from 'src/types';
 import { timeAgo } from 'src/utils/time-ago';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Text } from '@/components/ui/text';
 
 type PostItemProps = {
   item: IPost;
@@ -139,17 +140,9 @@ function PostList() {
       keyExtractor={(item) => item.id.toString()}
       showsVerticalScrollIndicator={false}
       refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-          colors={['#ff0000']}
-          tintColor="#0000ff"
-          title="Recarregando..."
-        />
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
-      ItemSeparatorComponent={() => (
-        <View className="mt-4 h-[2px] w-full bg-slate-200" />
-      )}
+      ItemSeparatorComponent={Separator}
     />
   );
 }
@@ -158,15 +151,14 @@ export default function Page() {
   const { isDonor } = useAuth();
 
   return (
-    <View className="flex-1 bg-white px-2 pt-1">
+    <View className="flex-1 bg-white p-2">
       {isDonor && (
         <Button
-          size="small"
-          textColor="text-white"
-          customStyles="mb-2 justify-center bg-third"
+          size="sm"
+          className="mb-2 justify-center bg-tercary active:bg-tercary/80"
           onPress={() => router.push('/donate')}
         >
-          Doar para instituições sociais
+          <Text>Doar para instituições sociais </Text>
         </Button>
       )}
 
