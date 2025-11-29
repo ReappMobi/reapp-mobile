@@ -45,71 +45,9 @@ export default function SignIn() {
       setLoading(false);
     }
   };
-  /*
-  const onSubmitGoogle = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      const res = await auth.signInGoogle({
-        idToken: userInfo.idToken,
-        clientId: userInfo.user.id,
-      });
-      if (res.user !== undefined) {
-        router.replace('/');
-      } else {
-        Alert.alert('Erro no login', res.error);
-      }
-    } catch (error) {
-      if (isErrorWithCode(error)) {
-        switch (error.code) {
-          case statusCodes.SIGN_IN_CANCELLED:
-            Alert.alert('Autenticação cancelada');
-            break;
-          case statusCodes.IN_PROGRESS:
-            Alert.alert('Autenticação em andamento');
-            break;
-          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-            Alert.alert('Autenticação com o Google não disponível no momento');
-            break;
-          default:
-            Alert.alert(
-              'Autenticação com o Google falhou. Tente novamente mais tarde'
-            );
-        }
-      } else {
-        Alert.alert(
-          'Autenticação com o Google falhou. Tente novamente mais tarde'
-        );
-      }
-    }
-  };
-  */
 
   return (
     <View className="gap-3 px-4">
-      {/* 
-      <View className="flex-row justify-center gap-2">
-        <View className="items-center">
-          <Button
-            customStyles="w-3/4"
-            startIcon={
-              <Ionicons
-                name="logo-google"
-                size={24}
-                color={colors.text_neutral}
-              />
-            }
-            onPress={onSubmitGoogle}
-          >
-            Login com Google
-          </Button>
-        </View>
-      </View>
-
-      <Text className="text-center font-reapp_regular text-xs">
-        Ou entre com seu email e senha
-      </Text>
-      */}
       <View className="pt-6">
         <Text className="text-base">Email</Text>
         <Input
@@ -157,7 +95,7 @@ export default function SignIn() {
       <View>
         <Button
           customStyles="w-full justify-center bg-primary"
-          textColor="text-text_light"
+          textColor="text-foreground"
           onPress={handleSubmit(onSubmit)}
           disabled={loading}
         >
