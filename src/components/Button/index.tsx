@@ -71,7 +71,7 @@ export default function Button({
         </View>
       )}
       <Text
-        className={`font-reapp_medium ${dynamicTextSize} ${textColor} flex-shrink`}
+        className={`font-medium ${dynamicTextSize} ${textColor} flex-shrink`}
         numberOfLines={2}
         adjustsFontSizeToFit
       >

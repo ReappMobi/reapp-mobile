@@ -35,8 +35,8 @@ const Input = React.forwardRef<TextInput, InputProps>(
       <TextInput
         {...rest}
         ref={ref} // Pass the ref to the TextInput component
-        className={`border-1 min-h-14 w-full rounded border border-text_secondary 
-                  bg-input_background px-2 py-4 font-reapp_regular 
+        className={`border-1 min-h-14 w-full rounded border border-text_secondary
+                  bg-input_background px-2 py-4 font-regular
                   text-base text-text_gray ${customStyle}`}
         placeholder={placeholder}
         placeholderTextColor={colors.text_gray}

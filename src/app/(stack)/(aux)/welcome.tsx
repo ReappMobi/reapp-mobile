@@ -10,7 +10,7 @@ export default function Welcome() {
   return (
     <View className="flex-1 items-center gap-y-8 bg-white p-4">
       <WelcomePageImage width={256} height={183} />
-      <Text className="font-reapp_medium text-base">
+      <Text className="font-medium text-base">
         Somos uma organização que busca facilitar o encontro de doadores e
         parceiros com instituições beneficentes. Vamos começar?
       </Text>

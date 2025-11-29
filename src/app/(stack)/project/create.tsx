@@ -121,14 +121,12 @@ const Page: React.FC = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <View>
-          <Text className="font-reapp_bold text-xl">Adicionar projeto</Text>
+          <Text className="font-bold text-xl">Adicionar projeto</Text>
           <Text className="mt-3 text-xs">* item obrigatório</Text>
         </View>
         <ScrollView className="mt-2 gap-y-4">
           <View className="mt-4">
-            <Text className="mb-1 font-reapp_medium text-sm">
-              Nome do projeto*
-            </Text>
+            <Text className="mb-1 font-medium text-sm">Nome do projeto*</Text>
             <Input
               {...register('name')}
               value={watch('name')}
@@ -143,7 +141,7 @@ const Page: React.FC = () => {
             )}
           </View>
           <View className="mt-4">
-            <Text className="mb-1 font-reapp_medium text-sm">
+            <Text className="mb-1 font-medium text-sm">
               Subtitulo para o projeto*
             </Text>
             <Input
@@ -159,7 +157,7 @@ const Page: React.FC = () => {
             )}
           </View>
           <View className="mt-4">
-            <Text className="mb-1 font-reapp_medium text-sm">Descrição*</Text>
+            <Text className="mb-1 font-medium text-sm">Descrição*</Text>
             <Input
               {...register('description')}
               value={watch('description')}
@@ -174,7 +172,7 @@ const Page: React.FC = () => {
             )}
           </View>
           <View className="mt-4">
-            <Text className="mb-1 font-reapp_medium text-sm">Categoria*</Text>
+            <Text className="mb-1 font-medium text-sm">Categoria*</Text>
             <Pressable onPress={() => router.push('project/categories')}>
               <Input
                 placeholder="Ex.: Meio ambiente"

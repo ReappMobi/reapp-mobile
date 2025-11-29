@@ -6,11 +6,11 @@ export default function SetNewPassword() {
     <View className="p-4">
       <View className="gap-y-3">
         <View>
-          <Text className="font-reapp_bold text-xl">Recuperar senha</Text>
+          <Text className="font-bold text-xl">Recuperar senha</Text>
         </View>
 
         <View>
-          <Text className="font-reapp_regular text-base text-text_neutral">
+          <Text className="font-regular text-base text-text_neutral">
             Código de verificação
           </Text>
           <Input
@@ -20,12 +20,12 @@ export default function SetNewPassword() {
         </View>
 
         <View>
-          <Text className="font-reapp_regular text-base">Nova Senha</Text>
+          <Text className="font-regular text-base">Nova Senha</Text>
           <Input placeholder="Senha (mínimo 8 caracteres)" secureTextEntry />
         </View>
 
         <View>
-          <Text className="font-reapp_regular text-base">Confirmar senha</Text>
+          <Text className="font-regular text-base">Confirmar senha</Text>
           <Input placeholder="Confirme a senha" secureTextEntry />
         </View>
         <View>

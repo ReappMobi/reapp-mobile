@@ -84,7 +84,7 @@ function VolunteerList({ institutionId }: { institutionId: number }) {
       <VolunteerItem item={item} />
     ) : (
       <View className="flex-1 items-center justify-center p-4">
-        <Text className="font-reapp_medium text-base">
+        <Text className="font-medium text-base">
           Nenhum voluntário encontrado.
         </Text>
       </View>
@@ -109,7 +109,7 @@ function VolunteerList({ institutionId }: { institutionId: number }) {
       }
       ListEmptyComponent={
         <View className="flex-1 items-center justify-center p-4">
-          <Text className="font-reapp_medium text-base">
+          <Text className="font-medium text-base">
             Nenhum voluntário encontrado.
           </Text>
         </View>

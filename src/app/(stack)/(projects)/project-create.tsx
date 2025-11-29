@@ -113,7 +113,7 @@ export default function ProjectCreate() {
         />
         <View className="gap-3">
           <View>
-            <Text className="text-md font-reapp_regular">Nome do Projeto</Text>
+            <Text className="text-md font-regular">Nome do Projeto</Text>
 
             <Input
               placeholder="Nome do projeto"
@@ -126,16 +126,14 @@ export default function ProjectCreate() {
               {...register('name')}
             />
             {errors.name && (
-              <Text className="my-1 font-reapp_regular text-xs text-color_redsh">
+              <Text className="my-1 font-regular text-xs text-color_redsh">
                 {errors.name.message}
               </Text>
             )}
           </View>
 
           <View>
-            <Text className="text-md font-reapp_regular">
-              Subtítulo do projeto
-            </Text>
+            <Text className="text-md font-regular">Subtítulo do projeto</Text>
 
             <Input
               placeholder="Subtítulo do projeto"
@@ -148,14 +146,14 @@ export default function ProjectCreate() {
               {...register('subtitle')}
             />
             {errors.subtitle && (
-              <Text className="my-1 font-reapp_regular text-xs text-color_redsh">
+              <Text className="my-1 font-regular text-xs text-color_redsh">
                 {errors.subtitle.message}
               </Text>
             )}
           </View>
 
           <View>
-            <Text className="font-reapp_regular text-base">A ideia</Text>
+            <Text className="font-regular text-base">A ideia</Text>
             <Input
               placeholder="Digite uma descrição sobre a ideia do projeto"
               inputMode="text"
@@ -169,14 +167,14 @@ export default function ProjectCreate() {
               numberOfLines={5}
             />
             {errors.description && (
-              <Text className="my-1 font-reapp_regular text-xs text-color_redsh">
+              <Text className="my-1 font-regular text-xs text-color_redsh">
                 {errors.description.message}
               </Text>
             )}
           </View>
 
           <View>
-            <Text className="text-md font-reapp_regular">
+            <Text className="text-md font-regular">
               Selecione uma categoria: *
             </Text>
             <View className="border-1 border border-text_secondary">
@@ -196,7 +194,7 @@ export default function ProjectCreate() {
           </View>
 
           <View className="">
-            <Text className="font-reapp_regular text-base">Imagem de capa</Text>
+            <Text className="font-regular text-base">Imagem de capa</Text>
             <Button
               customStyles="w-full justify-center "
               textColor="text-color_blue"

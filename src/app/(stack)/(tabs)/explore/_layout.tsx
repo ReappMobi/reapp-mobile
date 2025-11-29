@@ -29,7 +29,7 @@ const ExploreLayout = () => {
   const renderLabel = useMemo(() => {
     return ({ children, focused }: { focused: boolean; children: string }) => (
       <Text
-        className={`font-reapp_medium text-base text-text_neutral ${
+        className={`font-medium text-base text-text_neutral ${
           focused && 'text-text_primary underline'
         }`}
       >

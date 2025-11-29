@@ -26,7 +26,7 @@ const DonationPage = () => {
     <View className="px-4">
       <View className="items-center">
         <DonationScreenImage width={256} height={274.96} />
-        <Text className="mb-4 text-center font-reapp_bold text-lg">
+        <Text className="mb-4 text-center font-bold text-lg">
           Quer nos ajudar? Sinta-se livre com uma das opções abaixo
         </Text>
       </View>

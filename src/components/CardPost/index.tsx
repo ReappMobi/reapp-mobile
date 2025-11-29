@@ -94,7 +94,7 @@ function CardPost({
               />
             </View>
 
-            <Text className="font-reapp_medium text-base text-text_neutral">
+            <Text className="font-medium text-base text-text_neutral">
               {nameInstitution}
             </Text>
           </View>
@@ -114,7 +114,7 @@ function CardPost({
         <View className="mb-2.5">
           <Text
             numberOfLines={expanded ? null : 3}
-            className="font-reapp_regular text-sm text-text_neutral "
+            className="font-regular text-sm text-text_neutral "
           >
             {description.length > 100 && !expanded
               ? `${description.slice(0, 100)}...`
@@ -122,7 +122,7 @@ function CardPost({
           </Text>
           {description && description.length > 100 && (
             <Pressable onPress={() => setExpanded((prev) => !prev)}>
-              <Text className="text-text_blue font-reapp_regular text-xs">
+              <Text className="text-text_blue font-regular text-xs">
                 {expanded ? 'Ler menos' : 'Ler mais'}
               </Text>
             </Pressable>
@@ -144,9 +144,7 @@ function CardPost({
 
       <View className="flex-row items-center justify-between">
         <View>
-          <Text className="font-reapp_regular text-xs text-text_gray">
-            {timeAgo}
-          </Text>
+          <Text className="font-regular text-xs text-text_gray">{timeAgo}</Text>
         </View>
 
         <View className="flex-row gap-x-4">

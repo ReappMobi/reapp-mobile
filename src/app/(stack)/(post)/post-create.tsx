@@ -3,9 +3,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { Camera } from 'expo-camera';
 import {
-  MediaType,
   launchCameraAsync,
   launchImageLibraryAsync,
+  MediaType,
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 import { router } from 'expo-router';
@@ -119,13 +119,13 @@ export default function PostCreate() {
           <MaterialIcons name="close" size={28} color="#646464" />
         </Pressable>
 
-        <Text className="mt-1 flex-1 pr-5 text-center font-reapp_medium text-lg text-slate-700">
+        <Text className="mt-1 flex-1 pr-5 text-center font-medium text-lg text-slate-700">
           Nova Postagem
         </Text>
       </View>
       <View className="flex-1">
         {errors.description && (
-          <Text className="my-1 px-2 font-reapp_regular text-xs text-color_redsh">
+          <Text className="my-1 px-2 font-regular text-xs text-color_redsh">
             {errors.description.message}
           </Text>
         )}

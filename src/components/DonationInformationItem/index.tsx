@@ -31,11 +31,11 @@ function DonationInformationItem({ image, title, subtitle }: Props) {
       </View>
 
       <View className="flex-1">
-        <Text className="text-small font-reapp_medium text-text_neutral">
+        <Text className="text-small font-medium text-text_neutral">
           {title}
         </Text>
 
-        <Text className="text-small font-reapp_regular text-text_neutral">
+        <Text className="text-small font-regular text-text_neutral">
           {subtitle}
         </Text>
       </View>

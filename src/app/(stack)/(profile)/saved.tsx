@@ -164,9 +164,7 @@ function PostList() {
       )}
       ListEmptyComponent={
         <View className="flex-1 items-center justify-center p-4">
-          <Text className="font-reapp_medium text-base">
-            Nenhuma postagem salva.
-          </Text>
+          <Text className="font-medium text-base">Nenhuma postagem salva.</Text>
         </View>
       }
     />

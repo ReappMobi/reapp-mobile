@@ -1,8 +1,8 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import {
+  createMaterialTopTabNavigator,
   MaterialTopTabNavigationEventMap,
   MaterialTopTabNavigationOptions,
-  createMaterialTopTabNavigator,
 } from '@react-navigation/material-top-tabs';
 import { ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { Image } from 'expo-image';
@@ -109,7 +109,7 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
           transition={500}
         />
         <View className="w-full flex-1 gap-y-0 pt-4">
-          <Text className="font-reapp_bold text-lg">
+          <Text className="font-bold text-lg">
             {institution?.account?.name ?? ''}
           </Text>
 
@@ -117,11 +117,11 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
             <LoadingBox customStyle="h-2.5 w-20 mt-2 mb-3 rounded-md bg-slate-400" />
           ) : (
             <View>
-              <Text className="text-md pb-2 font-reapp_medium">
+              <Text className="text-md pb-2 font-medium">
                 {institution?.category?.name ?? ''}
               </Text>
               {/*
-                <Text className="text-md pb-2 font-reapp_medium">
+                <Text className="text-md pb-2 font-medium">
                   {institution ? `${institution.city}/${institution.state}` : ''}
                 </Text>
               */}
@@ -176,23 +176,23 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
       </View>
 
       <View className="flex-row justify-center gap-x-2 py-4">
-        <Text className="text-md font-reapp_medium">
-          <Text className="text-md font-reapp_bold text-text_primary">
+        <Text className="text-md font-medium">
+          <Text className="text-md font-bold text-text_primary">
             {followersCount}
           </Text>
           {` Seguidores`}
         </Text>
         {/*
-        <Text className="text-md font-reapp_medium">
-          <Text className="text-md font-reapp_bold text-text_primary">
+        <Text className="text-md font-medium">
+          <Text className="text-md font-bold text-text_primary">
             {institution ? institution.donations : ''}
           </Text>
           {` Doadores`}
         </Text>
         */}
         {/*
-        <Text className="text-md font-reapp_medium">
-          <Text className="text-md font-reapp_bold text-text_primary">
+        <Text className="text-md font-medium">
+          <Text className="text-md font-bold text-text_primary">
             {institution ? institution.partnersQty : ''}
           </Text>
           {` Parceiros`}
@@ -215,7 +215,7 @@ const Layout = () => {
   const renderLabel = useMemo(() => {
     return ({ children, focused }: { focused: boolean; children: string }) => (
       <Text
-        className={`font-reapp_medium text-base text-text_neutral ${
+        className={`font-medium text-base text-text_neutral ${
           focused ? 'text-text_primary underline' : ''
         }`}
       >

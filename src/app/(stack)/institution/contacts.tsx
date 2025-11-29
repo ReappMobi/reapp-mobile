@@ -18,14 +18,14 @@ function Contacts() {
   return (
     <View className="gap-y-5 py-4">
       <View className="gap-y-4">
-        <Text className="font-reapp_regular text-base text-text_neutral">
+        <Text className="font-regular text-base text-text_neutral">
           Telefone: {institution.phone}
         </Text>
-        <Text className="font-reapp_regular text-base text-text_neutral">
+        <Text className="font-regular text-base text-text_neutral">
           Email: {institution.account.email}
         </Text>
         {/*
-        <Text className="font-reapp_regular text-base text-text_neutral">
+        <Text className="font-regular text-base text-text_neutral">
           Endereço: {`${institution.city}/${institution.state}`}
         </Text>
         */}
@@ -56,7 +56,7 @@ function Contacts() {
       {/*
       {institution.coordinate && (
         <View>
-          <Text className="mb-4 font-reapp_regular text-base text-text_neutral">
+          <Text className="mb-4 font-regular text-base text-text_neutral">
             Localização
           </Text>
 

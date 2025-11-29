@@ -18,10 +18,7 @@ import {
 import { CardSearch, ExploreScreenCard, LoadingBox } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { useSearch } from 'src/hooks/useSearch';
-import {
-  getProjects,
-  toggleFavoriteProject,
-} from 'src/services/app-core';
+import { getProjects, toggleFavoriteProject } from 'src/services/app-core';
 import { IBanner, IProject } from 'src/types';
 
 /**
@@ -218,7 +215,7 @@ const ProjectsSectionList = memo<ProjectsSectionListProps>(
     onPressFavorite,
     refreshing,
     onRefresh,
-    categories
+    categories,
   }) => {
     const data = useMemo(() => {
       return categories.map((category) => ({
@@ -241,7 +238,7 @@ const ProjectsSectionList = memo<ProjectsSectionListProps>(
           }
           sections={data}
           renderSectionHeader={({ section: { category, data } }) => (
-            <Text className="mb-2 font-reapp_medium text-base">
+            <Text className="mb-2 font-medium text-base">
               {category.name} ({data[0].length})
             </Text>
           )}
@@ -304,9 +301,7 @@ const ProjectsSearchList = memo<ProjectsSearchListProps>(
     if (filteredProjects.length === 0) {
       return (
         <View className="flex-1 items-center justify-center p-4">
-          <Text className="font-reapp_medium">
-            Nenhum resultado encontrado.
-          </Text>
+          <Text className="font-medium">Nenhum resultado encontrado.</Text>
         </View>
       );
     }
@@ -380,7 +375,7 @@ const ProjectsPage = () => {
   if (!loading && projects.length === 0) {
     return (
       <View className="flex-1 items-center justify-center p-4">
-        <Text className="mb-2 font-reapp_medium text-base">
+        <Text className="mb-2 font-medium text-base">
           Nenhum projeto encontrado.
         </Text>
       </View>

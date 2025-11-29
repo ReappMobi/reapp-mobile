@@ -76,14 +76,12 @@ function CardInstitutionProject({
       </View>
 
       <View className="mb-2.5">
-        <Text className="font-reapp_bold text-base text-text_neutral">
-          {title}
-        </Text>
+        <Text className="font-bold text-base text-text_neutral">{title}</Text>
       </View>
 
       {subtitle && (
         <View className="mb-2.5">
-          <Text className="font-reapp_regular text-base text-text_neutral">
+          <Text className="font-regular text-base text-text_neutral">
             {subtitle}
           </Text>
         </View>

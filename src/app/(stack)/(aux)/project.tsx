@@ -57,19 +57,17 @@ const ProjectPage = () => {
         />
         <View className="px-4 pb-2">
           <View className="mt-3.5">
-            <Text className="mb-3.5 font-reapp_bold text-xl text-text_primary">
+            <Text className="mb-3.5 font-bold text-xl text-text_primary">
               {project.name}
             </Text>
 
-            <Text className="font-reapp_regular text-base">
-              {project.subtitle}
-            </Text>
+            <Text className="font-regular text-base">{project.subtitle}</Text>
           </View>
           <View className="mt-4 pb-2">
-            <Text className="mb-5 font-reapp_bold text-xl text-text_neutral">
+            <Text className="mb-5 font-bold text-xl text-text_neutral">
               A ideia
             </Text>
-            <Text className="mb-5 font-reapp_regular text-base">
+            <Text className="mb-5 font-regular text-base">
               {project.description}
             </Text>
             {/*

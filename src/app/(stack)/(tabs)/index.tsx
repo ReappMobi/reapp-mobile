@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import React, { useCallback, memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -121,9 +121,7 @@ function PostList() {
   if (posts.length === 0) {
     return (
       <View className="flex-1 items-center justify-center p-4">
-        <Text className="font-reapp_medium text-base">
-          Nenhum post encontrado.
-        </Text>
+        <Text className="font-medium text-base">Nenhum post encontrado.</Text>
       </View>
     );
   }

@@ -53,7 +53,7 @@ function PartnerList({ institutionId }: { institutionId: number }) {
       <PartnerItem item={item} />
     ) : (
       <View className="flex-1 items-center justify-center p-4">
-        <Text className="font-reapp_medium text-base">
+        <Text className="font-medium text-base">
           Nenhum parceiro encontrado.
         </Text>
       </View>
@@ -79,7 +79,7 @@ function PartnerList({ institutionId }: { institutionId: number }) {
       }
       ListEmptyComponent={
         <View className="flex-1 items-center justify-center p-4">
-          <Text className="font-reapp_medium text-base">
+          <Text className="font-medium text-base">
             Nenhum parceiro encontrado.
           </Text>
         </View>

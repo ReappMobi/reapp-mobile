@@ -10,7 +10,7 @@ export const TabBarWrapper = ({ ...props }: TabBarProps<Route>) => {
     focused: boolean;
   }) => (
     <Text
-      className={`font-reapp_regular text-lg text-text_neutral ${
+      className={`font-regular text-lg text-text_neutral ${
         focused && 'text-text_primary'
       }`}
     >

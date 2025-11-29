@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  MediaType,
   launchImageLibraryAsync,
+  MediaType,
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 import { router } from 'expo-router';
@@ -569,7 +569,7 @@ const SignUpInstitution: React.FC = () => {
     >
       <ScrollView>
         <View className="items-center pt-4">
-          <Text className="text-center font-reapp_medium text-xl">
+          <Text className="text-center font-medium text-xl">
             Cadastro de Instituição
           </Text>
         </View>

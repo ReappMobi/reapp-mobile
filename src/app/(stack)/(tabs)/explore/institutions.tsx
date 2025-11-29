@@ -119,7 +119,9 @@ const InstitutionModalOptions = memo(
     }, [isFollowing]);
 
     const handleFollowInternal = async () => {
-      if (isProcessing) { return; }
+      if (isProcessing) {
+        return;
+      }
       setIsProcessing(true);
       try {
         setIsFollowingLocal(true);
@@ -133,7 +135,9 @@ const InstitutionModalOptions = memo(
     };
 
     const handleUnfollowInternal = async () => {
-      if (isProcessing) { return; }
+      if (isProcessing) {
+        return;
+      }
       setIsProcessing(true);
       try {
         setIsFollowingLocal(false);
@@ -163,7 +167,7 @@ const InstitutionModalOptions = memo(
               size={24}
               color="white"
             />
-            <Text className="font-reapp_medium text-base text-text_light">
+            <Text className="font-medium text-base text-text_light">
               Informações
             </Text>
           </View>
@@ -172,7 +176,7 @@ const InstitutionModalOptions = memo(
           <TouchableOpacity onPress={handleUnfollowInternal}>
             <View className="flex-row gap-x-2">
               <Ionicons name="close" size={24} color="white" />
-              <Text className="font-reapp_medium text-base text-text_light">
+              <Text className="font-medium text-base text-text_light">
                 Remover dos seguidos
               </Text>
             </View>
@@ -181,7 +185,7 @@ const InstitutionModalOptions = memo(
           <TouchableOpacity onPress={handleFollowInternal}>
             <View className="flex-row gap-x-2">
               <Ionicons name="add" size={24} color="white" />
-              <Text className="font-reapp_medium text-base text-text_light">
+              <Text className="font-medium text-base text-text_light">
                 Seguir
               </Text>
             </View>
@@ -278,7 +282,7 @@ const InstitutionSectionList = memo<InstitutionSectionListProps>(
         <SectionList
           sections={sections}
           renderSectionHeader={({ section: { title, data } }) => (
-            <Text className="mb-2 font-reapp_medium text-base">
+            <Text className="mb-2 font-medium text-base">
               {title} ({data[0].length})
             </Text>
           )}
@@ -376,7 +380,9 @@ type InstitutionSearchListProps = {
 const InstitutionSearchList = memo<InstitutionSearchListProps>(
   ({ institutions, searchPhrase, onPressCard }) => {
     const filtered = useMemo(() => {
-      if (!searchPhrase) { return institutions; }
+      if (!searchPhrase) {
+        return institutions;
+      }
       return institutions.filter((inst) =>
         inst.account.name
           .toUpperCase()
@@ -389,9 +395,7 @@ const InstitutionSearchList = memo<InstitutionSearchListProps>(
     if (filtered.length === 0) {
       return (
         <View className="flex-1 items-center justify-center p-4">
-          <Text className="font-reapp_medium">
-            Nenhum resultado encontrado.
-          </Text>
+          <Text className="font-medium">Nenhum resultado encontrado.</Text>
         </View>
       );
     }
@@ -536,7 +540,7 @@ const InstitutionsPage = () => {
   if (!loading && institutions.length === 0) {
     return (
       <View className="flex-1 items-center justify-center p-4">
-        <Text className="mb-2 font-reapp_medium text-base">
+        <Text className="mb-2 font-medium text-base">
           Nenhuma instituição encontrada.
         </Text>
         <TouchableOpacity onPress={onRefresh}>
