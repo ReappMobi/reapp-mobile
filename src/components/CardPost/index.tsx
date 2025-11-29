@@ -1,8 +1,15 @@
-import { Ionicons } from '@expo/vector-icons';
+import { debounce } from 'es-toolkit/function';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
-import React, { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Bookmark, Heart, MessageCircle } from 'lucide-react-native';
+import { useCallback, useState } from 'react';
+import { Pressable, View } from 'react-native';
+import { useLike } from 'src/hooks/useLike';
+import { useSave } from 'src/hooks/useSave';
+import { Text } from '@/components/ui/text';
+import { cn } from '@/lib/utils';
+import { timeAgo } from '@/utils/time-ago';
+import { Icon } from '../ui/icon';
 
 type CardPostProps = {
   postId: string | number;
@@ -10,17 +17,13 @@ type CardPostProps = {
   userImageBlurhash?: string;
   mediaUrl?: string;
   mediaBlurhash?: string;
-  nameInstitution?: string;
+  name?: string;
   description?: string;
-  timeAgo?: string;
+  updatedAt?: string;
   isLikedInitial?: boolean;
   isSavedInitial?: boolean;
   mediaAspect?: number;
   onPressInstitutionProfile?: () => void;
-  onPressLike?: () => void;
-  onPressUnlike?: () => void;
-  onPressSave?: () => void;
-  onPressUnSave?: () => void;
   onPressDelete?: () => void;
 };
 
@@ -30,60 +33,32 @@ function CardPost({
   userImageBlurhash,
   mediaUrl,
   mediaBlurhash,
-  nameInstitution,
+  name,
   mediaAspect = 1,
   description,
-  timeAgo,
+  updatedAt,
   isLikedInitial,
   isSavedInitial,
   onPressInstitutionProfile,
-  onPressLike,
-  onPressUnlike,
-  onPressSave,
-  onPressUnSave,
-  onPressDelete,
 }: CardPostProps) {
-  const [isLiked, setIsLiked] = useState<boolean>(isLikedInitial);
-  const [isSaved, setIsSaved] = useState<boolean>(isSavedInitial);
-  const [expanded, setExpanded] = useState<boolean>(false);
+  const [expanded, setExpanded] = useState(false);
+  const { isLiked, toggleLike } = useLike(postId, isLikedInitial);
+  const { isSaved, toggleSave } = useSave(postId, isSavedInitial);
 
-  const handleLikePress = () => {
-    setIsLiked((prevLiked) => {
-      const newLiked = !prevLiked;
+  const postedIn = timeAgo(updatedAt);
 
-      if (newLiked) {
-        onPressLike?.();
-      } else {
-        onPressUnlike?.();
-      }
-
-      return newLiked;
-    });
-  };
-
-  const handleSavePress = () => {
-    setIsSaved((prevSaved) => {
-      const newSaved = !prevSaved;
-
-      if (newSaved) {
-        onPressSave?.();
-      } else {
-        onPressUnSave?.();
-      }
-
-      return newSaved;
-    });
-  };
-
-  const handleCommentPress = () => {
-    router.push(`/post-comments/${postId}`);
-  };
+  const handleCommentPress = useCallback(
+    debounce(() => {
+      router.push(`/post-comments/${postId}`);
+    }, 170),
+    [postId]
+  );
 
   return (
-    <View className="w-full bg-white p-4">
-      <View className="flex flex-row justify-between">
-        <Pressable onPress={onPressInstitutionProfile}>
-          <View className="mb-2.5 flex-row items-center gap-x-2">
+    <View className="w-full bg-white py-3">
+      <View className="flex-row w-full gap-x-3">
+        <View className="max-w-10">
+          <Pressable onPress={onPressInstitutionProfile}>
             <View className="h-10 w-10 items-center justify-center">
               <Image
                 className="h-full w-full rounded-full"
@@ -93,82 +68,89 @@ function CardPost({
                 transition={500}
               />
             </View>
-
-            <Text className="font-reapp_medium text-base text-text_neutral">
-              {nameInstitution}
+          </Pressable>
+        </View>
+        <View className="bg- w-full flex-1">
+          <View className="flex-row items-center gap-x-2">
+            <Text
+              onPress={onPressInstitutionProfile}
+              className="font-medium text-base text-text_neutral"
+            >
+              {name}
+            </Text>
+            <Text>
+              <Text className="font-ligth text-xs text-gray-500">
+                {postedIn}
+              </Text>
             </Text>
           </View>
-        </Pressable>
-        {onPressDelete && (
-          <Pressable onPress={onPressDelete}>
-            <Ionicons name="trash-outline" size={20} color="black" />
-          </Pressable>
-        )}
-      </View>
-
-      <Pressable
-        className="w-full"
-        onPress={handleCommentPress}
-        style={{ overflow: 'hidden' }}
-      >
-        <View className="mb-2.5">
-          <Text
-            numberOfLines={expanded ? null : 3}
-            className="font-reapp_regular text-sm text-text_neutral "
-          >
-            {description.length > 100 && !expanded
-              ? `${description.slice(0, 100)}...`
-              : description}
-          </Text>
-          {description && description.length > 100 && (
-            <Pressable onPress={() => setExpanded((prev) => !prev)}>
-              <Text className="text-text_blue font-reapp_regular text-xs">
-                {expanded ? 'Ler menos' : 'Ler mais'}
-              </Text>
+          <View>
+            <Pressable
+              onPress={handleCommentPress}
+              style={{ overflow: 'hidden' }}
+            >
+              <View className="pr-2">
+                <Text
+                  numberOfLines={expanded ? null : 4}
+                  className="font-regular text-sm text-text-neutral"
+                >
+                  {description.length > 100 && !expanded
+                    ? `${description.slice(0, 100)}...`
+                    : description}
+                </Text>
+                {description && description.length > 100 && (
+                  <Pressable onPress={() => setExpanded((prev) => !prev)}>
+                    <Text className="text-text_blue font-regular text-xs">
+                      {expanded ? 'Ler menos' : 'Ler mais'}
+                    </Text>
+                  </Pressable>
+                )}
+              </View>
+              {mediaUrl && (
+                <View className="h-max w-full items-center justify-center rounded-lg">
+                  <Image
+                    className="w-full rounded-lg"
+                    source={{ uri: mediaUrl }}
+                    placeholder={{ blurhash: mediaBlurhash }}
+                    contentFit="cover"
+                    transition={500}
+                    style={{ aspectRatio: mediaAspect }}
+                  />
+                </View>
+              )}
             </Pressable>
-          )}
-        </View>
-        {mediaUrl && (
-          <View className="h-max w-full items-center justify-center rounded-lg p-4">
-            <Image
-              className="max-w-md w-full rounded-lg"
-              source={{ uri: mediaUrl }}
-              placeholder={{ blurhash: mediaBlurhash }}
-              contentFit="cover"
-              transition={500}
-              style={{ aspectRatio: mediaAspect }}
-            />
+            <View className="flex-row gap-x-5 mt-3">
+              <Pressable onPress={toggleLike}>
+                <Icon
+                  as={Heart}
+                  size={23}
+                  className={cn(
+                    'stroke-text-neutral',
+                    isLiked && 'stroke-rose-500 fill-rose-500'
+                  )}
+                />
+              </Pressable>
+
+              <Pressable onPress={toggleSave}>
+                <Icon
+                  as={Bookmark}
+                  size={22}
+                  className={cn(
+                    ' stroke-text-neutral mt-0.5',
+                    isSaved && ' fill-text-neutral'
+                  )}
+                />
+              </Pressable>
+
+              <Pressable onPress={handleCommentPress}>
+                <Icon
+                  as={MessageCircle}
+                  size={22}
+                  className={cn(' stroke-text-neutral mt-0.5')}
+                />
+              </Pressable>
+            </View>
           </View>
-        )}
-      </Pressable>
-
-      <View className="flex-row items-center justify-between">
-        <View>
-          <Text className="font-reapp_regular text-xs text-text_gray">
-            {timeAgo}
-          </Text>
-        </View>
-
-        <View className="flex-row gap-x-4">
-          <Pressable onPress={handleLikePress}>
-            <Ionicons
-              name={isLiked ? 'heart-sharp' : 'heart-outline'}
-              size={20}
-              color="black"
-            />
-          </Pressable>
-
-          <Pressable onPress={handleSavePress}>
-            <Ionicons
-              name={isSaved ? 'bookmark' : 'bookmark-outline'}
-              size={20}
-              color="black"
-            />
-          </Pressable>
-
-          <Pressable onPress={handleCommentPress}>
-            <Ionicons name="chatbubbles-outline" size={20} color="black" />
-          </Pressable>
         </View>
       </View>
     </View>

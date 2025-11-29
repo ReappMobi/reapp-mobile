@@ -19,7 +19,7 @@ function PartnerCard({ image, name, blurhash }: PartnerCardProps) {
         transition={500}
       />
 
-      <Text className="text-center font-reapp_medium text-sm text-text_neutral">
+      <Text className="text-center font-medium text-sm text-text_neutral">
         {name}
       </Text>
     </View>

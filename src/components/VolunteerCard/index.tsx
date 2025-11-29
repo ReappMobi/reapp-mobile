@@ -19,7 +19,7 @@ function VolunteerCard({ image, name, blurhash }: VolunteerCardProps) {
         transition={500}
       />
 
-      <Text className="font-reapp_medium text-sm">{name}</Text>
+      <Text className="font-medium text-sm">{name}</Text>
     </View>
   );
 }

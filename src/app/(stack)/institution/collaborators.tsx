@@ -59,7 +59,7 @@ function CollaboratorList({ institutionId }: { institutionId: number }) {
       <CollaboratorItem item={item} />
     ) : (
       <View className="flex-1 items-center justify-center p-4">
-        <Text className="font-reapp_medium text-base">
+        <Text className="font-medium text-base">
           Nenhum colaborador encontrado.
         </Text>
       </View>
@@ -81,7 +81,7 @@ function CollaboratorList({ institutionId }: { institutionId: number }) {
       }
       ListEmptyComponent={
         <View className="flex-1 items-center justify-center p-4">
-          <Text className="font-reapp_medium text-base">
+          <Text className="font-medium text-base">
             Nenhum colaborador encontrado.
           </Text>
         </View>
@@ -96,7 +96,7 @@ function Collaborators() {
   const { id } = route.params as { id: number };
 
   return (
-    <View className="py-4">
+    <View className="flex-1 bg-white py-4">
       <CollaboratorList institutionId={id} />
     </View>
   );

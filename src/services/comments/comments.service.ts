@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getPostComments, addComment } from './requests';
+import { addComment, getPostComments } from './requests';
 import { GetPostCommentsParams } from './types';
 
 export const COMMENTS_PREFIX_KEY = 'comments';

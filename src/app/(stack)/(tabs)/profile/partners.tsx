@@ -7,34 +7,30 @@ import {
   FlatList,
   ListRenderItem,
   RefreshControl,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Button } from 'src/components';
 import PartnerCard from 'src/components/PartnerCard';
 import colors from 'src/constants/colors';
 import { usePartnersByInstitution } from 'src/hooks/usePartnersByInstitution';
 import { IPartner } from 'src/types/IPartner';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Text } from '@/components/ui/text';
 
 const renderHeader = () => (
   <View className="mb-3 items-center justify-center">
     <Button
-      endIcon={
-        <Ionicons
-          name="chevron-forward"
-          size={20}
-          color={colors.text_neutral}
-        />
-      }
-      customStyles="w-64 justify-center gap-x-2"
+      variant="outline"
+      className="w-64"
       onPress={() => {
         router.push({
           pathname: 'partner-create',
         });
       }}
     >
-      Cadastrar Novo Parceiro
+      <Text>Cadastrar Novo Parceiro</Text>
+      <Ionicons name="chevron-forward" size={20} color={colors.text_neutral} />
     </Button>
   </View>
 );
@@ -87,7 +83,7 @@ function PartnerList({ institutionId }: { institutionId: number }) {
       <PartnerItem item={item} />
     ) : (
       <View className="flex-1 items-center justify-center p-4">
-        <Text className="font-reapp_medium text-base">
+        <Text className="font-medium text-base">
           Nenhum parceiro encontrado.
         </Text>
       </View>
@@ -101,8 +97,7 @@ function PartnerList({ institutionId }: { institutionId: number }) {
       columnWrapperStyle={{ justifyContent: 'space-evenly' }}
       renderItem={renderItem}
       ListHeaderComponent={renderHeader}
-      ItemSeparatorComponent={() => <View className="h-4" />}
-      // Para permitir pull-to-refresh
+      ItemSeparatorComponent={Separator}
       refreshControl={
         <RefreshControl
           refreshing={refreshing}
@@ -112,10 +107,9 @@ function PartnerList({ institutionId }: { institutionId: number }) {
           title="Recarregando..." // iOS
         />
       }
-      // Se quiser exibir algo quando a lista estiver vazia:
       ListEmptyComponent={
         <View className="flex-1 items-center justify-center p-4">
-          <Text className="font-reapp_medium text-base">
+          <Text className="font-medium text-base">
             Nenhum parceiro encontrado.
           </Text>
         </View>
@@ -124,15 +118,12 @@ function PartnerList({ institutionId }: { institutionId: number }) {
   );
 }
 
-/**
- * Componente principal, recebe o `id` da rota e apenas renderiza o PartnerList.
- */
 function PartnersView() {
   const route = useRoute();
   const { id } = route.params as { id: number };
 
   return (
-    <View className="flex-1 py-4">
+    <View className="flex-1 py-4 bg-white">
       <PartnerList institutionId={id} />
     </View>
   );

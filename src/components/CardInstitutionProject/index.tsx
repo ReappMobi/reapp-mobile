@@ -1,10 +1,11 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Image } from 'expo-image';
-import React, { useState } from 'react';
-import { ActivityIndicator, Pressable, Text, View } from 'react-native';
+import { useState } from 'react';
+import { ActivityIndicator, Pressable, View } from 'react-native';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 import colors from '../../constants/colors';
-import Button from '../Button';
 
 type CardInstitutionProjectProps = {
   imagePath?: string;
@@ -76,32 +77,20 @@ function CardInstitutionProject({
       </View>
 
       <View className="mb-2.5">
-        <Text className="font-reapp_bold text-base text-text_neutral">
-          {title}
-        </Text>
+        <Text className="font-bold text-base text-text_neutral">{title}</Text>
       </View>
 
       {subtitle && (
         <View className="mb-2.5">
-          <Text className="font-reapp_regular text-base text-text_neutral">
+          <Text className="font-regular text-base text-text_neutral">
             {subtitle}
           </Text>
         </View>
       )}
 
-      <Button
-        customStyles="w-full justify-center bg-primary"
-        textColor="text-text_light"
-        endIcon={
-          <Ionicons
-            name="chevron-forward"
-            size={20}
-            color={colors.text_white}
-          />
-        }
-        onPress={onPress}
-      >
-        {textButton}
+      <Button className="w-full" onPress={onPress}>
+        <Text>{textButton}</Text>
+        <Ionicons name="chevron-forward" size={20} color={colors.text_white} />
       </Button>
     </View>
   );

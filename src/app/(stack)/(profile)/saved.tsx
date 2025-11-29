@@ -1,5 +1,3 @@
-import { parseISO } from 'date-fns';
-import { memo, useCallback } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -12,109 +10,10 @@ import {
 import { CardPost } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { useSavedPosts } from 'src/hooks/useSavedPosts';
-import {
-  likePost,
-  savePost,
-  unlikePost,
-  unsavePost,
-} from 'src/services/app-core';
 import { IPost } from 'src/types';
 
-type PostItemProps = {
-  item: IPost;
-  token: string | null;
-  userId?: string | number;
-};
-
-const PostItem = memo<PostItemProps>(({ item, token, userId }) => {
-  const isLiked = item.likes?.some((like) => like.accountId === userId);
-  const isSaved = item.saves?.some((save) => save.accountId === userId);
-  const handleLike = useCallback(() => {
-    if (token) {
-      likePost({ id: item.id, token });
-    }
-  }, [item.id, token]);
-
-  const handleUnlike = useCallback(() => {
-    if (token) {
-      unlikePost({ id: item.id, token });
-    }
-  }, [item.id, token]);
-
-  const handleSave = useCallback(() => {
-    if (token) {
-      savePost({ id: item.id, token });
-    }
-  }, [item.id, token]);
-
-  const handleUnsave = useCallback(() => {
-    if (token) {
-      unsavePost({ id: item.id, token });
-    }
-  }, [item.id, token]);
-
-  const timeString = timeAgo(item.updatedAt);
-
-  return (
-    <CardPost
-      postId={item.id}
-      mediaUrl={item.media?.remoteUrl || ''}
-      mediaBlurhash={item.media?.blurhash || ''}
-      userImageUrl={item.institution?.account?.media?.remoteUrl || ''}
-      userImageBlurhash={item.institution?.account?.media?.blurhash || ''}
-      nameInstitution={item.institution?.account?.name || ''}
-      description={item.body || ''}
-      timeAgo={timeString}
-      isSavedInitial={isSaved}
-      isLikedInitial={isLiked}
-      onPressLike={handleLike}
-      onPressUnlike={handleUnlike}
-      onPressSave={handleSave}
-      onPressUnSave={handleUnsave}
-    />
-  );
-});
-
-function timeAgo(dateString: string): string {
-  const date = parseISO(dateString);
-
-  const now = new Date();
-  const differenceInMinutes = Math.floor(
-    (now.getTime() - date.getTime()) / 60000
-  );
-
-  if (differenceInMinutes <= 1) {
-    return `${differenceInMinutes} minuto atrás`;
-  }
-
-  if (differenceInMinutes < 60) {
-    return `${differenceInMinutes} minutos atrás`;
-  }
-
-  const differenceInHours = Math.floor(differenceInMinutes / 60);
-  if (differenceInHours < 24) {
-    return `${differenceInHours} horas atrás`;
-  }
-
-  const differenceInDays = Math.floor(differenceInHours / 24);
-  if (differenceInDays < 30) {
-    if (differenceInDays === 1) {
-      return `${differenceInDays} dia atrás`;
-    }
-    return `${differenceInDays} dias atrás`;
-  }
-
-  const differenceInMonths = Math.floor(differenceInDays / 30);
-  if (differenceInMonths < 12) {
-    return `${differenceInMonths} meses atrás`;
-  }
-
-  const differenceInYears = Math.floor(differenceInMonths / 12);
-  return `${differenceInYears} anos atrás`;
-}
-
 function PostList() {
-  const { user, token } = useAuth();
+  const { user } = useAuth();
   const { posts, loading, error, refreshing, onRefresh } = useSavedPosts();
 
   if (loading) {
@@ -139,9 +38,24 @@ function PostList() {
     );
   }
 
-  const renderItem: ListRenderItem<IPost> = ({ item }) => (
-    <PostItem item={item} token={token} userId={user?.id} />
-  );
+  const renderItem: ListRenderItem<IPost> = ({ item }) => {
+    const isLiked = item.likes?.some((like) => like.accountId === user?.id);
+    const isSaved = item.saves?.some((save) => save.accountId === user?.id);
+    return (
+      <CardPost
+        postId={item.id}
+        mediaUrl={item.media?.remoteUrl || ''}
+        mediaBlurhash={item.media?.blurhash || ''}
+        userImageUrl={item.institution?.account?.media?.remoteUrl || ''}
+        userImageBlurhash={item.institution?.account?.media?.blurhash || ''}
+        name={item.institution?.account?.name || ''}
+        description={item.body || ''}
+        updatedAt={item.updatedAt}
+        isSavedInitial={isSaved}
+        isLikedInitial={isLiked}
+      />
+    );
+  };
 
   return (
     <FlatList
@@ -164,9 +78,7 @@ function PostList() {
       )}
       ListEmptyComponent={
         <View className="flex-1 items-center justify-center p-4">
-          <Text className="font-reapp_medium text-base">
-            Nenhuma postagem salva.
-          </Text>
+          <Text className="font-medium text-base">Nenhuma postagem salva.</Text>
         </View>
       }
     />

@@ -7,15 +7,15 @@ import {
   FlatList,
   ListRenderItem,
   RefreshControl,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Button } from 'src/components';
 import VolunteerCard from 'src/components/VolunteerCard';
 import colors from 'src/constants/colors';
 import { useVolunteersByInstitution } from 'src/hooks/useVolunteersByInstitution';
 import { IVolunteer } from 'src/types/IVolunteer';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 type VolunteerItemProps = {
   item: IVolunteer;
@@ -24,21 +24,16 @@ type VolunteerItemProps = {
 const renderHeader = () => (
   <View className="mb-3 items-center justify-center">
     <Button
-      endIcon={
-        <Ionicons
-          name="chevron-forward"
-          size={20}
-          color={colors.text_neutral}
-        />
-      }
-      customStyles="w-64 justify-center gap-x-2"
+      variant="outline"
+      className="w-64"
       onPress={() => {
         router.push({
           pathname: 'volunteer-create',
         });
       }}
     >
-      Cadastrar Voluntário
+      <Text>Cadastrar Voluntário</Text>
+      <Ionicons name="chevron-forward" size={20} color={colors.text_neutral} />
     </Button>
   </View>
 );
@@ -84,7 +79,7 @@ function VolunteerList({ institutionId }: { institutionId: number }) {
       <VolunteerItem item={item} />
     ) : (
       <View className="flex-1 items-center justify-center p-4">
-        <Text className="font-reapp_medium text-base">
+        <Text className="font-medium text-base">
           Nenhum voluntário encontrado.
         </Text>
       </View>
@@ -109,7 +104,7 @@ function VolunteerList({ institutionId }: { institutionId: number }) {
       }
       ListEmptyComponent={
         <View className="flex-1 items-center justify-center p-4">
-          <Text className="font-reapp_medium text-base">
+          <Text className="font-medium text-base">
             Nenhum voluntário encontrado.
           </Text>
         </View>
@@ -123,7 +118,7 @@ function Volunteers() {
   const { id } = route.params as { id: number };
 
   return (
-    <View className="flex-1 py-4">
+    <View className="flex-1 py-4 bg-white">
       <VolunteerList institutionId={id} />
     </View>
   );

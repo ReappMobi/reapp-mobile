@@ -6,9 +6,9 @@ import {
   Alert,
   LayoutAnimation,
   Linking,
+  Text,
   TouchableOpacity,
   View,
-  Text,
 } from 'react-native';
 import { useAuth } from 'src/hooks/useAuth';
 
@@ -59,7 +59,7 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = memo(({ navigation }) => {
               router.push('/my-donations');
             }}
           >
-            <Text className="font-reapp_bold text-lg">Minhas doações</Text>
+            <Text className="font-bold text-lg">Minhas doações</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
@@ -67,7 +67,7 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = memo(({ navigation }) => {
             onPress={handleDonationsPress}
           >
             <Text
-              className={`font-reapp_bold text-lg ${isDonationsOpen ? 'text-primary' : ''}`}
+              className={`font-bold text-lg ${isDonationsOpen ? 'text-primary' : ''}`}
             >
               Minhas doações
             </Text>
@@ -88,7 +88,7 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = memo(({ navigation }) => {
                 router.push('/my-donations-institution-general');
               }}
             >
-              <Text className="font-reapp_medium text-base">Gerais</Text>
+              <Text className="font-medium text-base">Gerais</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -97,7 +97,7 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = memo(({ navigation }) => {
                 router.push('/my-donations-institution');
               }}
             >
-              <Text className="font-reapp_medium text-base">Instituição</Text>
+              <Text className="font-medium text-base">Instituição</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -106,7 +106,7 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = memo(({ navigation }) => {
                 router.push('/my-donations-institution-project');
               }}
             >
-              <Text className="font-reapp_medium text-base">Projetos</Text>
+              <Text className="font-medium text-base">Projetos</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -119,7 +119,7 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = memo(({ navigation }) => {
             router.push('/saved');
           }}
         >
-          <Text className="font-reapp_bold text-lg">Postagens Salvas</Text>
+          <Text className="font-bold text-lg">Postagens Salvas</Text>
         </TouchableOpacity>
       </View>
 
@@ -132,7 +132,7 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = memo(({ navigation }) => {
           }}
         >
           <Ionicons name="shield-checkmark-outline" size={24} color="black" />
-          <Text className="font-reapp_bold text-base">Privacidade (LGPD)</Text>
+          <Text className="font-bold text-base">Privacidade (LGPD)</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -140,7 +140,7 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = memo(({ navigation }) => {
           onPress={handleCanalDuvidas}
         >
           <Ionicons name="chatbubble-outline" size={24} color="black" />
-          <Text className="font-reapp_bold text-base">Canal de dúvidas</Text>
+          <Text className="font-bold text-base">Canal de dúvidas</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -148,7 +148,7 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = memo(({ navigation }) => {
           onPress={handleSignOut}
         >
           <Ionicons name="exit-outline" size={24} color="black" />
-          <Text className="font-reapp_bold text-base">Sair</Text>
+          <Text className="font-bold text-base">Sair</Text>
         </TouchableOpacity>
       </View>
     </View>

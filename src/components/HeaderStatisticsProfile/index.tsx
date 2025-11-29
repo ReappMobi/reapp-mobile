@@ -50,12 +50,12 @@ function HeaderStatisticsProfile({
           />
           <View className="flex flex-col gap-y-2">
             <View className="text-wrap">
-              <Text className="font-reapp_bold text-xl text-white">{name}</Text>
+              <Text className="font-bold text-xl text-white">{name}</Text>
             </View>
 
             {note && (
               <View className="text-wrap">
-                <Text className="truncate font-reapp_regular text-xs text-white">
+                <Text className="truncate font-regular text-xs text-white">
                   {note}
                 </Text>
               </View>
@@ -67,13 +67,13 @@ function HeaderStatisticsProfile({
         <View className="flex flex-col justify-between gap-y-3">
           {!isDonor && (
             <View>
-              <Text className="font-reapp_regular text-sm text-white">
-                <Text className="font-reapp_bold text-sm">{followingQty} </Text>
+              <Text className="font-regular text-sm text-white">
+                <Text className="font-bold text-sm">{followingQty} </Text>
                 Seguindo
               </Text>
 
-              <Text className="font-reapp_regular text-sm text-white">
-                <Text className="font-reapp_bold text-sm">{followersQty} </Text>
+              <Text className="font-regular text-sm text-white">
+                <Text className="font-bold text-sm">{followersQty} </Text>
                 Seguidores
               </Text>
             </View>

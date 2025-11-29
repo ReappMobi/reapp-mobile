@@ -11,12 +11,11 @@ import {
   KeyboardAvoidingView,
   Platform,
   Pressable,
-  Text,
   View,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';
-import { Button, Input } from 'src/components';
+import { Input } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { useCamera } from 'src/hooks/useCamera';
 import { useGallery } from 'src/hooks/useGallery';
@@ -25,6 +24,8 @@ import {
   CreateProjectFormData,
   createProjectSchema,
 } from 'src/schemas/create-project.schema';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 type ModalOptionsProps = {
   selectGallery: () => void;
@@ -121,14 +122,12 @@ const Page: React.FC = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <View>
-          <Text className="font-reapp_bold text-xl">Adicionar projeto</Text>
+          <Text className="font-bold text-xl">Adicionar projeto</Text>
           <Text className="mt-3 text-xs">* item obrigatório</Text>
         </View>
         <ScrollView className="mt-2 gap-y-4">
           <View className="mt-4">
-            <Text className="mb-1 font-reapp_medium text-sm">
-              Nome do projeto*
-            </Text>
+            <Text className="mb-1 font-medium text-sm">Nome do projeto*</Text>
             <Input
               {...register('name')}
               value={watch('name')}
@@ -143,7 +142,7 @@ const Page: React.FC = () => {
             )}
           </View>
           <View className="mt-4">
-            <Text className="mb-1 font-reapp_medium text-sm">
+            <Text className="mb-1 font-medium text-sm">
               Subtitulo para o projeto*
             </Text>
             <Input
@@ -159,7 +158,7 @@ const Page: React.FC = () => {
             )}
           </View>
           <View className="mt-4">
-            <Text className="mb-1 font-reapp_medium text-sm">Descrição*</Text>
+            <Text className="mb-1 font-medium text-sm">Descrição*</Text>
             <Input
               {...register('description')}
               value={watch('description')}
@@ -174,7 +173,7 @@ const Page: React.FC = () => {
             )}
           </View>
           <View className="mt-4">
-            <Text className="mb-1 font-reapp_medium text-sm">Categoria*</Text>
+            <Text className="mb-1 font-medium text-sm">Categoria*</Text>
             <Pressable onPress={() => router.push('project/categories')}>
               <Input
                 placeholder="Ex.: Meio ambiente"
@@ -193,11 +192,11 @@ const Page: React.FC = () => {
           <View className="mt-4">
             <Text className="text-md mb-2 font-semibold">Conteúdo de mída</Text>
             <Button
-              startIcon={<AntDesign name="plus" size={24} color="#6b7280" />}
-              variant="outlined"
-              customStyles="border-1 justify-start gap-x-4 rounded-full border border-gray-400 bg-transparent p-3"
+              variant="outline"
+              className="justify-start rounded-full"
               onPress={onOpenModal}
             >
+              <AntDesign name="plus" size={24} color="#6b7280" />
               <Text className="text-sm text-gray-800">Adicionar mídia</Text>
             </Button>
 
@@ -224,7 +223,7 @@ const Page: React.FC = () => {
         </ScrollView>
 
         <Button
-          customStyles="my-4 justify-center rounded-xl bg-green-600 p-3 text-white shadow-none"
+          className="my-4 rounded-xl bg-green-600"
           onPress={handleSubmit(handleSaveButtonClick)}
           disabled={loading}
         >

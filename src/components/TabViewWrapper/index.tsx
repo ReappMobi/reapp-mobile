@@ -15,7 +15,9 @@ type TabViewWrapperProps = {
   setIndex: (newIndex: number) => void;
   routes: Route[];
   width: number;
-  renderScene: (props: SceneRendererProps & { route: Route }) => React.ReactElement;
+  renderScene: (
+    props: SceneRendererProps & { route: Route }
+  ) => React.ReactElement;
 };
 
 const TabViewWrapper = ({

@@ -1,7 +1,7 @@
 import {
+  createMaterialTopTabNavigator,
   MaterialTopTabNavigationEventMap,
   MaterialTopTabNavigationOptions,
-  createMaterialTopTabNavigator,
 } from '@react-navigation/material-top-tabs';
 import { ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { Image } from 'expo-image';
@@ -39,37 +39,30 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
           transition={500}
         />
         <View className="w-full flex-1 gap-y-0 pt-4">
-          <Text className="font-reapp_bold text-lg">
+          <Text className="font-bold text-lg">
             {institution ? institution.account?.name : ''}
           </Text>
           {loading ? (
             <LoadingBox customStyle="h-2.5 w-20 mt-2 mb-3 rounded-md bg-slate-400" />
           ) : (
             <View>
-              <Text className="text-md pb-2 font-reapp_medium">
+              <Text className="text-md pb-2 font-medium">
                 {institution ? institution.category?.name : ''}
               </Text>
-
-              {/* 
-              <Text className="text-md pb-2 font-reapp_medium">
-                {institution ? `${institution.city}/${institution.state}` : ''}
-              </Text>
-
-              */}
             </View>
           )}
         </View>
       </View>
       <View className="flex-row justify-center gap-x-2 py-4">
-        <Text className="text-md font-reapp_medium">
-          <Text className="text-md font-reapp_bold text-text_primary">
+        <Text className="text-md font-medium">
+          <Text className="text-md font-bold text-text_primary">
             {institution ? institution.account?.followersCount : ''}
           </Text>
           {` Seguidores`}
         </Text>
         {/* 
-        <Text className="text-md font-reapp_medium">
-          <Text className="text-md font-reapp_bold text-text_primary">
+        <Text className="text-md font-medium">
+          <Text className="text-md font-bold text-text_primary">
             {institution ? institution.donations : ''}
           </Text>
           {` Doações`}
@@ -77,8 +70,8 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
 
         */}
         {/*
-        <Text className="text-md font-reapp_medium">
-          <Text className="text-md font-reapp_bold text-text_primary">
+        <Text className="text-md font-medium">
+          <Text className="text-md font-bold text-text_primary">
             {institution ? institution.partnersQty : ''}
           </Text>
           {` Parceiros`}
@@ -110,7 +103,7 @@ const Layout = () => {
   const renderLabel = useMemo(() => {
     return ({ children, focused }: { focused: boolean; children: string }) => (
       <Text
-        className={`font-reapp_medium text-base text-text_neutral ${
+        className={`font-medium text-base text-text_neutral ${
           focused && 'text-text_primary underline'
         }`}
       >
@@ -144,13 +137,13 @@ const Layout = () => {
               width: 'auto',
               height: 'auto',
               paddingHorizontal: 0,
-              marginRight: 8,
+              marginRight: 16,
             },
             tabBarLabel: renderLabel,
             swipeEnabled: true,
             tabBarIndicator: () => null,
             tabBarStyle: {
-              marginLeft: 16,
+              marginLeft: 0,
               backgroundColor: 'transparent',
               shadowColor: 'transparent',
             },
@@ -167,13 +160,6 @@ const Layout = () => {
             options={{ title: 'Projetos' }}
             initialParams={{ id: institution.id }}
           />
-          {/* 
-          <MaterialTopTabs.Screen
-            name="transparency"
-            options={{ title: 'Transparência' }}
-            initialParams={{ id: institution.id }}
-          />
-          */}
           <MaterialTopTabs.Screen
             name="contacts"
             options={{ title: 'Contatos' }}

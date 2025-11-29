@@ -111,7 +111,7 @@ const MyDonationsInstitutionGeneralPage = () => {
       <View>
         <View style={styles.card} className="mx-4 mt-4 rounded-xl p-6">
           <View className="mb-4 flex-row items-center justify-between">
-            <Text className="font-reapp_medium text-lg text-gray-700">
+            <Text className="font-medium text-lg text-gray-700">
               Total arrecadado
             </Text>
             <MaterialIcons
@@ -120,7 +120,7 @@ const MyDonationsInstitutionGeneralPage = () => {
               color={colors.primary}
             />
           </View>
-          <Text className="font-reapp_bold text-3xl text-gray-900">
+          <Text className="font-bold text-3xl text-gray-900">
             {new Intl.NumberFormat('pt-BR', {
               style: 'currency',
               currency: 'BRL',
@@ -129,10 +129,8 @@ const MyDonationsInstitutionGeneralPage = () => {
 
           <View className="mt-6 flex-row justify-between">
             <View>
-              <Text className="font-reapp_medium text-sm text-gray-500">
-                Doações
-              </Text>
-              <Text className="font-reapp_bold text-2xl text-gray-900">
+              <Text className="font-medium text-sm text-gray-500">Doações</Text>
+              <Text className="font-bold text-2xl text-gray-900">
                 {data.totalDonations}
               </Text>
             </View>
@@ -159,7 +157,7 @@ const MyDonationsInstitutionGeneralPage = () => {
               }}
             >
               <Text
-                className="font-reapp_medium text-sm"
+                className="font-medium text-sm"
                 style={{
                   color:
                     selectedPeriod === period.id ? 'white' : 'text-gray-700',
@@ -194,7 +192,7 @@ const MyDonationsInstitutionGeneralPage = () => {
             />
           }
           ListEmptyComponent={
-            <Text className="mt-8 text-center font-reapp_medium text-gray-500">
+            <Text className="mt-8 text-center font-medium text-gray-500">
               Nenhuma doação encontrada neste período
             </Text>
           }

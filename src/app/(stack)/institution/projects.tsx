@@ -50,7 +50,7 @@ function ProjectList({ institutionId }) {
       <ProjectItem item={item} />
     ) : (
       <View className="flex-1 items-center justify-center p-4">
-        <Text className="font-reapp_medium text-base">
+        <Text className="font-medium text-base">
           Nenhum projeto encontrado.
         </Text>
       </View>
@@ -92,7 +92,7 @@ function ProjectList({ institutionId }) {
       }
       ListEmptyComponent={
         <View className="flex-1 items-center justify-center p-4">
-          <Text className="font-reapp_medium text-base">
+          <Text className="font-medium text-base">
             Nenhum projeto encontrado.
           </Text>
         </View>
@@ -106,7 +106,7 @@ const ProjectsView = () => {
   const { id } = route.params as { id: number };
 
   return (
-    <View className="flex-1 items-center justify-center">
+    <View className="flex-1 bg-white items-center justify-center">
       <ProjectList institutionId={id} />
     </View>
   );

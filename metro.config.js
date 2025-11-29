@@ -23,4 +23,5 @@ const config = () => {
 
 module.exports = withNativeWind(config(), {
   input: './src/styles/global.css',
+  inlineRem: 16,
 });

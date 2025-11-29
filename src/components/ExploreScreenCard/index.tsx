@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
-import React, { useState, memo } from 'react';
+import React, { memo, useState } from 'react';
 import {
   ActivityIndicator,
   Pressable,
@@ -99,7 +99,7 @@ const ExploreScreenCard = ({
           />
         </View>
 
-        <Text className="text-center font-reapp_medium text-xs">{title}</Text>
+        <Text className="text-center font-medium text-xs">{title}</Text>
 
         {isInstitution && isDonor && (
           <View className="flex-row items-center justify-between">

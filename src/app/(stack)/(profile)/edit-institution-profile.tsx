@@ -2,8 +2,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Image } from 'expo-image';
 import {
-  MediaType,
   launchImageLibraryAsync,
+  MediaType,
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 import { router } from 'expo-router';
@@ -16,7 +16,6 @@ import {
   Pressable,
   View,
 } from 'react-native';
-import { Button } from 'src/components';
 import { FormInputField } from 'src/components/FormInputField';
 import { useAuth } from 'src/hooks/useAuth';
 import { RequestMedia, updateAccount } from 'src/services/account';
@@ -24,6 +23,8 @@ import {
   FormData,
   schema,
 } from 'src/utils/profile-page/edit-donor-profile-schema';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 const EditProfileForm = () => {
   const {
@@ -153,12 +154,8 @@ const EditProfileForm = () => {
         )}
       />
 
-      <Button
-        customStyles="mt-4 w-full justify-center bg-primary"
-        textColor="text-text_light"
-        onPress={handleSubmit(onSubmit)}
-      >
-        Salvar alterações
+      <Button className="mt-4 w-full" onPress={handleSubmit(onSubmit)}>
+        <Text>Salvar alterações</Text>
       </Button>
     </View>
   );

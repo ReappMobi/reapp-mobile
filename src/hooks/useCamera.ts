@@ -1,5 +1,5 @@
 import { Camera } from 'expo-camera';
-import { MediaType, launchCameraAsync } from 'expo-image-picker';
+import { launchCameraAsync, MediaType } from 'expo-image-picker';
 import { Alert } from 'react-native';
 
 type CallbackFn = (uri: string) => void;

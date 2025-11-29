@@ -7,15 +7,15 @@ import {
   FlatList,
   ListRenderItem,
   RefreshControl,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Button } from 'src/components';
 import { CollaboratorCard } from 'src/components/CollaboratorCard';
 import colors from 'src/constants/colors';
 import { useCollaboratorsByInstitution } from 'src/hooks/useCollaboratorsByInstitution';
 import { ICollaborator } from 'src/types/ICollaborator';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 type CollaboratorItemProps = {
   item: ICollaborator;
@@ -33,21 +33,16 @@ const CollaboratorItem = memo<CollaboratorItemProps>(({ item }) => {
 const renderHeader = () => (
   <View className="mb-3 items-center justify-center">
     <Button
-      endIcon={
-        <Ionicons
-          name="chevron-forward"
-          size={20}
-          color={colors.text_neutral}
-        />
-      }
-      customStyles="w-64 justify-center gap-x-2"
+      variant="outline"
+      className="w-64"
       onPress={() => {
         router.push({
           pathname: 'collaborator-create',
         });
       }}
     >
-      Cadastrar Colaborador
+      <Text>Cadastrar Colaborador</Text>
+      <Ionicons name="chevron-forward" size={20} color={colors.text_neutral} />
     </Button>
   </View>
 );
@@ -85,7 +80,7 @@ function CollaboratorList({ institutionId }: { institutionId: number }) {
       <CollaboratorItem item={item} />
     ) : (
       <View className="flex-1 items-center justify-center p-4">
-        <Text className="font-reapp_medium text-base">
+        <Text className="font-medium text-base">
           Nenhum colaborador encontrado.
         </Text>
       </View>
@@ -108,7 +103,7 @@ function CollaboratorList({ institutionId }: { institutionId: number }) {
       }
       ListEmptyComponent={
         <View className="flex-1 items-center justify-center p-4">
-          <Text className="font-reapp_medium text-base">
+          <Text className="font-medium text-base">
             Nenhum colaborador encontrado.
           </Text>
         </View>
@@ -123,7 +118,7 @@ function Collaborators() {
   const { id } = route.params as { id: number };
 
   return (
-    <View className="py-4">
+    <View className="flex-1 py-4 bg-white">
       <CollaboratorList institutionId={id} />
     </View>
   );

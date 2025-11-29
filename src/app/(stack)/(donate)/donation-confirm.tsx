@@ -23,20 +23,18 @@ const DonationConfirmPage = () => {
           <DonationConfirmScreenImage width={256} height={199} />
         </View>
         <View>
-          <Text className="text-center font-reapp_bold text-xl text-white">
+          <Text className="text-center font-bold text-xl text-white">
             Obrigado, {user.name}. Você doou para essa instituição
           </Text>
         </View>
       </View>
       <View className="mt-8 flex-1 items-center">
         <View className="items-center gap-y-1">
-          <Text className="font-reapp_medium text-base text-text_gray">
-            {date}
-          </Text>
-          <Text className="text-text-neutral font-reapp_bold text-xl">
+          <Text className="font-medium text-base text-text_gray">{date}</Text>
+          <Text className="text-text-neutral font-bold text-xl">
             {user.name}
           </Text>
-          <Text className="font-reapp_regular text-xl">{value}</Text>
+          <Text className="font-regular text-xl">{value}</Text>
         </View>
       </View>
     </>

@@ -3,13 +3,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button } from 'src/components';
 import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { getProjectById } from 'src/services/app-core';
 import { IProject } from 'src/types';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 const ProjectPage = () => {
   const navigation = useNavigation();
@@ -57,19 +58,17 @@ const ProjectPage = () => {
         />
         <View className="px-4 pb-2">
           <View className="mt-3.5">
-            <Text className="mb-3.5 font-reapp_bold text-xl text-text_primary">
+            <Text className="mb-3.5 font-bold text-xl text-text_primary">
               {project.name}
             </Text>
 
-            <Text className="font-reapp_regular text-base">
-              {project.subtitle}
-            </Text>
+            <Text className="font-regular text-base">{project.subtitle}</Text>
           </View>
           <View className="mt-4 pb-2">
-            <Text className="mb-5 font-reapp_bold text-xl text-text_neutral">
+            <Text className="mb-5 font-bold text-xl text-text_neutral">
               A ideia
             </Text>
-            <Text className="mb-5 font-reapp_regular text-base">
+            <Text className="mb-5 font-regular text-base">
               {project.description}
             </Text>
             {/*
@@ -104,15 +103,7 @@ const ProjectPage = () => {
             */}
             {isDonor && (
               <Button
-                customStyles="w-full justify-center bg-primary"
-                textColor="text-text_light"
-                endIcon={
-                  <Ionicons
-                    name="chevron-forward"
-                    size={20}
-                    color={colors.text_white}
-                  />
-                }
+                className="w-full"
                 onPress={() => {
                   return router.navigate({
                     pathname: 'donate',
@@ -124,7 +115,12 @@ const ProjectPage = () => {
                   });
                 }}
               >
-                Clique aqui e faça sua doação
+                <Text>Clique aqui e faça sua doação</Text>
+                <Ionicons
+                  name="chevron-forward"
+                  size={20}
+                  color={colors.text_white}
+                />
               </Button>
             )}
           </View>

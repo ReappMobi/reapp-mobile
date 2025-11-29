@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  MediaType,
   launchImageLibraryAsync,
+  MediaType,
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 import { router } from 'expo-router';
@@ -16,13 +16,13 @@ import {
   Platform,
   Pressable,
   ScrollView,
-  Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
-import { Button } from 'src/components';
+import { Button } from 'src/components/ui/button';
+import { Text } from 'src/components/ui/text';
 import { useAuth } from 'src/hooks/useAuth';
 import { RequestMedia } from 'src/services/account';
 import { getInstitutionCategories } from 'src/services/app-core';
@@ -543,15 +543,15 @@ const SignUpForm: React.FC = () => {
 
       {/* Botão de Enviar */}
       <Button
-        customStyles="mt-4 w-full justify-center bg-primary"
-        textColor="text-text_light"
+        className="w-full mt-2"
+        size="lg"
         onPress={handleSubmit(onSubmit)}
         disabled={loading}
       >
         {loading ? (
           <ActivityIndicator size="small" color="white" />
         ) : (
-          'Cadastrar'
+          <Text className="text-white">Cadastrar</Text>
         )}
       </Button>
     </View>
@@ -565,15 +565,9 @@ const SignUpInstitution: React.FC = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1"
+      className="flex-1 bg-white"
     >
       <ScrollView>
-        <View className="items-center pt-4">
-          <Text className="text-center font-reapp_medium text-xl">
-            Cadastro de Instituição
-          </Text>
-        </View>
-
         <SignUpForm />
       </ScrollView>
     </KeyboardAvoidingView>
