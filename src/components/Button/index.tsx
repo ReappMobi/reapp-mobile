@@ -31,7 +31,6 @@ export default function Button({
   const { width } = useWindowDimensions();
 
   const dynamicTextSize = width < 350 ? 'text-xs' : textSize || 'text-base';
-  const dynamicIconSize = width < 350 ? 16 : 20;
 
   return (
     <Pressable
@@ -46,9 +45,7 @@ export default function Button({
     >
       {startIcon && (
         <View className="mr-2">
-          {React.cloneElement(startIcon as React.ReactElement, {
-            size: dynamicIconSize,
-          })}
+          {React.cloneElement(startIcon as React.ReactElement)}
         </View>
       )}
       <Text
