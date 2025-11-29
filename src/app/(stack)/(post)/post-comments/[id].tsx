@@ -1,10 +1,19 @@
-import { MaterialIcons, Octicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { useQueryClient } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
-import { FlatList, TextInput } from 'react-native-gesture-handler';
+import {
+  ActivityIndicator,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from 'src/hooks/useAuth';
 import {
@@ -64,24 +73,21 @@ const Page = () => {
       return;
     }
 
-    if (comment.trim() !== '') {
-      addCommentMutate(
-        { token, postId: Number(id), content: trimmedComment },
-        {
-          onSuccess: () => {
-            setPage(1);
-            queryClient.invalidateQueries({
-              queryKey: [COMMENTS_PREFIX_KEY, +id],
-            });
-            setComment('');
-          },
-          onError: () => {
-            Alert.alert('Erro', 'Problema ao adicionar o comentário.');
-            setComment('');
-          },
-        }
-      );
-    }
+    addCommentMutate(
+      { token, postId: Number(id), content: trimmedComment },
+      {
+        onSuccess: () => {
+          setPage(1);
+          queryClient.invalidateQueries({
+            queryKey: [COMMENTS_PREFIX_KEY, +id],
+          });
+          setComment('');
+        },
+        onError: () => {
+          Alert.alert('Erro', 'Problema ao adicionar o comentário.');
+        },
+      }
+    );
   };
 
   const loadMoreComments = () => {
@@ -97,99 +103,103 @@ const Page = () => {
     });
   };
 
-  if ((loading || isFetching) && page === 1) {
-    return (
-      <SafeAreaView className="flex-1 bg-white pt-10">
-        <View
-          className="mb-2 flex h-12 flex-row items-center px-3"
-          style={{ borderBottomColor: 'gray', borderBottomWidth: 1 }}
-        >
-          <Pressable onPress={() => router.dismiss()}>
-            <MaterialIcons name="chevron-left" size={28} color="#646464" />
-          </Pressable>
-
-          <Text className="mt-1 flex-1 pr-5 text-center font-medium text-lg text-slate-700">
-            Comentários
+  const renderItem = ({ item }) => (
+    <View className="flex-row gap-3 px-4 py-3 border-b border-gray-50">
+      <Image
+        source={{ uri: item.account.media?.remoteUrl }}
+        className="h-9 w-9 rounded-full bg-gray-200"
+      />
+      <View className="flex-1 gap-1">
+        <View className="flex-row items-center justify-between">
+          <Text className="font-semibold text-sm text-black">
+            {item.account.name}
+          </Text>
+          <Text className="text-xs text-gray-400">
+            {timeAgo(item.createdAt.toString())}
           </Text>
         </View>
-
-        <ActivityIndicator size="large" color="#000" />
-      </SafeAreaView>
-    );
-  }
+        <Text className="text-sm text-gray-800 leading-5">{item.body}</Text>
+      </View>
+    </View>
+  );
 
   return (
-    <SafeAreaView className="flex-1 bg-white pt-10">
-      <View
-        className="mb-2 flex h-12 flex-row items-center px-3"
-        style={{ borderBottomColor: 'gray', borderBottomWidth: 1 }}
-      >
-        <Pressable onPress={() => router.dismiss()}>
-          <MaterialIcons name="chevron-left" size={28} color="#646464" />
+    <SafeAreaView className="flex-1 bg-white" edges={['top']}>
+      <View className="flex-row items-center justify-between px-4 py-2 border-b border-gray-100">
+        <Pressable onPress={() => router.dismiss()} className="-ml-2 p-2">
+          <Ionicons name="arrow-back" size={26} color="black" />
         </Pressable>
-
-        <Text className="mt-1 flex-1 pr-5 text-center font-medium text-lg text-slate-700">
-          Comentários
-        </Text>
+        <Text className="font-bold text-base">Comentários</Text>
+        <View className="w-10" />
       </View>
 
-      <View className="mt-2 flex-1">
-        {comments.length === 0 && !loading ? (
-          <View className="flex-1 items-center justify-center p-4">
-            <Text className="font-medium text-base">
-              Nenhum comentário encontrado.
-            </Text>
-          </View>
-        ) : (
-          <FlatList
-            data={comments}
-            renderItem={({ item }) => (
-              <View className="my-3 flex-row items-start gap-x-2 px-2">
-                <Image
-                  className="h-8 w-8 rounded-full"
-                  source={{ uri: item.account.media?.remoteUrl }}
-                />
-                <View className="flex-1">
-                  <View className="flex-row gap-x-2">
-                    <Text className="font-medium text-xs">
-                      {item.account.name}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        className="flex-1"
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+      >
+        <View className="flex-1">
+          {loading && page === 1 ? (
+            <View className="flex-1 items-center justify-center">
+              <ActivityIndicator size="small" color="#000" />
+            </View>
+          ) : (
+            <FlatList
+              data={comments}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id.toString()}
+              onEndReached={loadMoreComments}
+              onEndReachedThreshold={0.5}
+              onRefresh={refreshComments}
+              refreshing={loading && page === 1}
+              contentContainerStyle={{ paddingBottom: 20 }}
+              ListEmptyComponent={
+                !loading && (
+                  <View className="pt-20 items-center justify-center">
+                    <Text className="text-gray-400">
+                      Nenhum comentário ainda.
                     </Text>
                   </View>
-                  <Text className="text-sm">{item.body}</Text>
-                  <Text className="text-xs text-gray-400">
-                    {timeAgo(item.createdAt.toString())}
-                  </Text>
-                </View>
-              </View>
-            )}
-            keyExtractor={(item) => item.id.toString()}
-            onEndReached={loadMoreComments}
-            onEndReachedThreshold={0.5}
-            onRefresh={refreshComments}
-            refreshing={loading && page === 1}
-            ListFooterComponent={
-              isFetching && page > 1 ? (
-                <ActivityIndicator size="small" color="#000" />
-              ) : null
-            }
-          />
-        )}
-
-        <View className="h-14 flex-row items-center border-t border-gray-400 px-2">
-          <Octicons name="paper-airplane" size={22} color="#646464" />
-          <TextInput
-            placeholder="Adicionar um novo comentário"
-            onChangeText={setComment}
-            value={comment}
-            className="ml-2 flex-1"
-          />
-          <Pressable onPress={sendComment} disabled={isAddCommentLoading}>
-            <Text className="text-md font-bold text-green-700">
-              {isAddCommentLoading ? 'Enviando...' : 'Comentar'}
-            </Text>
-          </Pressable>
+                )
+              }
+              ListFooterComponent={
+                isFetching && page > 1 ? (
+                  <View className="py-4">
+                    <ActivityIndicator size="small" color="#000" />
+                  </View>
+                ) : null
+              }
+            />
+          )}
         </View>
-      </View>
+
+        <View className="px-4 py-3 border-t border-gray-100 bg-white pb-6">
+          <View className="flex-row items-center bg-gray-100 rounded-full px-4 py-1">
+            <TextInput
+              placeholder={`Comentar como...`}
+              placeholderTextColor="#9ca3af"
+              onChangeText={setComment}
+              value={comment}
+              multiline
+              className="flex-1 py-3 text-sm text-black max-h-24"
+              textAlignVertical="center"
+            />
+            {comment.length > 0 && (
+              <Pressable
+                onPress={sendComment}
+                disabled={isAddCommentLoading}
+                className="ml-2"
+              >
+                {isAddCommentLoading ? (
+                  <ActivityIndicator size="small" color="#000" />
+                ) : (
+                  <Text className="font-semibold text-primary">Publicar</Text>
+                )}
+              </Pressable>
+            )}
+          </View>
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
