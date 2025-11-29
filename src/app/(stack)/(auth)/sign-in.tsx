@@ -80,14 +80,7 @@ export default function SignIn() {
           </Text>
         )}
       </View>
-
-      <Text
-        className="text-base font-semibold text-primary underline underline-offset-1"
-        onPress={() => router.push('/forgot-password')}
-      >
-        Esqueci minha senha
-      </Text>
-
+      {/* TODO: enable password recovery */}
       <View>
         <Button size="lg" onPress={handleSubmit(onSubmit)} disabled={loading}>
           {loading ? (
