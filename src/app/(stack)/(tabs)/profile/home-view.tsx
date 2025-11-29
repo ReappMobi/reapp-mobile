@@ -18,10 +18,11 @@ import { usePostsByInstitution } from 'src/hooks/usePostsByInstitution';
 import { deletePublication } from 'src/services/app-core';
 import { IPost } from 'src/types';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import { Text } from '@/components/ui/text';
 
 const renderHeader = () => (
-  <View className="mb-3 items-center justify-center">
+  <View className="mb-3 items-center justify-center bg-white">
     <Button
       variant="outline"
       onPress={() => {
@@ -143,7 +144,7 @@ function PostList({ institutionId }) {
           title="Recarregando..." // iOS
         />
       }
-      ItemSeparatorComponent={() => <View className="mb-2.5" />}
+      ItemSeparatorComponent={() => <Separator />}
     />
   );
 }
@@ -153,7 +154,7 @@ const HomeView = () => {
   const { id } = route.params as { id: number };
 
   return (
-    <View className="w-full flex-1 items-center justify-center">
+    <View className="w-full flex-1 items-center justify-center bg-white">
       <PostList institutionId={id} />
     </View>
   );

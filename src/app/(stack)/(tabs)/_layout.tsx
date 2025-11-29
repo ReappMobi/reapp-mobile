@@ -108,18 +108,6 @@ const TabLayout = () => {
             />
           )}
 
-          {/*
-          <Tabs.Screen
-            name="transparency"
-            options={{
-              headerShown: true,
-              tabBarIcon: ({ size, color }) => (
-                <Ionicons name="receipt-outline" size={size} color={color} />
-              ),
-            }}
-          />
-          */}
-
           {isDonor ? (
             <Tabs.Screen
               name="profile"

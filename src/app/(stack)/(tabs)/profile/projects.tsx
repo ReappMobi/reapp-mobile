@@ -17,6 +17,7 @@ import { useProjectsByInstitution } from 'src/hooks/useProjectsByInstitution';
 import { deleteProject } from 'src/services/app-core';
 import { IProject } from 'src/types';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import { Text } from '@/components/ui/text';
 
 type ProjectListProps = {
@@ -135,14 +136,14 @@ function ProjectList({ institutionId }) {
 
   return (
     <FlatList
-      className="w-full"
+      className="w-full bg-white"
       data={projects}
       keyExtractor={(item) => item.id.toString()}
       renderItem={renderItem}
       removeClippedSubviews
       maxToRenderPerBatch={10}
       ListHeaderComponent={renderHeader}
-      ItemSeparatorComponent={() => <View className="mb-2.5" />}
+      ItemSeparatorComponent={() => <Separator />}
       refreshControl={
         <RefreshControl
           refreshing={refreshing}
@@ -168,7 +169,7 @@ const ProjectsView = () => {
   const { id } = route.params as { id: number };
 
   return (
-    <View className="flex-1 items-center justify-center">
+    <View className="flex-1 items-center justify-center bg-white">
       <ProjectList institutionId={id} />
     </View>
   );

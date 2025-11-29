@@ -49,13 +49,6 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
               <Text className="text-md pb-2 font-medium">
                 {institution ? institution.category?.name : ''}
               </Text>
-
-              {/* 
-              <Text className="text-md pb-2 font-medium">
-                {institution ? `${institution.city}/${institution.state}` : ''}
-              </Text>
-
-              */}
             </View>
           )}
         </View>
@@ -144,13 +137,13 @@ const Layout = () => {
               width: 'auto',
               height: 'auto',
               paddingHorizontal: 0,
-              marginRight: 8,
+              marginRight: 16,
             },
             tabBarLabel: renderLabel,
             swipeEnabled: true,
             tabBarIndicator: () => null,
             tabBarStyle: {
-              marginLeft: 16,
+              marginLeft: 0,
               backgroundColor: 'transparent',
               shadowColor: 'transparent',
             },
@@ -167,13 +160,6 @@ const Layout = () => {
             options={{ title: 'Projetos' }}
             initialParams={{ id: institution.id }}
           />
-          {/* 
-          <MaterialTopTabs.Screen
-            name="transparency"
-            options={{ title: 'Transparência' }}
-            initialParams={{ id: institution.id }}
-          />
-          */}
           <MaterialTopTabs.Screen
             name="contacts"
             options={{ title: 'Contatos' }}
