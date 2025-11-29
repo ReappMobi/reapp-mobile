@@ -1,4 +1,3 @@
-import { IDonor } from 'src/mocks/user-data';
 
 import { IInstitution } from './IInstitution';
 import { IMedia } from './IMedia';
@@ -25,5 +24,5 @@ export interface Donation {
   donorId: number;
   institution?: IInstitution;
   project?: IProject;
-  donor: IDonor & { account: { name: string; media: IMedia } };
+  donor: Record<string, any> & { account: { name: string; media: IMedia } };
 }

@@ -1,4 +1,3 @@
-import { ICategory } from 'src/mocks/app-InstitutionCategory-data';
 
 import { IMedia } from './IMedia';
 
@@ -20,7 +19,7 @@ export interface IProject {
   };
   subtitle: string;
   description: string;
-  category: ICategory;
+  category: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
   mediaId?: string;
