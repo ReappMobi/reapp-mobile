@@ -9,10 +9,14 @@ export function useLike(postId: string | number, isLikedInitial: boolean) {
     isLikedInitial,
     {
       on: () => {
-        if (token) likePost({ id: +postId, token });
+        if (token) {
+          likePost({ id: +postId, token });
+        }
       },
       off: () => {
-        if (token) unlikePost({ id: +postId, token });
+        if (token) {
+          unlikePost({ id: +postId, token });
+        }
       },
     }
   );

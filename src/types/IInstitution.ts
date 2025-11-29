@@ -1,4 +1,3 @@
-
 import { IMedia } from './IMedia';
 
 export interface IInstitution {

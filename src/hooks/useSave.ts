@@ -9,10 +9,14 @@ export function useSave(postId: string | number, isSavedInitial: boolean) {
     isSavedInitial,
     {
       on: () => {
-        if (token) savePost({ id: +postId, token });
+        if (token) {
+          savePost({ id: +postId, token });
+        }
       },
       off: () => {
-        if (token) unsavePost({ id: +postId, token });
+        if (token) {
+          unsavePost({ id: +postId, token });
+        }
       },
     }
   );

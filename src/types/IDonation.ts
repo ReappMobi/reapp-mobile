@@ -1,4 +1,3 @@
-
 import { IInstitution } from './IInstitution';
 import { IMedia } from './IMedia';
 import { IProject } from './IProject';

@@ -2,8 +2,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Image } from 'expo-image';
 import {
-  MediaType,
   launchImageLibraryAsync,
+  MediaType,
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 import { router } from 'expo-router';

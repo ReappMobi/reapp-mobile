@@ -1,6 +1,6 @@
 import {
-  MediaType,
   launchImageLibraryAsync,
+  MediaType,
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 import { Alert } from 'react-native';

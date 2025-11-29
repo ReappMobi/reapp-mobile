@@ -1,7 +1,7 @@
 import { Ionicons, Octicons } from '@expo/vector-icons';
 import { DrawerActions } from '@react-navigation/native';
 import { Image } from 'expo-image';
-import { Redirect, Tabs, router, useNavigation } from 'expo-router';
+import { Redirect, router, Tabs, useNavigation } from 'expo-router';
 import React from 'react';
 import { Pressable } from 'react-native';
 import colors from 'src/constants/colors';

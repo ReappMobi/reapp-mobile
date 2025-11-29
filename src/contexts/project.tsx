@@ -1,9 +1,9 @@
 import { createContext, useState } from 'react';
 import { ApiResponseError } from 'src/errors/ApiResponseError';
 import {
+  CreateProjectResponse,
   createProject,
   getProjectsCategories,
-  CreateProjectResponse,
 } from 'src/services/project';
 
 interface ProjectContextData {
@@ -32,17 +32,17 @@ export function ProjectProvider({ children }) {
 
   const getProjects = async () => {};
   const saveProject = async (
-  token: string,
-  project: any
-): Promise<[CreateProjectResponse, Error | ApiResponseError]> => {
-  setLoading(true);
-  const [response, error] = await createProject(token, project);
-  setLoading(false);
-  if (error) {
-    setError(error);
-  }
-  return [response, error];
-};
+    token: string,
+    project: any
+  ): Promise<[CreateProjectResponse, Error | ApiResponseError]> => {
+    setLoading(true);
+    const [response, error] = await createProject(token, project);
+    setLoading(false);
+    if (error) {
+      setError(error);
+    }
+    return [response, error];
+  };
 
   const updateProject = async (_data: any) => {};
   const deleteProject = async (_id: string) => {};
