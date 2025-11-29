@@ -1,3 +1,94 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 122 21% 55%; /* #7B9D7C */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 123 12% 38%; /* #566E58 */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --border: 0 0% 89.8%;
+    --input: 75 20% 96%; /* #f4f5f2 */
+    --ring: 0 0% 63%;
+    --radius: 0.625rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+
+    /* Additional colors from your second config */
+    --tertiary: 183 21% 55%; /* #7B9B9D */
+    --tertiary-light: 183 25% 85%; /* #d7e1e2 */
+    --blue: 217 91% 60%; /* #3B82F6 */
+    --gray: 0 0% 56%; /* #909090 */
+    --gray-light: 340 31% 94%; /* #F5EDF0 */
+    --red: 339 75% 51%; /* #D81E5B */
+
+    /* Text colors */
+    --text-primary: 90 11% 39%; /* #636E56 */
+    --text-secondary: 90 11% 55%; /* #8E9D7B */
+    --text-secondary-light: 90 11% 55%; /* #8E9D7B */
+    --text-neutral: 220 24% 25%; /* #2E384D */
+    --text-dark: 240 3% 9%; /* #161617 */
+    --text-light: 210 5% 95%; /* #F1F2F3 */
+    --text-gray: 240 1% 67%; /* #A9A9AA */
+    --text-white: 0 0% 100%; /* #ffffff */
+  }
+
+  .dark:root {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 122 21% 65%; /* Lighter version for dark mode */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 123 12% 48%; /* Lighter version for dark mode */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 70.9% 59.4%;
+    --border: 0 0% 14.9%;
+    --input: 75 10% 20%; /* Darker version for dark mode */
+    --ring: 300 0% 45%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+
+    /* Dark mode variants for additional colors */
+    --tertiary: 183 21% 65%; /* Lighter for dark mode */
+    --tertiary-light: 183 25% 25%; /* Darker for dark mode */
+    --blue: 217 91% 70%; /* Lighter for dark mode */
+    --gray: 0 0% 66%; /* Lighter for dark mode */
+    --gray-light: 340 31% 20%; /* Darker for dark mode */
+    --red: 339 75% 61%; /* Lighter for dark mode */
+
+    /* Text colors for dark mode */
+    --text-primary: 90 11% 79%; /* Lighter for dark mode */
+    --text-secondary: 90 11% 75%; /* Lighter for dark mode */
+    --text-secondary-light: 90 11% 75%; /* Lighter for dark mode */
+    --text-neutral: 220 24% 85%; /* Lighter for dark mode */
+    --text-dark: 240 3% 89%; /* Lighter for dark mode */
+    --text-light: 210 5% 15%; /* Darker for dark mode */
+    --text-gray: 240 1% 77%; /* Lighter for dark mode */
+    --text-white: 0 0% 100%; /* Same for dark mode */
+  }
+}
