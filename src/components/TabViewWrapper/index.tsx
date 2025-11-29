@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import React, { memo } from 'react';
 import {
   NavigationState,
   Route,
@@ -15,7 +15,7 @@ type TabViewWrapperProps = {
   setIndex: (newIndex: number) => void;
   routes: Route[];
   width: number;
-  renderScene: (props: SceneRendererProps & { route: Route }) => JSX.Element;
+  renderScene: (props: SceneRendererProps & { route: Route }) => React.ReactElement;
 };
 
 const TabViewWrapper = ({
