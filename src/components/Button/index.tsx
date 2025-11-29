@@ -1,11 +1,34 @@
+import { cva, type VariantProps } from 'class-variance-authority';
 import React from 'react';
-import { Pressable, Text, View, useWindowDimensions } from 'react-native';
+import { Pressable, Text, useWindowDimensions, View } from 'react-native';
 
-import { sizeStyles, variantStyles } from './styles';
+import { cn } from '../../lib/utils';
 
-type ButtonProps = {
-  variant?: keyof typeof variantStyles;
-  size?: keyof typeof sizeStyles;
+const buttonVariants = cva(
+  'text-base rounded-md flex-row justify-between items-center active:opacity-70 w-full',
+  {
+    variants: {
+      variant: {
+        contained: 'bg-white',
+        text: 'bg-transparent active:underline',
+        outlined: 'bg-transparent border b-2',
+      },
+      size: {
+        small: 'p-3',
+        medium: 'p-4',
+        large: 'p-6',
+      },
+    },
+    defaultVariants: {
+      variant: 'contained',
+      size: 'medium',
+    },
+  }
+);
+
+interface ButtonProps
+  extends React.ComponentPropsWithoutRef<typeof Pressable>,
+    VariantProps<typeof buttonVariants> {
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
   children: React.ReactNode;
@@ -14,11 +37,11 @@ type ButtonProps = {
   textSize?: string;
   onPress?: () => void;
   disabled?: boolean;
-};
+}
 
 export default function Button({
-  variant = 'contained',
-  size = 'medium',
+  variant,
+  size,
   startIcon,
   endIcon,
   children,
@@ -35,11 +58,10 @@ export default function Button({
   return (
     <Pressable
       style={[disabled && { opacity: 0.5 }]}
-      className={`${variantStyles.default}
-        ${variantStyles[variant]}
-        ${sizeStyles[size]}
-        ${customStyles}
-        flex-row items-center justify-center`}
+      className={cn(
+        buttonVariants({ variant, size, className: customStyles }),
+        'flex-row items-center justify-center'
+      )}
       onPress={disabled ? undefined : onPress}
       disabled={disabled}
     >
