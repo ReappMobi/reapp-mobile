@@ -34,12 +34,6 @@
     "plugins": [
       "expo-router",
       [
-        "@react-native-google-signin/google-signin",
-        {
-          "iosUrlScheme": "com.googleusercontent.apps.reaap"
-        }
-      ],
-      [
         "expo-camera",
         {
           "cameraPermission": "Permitir que Reapp acesse a câmera",
