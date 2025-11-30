@@ -45,6 +45,8 @@ function CardPost({
   const { isLiked, toggleLike } = useLike(postId, isLikedInitial);
   const { isSaved, toggleSave } = useSave(postId, isSavedInitial);
 
+  const canExpandContent = description.length > 100;
+
   const postedIn = timeAgo(updatedAt);
 
   const handleCommentPress = useCallback(
@@ -85,40 +87,34 @@ function CardPost({
             </Text>
           </View>
           <View>
-            <Pressable
-              onPress={handleCommentPress}
-              style={{ overflow: 'hidden' }}
-            >
-              <View className="pr-2">
-                <Text
-                  numberOfLines={expanded ? null : 4}
-                  className="font-regular text-sm text-text-neutral"
-                >
-                  {description.length > 100 && !expanded
-                    ? `${description.slice(0, 100)}...`
-                    : description}
-                </Text>
-                {description && description.length > 100 && (
-                  <Pressable onPress={() => setExpanded((prev) => !prev)}>
-                    <Text className="text-text_blue font-regular text-xs">
-                      {expanded ? 'Ler menos' : 'Ler mais'}
-                    </Text>
-                  </Pressable>
-                )}
-              </View>
-              {mediaUrl && (
-                <View className="h-max w-full items-center justify-center rounded-lg">
-                  <Image
-                    className="w-full rounded-lg"
-                    source={{ uri: mediaUrl }}
-                    placeholder={{ blurhash: mediaBlurhash }}
-                    contentFit="cover"
-                    transition={500}
-                    style={{ aspectRatio: mediaAspect }}
-                  />
-                </View>
+            <View className="pb-2">
+              <Text
+                numberOfLines={expanded ? undefined : 4}
+                className="font-regular text-sm text-text-neutral"
+              >
+                {description}
+              </Text>
+
+              {canExpandContent && (
+                <Pressable onPress={() => setExpanded(!expanded)}>
+                  <Text className="text-text_blue font-regular text-xs">
+                    {expanded ? 'Ler menos' : 'Ler mais'}
+                  </Text>
+                </Pressable>
               )}
-            </Pressable>
+            </View>
+            {mediaUrl && (
+              <View className="h-max w-full items-center justify-center rounded-lg">
+                <Image
+                  className="w-full rounded-lg"
+                  source={{ uri: mediaUrl }}
+                  placeholder={{ blurhash: mediaBlurhash }}
+                  contentFit="cover"
+                  transition={500}
+                  style={{ aspectRatio: mediaAspect }}
+                />
+              </View>
+            )}
             <View className="flex-row gap-x-5 mt-3">
               <Pressable onPress={toggleLike}>
                 <Icon
