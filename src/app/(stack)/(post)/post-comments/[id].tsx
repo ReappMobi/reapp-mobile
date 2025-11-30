@@ -1,20 +1,18 @@
-import { Ionicons } from '@expo/vector-icons';
+import { useHeaderHeight } from '@react-navigation/elements';
 import { useQueryClient } from '@tanstack/react-query';
 import { Image } from 'expo-image';
-import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useLocalSearchParams } from 'expo-router';
+import { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
   Platform,
-  Pressable,
   Text,
   TextInput,
   View,
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from 'src/hooks/useAuth';
 import {
   COMMENTS_PREFIX_KEY,
@@ -22,6 +20,28 @@ import {
   useGetPostComments,
 } from 'src/services/comments/comments.service';
 import { timeAgo } from 'src/utils/time-ago';
+import { Button } from '@/components/ui/button';
+import colors from '@/constants/colors';
+
+const renderItem = ({ item }) => (
+  <View className="flex-row gap-3 px-4 py-3 border-b border-gray-50">
+    <Image
+      source={{ uri: item.account.media?.remoteUrl }}
+      className="h-9 w-9 rounded-full bg-gray-200"
+    />
+    <View className="flex-1 gap-1">
+      <View className="flex-row items-center justify-between">
+        <Text className="font-semibold text-sm text-black">
+          {item.account.name}
+        </Text>
+        <Text className="text-xs text-gray-400">
+          {timeAgo(item.createdAt.toString())}
+        </Text>
+      </View>
+      <Text className="text-sm text-gray-800 leading-5">{item.body}</Text>
+    </View>
+  </View>
+);
 
 const Page = () => {
   const { token } = useAuth();
@@ -30,6 +50,8 @@ const Page = () => {
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  const headerHeight = useHeaderHeight();
+  const androidHeaderHeight = useRef(headerHeight);
 
   const queryClient = useQueryClient();
   const {
@@ -103,40 +125,14 @@ const Page = () => {
     });
   };
 
-  const renderItem = ({ item }) => (
-    <View className="flex-row gap-3 px-4 py-3 border-b border-gray-50">
-      <Image
-        source={{ uri: item.account.media?.remoteUrl }}
-        className="h-9 w-9 rounded-full bg-gray-200"
-      />
-      <View className="flex-1 gap-1">
-        <View className="flex-row items-center justify-between">
-          <Text className="font-semibold text-sm text-black">
-            {item.account.name}
-          </Text>
-          <Text className="text-xs text-gray-400">
-            {timeAgo(item.createdAt.toString())}
-          </Text>
-        </View>
-        <Text className="text-sm text-gray-800 leading-5">{item.body}</Text>
-      </View>
-    </View>
-  );
-
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={['top']}>
-      <View className="flex-row items-center justify-between px-4 py-2 border-b border-gray-100">
-        <Pressable onPress={() => router.dismiss()} className="-ml-2 p-2">
-          <Ionicons name="arrow-back" size={26} color="black" />
-        </Pressable>
-        <Text className="font-bold text-base">Comentários</Text>
-        <View className="w-10" />
-      </View>
-
+    <View className="flex-1 bg-white">
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        className="flex-1"
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={
+          Platform.OS === 'ios' ? headerHeight : androidHeaderHeight.current
+        }
+        style={{ flex: 1 }}
       >
         <View className="flex-1">
           {loading && page === 1 ? (
@@ -173,34 +169,36 @@ const Page = () => {
           )}
         </View>
 
-        <View className="px-4 py-3 border-t border-gray-100 bg-white pb-6">
+        <View className="px-4 py-3 border-t border-gray-100 bg-white pb-2">
           <View className="flex-row items-center bg-gray-100 rounded-full px-4 py-1">
             <TextInput
               placeholder={`Comentar como...`}
               placeholderTextColor="#9ca3af"
+              autoFocus
               onChangeText={setComment}
               value={comment}
               multiline
               className="flex-1 py-3 text-sm text-black max-h-24"
               textAlignVertical="center"
+              maxLength={200}
             />
-            {comment.length > 0 && (
-              <Pressable
-                onPress={sendComment}
-                disabled={isAddCommentLoading}
-                className="ml-2"
-              >
-                {isAddCommentLoading ? (
-                  <ActivityIndicator size="small" color="#000" />
-                ) : (
-                  <Text className="font-semibold text-primary">Publicar</Text>
-                )}
-              </Pressable>
-            )}
+
+            <Button
+              onPress={sendComment}
+              disabled={isAddCommentLoading || comment.length === 0}
+              className="ml-2"
+              variant="ghost"
+            >
+              {isAddCommentLoading ? (
+                <ActivityIndicator size="small" color={colors.primary} />
+              ) : (
+                <Text className="font-semibold text-primary">Publicar</Text>
+              )}
+            </Button>
           </View>
         </View>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   );
 };
 
