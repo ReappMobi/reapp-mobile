@@ -1,10 +1,9 @@
+import { debounce } from 'es-toolkit/function';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native';
 import { Input } from 'src/components';
 import { useProject } from 'src/hooks/useProject';
-
-import { debounce } from 'src/utils/functools';
 
 const Page = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -13,7 +12,7 @@ const Page = () => {
 
   const updateSearchQuery = useCallback((query: string) => {
     setSearchQuery(query);
-    debounce(() => fetchCategories(query), 800)();
+    debounce(() => fetchCategories(query), 300)();
   }, []);
 
   const fetchCategories = async (query: string) => {
