@@ -12,6 +12,7 @@ import { SearchProvider } from 'src/contexts/search';
 import { useAuth } from 'src/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { Text } from '@/components/ui/text';
 
 const TabIcon = ({
   focused,
@@ -52,10 +53,14 @@ const TabIcon = ({
 
 const HeaderAvatar = ({ user }) => {
   const navigation = useNavigation();
+  const onPress = useCallback(
+    debounce(() => {
+      navigation.dispatch(DrawerActions.toggleDrawer());
+    }, 120),
+    []
+  );
   return (
-    <Pressable
-      onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-    >
+    <Pressable onPress={onPress}>
       <Image
         source={{ uri: user?.media?.remoteUrl }}
         placeholder={{ blurhash: user?.media?.blurhash }}
@@ -70,7 +75,7 @@ const HeaderCreateButton = () => {
 
   const onPress = useCallback(
     debounce(() => {
-      router.push('/post-create');
+      router.push('/create-post');
     }, 170),
     [router]
   );
@@ -102,14 +107,11 @@ const TabLayout = () => {
           <Tabs.Screen
             name="index"
             options={{
-              title: 'REAPP',
+              headerTitle: () => (
+                <Text className="text-2xl font-bold text-primary">REAPP</Text>
+              ),
               headerTitleAlign: 'center',
-              headerTitleStyle: {
-                fontFamily: 'reapp_bold',
-                color: colors.primary,
-                fontSize: 20,
-              },
-              headerStyle: { shadowColor: '#000' },
+              headerShadowVisible: false,
               headerLeftContainerStyle: { paddingLeft: 16 },
               headerRightContainerStyle: { paddingRight: 16 },
               headerLeft: () => <HeaderAvatar user={user} />,
