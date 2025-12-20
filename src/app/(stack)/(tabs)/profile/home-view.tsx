@@ -27,7 +27,7 @@ const renderHeader = () => (
       variant="outline"
       onPress={() => {
         router.push({
-          pathname: 'post-create',
+          pathname: 'create-post',
         });
       }}
     >

@@ -1,5 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useHeaderHeight } from '@react-navigation/elements';
 import { useQueryClient } from '@tanstack/react-query';
 import { Camera } from 'expo-camera';
 import {
@@ -10,7 +11,7 @@ import {
 } from 'expo-image-picker';
 import { router } from 'expo-router';
 import { CameraIcon, Images } from 'lucide-react-native';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Alert,
@@ -46,6 +47,9 @@ export default function PostCreate() {
   const [loading, setLoading] = useState(false);
   const mediaTypes: MediaType[] = ['images'];
   const queryClient = useQueryClient();
+  const headerHeight = useHeaderHeight();
+
+  const androidHeaderHeight = useRef(headerHeight);
 
   const userAvatarUrl = auth.user.media?.remoteUrl;
   const username = auth.user.name;
@@ -131,23 +135,12 @@ export default function PostCreate() {
     <SafeAreaView className="flex-1 bg-white">
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex-1"
+        keyboardVerticalOffset={
+          Platform.OS === 'ios' ? headerHeight : androidHeaderHeight.current
+        }
+        style={{ flex: 1 }}
       >
-        <View className="flex-row items-center justify-between px-4 py-3">
-          <Pressable onPress={() => router.dismiss()}>
-            <Ionicons name="close" size={28} color="black" />
-          </Pressable>
-
-          <Text className="font-bold text-lg text-black">Nova postagem</Text>
-
-          <Ionicons
-            name="ellipsis-horizontal-circle-outline"
-            size={24}
-            color="#ccc"
-          />
-        </View>
-
-        <ScrollView className="flex-1 px-4 pt-4">
+        <ScrollView className="px-4 pt-2">
           <View className="flex-row">
             <View className="items-center mr-3">
               <Image
