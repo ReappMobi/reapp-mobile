@@ -48,7 +48,15 @@
         }
       ],
       "expo-font",
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "http://reapp-glitchtip-57a32f-212-85-0-19.traefik.me/",
+          "project": "reapp",
+          "organization": "reapp"
+        }
+      ]
     ],
     "extra": {
       "router": {
