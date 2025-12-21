@@ -1,15 +1,18 @@
-import { likePost, unlikePost } from 'src/services/posts/post.requests';
+import { useLikePost, useUnlikePost } from 'src/services/posts/post.service';
 import { useOptimisticToggle } from './useOptimisticToggle';
 
 export function useLike(postId: string | number, isLikedInitial: boolean) {
+  const { mutate: like } = useLikePost();
+  const { mutate: unlike } = useUnlikePost();
+
   const { isActive: isLiked, toggle: toggleLike } = useOptimisticToggle(
     isLikedInitial,
     {
       on: () => {
-        likePost(+postId);
+        like(+postId);
       },
       off: () => {
-        unlikePost(+postId);
+        unlike(+postId);
       },
     }
   );

@@ -80,6 +80,9 @@ export const useSavePost = () => {
     mutationFn: savePost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [POSTS_PREFIX_KEY] });
+      queryClient.invalidateQueries({
+        queryKey: [POSTS_PREFIX_KEY, 'saved'],
+      });
       queryClient.invalidateQueries({ queryKey: [INSTITUTION_POSTS_KEY] });
     },
   });
@@ -91,6 +94,9 @@ export const useUnsavePost = () => {
     mutationFn: unsavePost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [POSTS_PREFIX_KEY] });
+      queryClient.invalidateQueries({
+        queryKey: [POSTS_PREFIX_KEY, 'saved'],
+      });
       queryClient.invalidateQueries({ queryKey: [INSTITUTION_POSTS_KEY] });
     },
   });
