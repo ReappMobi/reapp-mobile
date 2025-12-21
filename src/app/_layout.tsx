@@ -9,6 +9,7 @@ import {
   useFonts,
 } from '@expo-google-fonts/roboto';
 import { PortalHost } from '@rn-primitives/portal';
+import * as Sentry from '@sentry/react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import { Drawer } from 'expo-router/drawer';
@@ -24,7 +25,12 @@ cssInterop(Image, { className: 'style' });
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+Sentry.init({
+  dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
+  debug: true,
+});
+
+function RootLayout() {
   const fonts = {
     reapp_thin: Roboto_100Thin,
     reapp_ligth: Roboto_300Light,
@@ -68,3 +74,5 @@ export default function RootLayout() {
     </GestureHandlerRootView>
   );
 }
+
+export default Sentry.wrap(RootLayout);
