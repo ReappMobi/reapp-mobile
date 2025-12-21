@@ -2,44 +2,28 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, Image, ScrollView, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Input } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
-import { getProjectCategories, postProject } from 'src/services/app-core';
+import {
+  useCreateProject,
+  useGetProjectCategories,
+} from 'src/services/projects/service';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 
 export default function ProjectCreate() {
-  const auth = useAuth();
-  const [image, setImage] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('react');
+  const { user } = useAuth();
+  const [image, setImage] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState('1'); // Default to 1 or logic to pick first
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const token = await auth.getToken();
-        const res = await getProjectCategories({ token });
-        if (res.error) {
-          Alert.alert('Erro na aplicação. Tente novamente mais tarde!');
-          router.back();
-        }
-        setCategories(res);
-      } catch (error) {
-        console.error(error);
-        Alert.alert('Erro na aplicação. Tente novamente mais tarde!');
-        router.back();
-      }
-    };
-
-    fetchCategories();
-  }, []);
+  const { data: categories = [] } = useGetProjectCategories();
+  const { mutateAsync: createProject, isPending: loading } = useCreateProject();
 
   const projectCreateFormSchema = z.object({
     name: z
@@ -66,30 +50,25 @@ export default function ProjectCreate() {
   });
 
   const onSubmit = async (data: any) => {
-    setLoading(true);
-    const token = await auth.getToken();
     if (!image) {
-      setLoading(false);
       Alert.alert('A foto de capa para o projeto é obrigatória!');
       return;
     }
-    const dataReq = {
-      name: data.name,
-      subtitle: data.subtitle,
-      description: data.description,
-      categoryId: selectedCategory,
-      image,
-      token,
-      institutionId: auth.user.id,
-    };
-    const res = await postProject(dataReq);
-    if (res.error) {
-      Alert.alert('Erro no cadastro do projeto', res.error);
-    } else {
+    try {
+      await createProject({
+        name: data.name,
+        subtitle: data.subtitle,
+        description: data.description,
+        categoryId: selectedCategory,
+        media: image,
+        institutionId: user.id,
+      });
+
       Alert.alert('Projeto cadastrado com sucesso!');
       router.back();
+    } catch (error: any) {
+      Alert.alert('Erro no cadastro do projeto', error?.message);
     }
-    setLoading(false);
   };
 
   const pickImage = async () => {
@@ -184,7 +163,7 @@ export default function ProjectCreate() {
                 selectedValue={selectedCategory}
                 onValueChange={(itemValue) => setSelectedCategory(itemValue)}
               >
-                {categories.map((category, index) => (
+                {categories.map((category: any, index: number) => (
                   <Picker.Item
                     key={index}
                     label={category.name}

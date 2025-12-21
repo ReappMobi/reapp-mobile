@@ -1,39 +1,33 @@
-import { IInstitution } from 'src/types/IInstitution';
 import api from '../api';
 import {
-  GetCollaboratorsResponse,
-  GetInstitutionPostsResponse,
   GetInstitutionsResponse,
-  GetPartnersResponse,
-  GetVolunteersResponse,
   PostInstitutionMemberData,
+  GetPartnersResponse,
+  GetCollaboratorsResponse,
+  GetVolunteersResponse,
+  GetInstitutionPostsResponse,
 } from './types';
+import { IInstitution } from 'src/types/IInstitution';
 
 export const getInstitutions = async () => {
-  const { data } = await api.get<GetInstitutionsResponse>(
-    '/account/institution'
-  );
+  const { data } = await api.get<GetInstitutionsResponse>('/account/institution');
   return data;
 };
 
 export const getInstitutionByAccountId = async (accountId: number) => {
-  const { data } = await api.get<IInstitution>(
-    `/account/institution/${accountId}`
-  );
+  const { data } = await api.get<IInstitution>(`/account/institution/${accountId}`);
   return data;
 };
 
-export const postInstitutionMember = async (
-  memberData: PostInstitutionMemberData
-) => {
+export const postInstitutionMember = async (memberData: PostInstitutionMemberData) => {
   const formData = new FormData();
   formData.append('name', memberData.name);
   formData.append('memberType', memberData.memberType);
   if (memberData.media) {
     formData.append('file', {
-      uri: memberData.media,
-      name: 'photo.jpg',
-      type: 'image/jpeg',
+      uri: memberData.media.uri,
+      name: memberData.media.name,
+      type: memberData.media.type,
     } as any);
   }
   const { data } = await api.post('/institution-members', formData, {

@@ -4,7 +4,8 @@ export type CreateProjectData = {
   name: string;
   subtitle: string;
   description: string;
-  category: string;
+  categoryId: string | number;
+  institutionId?: number;
   media: string;
 };
 

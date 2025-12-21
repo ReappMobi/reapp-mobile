@@ -24,10 +24,10 @@ import Colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { useSearch } from 'src/hooks/useSearch';
 import {
-  followAccount,
-  getInstitutions,
-  unfollowAccount,
-} from 'src/services/app-core';
+  useFollowAccount,
+  useUnfollowAccount,
+} from 'src/services/account/service';
+import { useGetInstitutions } from 'src/services/institutions/service';
 import { IInstitution } from 'src/types';
 
 /**
@@ -37,57 +37,30 @@ import { IInstitution } from 'src/types';
  * ----------------------------------------------------------------
  */
 function useInstitutions() {
-  const auth = useAuth();
-  const [institutions, setInstitutions] = useState<IInstitution[]>([]);
-  const [categories, setCategories] = useState<Record<string, any>[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
-  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const {
+    data: institutions = [],
+    isLoading: loading,
+    error,
+    isRefetching: refreshing,
+    refetch: onRefresh,
+  } = useGetInstitutions();
 
-  const fetchData = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const token = await auth.getToken();
-      const institutionsData = await getInstitutions({ token });
-
-      const uniqueCategories = Array.from(
-        new Map(
-          institutionsData.map((inst: IInstitution) => [
-            inst.category.id,
-            { id: inst.category.id, name: inst.category.name },
-          ])
-        ).values()
-      ) as Record<string, any>[];
-
-      setInstitutions(institutionsData);
-      setCategories(uniqueCategories);
-    } catch (err) {
-      setError(err as Error);
-    } finally {
-      setLoading(false);
-    }
-  }, [auth]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  const onRefresh = useCallback(async () => {
-    setRefreshing(true);
-    try {
-      await fetchData();
-    } finally {
-      setRefreshing(false);
-    }
-  }, [fetchData]);
+  const categories = useMemo(() => {
+    return Array.from(
+      new Map(
+        institutions.map((inst: IInstitution) => [
+          inst.category.id,
+          { id: inst.category.id, name: inst.category.name },
+        ])
+      ).values()
+    ) as Record<string, any>[];
+  }, [institutions]);
 
   return {
     institutions,
-    setInstitutions,
     categories,
     loading,
-    error,
+    error: error as Error,
     refreshing,
     onRefresh,
   };
@@ -156,7 +129,7 @@ const InstitutionModalOptions = memo(
         <TouchableOpacity
           onPress={() =>
             router.push({
-              pathname: 'institution',
+              pathname: '/institution',
               params: { id: institution?.account.id },
             })
           }
@@ -425,7 +398,6 @@ const InstitutionSearchList = memo<InstitutionSearchListProps>(
 const InstitutionsPage = () => {
   const {
     institutions,
-    setInstitutions,
     categories,
     loading,
     error,
@@ -446,66 +418,35 @@ const InstitutionsPage = () => {
     modalizeRef.current?.open();
   }, []);
 
-  const { token } = useAuth();
-
   const handleCardClick = useCallback((item: IInstitution) => {
-    router.push({ pathname: 'institution', params: { id: item.account.id } });
+    router.push({ pathname: '/institution', params: { id: item.account.id } });
   }, []);
+
+  const { mutateAsync: followAccount } = useFollowAccount();
+  const { mutateAsync: unfollowAccount } = useUnfollowAccount();
 
   const handleFollow = useCallback(
     async (institution: IInstitution) => {
       try {
-        await followAccount({ id: institution.account.id, token });
-        setInstitutions((prevInstitutions) => {
-          const updatedInstitutions = prevInstitutions.map((inst) =>
-            inst.account.id === institution.account.id
-              ? { ...inst, isFollowing: true }
-              : inst
-          );
-
-          if (selectedInstitution?.account.id === institution.account.id) {
-            const updatedInst = updatedInstitutions.find(
-              (inst) => inst.account.id === institution.account.id
-            );
-            setSelectedInstitution(updatedInst);
-          }
-
-          return updatedInstitutions;
-        });
+        await followAccount(institution.account.id);
       } catch (error) {
         console.error('Erro ao seguir:', error);
         throw error;
       }
     },
-    [token, selectedInstitution]
+    [followAccount]
   );
 
   const handleUnfollow = useCallback(
     async (institution: IInstitution) => {
       try {
-        await unfollowAccount({ id: institution.account.id, token });
-        setInstitutions((prevInstitutions) => {
-          const updatedInstitutions = prevInstitutions.map((inst) =>
-            inst.account.id === institution.account.id
-              ? { ...inst, isFollowing: false }
-              : inst
-          );
-
-          if (selectedInstitution?.account.id === institution.account.id) {
-            const updatedInst = updatedInstitutions.find(
-              (inst) => inst.account.id === institution.account.id
-            );
-            setSelectedInstitution(updatedInst);
-          }
-
-          return updatedInstitutions;
-        });
+        await unfollowAccount(institution.account.id);
       } catch (error) {
         console.error('Erro ao deixar de seguir:', error);
         throw error;
       }
     },
-    [token, selectedInstitution]
+    [unfollowAccount]
   );
 
   const sections = useMemo(() => {

@@ -1,8 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
-  Alert,
   FlatList,
   RefreshControl,
   ScrollView,
@@ -14,7 +13,7 @@ import {
 import { DonationInformationItem } from 'src/components';
 import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
-import { getDonationsByDonor } from 'src/services/donations';
+import { useGetDonationsByDonor } from 'src/services/donations/service';
 import { Donation } from 'src/types/IDonation';
 import { timeAgo } from 'src/utils/time-ago';
 
@@ -35,8 +34,8 @@ const renderDonorDonations = (donation: Donation) => {
     'instituições associadas';
 
   const media =
-    donation.project?.media.remoteUrl ||
-    donation.institution?.account.media.remoteUrl;
+    donation.project?.media?.remoteUrl ||
+    donation.institution?.account.media?.remoteUrl;
 
   const formatedAmount = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
@@ -55,70 +54,32 @@ const renderDonorDonations = (donation: Donation) => {
 };
 
 const MyDonationsPage = () => {
-  const { user, token } = useAuth();
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-  const [data, setData] = useState<{
-    donations: Donation[];
-    totalAmount: number;
-    totalDonations: number;
-  }>({ donations: [], totalAmount: 0, totalDonations: 0 });
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const { user } = useAuth();
   const [selectedPeriod, setSelectedPeriod] = useState<Period>('week');
 
-  const fetchDonations = async (
-    isRefresh = false,
-    period: Period = selectedPeriod
-  ) => {
-    const targetPage = isRefresh ? 1 : page;
+  const {
+    data,
+    isLoading,
+    isRefetching,
+    fetchNextPage,
+    hasNextPage,
+    refetch,
+  } = useGetDonationsByDonor(user?.donor?.id, selectedPeriod);
 
-    try {
-      const result = await getDonationsByDonor(
-        user.donor.id,
-        targetPage,
-        token,
-        period
-      );
+  const donations = data?.pages.flatMap((page) => page.donations) || [];
+  const totalAmount = data?.pages[0]?.totalAmount || 0;
+  const totalDonations = data?.pages[0]?.totalDonations || 0;
 
-      if (isRefresh) {
-        setData(result);
-      } else {
-        setData((prev) => ({
-          ...result,
-          donations: [...prev.donations, ...result.donations],
-        }));
-      }
-
-      setHasMore(result.donations.length > 0);
-      setPage(isRefresh ? 2 : (prev) => prev + 1);
-    } catch (error: any) {
-      Alert.alert(
-        'Erro',
-        error.message || 'Ocorreu um erro ao carregar as doações.'
-      );
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  };
-
-  useEffect(() => {
-    setLoading(true);
-    fetchDonations(true);
-  }, [selectedPeriod]);
-
-  const handleRefresh = useCallback(() => fetchDonations(true), []);
+  const handleRefresh = useCallback(() => refetch(), [refetch]);
 
   const handleEndReached = () => {
-    if (!loading && hasMore && !refreshing) {
-      fetchDonations();
+    if (hasNextPage) {
+      fetchNextPage();
     }
   };
 
   const handlePeriodChange = (period: Period) => {
     setSelectedPeriod(period);
-    setPage(1);
   };
 
   return (
@@ -140,14 +101,14 @@ const MyDonationsPage = () => {
             {new Intl.NumberFormat('pt-BR', {
               style: 'currency',
               currency: 'BRL',
-            }).format(data.totalAmount)}
+            }).format(totalAmount)}
           </Text>
 
           <View className="mt-6 flex-row justify-between">
             <View>
               <Text className="font-medium text-sm text-gray-500">Doações</Text>
               <Text className="font-bold text-2xl text-gray-900">
-                {data.totalDonations}
+                {totalDonations}
               </Text>
             </View>
           </View>
@@ -187,13 +148,13 @@ const MyDonationsPage = () => {
         </ScrollView>
       </View>
 
-      {loading ? (
+      {isLoading ? (
         <View className="items-center justify-center">
           <ActivityIndicator size="large" color={colors.primary} />
         </View>
       ) : (
         <FlatList
-          data={data.donations}
+          data={donations}
           className="mt-4 px-4"
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => renderDonorDonations(item)}
@@ -201,7 +162,7 @@ const MyDonationsPage = () => {
           onEndReachedThreshold={0.5}
           refreshControl={
             <RefreshControl
-              refreshing={refreshing}
+              refreshing={isRefetching}
               onRefresh={handleRefresh}
               colors={[colors.primary]}
               tintColor={colors.primary}
@@ -213,7 +174,7 @@ const MyDonationsPage = () => {
             </Text>
           }
           ListFooterComponent={
-            hasMore && (
+            hasNextPage && (
               <View className="py-4">
                 <ActivityIndicator size="small" color={colors.primary} />
               </View>

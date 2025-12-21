@@ -17,6 +17,14 @@ export const useGetProjectById = (id: number) => {
   });
 };
 
+export const useGetProjectsByInstitutionId = (institutionId: number) => {
+  return useQuery({
+    queryKey: [PROJECTS_PREFIX_KEY, 'institution', institutionId],
+    queryFn: () => requests.getProjectsByInstitutionId(institutionId),
+    enabled: !!institutionId,
+  });
+};
+
 export const useCreateProject = () => {
   const queryClient = useQueryClient();
   return useMutation({

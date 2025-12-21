@@ -3,9 +3,7 @@ import React, {
   Fragment,
   memo,
   useCallback,
-  useEffect,
   useMemo,
-  useState,
 } from 'react';
 import {
   FlatList,
@@ -18,7 +16,10 @@ import {
 import { CardSearch, ExploreScreenCard, LoadingBox } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { useSearch } from 'src/hooks/useSearch';
-import { getProjects, toggleFavoriteProject } from 'src/services/app-core';
+import {
+  useGetProjects,
+  useToggleFavoriteProject,
+} from 'src/services/projects/service';
 import { IBanner, IProject } from 'src/types';
 
 /**
@@ -28,62 +29,35 @@ import { IBanner, IProject } from 'src/types';
  * --------------------------------------------------------------
  */
 function useProjects() {
-  const auth = useAuth();
-  const [projects, setProjects] = useState<IProject[]>([]);
-  const [categories, setCategories] = useState<Record<string, any>[]>([]);
-  const [banners, setBanners] = useState<IBanner[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-  const [refreshing, setRefreshing] = useState(false);
+  const {
+    data: projects = [],
+    isLoading,
+    error,
+    refetch,
+    isRefetching,
+  } = useGetProjects();
 
-  const fetchData = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      setBanners([]);
+  const categories = useMemo(() => {
+    return Array.from(
+      new Map(
+        projects.map((proj: IProject) => [
+          proj.category.id,
+          { id: proj.category.id, name: proj.category.name },
+        ])
+      ).values()
+    ) as Record<string, any>[];
+  }, [projects]);
 
-      const token = await auth.getToken();
-      const projectsData = await getProjects(token);
-
-      const uniqueCategories = Array.from(
-        new Map(
-          projectsData.map((proj: IProject) => [
-            proj.category.id,
-            { id: proj.category.id, name: proj.category.name },
-          ])
-        ).values()
-      ) as Record<string, any>[];
-
-      setProjects(projectsData);
-      setCategories(uniqueCategories);
-    } catch (err) {
-      setError(err as Error);
-    } finally {
-      setLoading(false);
-    }
-  }, [auth]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  const onRefresh = useCallback(async () => {
-    setRefreshing(true);
-    try {
-      await fetchData();
-    } finally {
-      setRefreshing(false);
-    }
-  }, [fetchData]);
+  const banners: IBanner[] = [];
 
   return {
     projects,
     categories,
     banners,
-    loading,
-    error,
-    refreshing,
-    onRefresh,
+    loading: isLoading,
+    error: error as Error,
+    refreshing: isRefetching,
+    onRefresh: refetch,
   };
 }
 
@@ -175,21 +149,6 @@ const RenderItem = memo<RenderItemProps>(
     );
   }
 );
-
-/**
- * --------------------------------------------------------------
- * 5. CAROUSEL do topo (banners)
- * --------------------------------------------------------------
- */
-/*
-const RenderCarousel = memo(({ banners }: { banners: IBanner[] }) => {
-  return (
-    <View className="pb-4">
-      <Carousel banners={banners} />
-    </View>
-  );
-});
-/*
 
 /**
  * --------------------------------------------------------------
@@ -340,21 +299,21 @@ const ProjectsPage = () => {
   } = useProjects();
   const auth = useAuth();
   const { isSearchActive, searchQuery } = useSearch();
+  const { mutateAsync: toggleFavorite } = useToggleFavoriteProject();
 
   const handleCardClick = useCallback((item: IProject) => {
-    router.push({ pathname: 'project', params: { projectId: item.id } });
+    router.push({ pathname: '/project', params: { projectId: item.id } });
   }, []);
 
   const handleFavoriteClick = useCallback(
     async (item: IProject) => {
       try {
-        const token = await auth.getToken();
-        await toggleFavoriteProject({ projectId: item.id, token });
+        await toggleFavorite({ projectId: item.id });
       } catch (error) {
         console.error('Error toggling favorite project:', error);
       }
     },
-    [auth]
+    [toggleFavorite]
   );
 
   if (loading && !error) {

@@ -5,28 +5,24 @@ import { ActivityIndicator, Alert, View } from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 import DonationTaxReceiptImage from 'src/assets/images/DonationTaxReceiptImage.svg';
 import { Input } from 'src/components';
-import { useAuth } from 'src/hooks/useAuth';
-import { requestPaymentUrl } from 'src/services/payment';
+import { useRequestPaymentUrl } from 'src/services/payment/service';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 
 const DonationMethodPage = () => {
   const { institutionId, projectId } = useLocalSearchParams();
   const [value, setValue] = useState(0);
-  const [loading, setLoading] = useState(false);
   const [description, setDescription] = useState('');
-  const auth = useAuth();
+  const { mutateAsync: requestUrl, isPending: loading } =
+    useRequestPaymentUrl();
 
   const requestPayment = async () => {
-    console.log(value);
     if (value < 10 || description.length > 25) {
       Alert.alert('Por favor, preencha os campos corretamente.');
       return;
     }
 
-    setLoading(true);
     try {
-      const token = await auth.getToken();
       const data = {
         amount: value / 100,
         institutionId: Number(institutionId),
@@ -34,7 +30,7 @@ const DonationMethodPage = () => {
         projectId: Number(projectId),
       };
 
-      const response = await requestPaymentUrl(data, token);
+      const response = await requestUrl(data);
 
       if (response.error || response.statusCode === 500) {
         Alert.alert('Erro interno, tente novamente mais tarde.');
@@ -44,8 +40,6 @@ const DonationMethodPage = () => {
     } catch (error) {
       console.log(error);
       Alert.alert('Ocorreu um erro ao processar sua doação.');
-    } finally {
-      setLoading(false);
     }
   };
 

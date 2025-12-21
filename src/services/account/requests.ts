@@ -101,3 +101,8 @@ export const unfollowAccount = async (id: number) => {
   const { data } = await api.delete(`/account/unfollow/${id}`);
   return data;
 };
+
+export const getInstitutionCategories = async () => {
+  const { data } = await api.get('/account/categories');
+  return data;
+};

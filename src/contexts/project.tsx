@@ -1,17 +1,28 @@
 import { createContext, useState } from 'react';
 import { ApiResponseError } from 'src/errors/ApiResponseError';
 import {
-  CreateProjectResponse,
-  createProject,
-  getProjectsCategories,
-} from 'src/services/project';
+  createProject as createProjectRequest,
+  getProjectCategories as getProjectCategoriesRequest,
+} from 'src/services/projects/requests';
+
+// Define/Import types locally or from services if available
+// The old CreateProjectResponse was:
+type CreateProjectResponse = {
+  description: string;
+  name: string;
+  media: string;
+  subtitle: string;
+  category: Record<string, any>;
+  institutionId: number;
+  accountId: number;
+};
 
 interface ProjectContextData {
   getProjects(): Promise<void>;
   saveProject(
-    token: string,
+    token: string, // Kept for compatibility but unused
     data: any
-  ): Promise<[CreateProjectResponse, Error | ApiResponseError]>;
+  ): Promise<[CreateProjectResponse | null, Error | ApiResponseError | null]>;
   updateProject(data: any): Promise<void>;
   deleteProject(id: string): Promise<void>;
   getProjectCategories(query: string): Promise<Record<string, any>[]>;
@@ -32,25 +43,34 @@ export function ProjectProvider({ children }) {
 
   const getProjects = async () => {};
   const saveProject = async (
-    token: string,
+    _token: string,
     project: any
-  ): Promise<[CreateProjectResponse, Error | ApiResponseError]> => {
+  ): Promise<[CreateProjectResponse | null, Error | ApiResponseError | null]> => {
     setLoading(true);
-    const [response, error] = await createProject(token, project);
-    setLoading(false);
-    if (error) {
-      setError(error);
+    try {
+      const response = await createProjectRequest(project);
+      setLoading(false);
+      return [response, null];
+    } catch (err: any) {
+      setLoading(false);
+      const apiError = new ApiResponseError(
+        err.response?.data?.error || 'Error',
+        err.response?.data?.message || err.message,
+        err.response?.status || 500
+      );
+      setError(apiError);
+      return [null, apiError];
     }
-    return [response, error];
   };
 
   const updateProject = async (_data: any) => {};
   const deleteProject = async (_id: string) => {};
   const getProjectCategories = async (query: string) => {
     try {
-      return await getProjectsCategories(query);
-    } catch (error) {
-      setError(error);
+      return await getProjectCategoriesRequest(query);
+    } catch (err: any) {
+      setError(err);
+      return [];
     }
   };
   const setCurrentCategory = (category: Record<string, any>) => {

@@ -1,22 +1,15 @@
-import { useAuth } from 'src/hooks/useAuth';
-import { likePost, unlikePost } from 'src/services/app-core';
+import { likePost, unlikePost } from 'src/services/posts/post.requests';
 import { useOptimisticToggle } from './useOptimisticToggle';
 
 export function useLike(postId: string | number, isLikedInitial: boolean) {
-  const { token } = useAuth();
-
   const { isActive: isLiked, toggle: toggleLike } = useOptimisticToggle(
     isLikedInitial,
     {
       on: () => {
-        if (token) {
-          likePost({ id: +postId, token });
-        }
+        likePost(+postId);
       },
       off: () => {
-        if (token) {
-          unlikePost({ id: +postId, token });
-        }
+        unlikePost(+postId);
       },
     }
   );

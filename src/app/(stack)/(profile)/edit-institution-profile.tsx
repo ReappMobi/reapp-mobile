@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Alert,
+  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -18,7 +19,8 @@ import {
 } from 'react-native';
 import { FormInputField } from 'src/components/FormInputField';
 import { useAuth } from 'src/hooks/useAuth';
-import { RequestMedia, updateAccount } from 'src/services/account';
+import { useUpdateAccount } from 'src/services/account/service';
+import { RequestMedia } from 'src/types/RequestMedia';
 import {
   FormData,
   schema,
@@ -36,7 +38,7 @@ const EditProfileForm = () => {
   });
 
   const { token, user, saveUserAndToken } = useAuth();
-  const [loading, setLoading] = useState(false);
+  const { mutateAsync: updateAccount, isPending: loading } = useUpdateAccount();
   const [media, setMedia] = useState<RequestMedia | null>(null);
   const mediaTypes: MediaType[] = ['images'];
 
@@ -71,21 +73,19 @@ const EditProfileForm = () => {
   };
 
   const onSubmit = async (data: FormData) => {
-    if (loading) {
-      return;
-    }
-    setLoading(true);
     try {
-      const response = await updateAccount(user.id, token, media, data);
+      const response = await updateAccount({
+        accountId: user.id,
+        data: { ...data, media },
+      });
       if (response) {
         await saveUserAndToken(response, token);
         Alert.alert('Sucesso!', 'Perfil atualizado com sucesso.');
       }
-    } catch (error) {
-      Alert.alert('Erro ao atualizar perfil', error.message);
+    } catch (error: any) {
+      Alert.alert('Erro ao atualizar perfil', error?.message);
     } finally {
       router.replace('/');
-      setLoading(false);
     }
   };
 
@@ -154,8 +154,16 @@ const EditProfileForm = () => {
         )}
       />
 
-      <Button className="mt-4 w-full" onPress={handleSubmit(onSubmit)}>
-        <Text>Salvar alterações</Text>
+      <Button
+        className="mt-4 w-full"
+        onPress={handleSubmit(onSubmit)}
+        disabled={loading}
+      >
+        {loading ? (
+          <ActivityIndicator size="small" color="white" />
+        ) : (
+          <Text>Salvar alterações</Text>
+        )}
       </Button>
     </View>
   );

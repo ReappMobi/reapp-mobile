@@ -6,4 +6,8 @@ export type GetDonationsParams = {
   donorId?: number;
 };
 
-export type GetDonationsResponse = Donation[];
+export type GetDonationsResponse = {
+  donations: Donation[];
+  totalAmount: number;
+  totalDonations: number;
+};

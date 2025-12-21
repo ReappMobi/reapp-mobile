@@ -12,10 +12,10 @@ import { Alert, Linking, View } from 'react-native';
 import { LoadingBox, ScreenContainer } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import {
-  followAccount,
-  getInstitutionByAccountId,
-  unfollowAccount,
-} from 'src/services/app-core';
+  useFollowAccount,
+  useUnfollowAccount,
+} from 'src/services/account/service';
+import { useGetInstitutionByAccountId } from 'src/services/institutions/service';
 import { IInstitution } from 'src/types';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
@@ -30,12 +30,12 @@ export const MaterialTopTabs = withLayoutContext<
 >(Navigator);
 
 type HeaderProps = {
-  institution: IInstitution;
+  institution: IInstitution | null | undefined;
   loading: boolean;
 };
 
 const Header = memo<HeaderProps>(({ institution, loading }) => {
-  const { isDonor, token } = useAuth();
+  const { isDonor } = useAuth();
 
   const [isFollowing, setIsFollowing] = useState<boolean>(
     !!institution?.isFollowing
@@ -44,18 +44,24 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
     institution ? institution.account?.followersCount : 0
   );
 
+  const { mutateAsync: followAccount } = useFollowAccount();
+  const { mutateAsync: unfollowAccount } = useUnfollowAccount();
+
   useEffect(() => {
     if (institution?.isFollowing !== undefined) {
       setIsFollowing(institution.isFollowing);
     }
-  }, [institution?.isFollowing]);
+    if (institution?.account?.followersCount !== undefined) {
+      setFollowersCount(institution.account.followersCount);
+    }
+  }, [institution]);
 
   const handleFollow = async () => {
     if (!institution?.account) {
       return;
     }
     try {
-      await followAccount({ id: institution.account.id, token });
+      await followAccount(institution.account.id);
       setIsFollowing(true);
       setFollowersCount(followersCount + 1);
     } catch (error) {
@@ -68,7 +74,7 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
       return;
     }
     try {
-      await unfollowAccount({ id: institution.account.id, token });
+      await unfollowAccount(institution.account.id);
       setIsFollowing(false);
       setFollowersCount(followersCount - 1);
     } catch (error) {
@@ -77,6 +83,7 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
   };
 
   const handleVolunteerPress = useCallback(() => {
+    if (!institution?.phone) return;
     const phoneNumber = institution.phone;
 
     const message =
@@ -92,7 +99,7 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
         'Não foi possível abrir o WhatsApp. Verifique se ele está instalado no dispositivo.'
       );
     });
-  }, [institution.phone]);
+  }, [institution?.phone]);
 
   return (
     <View className="bg-white">
@@ -124,11 +131,6 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
               <Text className="text-md pb-2 font-medium">
                 {institution?.category?.name ?? ''}
               </Text>
-              {/*
-                <Text className="text-md pb-2 font-medium">
-                  {institution ? `${institution.city}/${institution.state}` : ''}
-                </Text>
-              */}
             </View>
           )}
 
@@ -180,22 +182,6 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
           </Text>
           {` Seguidores`}
         </Text>
-        {/*
-        <Text className="text-md font-medium">
-          <Text className="text-md font-bold text-text_primary">
-            {institution ? institution.donations : ''}
-          </Text>
-          {` Doadores`}
-        </Text>
-        */}
-        {/*
-        <Text className="text-md font-medium">
-          <Text className="text-md font-bold text-text_primary">
-            {institution ? institution.partnersQty : ''}
-          </Text>
-          {` Parceiros`}
-        </Text>
-        */}
       </View>
     </View>
   );
@@ -204,11 +190,10 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
 const Layout = () => {
   const params = useLocalSearchParams();
   const { id } = params;
-  const { getToken } = useAuth();
   const idNumber = Number(id);
 
-  const [institution, setInstitution] = useState<IInstitution | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const { data: institution, isLoading: loading } =
+    useGetInstitutionByAccountId(idNumber);
 
   const renderLabel = useMemo(() => {
     return ({ children, focused }: { focused: boolean; children: string }) => (
@@ -221,23 +206,6 @@ const Layout = () => {
       </Text>
     );
   }, []);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const token = await getToken();
-        const fetchedInstitution = await getInstitutionByAccountId(
-          idNumber,
-          token
-        );
-        setInstitution(fetchedInstitution);
-      } catch (err) {
-        console.error('Erro ao buscar a instituição:', err);
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, [idNumber, getToken]);
 
   if (loading) {
     return (
@@ -270,6 +238,9 @@ const Layout = () => {
             height: 'auto',
             paddingHorizontal: 0,
             marginRight: 16,
+            tabBarItemStyle: {
+              width: 'auto',
+            },
           },
           tabBarLabel: renderLabel,
           swipeEnabled: true,

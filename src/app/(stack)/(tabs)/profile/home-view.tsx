@@ -15,7 +15,7 @@ import { CardPost } from 'src/components';
 import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { usePostsByInstitution } from 'src/hooks/usePostsByInstitution';
-import { deletePublication } from 'src/services/app-core';
+import { useDeletePost } from 'src/services/posts/post.service';
 import { IPost } from 'src/types';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -27,7 +27,7 @@ const renderHeader = () => (
       variant="outline"
       onPress={() => {
         router.push({
-          pathname: 'create-post',
+          pathname: '/create-post',
         });
       }}
     >
@@ -38,46 +38,41 @@ const renderHeader = () => (
 );
 
 function PostList({ institutionId }) {
-  const { user, token } = useAuth();
-  const { posts, setPosts, error, loading, refreshing, onRefresh } =
+  const { user } = useAuth();
+  const { posts, error, loading, refreshing, onRefresh } =
     usePostsByInstitution(institutionId);
+  const { mutateAsync: deletePost } = useDeletePost();
 
   const handleDeletePost = useCallback(
     (postId: number) => {
-      if (token) {
-        Alert.alert(
-          'Confirmar exclusão',
-          'Tem certeza que deseja excluir esta postagem?',
-          [
-            {
-              text: 'Cancelar',
-              style: 'cancel',
+      Alert.alert(
+        'Confirmar exclusão',
+        'Tem certeza que deseja excluir esta postagem?',
+        [
+          {
+            text: 'Cancelar',
+            style: 'cancel',
+          },
+          {
+            text: 'Confirmar',
+            onPress: async () => {
+              try {
+                await deletePost(postId);
+              } catch (error) {
+                Alert.alert('Erro', 'Não foi possível excluir a postagem');
+                console.error(error);
+              }
             },
-            {
-              text: 'Confirmar',
-              onPress: () => {
-                deletePublication({ id: postId, token })
-                  .then(() => {
-                    setPosts((prev) =>
-                      prev.filter((post) => post.id !== postId)
-                    );
-                  })
-                  .catch((error) => {
-                    Alert.alert('Erro', 'Não foi possível excluir a postagem');
-                    console.error(error);
-                  });
-              },
-              style: 'destructive',
-            },
-          ],
-          { cancelable: true }
-        );
-      }
+            style: 'destructive',
+          },
+        ],
+        { cancelable: true }
+      );
     },
-    [token, setPosts]
+    [deletePost]
   );
 
-  if (loading && !token) {
+  if (loading) {
     return (
       <View className="flex-1 items-center justify-center">
         <ActivityIndicator size="large" color="#000" />
@@ -94,7 +89,7 @@ function PostList({ institutionId }) {
         <Text>{error.message}</Text>
 
         {/* Botão para tentar novamente */}
-        <TouchableOpacity onPress={onRefresh}>
+        <TouchableOpacity onPress={() => onRefresh()}>
           <Text className="mt-4 text-blue-500">Tentar novamente</Text>
         </TouchableOpacity>
       </View>

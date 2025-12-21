@@ -16,6 +16,13 @@ export const getProjectById = async (projectId: number) => {
   return data;
 };
 
+export const getProjectsByInstitutionId = async (institutionId: number) => {
+  const { data } = await api.get<GetProjectsResponse>(
+    `/project/institution/${institutionId}`
+  );
+  return data;
+};
+
 export const createProject = async (projectData: CreateProjectData) => {
   const formData = new FormData();
   for (const key in projectData) {

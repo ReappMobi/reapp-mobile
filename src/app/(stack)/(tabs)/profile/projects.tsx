@@ -14,7 +14,7 @@ import {
 import CardInstitutionProject from 'src/components/CardInstitutionProject';
 import colors from 'src/constants/colors';
 import { useProjectsByInstitution } from 'src/hooks/useProjectsByInstitution';
-import { deleteProject } from 'src/services/app-core';
+import { useDeleteProject } from 'src/services/projects/service';
 import { IProject } from 'src/types';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -22,7 +22,6 @@ import { Text } from '@/components/ui/text';
 
 type ProjectListProps = {
   item: IProject;
-  token: string;
   onDelete: (projectId: number) => void;
 };
 
@@ -32,7 +31,7 @@ const renderHeader = () => (
       variant="outline"
       className="w-full"
       onPress={() => {
-        router.push('project/create');
+        router.push('/project/create');
       }}
     >
       <Entypo name="plus" size={23} color={colors.text_neutral} />
@@ -41,38 +40,30 @@ const renderHeader = () => (
   </View>
 );
 
-const ProjectItem = memo<ProjectListProps>(({ item, token, onDelete }) => {
+const ProjectItem = memo<ProjectListProps>(({ item, onDelete }) => {
   const handleCardClick = useCallback((projectId: number) => {
-    router.navigate({ pathname: 'project', params: { projectId } });
+    router.navigate({ pathname: '/project', params: { projectId } });
   }, []);
 
   const handleDelete = useCallback(() => {
-    if (token) {
-      Alert.alert(
-        'Confirmar exclusão',
-        'Tem certeza que deseja excluir esta postagem?',
-        [
-          {
-            text: 'Cancelar',
-            style: 'cancel',
-          },
-          {
-            text: 'Confirmar',
-            onPress: () => {
-              deleteProject({ id: item.id, token })
-                .then(() => onDelete(item.id))
-                .catch((error) => {
-                  Alert.alert('Erro', 'Não foi possível excluir a postagem');
-                  console.error(error);
-                });
-            },
-            style: 'destructive',
-          },
-        ],
-        { cancelable: true }
-      );
-    }
-  }, [item.id, token, onDelete]);
+    Alert.alert(
+      'Confirmar exclusão',
+      'Tem certeza que deseja excluir este projeto?',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+        {
+          text: 'Confirmar',
+          onPress: () => onDelete(item.id),
+          style: 'destructive',
+        },
+      ],
+      { cancelable: true }
+    );
+  }, [item.id, onDelete]);
+
   return (
     <CardInstitutionProject
       imagePath={item.media?.remoteUrl}
@@ -86,21 +77,24 @@ const ProjectItem = memo<ProjectListProps>(({ item, token, onDelete }) => {
 });
 
 function ProjectList({ institutionId }) {
-  const {
-    projects,
-    setProjects,
-    token,
-    error,
-    loading,
-    refreshing,
-    onRefresh,
-  } = useProjectsByInstitution(institutionId);
+  const { projects, error, loading, refreshing, onRefresh } =
+    useProjectsByInstitution(institutionId);
 
-  const handleDeleteProject = useCallback((projectId: number) => {
-    setProjects((prev) => prev.filter((project) => project.id !== projectId));
-  }, []);
+  const { mutateAsync: deleteProject } = useDeleteProject();
 
-  if (loading && !token) {
+  const handleDeleteProject = useCallback(
+    async (projectId: number) => {
+      try {
+        await deleteProject(projectId);
+      } catch (error) {
+        Alert.alert('Erro', 'Não foi possível excluir o projeto');
+        console.error(error);
+      }
+    },
+    [deleteProject]
+  );
+
+  if (loading) {
     return (
       <View className="flex-1 items-center justify-center">
         <ActivityIndicator size="large" color="#000" />
@@ -108,16 +102,9 @@ function ProjectList({ institutionId }) {
     );
   }
 
-  const renderItem: ListRenderItem<IProject> = ({ item }) =>
-    projects.length > 0 ? (
-      <ProjectItem item={item} onDelete={handleDeleteProject} token={token} />
-    ) : (
-      <View className="flex-1 items-center justify-center p-4">
-        <Text className="font-medium text-base">
-          Nenhum projeto encontrado.
-        </Text>
-      </View>
-    );
+  const renderItem: ListRenderItem<IProject> = ({ item }) => (
+    <ProjectItem item={item} onDelete={handleDeleteProject} />
+  );
 
   if (!loading && error) {
     return (

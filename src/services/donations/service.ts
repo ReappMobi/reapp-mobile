@@ -9,7 +9,7 @@ export const useGetDonationsByDonor = (donorId: number, period: string) => {
       requests.getDonationsByDonor({ donorId, period, pageParam }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length === 10 ? allPages.length + 1 : undefined;
+      return lastPage.donations.length === 10 ? allPages.length + 1 : undefined;
     },
     enabled: !!donorId,
   });
@@ -22,7 +22,7 @@ export const useGetInstitutionDonations = (period: string) => {
       requests.getInstitutionDonations({ period, pageParam }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length === 10 ? allPages.length + 1 : undefined;
+      return lastPage.donations.length === 10 ? allPages.length + 1 : undefined;
     },
   });
 };
@@ -34,7 +34,7 @@ export const useGetGeneralDonations = (period: string) => {
       requests.getGeneralDonations({ period, pageParam }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length === 10 ? allPages.length + 1 : undefined;
+      return lastPage.donations.length === 10 ? allPages.length + 1 : undefined;
     },
   });
 };
@@ -46,7 +46,7 @@ export const useGetProjectDonations = (period: string) => {
       requests.getProjectDonations({ period, pageParam }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length === 10 ? allPages.length + 1 : undefined;
+      return lastPage.donations.length === 10 ? allPages.length + 1 : undefined;
     },
   });
 };

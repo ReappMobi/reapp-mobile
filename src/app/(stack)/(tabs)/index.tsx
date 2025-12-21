@@ -17,23 +17,33 @@ import { Separator } from '@/components/ui/separator';
 import { Text } from '@/components/ui/text';
 
 function PostList() {
-  const { user, token } = useAuth();
+  const { user } = useAuth();
   const {
-    data: posts,
-    isLoading: loading,
+    data,
+    isLoading,
     error,
-    isRefetching: refreshing,
-    refetch: onRefresh,
-  } = useGetPosts(token || '', 1);
+    isRefetching,
+    refetch,
+    fetchNextPage,
+    hasNextPage,
+  } = useGetPosts();
+
+  const posts = data?.pages.flatMap((page) => page) || [];
 
   const handleInstitutionProfileClick = useCallback((item: IPost) => {
     router.push({
-      pathname: 'institution',
+      pathname: '/institution',
       params: { id: item.institution.account.id },
     });
   }, []);
 
-  if (loading) {
+  const handleEndReached = () => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  if (isLoading) {
     return (
       <View className="flex-1 items-center justify-center">
         <ActivityIndicator size="large" color="#000" />
@@ -41,14 +51,14 @@ function PostList() {
     );
   }
 
-  if (!loading && error) {
+  if (!isLoading && error) {
     return (
       <View className="flex-1 items-center justify-center p-4">
         <Text className="mb-2 text-lg font-bold text-red-500">
           Ocorreu um erro!
         </Text>
         <Text>{error?.message || 'Ocorreu um erro ao carregar os posts'}</Text>
-        <TouchableOpacity onPress={() => onRefresh()}>
+        <TouchableOpacity onPress={() => refetch()}>
           <Text className="mt-4 text-blue-500">Tentar novamente</Text>
         </TouchableOpacity>
       </View>
@@ -93,9 +103,18 @@ function PostList() {
       keyExtractor={(item) => item.id.toString()}
       showsVerticalScrollIndicator={false}
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
       }
       ItemSeparatorComponent={Separator}
+      onEndReached={handleEndReached}
+      onEndReachedThreshold={0.5}
+      ListFooterComponent={
+        hasNextPage && (
+          <View className="py-4">
+            <ActivityIndicator size="small" color="#000" />
+          </View>
+        )
+      }
     />
   );
 }

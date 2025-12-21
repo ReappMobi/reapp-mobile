@@ -24,8 +24,8 @@ import { TextInputMask } from 'react-native-masked-text';
 import { Button } from 'src/components/ui/button';
 import { Text } from 'src/components/ui/text';
 import { useAuth } from 'src/hooks/useAuth';
-import { RequestMedia } from 'src/services/account';
-import { getInstitutionCategories } from 'src/services/app-core';
+import { RequestMedia } from 'src/types/RequestMedia';
+import { getInstitutionCategories } from 'src/services/account/requests';
 import { SignUpData } from 'src/types';
 import { z } from 'zod';
 
