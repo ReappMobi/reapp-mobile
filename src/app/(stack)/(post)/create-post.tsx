@@ -24,7 +24,7 @@ export default function CreatePostPage() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { user } = useAuth();
   const { mutateAsync: createPost, isPending: loading } = useCreatePost();
-  const queryClient = useQueryClient();
+  const _queryClient = useQueryClient();
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();

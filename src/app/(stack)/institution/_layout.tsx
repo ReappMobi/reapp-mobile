@@ -83,7 +83,9 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
   };
 
   const handleVolunteerPress = useCallback(() => {
-    if (!institution?.phone) return;
+    if (!institution?.phone) {
+      return;
+    }
     const phoneNumber = institution.phone;
 
     const message =
