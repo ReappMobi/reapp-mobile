@@ -1,7 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useHeaderHeight } from '@react-navigation/elements';
-import { useQueryClient } from '@tanstack/react-query';
 import { Camera } from 'expo-camera';
 import {
   launchCameraAsync,
@@ -26,8 +25,7 @@ import {
 import Spinner from 'react-native-loading-spinner-overlay';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from 'src/hooks/useAuth';
-import { postPublication } from 'src/services/app-core';
-import { POSTS_PREFIX_KEY } from 'src/services/posts/post.service';
+import { useCreatePost } from 'src/services/posts/post.service';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
@@ -44,10 +42,10 @@ type postCreateFormData = z.infer<typeof postCreateFormSchema>;
 export default function PostCreate() {
   const auth = useAuth();
   const [media, setMedia] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
   const mediaTypes: MediaType[] = ['images'];
-  const queryClient = useQueryClient();
   const headerHeight = useHeaderHeight();
+
+  const { mutateAsync: createPost, isPending: loading } = useCreatePost();
 
   const androidHeaderHeight = useRef(headerHeight);
 
@@ -69,23 +67,17 @@ export default function PostCreate() {
   const isPostEmpty = !descriptionValue && !media;
 
   const onSubmit = async (data: postCreateFormData) => {
-    setLoading(true);
-    const token = await auth.getToken();
-
-    const dataReq = {
-      content: data.description,
-      media,
-      token,
-    };
-
-    const res = await postPublication(dataReq);
-
-    queryClient.invalidateQueries({ queryKey: [POSTS_PREFIX_KEY] });
-    setLoading(false);
-    if (res.error) {
-      Alert.alert('Erro no cadastro da postagem', res.error);
-    } else {
+    try {
+      await createPost({
+        content: data.description,
+        media: media || '',
+      });
       router.replace('/');
+    } catch (error: any) {
+      Alert.alert(
+        'Erro no cadastro da postagem',
+        error?.message || 'Erro desconhecido'
+      );
     }
   };
 

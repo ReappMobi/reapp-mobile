@@ -1,6 +1,5 @@
 import { SignInData, SignUpData } from 'src/types';
-
-import { RequestMedia } from './account';
+import { RequestMedia } from '@/types/RequestMedia';
 import api from './api';
 
 export async function SignIn(data: SignInData) {

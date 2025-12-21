@@ -15,9 +15,8 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { useAuth } from 'src/hooks/useAuth';
-import { RequestMedia } from 'src/services/account';
-import { postInstitutionMember } from 'src/services/app-core';
+import { usePostInstitutionMember } from 'src/services/institutions/service';
+import { RequestMedia } from 'src/types/RequestMedia';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
@@ -98,8 +97,8 @@ const CollaboratorCreateForm: React.FC = () => {
     },
   });
 
-  const { token } = useAuth();
-  const [loading, setLoading] = useState(false);
+  const { mutateAsync: postMember, isPending: loading } =
+    usePostInstitutionMember();
   const [media, setMedia] = useState<RequestMediaExtended | null>(null);
   const mediaTypes: ImagePicker.MediaType[] = ['images'];
 
@@ -134,11 +133,6 @@ const CollaboratorCreateForm: React.FC = () => {
   };
 
   const onSubmit = async (data: FormData) => {
-    if (loading) {
-      return;
-    }
-    setLoading(true);
-
     try {
       let mediaToUpload = media;
 
@@ -172,18 +166,12 @@ const CollaboratorCreateForm: React.FC = () => {
         memberType: 'COLLABORATOR',
       };
 
-      const res = await postInstitutionMember(createCollaboratorData, token);
+      await postMember(createCollaboratorData);
 
-      if (res.error) {
-        Alert.alert('Erro no cadastro do colaborador', res.error);
-      } else {
-        Alert.alert('Colaborador cadastrado com sucesso!');
-        router.back();
-      }
+      Alert.alert('Colaborador cadastrado com sucesso!');
+      router.back();
     } catch (error: any) {
       Alert.alert('Erro no cadastro', error?.message || 'Tente novamente');
-    } finally {
-      setLoading(false);
     }
   };
 

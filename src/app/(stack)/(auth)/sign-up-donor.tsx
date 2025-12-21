@@ -21,11 +21,10 @@ import {
   View,
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
-import { Button } from 'src/components/ui/button';
 import { useAuth } from 'src/hooks/useAuth';
-import { RequestMedia } from 'src/services/account';
-import { SignUpData } from 'src/types';
+import { RequestMedia } from 'src/types/RequestMedia';
 import { z } from 'zod';
+import { Button } from '@/components/ui/button';
 
 const MIN_NAME_LEN = 3;
 const MAX_NAME_LEN = 25;
@@ -86,7 +85,7 @@ type FormInputFieldProps = {
   children?: React.ReactNode;
 };
 
-const FormInputField: React.FC<FormInputFieldProps> = ({
+const LocalFormInputField: React.FC<FormInputFieldProps> = ({
   control,
   name,
   label,
@@ -239,7 +238,7 @@ const SignUpForm = () => {
     setLoading(true);
 
     try {
-      const signUpData: SignUpData = {
+      const signUpData = {
         accountType: 'DONOR',
         name: data.name,
         password: data.password,
@@ -313,7 +312,7 @@ const SignUpForm = () => {
       </Pressable>
 
       {/* Nome */}
-      <FormInputField
+      <LocalFormInputField
         control={control}
         name="name"
         label="Nome do Doador"
@@ -321,10 +320,10 @@ const SignUpForm = () => {
         error={errors}
       >
         <Ionicons name="person-sharp" size={16} color="black" />
-      </FormInputField>
+      </LocalFormInputField>
 
       {/* Nota */}
-      <FormInputField
+      <LocalFormInputField
         control={control}
         name="note"
         label="Nota"
@@ -332,10 +331,10 @@ const SignUpForm = () => {
         error={errors}
       >
         <Ionicons name="sparkles" size={16} color="black" />
-      </FormInputField>
+      </LocalFormInputField>
 
       {/* Email */}
-      <FormInputField
+      <LocalFormInputField
         control={control}
         name="email"
         label="Email"
@@ -343,7 +342,7 @@ const SignUpForm = () => {
         error={errors}
       >
         <Ionicons name="mail-sharp" size={16} color="black" />
-      </FormInputField>
+      </LocalFormInputField>
 
       {/* Telefone (mascarado) */}
       <MaskInputField
@@ -361,7 +360,7 @@ const SignUpForm = () => {
       />
 
       {/* Senha */}
-      <FormInputField
+      <LocalFormInputField
         control={control}
         name="password"
         label="Senha"
@@ -370,7 +369,7 @@ const SignUpForm = () => {
         secureTextEntry
       >
         <Ionicons name="key" size={16} color="black" />
-      </FormInputField>
+      </LocalFormInputField>
 
       {/* Botão de Enviar */}
       <Button

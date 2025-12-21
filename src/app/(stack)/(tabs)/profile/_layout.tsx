@@ -6,11 +6,11 @@ import {
 import { ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { withLayoutContext } from 'expo-router';
-import { memo, useEffect, useMemo, useState } from 'react';
+import { memo, useMemo } from 'react';
 import { Text, View } from 'react-native';
 import { LoadingBox, ScreenContainer } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
-import { getInstitutionByAccountId } from 'src/services/app-core';
+import { useGetInstitutionByAccountId } from 'src/services/institutions/service';
 import { IInstitution } from 'src/types';
 
 const { Navigator } = createMaterialTopTabNavigator();
@@ -23,7 +23,7 @@ export const MaterialTopTabs = withLayoutContext<
 >(Navigator);
 
 type HeaderProps = {
-  institution: IInstitution;
+  institution: IInstitution | undefined;
   loading: boolean;
 };
 
@@ -33,21 +33,21 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
       <View className="mt-4 flex-row items-center gap-x-2 py-4">
         <Image
           className="h-16 w-16 rounded-full"
-          source={institution ? institution.account?.media?.remoteUrl : ''}
-          placeholder={institution ? institution.account?.media?.blurhash : ''}
+          source={institution?.account?.media?.remoteUrl || ''}
+          placeholder={institution?.account?.media?.blurhash || ''}
           contentFit="cover"
           transition={500}
         />
         <View className="w-full flex-1 gap-y-0 pt-4">
           <Text className="font-bold text-lg">
-            {institution ? institution.account?.name : ''}
+            {institution?.account?.name || ''}
           </Text>
           {loading ? (
             <LoadingBox customStyle="h-2.5 w-20 mt-2 mb-3 rounded-md bg-slate-400" />
           ) : (
             <View>
               <Text className="text-md pb-2 font-medium">
-                {institution ? institution.category?.name : ''}
+                {institution?.category?.name || ''}
               </Text>
             </View>
           )}
@@ -56,27 +56,10 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
       <View className="flex-row justify-center gap-x-2 py-4">
         <Text className="text-md font-medium">
           <Text className="text-md font-bold text-text_primary">
-            {institution ? institution.account?.followersCount : ''}
+            {institution?.account?.followersCount || ''}
           </Text>
           {` Seguidores`}
         </Text>
-        {/* 
-        <Text className="text-md font-medium">
-          <Text className="text-md font-bold text-text_primary">
-            {institution ? institution.donations : ''}
-          </Text>
-          {` Doações`}
-        </Text>
-
-        */}
-        {/*
-        <Text className="text-md font-medium">
-          <Text className="text-md font-bold text-text_primary">
-            {institution ? institution.partnersQty : ''}
-          </Text>
-          {` Parceiros`}
-        </Text>
-        */}
       </View>
     </View>
   );
@@ -88,17 +71,8 @@ const Layout = () => {
 
   const idNumber = user.id;
 
-  const [institution, setInstitution] = useState<IInstitution>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    (async () => {
-      const token = await auth.getToken();
-      const institution = await getInstitutionByAccountId(idNumber, token);
-      setInstitution(institution);
-      setLoading(false);
-    })();
-  }, []);
+  const { data: institution, isLoading: loading } =
+    useGetInstitutionByAccountId(idNumber);
 
   const renderLabel = useMemo(() => {
     return ({ children, focused }: { focused: boolean; children: string }) => (
@@ -116,7 +90,7 @@ const Layout = () => {
     <ScreenContainer>
       <Header institution={institution} loading={loading} />
 
-      {loading ? (
+      {loading || !institution ? (
         <View>
           <LoadingBox customStyle="h-7 w-full mt-5 mb-3 rounded-md bg-slate-400" />
           {Array.from({ length: 3 }).map((_, index) => (

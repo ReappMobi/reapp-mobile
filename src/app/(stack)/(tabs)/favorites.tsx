@@ -1,76 +1,48 @@
 import { router, useNavigation } from 'expo-router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { FlatList, RefreshControl, Text, View } from 'react-native';
 import { CardInstitutionProject } from 'src/components';
 import colors from 'src/constants/colors';
-import { useAuth } from 'src/hooks/useAuth';
-import { toggleFavoriteProject } from 'src/services/app-core';
-import { getFavoritesProjects } from 'src/services/user';
+import {
+  useGetFavoriteProjects,
+  useToggleFavoriteProject,
+} from 'src/services/projects/service';
 import { IProject } from 'src/types';
 
 const Page = () => {
   const navigation = useNavigation();
-  const auth = useAuth();
-  const [favoritesProjects, setFavoritesProjects] = useState<IProject[]>([]);
-  const [refreshing, setRefreshing] = useState<boolean>(false);
-
-  const onRefresh = useCallback(async () => {
-    setRefreshing(true);
-
-    try {
-      const token = await auth.getToken();
-      const res = await getFavoritesProjects(auth.user.id, token);
-      setFavoritesProjects(res);
-    } catch (error) {
-      console.error('Erro ao atualizar projetos favoritos:', error);
-    } finally {
-      setRefreshing(false);
-    }
-  }, [auth]);
+  const {
+    data: favoritesProjects = [],
+    isLoading,
+    refetch,
+    isRefetching,
+  } = useGetFavoriteProjects();
+  const { mutateAsync: toggleFavorite } = useToggleFavoriteProject();
 
   useEffect(() => {
-    (async () => {
-      navigation.setOptions({
-        headerTitle: 'Favoritos',
-        headerTitleAlign: 'center',
-        headerTitleStyle: {
-          fontSize: 20,
-          fontFamily: 'reapp_bold',
-          color: colors.primary,
-        },
-      });
-      try {
-        const token = await auth.getToken();
-        const res = await getFavoritesProjects(auth.user.id, token);
-        setFavoritesProjects(res);
-      } catch (error) {
-        console.error('Erro ao buscar projetos favoritos:', error);
-      }
-    })();
-  }, [navigation, auth]);
+    navigation.setOptions({
+      headerTitle: 'Favoritos',
+      headerTitleAlign: 'center',
+      headerTitleStyle: {
+        fontSize: 20,
+        fontFamily: 'reapp_bold',
+        color: colors.primary,
+      },
+    });
+  }, [navigation]);
 
-  const handleFavoriteClick = useCallback(
-    async (item: IProject) => {
-      try {
-        const token = await auth.getToken();
-        await toggleFavoriteProject({
-          projectId: item.id,
-          token,
-        });
+  const handleFavoriteClick = async (item: IProject) => {
+    try {
+      await toggleFavorite({ projectId: item.id });
+      // The invalidation in mutation onSuccess will trigger refetch
+      // but to update UI optimistically we might want to manually filter,
+      // however standard react-query way is to wait for refetch.
+      // Given the list is favorites, removing one will make it disappear.
+    } catch (error) {
+      console.error('Erro ao alternar favorito do projeto:', error);
+    }
+  };
 
-        setFavoritesProjects((prevFavoriteProjects) => {
-          return prevFavoriteProjects.filter(
-            (project) => project.id !== item.id
-          );
-        });
-      } catch (error) {
-        console.error('Erro ao alternar favorito do projeto:', error);
-      }
-    },
-    [auth]
-  );
-
-  // Componente para exibir quando a lista estiver vazia
   const EmptyListMessage = () => (
     <View className="flex-1 items-center justify-center p-4">
       <Text className="text-center text-lg text-gray-500">
@@ -86,13 +58,13 @@ const Page = () => {
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
         <CardInstitutionProject
-          imagePath={item.media.remoteUrl}
+          imagePath={item.media?.remoteUrl}
           title={item.name}
           textButton="Ver"
           isFavoriteCard
           onPress={() =>
             router.navigate({
-              pathname: 'project',
+              pathname: '/project',
               params: { projectId: item.id },
             })
           }
@@ -103,9 +75,9 @@ const Page = () => {
       )}
       ItemSeparatorComponent={() => <View className="mb-2.5" />}
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
       }
-      ListEmptyComponent={EmptyListMessage}
+      ListEmptyComponent={!isLoading ? EmptyListMessage : null}
       contentContainerStyle={{ flexGrow: 1 }}
     />
   );

@@ -20,7 +20,7 @@ type ProjectListProps = {
 
 const ProjectItem = memo<ProjectListProps>(({ item }) => {
   const handleCardClick = useCallback((projectId: number) => {
-    router.navigate({ pathname: 'project', params: { projectId } });
+    router.navigate({ pathname: '/project', params: { projectId } });
   }, []);
   return (
     <CardInstitutionProject
@@ -34,10 +34,10 @@ const ProjectItem = memo<ProjectListProps>(({ item }) => {
 });
 
 function ProjectList({ institutionId }) {
-  const { projects, token, error, loading, refreshing, onRefresh } =
+  const { projects, error, loading, refreshing, onRefresh } =
     useProjectsByInstitution(institutionId);
 
-  if (loading && !token) {
+  if (loading) {
     return (
       <View className="flex-1 items-center justify-center">
         <ActivityIndicator size="large" color="#000" />
@@ -65,7 +65,7 @@ function ProjectList({ institutionId }) {
         <Text>{error.message}</Text>
 
         {/* Botão para tentar novamente */}
-        <TouchableOpacity onPress={onRefresh}>
+        <TouchableOpacity onPress={() => onRefresh}>
           <Text className="mt-4 text-blue-500">Tentar novamente</Text>
         </TouchableOpacity>
       </View>

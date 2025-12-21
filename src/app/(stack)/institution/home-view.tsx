@@ -16,12 +16,11 @@ import { IPost } from 'src/types';
 import { Separator } from '@/components/ui/separator';
 
 function PostList({ institutionId }) {
-  const { user, token } = useAuth();
+  const { user } = useAuth();
   const { posts, error, loading, refreshing, onRefresh } =
     usePostsByInstitution(institutionId);
 
-  // Se estiver carregando e não tiver token, mostra spinner
-  if (loading && !token) {
+  if (loading) {
     return (
       <View className="flex-1 items-center justify-center">
         <ActivityIndicator size="large" color="#000" />
@@ -38,7 +37,7 @@ function PostList({ institutionId }) {
         <Text>{error.message}</Text>
 
         {/* Botão para tentar novamente */}
-        <TouchableOpacity onPress={onRefresh}>
+        <TouchableOpacity onPress={() => onRefresh()}>
           <Text className="mt-4 text-blue-500">Tentar novamente</Text>
         </TouchableOpacity>
       </View>

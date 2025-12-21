@@ -1,22 +1,18 @@
-import { useAuth } from 'src/hooks/useAuth';
-import { savePost, unsavePost } from 'src/services/app-core';
+import { useSavePost, useUnsavePost } from 'src/services/posts/post.service';
 import { useOptimisticToggle } from './useOptimisticToggle';
 
 export function useSave(postId: string | number, isSavedInitial: boolean) {
-  const { token } = useAuth();
+  const { mutate: save } = useSavePost();
+  const { mutate: unsave } = useUnsavePost();
 
   const { isActive: isSaved, toggle: toggleSave } = useOptimisticToggle(
     isSavedInitial,
     {
       on: () => {
-        if (token) {
-          savePost({ id: +postId, token });
-        }
+        save(+postId);
       },
       off: () => {
-        if (token) {
-          unsavePost({ id: +postId, token });
-        }
+        unsave(+postId);
       },
     }
   );
