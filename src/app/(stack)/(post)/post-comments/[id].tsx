@@ -13,15 +13,14 @@ import {
   View,
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { useAuth } from 'src/hooks/useAuth';
-import {
-  COMMENTS_PREFIX_KEY,
-  useAddComment,
-  useGetPostComments,
-} from 'src/services/comments/comments.service';
 import { timeAgo } from 'src/utils/time-ago';
 import { Button } from '@/components/ui/button';
 import colors from '@/constants/colors';
+import {
+  useAddComment,
+  useGetPostComments,
+} from '@/services/comments/comments.service';
+import { COMMENTS_PREFIX_KEY } from '@/services/comments/keys';
 
 const renderItem = ({ item }) => (
   <View className="flex-row gap-3 px-4 py-3 border-b border-gray-50">

@@ -2,8 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
 import React, { createContext, useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import { RequestMedia } from 'src/types/RequestMedia';
 import type { AccountType, SignInData, SignUpData } from 'src/types';
+import { RequestMedia } from 'src/types/RequestMedia';
 
 import * as auth from '../services/auth';
 

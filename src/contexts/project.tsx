@@ -45,7 +45,9 @@ export function ProjectProvider({ children }) {
   const saveProject = async (
     _token: string,
     project: any
-  ): Promise<[CreateProjectResponse | null, Error | ApiResponseError | null]> => {
+  ): Promise<
+    [CreateProjectResponse | null, Error | ApiResponseError | null]
+  > => {
     setLoading(true);
     try {
       const response = await createProjectRequest(project);

@@ -47,14 +47,8 @@ const renderInstitutionDonations = (donation: Donation) => {
 const MyDonationsInstitution = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<Period>('week');
 
-  const {
-    data,
-    isLoading,
-    isRefetching,
-    fetchNextPage,
-    hasNextPage,
-    refetch,
-  } = useGetInstitutionDonations(selectedPeriod);
+  const { data, isLoading, isRefetching, fetchNextPage, hasNextPage, refetch } =
+    useGetInstitutionDonations(selectedPeriod);
 
   const donations = data?.pages.flatMap((page) => page.donations) || [];
   const totalAmount = data?.pages[0]?.totalAmount || 0;

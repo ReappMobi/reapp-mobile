@@ -1,8 +1,8 @@
+import { ICollaborator } from 'src/types/ICollaborator';
 import { IInstitution } from 'src/types/IInstitution';
 import { IPartner } from 'src/types/IPartner';
-import { ICollaborator } from 'src/types/ICollaborator';
-import { IVolunteer } from 'src/types/IVolunteer';
 import { IPost } from 'src/types/IPost';
+import { IVolunteer } from 'src/types/IVolunteer';
 
 export type GetInstitutionsResponse = IInstitution[];
 

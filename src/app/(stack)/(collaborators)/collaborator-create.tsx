@@ -5,11 +5,16 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
   ScrollView,
   TextInput,
   View,
 } from 'react-native';
-import { useAuth } from 'src/hooks/useAuth';
 import { usePostInstitutionMember } from 'src/services/institutions/service';
 import { RequestMedia } from 'src/types/RequestMedia';
 import { z } from 'zod';

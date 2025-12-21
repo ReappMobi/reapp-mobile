@@ -1,6 +1,10 @@
-import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { POSTS_PREFIX_KEY } from './post.keys';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { INSTITUTION_POSTS_KEY } from '../institutions/keys';
+import { POSTS_PREFIX_KEY } from './post.keys';
 import {
   createPost,
   deletePost,

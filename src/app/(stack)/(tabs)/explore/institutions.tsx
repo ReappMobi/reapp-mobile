@@ -396,14 +396,8 @@ const InstitutionSearchList = memo<InstitutionSearchListProps>(
  * ----------------------------------------------------------------
  */
 const InstitutionsPage = () => {
-  const {
-    institutions,
-    categories,
-    loading,
-    error,
-    refreshing,
-    onRefresh,
-  } = useInstitutions();
+  const { institutions, categories, loading, error, refreshing, onRefresh } =
+    useInstitutions();
 
   const [selectedInstitution, setSelectedInstitution] =
     useState<IInstitution | null>(null);
@@ -471,7 +465,7 @@ const InstitutionsPage = () => {
           Ocorreu um erro!
         </Text>
         <Text>{error.message}</Text>
-        <TouchableOpacity onPress={onRefresh} className="mt-4">
+        <TouchableOpacity onPress={() => onRefresh()} className="mt-4">
           <Text className="text-blue-500">Tentar novamente</Text>
         </TouchableOpacity>
       </View>
@@ -484,7 +478,7 @@ const InstitutionsPage = () => {
         <Text className="mb-2 font-medium text-base">
           Nenhuma instituição encontrada.
         </Text>
-        <TouchableOpacity onPress={onRefresh}>
+        <TouchableOpacity onPress={() => onRefresh()}>
           <Text className="text-blue-500">Recarregar</Text>
         </TouchableOpacity>
       </View>

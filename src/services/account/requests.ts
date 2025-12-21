@@ -22,12 +22,9 @@ export const updateAccount = async ({
     }
   }
 
-  const { data: responseData } = await api.put(
+  const { data: responseData } = await api.putForm(
     `/account/${accountId}`,
-    formData,
-    {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    }
+    formData
   );
   return responseData;
 };

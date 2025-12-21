@@ -41,7 +41,7 @@ function PartnerList({ institutionId }: { institutionId: number }) {
         </Text>
         <Text>{error.message}</Text>
 
-        <TouchableOpacity onPress={onRefresh}>
+        <TouchableOpacity onPress={() => onRefresh()}>
           <Text className="mt-4 text-blue-500">Tentar novamente</Text>
         </TouchableOpacity>
       </View>

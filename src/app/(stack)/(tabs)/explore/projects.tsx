@@ -1,10 +1,5 @@
 import { router } from 'expo-router';
-import React, {
-  Fragment,
-  memo,
-  useCallback,
-  useMemo,
-} from 'react';
+import React, { Fragment, memo, useCallback, useMemo } from 'react';
 import {
   FlatList,
   RefreshControl,

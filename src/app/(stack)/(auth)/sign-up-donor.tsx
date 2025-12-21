@@ -13,18 +13,18 @@ import {
   Alert,
   Image,
   KeyboardAvoidingView,
+  Platform,
+  Pressable,
   ScrollView,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import { useAuth } from 'src/hooks/useAuth';
 import { RequestMedia } from 'src/types/RequestMedia';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import { z } from 'zod';
+import { Button } from '@/components/ui/button';
 
 const MIN_NAME_LEN = 3;
 const MAX_NAME_LEN = 25;
