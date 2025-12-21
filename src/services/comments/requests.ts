@@ -6,33 +6,15 @@ import {
 } from './types';
 
 export const getPostComments = async ({
-  token,
   postId,
-  page,
-}: GetPostCommentsParams) => {
+  pageParam,
+}: GetPostCommentsParams & { pageParam: number }) => {
   const { data } = await api.get<GetPostCommentsResponse>(
-    `/post/${postId}/comments?page=${page}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+    `/post/${postId}/comments?page=${pageParam}`
   );
   return data;
 };
 
-export const addComment = async ({
-  token,
-  postId,
-  content,
-}: AddCommentData) => {
-  return await api.post<void>(
-    `/post/${postId}/comment`,
-    { body: content },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+export const addComment = async ({ postId, content }: AddCommentData) => {
+  return await api.post<void>(`/post/${postId}/comment`, { body: content });
 };
