@@ -2,7 +2,7 @@ import { useHeaderHeight } from '@react-navigation/elements';
 import { useQueryClient } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import { useLocalSearchParams } from 'expo-router';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -44,50 +44,28 @@ const renderItem = ({ item }) => (
 );
 
 const Page = () => {
-  const { token } = useAuth();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const [page, setPage] = useState(1);
   const [comment, setComment] = useState('');
-  const [comments, setComments] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
   const headerHeight = useHeaderHeight();
   const androidHeaderHeight = useRef(headerHeight);
 
   const queryClient = useQueryClient();
   const {
     data,
-    isPending: loading,
-    isFetching,
+    isLoading: loading,
+    isRefetching,
+    fetchNextPage,
+    hasNextPage,
+    refetch,
   } = useGetPostComments({
-    page,
-    token,
     postId: +id,
   });
+
+  // Extract comments from infinite query pages
+  const comments = data?.pages.flatMap((page) => page) || [];
+
   const { mutate: addCommentMutate, isPending: isAddCommentLoading } =
     useAddComment();
-
-  useEffect(() => {
-    if (!data) {
-      return;
-    }
-
-    setComments((prevComments) => {
-      if (page === 1) {
-        return data;
-      }
-
-      const existingCommentIds = new Set(
-        prevComments.map((comment) => comment.id)
-      );
-      const newComments = data.filter(
-        (comment) => !existingCommentIds.has(comment.id)
-      );
-
-      return [...prevComments, ...newComments];
-    });
-
-    setHasMore(data.length > 0);
-  }, [data, page]);
 
   const sendComment = () => {
     const trimmedComment = comment.trim();
@@ -96,10 +74,9 @@ const Page = () => {
     }
 
     addCommentMutate(
-      { token, postId: Number(id), content: trimmedComment },
+      { postId: Number(id), content: trimmedComment },
       {
         onSuccess: () => {
-          setPage(1);
           queryClient.invalidateQueries({
             queryKey: [COMMENTS_PREFIX_KEY, +id],
           });
@@ -113,16 +90,13 @@ const Page = () => {
   };
 
   const loadMoreComments = () => {
-    if (!loading && !isFetching && hasMore) {
-      setPage((prev) => prev + 1);
+    if (hasNextPage) {
+      fetchNextPage();
     }
   };
 
   const refreshComments = () => {
-    setPage(1);
-    queryClient.invalidateQueries({
-      queryKey: [COMMENTS_PREFIX_KEY, +id],
-    });
+    refetch();
   };
 
   return (
@@ -135,7 +109,7 @@ const Page = () => {
         style={{ flex: 1 }}
       >
         <View className="flex-1">
-          {loading && page === 1 ? (
+          {loading ? (
             <View className="flex-1 items-center justify-center">
               <ActivityIndicator size="small" color="#000" />
             </View>
@@ -147,7 +121,7 @@ const Page = () => {
               onEndReached={loadMoreComments}
               onEndReachedThreshold={0.5}
               onRefresh={refreshComments}
-              refreshing={loading && page === 1}
+              refreshing={isRefetching}
               contentContainerStyle={{ paddingBottom: 20 }}
               ListEmptyComponent={
                 !loading && (
@@ -159,7 +133,7 @@ const Page = () => {
                 )
               }
               ListFooterComponent={
-                isFetching && page > 1 ? (
+                hasNextPage ? (
                   <View className="py-4">
                     <ActivityIndicator size="small" color="#000" />
                   </View>
