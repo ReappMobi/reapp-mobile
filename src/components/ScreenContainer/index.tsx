@@ -1,7 +1,10 @@
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, ViewProps } from 'react-native';
+import { cn } from '@/lib/utils';
 
-export default function ScreenContainer({ children }) {
+export default function ScreenContainer({ children, className }: ViewProps) {
   return (
-    <SafeAreaView className="flex-1 bg-background p-4">{children}</SafeAreaView>
+    <View className={cn('flex-1 bg-background px-4', className)}>
+      {children}
+    </View>
   );
 }

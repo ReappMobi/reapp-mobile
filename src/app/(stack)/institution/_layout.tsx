@@ -1,4 +1,3 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
 import {
   createMaterialTopTabNavigator,
   MaterialTopTabNavigationEventMap,
@@ -7,7 +6,7 @@ import {
 import { ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, withLayoutContext } from 'expo-router';
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Alert, Linking, View } from 'react-native';
 import { LoadingBox, ScreenContainer } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
@@ -19,6 +18,15 @@ import {
 import { IInstitution } from 'src/types';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
+import { cn } from '@/lib/utils';
+import { THEME } from '@/lib/theme';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 
 const { Navigator } = createMaterialTopTabNavigator();
 
@@ -34,7 +42,7 @@ type HeaderProps = {
   loading: boolean;
 };
 
-const Header = memo<HeaderProps>(({ institution, loading }) => {
+const Header = ({ institution, loading }: HeaderProps) => {
   const { isDonor, token } = useAuth();
 
   const [isFollowing, setIsFollowing] = useState<boolean>(
@@ -95,8 +103,8 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
   }, [institution.phone]);
 
   return (
-    <View className="bg-white">
-      <View className="mt-4 flex-row items-center gap-x-2 py-4">
+    <View className="mb-2 gap-y-3">
+      <View className="flex-row-reverse gap-x-2">
         <Image
           className="h-16 w-16 rounded-full"
           source={
@@ -113,7 +121,7 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
           transition={500}
         />
         <View className="w-full flex-1 gap-y-0 pt-4">
-          <Text className="font-bold text-lg">
+          <Text className="font-bold text-xl">
             {institution?.account?.name ?? ''}
           </Text>
 
@@ -121,87 +129,106 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
             <LoadingBox customStyle="h-2.5 w-20 mt-2 mb-3 rounded-md bg-slate-400" />
           ) : (
             <View>
-              <Text className="text-md pb-2 font-medium">
+              <Text className="text-sm">
                 {institution?.category?.name ?? ''}
               </Text>
-              {/*
-                <Text className="text-md pb-2 font-medium">
-                  {institution ? `${institution.city}/${institution.state}` : ''}
-                </Text>
-              */}
             </View>
           )}
-
-          <View className="gap-y-2">
-            <Button
-              size="sm"
-              className={`${isFollowing ? 'bg-gray-400' : 'bg-primary'}`}
-              onPress={isFollowing ? handleUnfollow : handleFollow}
-            >
-              <Text>{isFollowing ? 'Seguindo' : 'Seguir'}</Text>
-            </Button>
-
-            {isDonor && (
-              <View className="flex-row">
-                <Button
-                  size="sm"
-                  className="mr-2 w-20"
-                  onPress={() =>
-                    router.push({
-                      pathname: '/donate',
-                      params: {
-                        institutionId: institution?.id,
-                        phone: institution?.phone,
-                      },
-                    })
-                  }
-                >
-                  <Text>Doar</Text>
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex-1 justify-start"
-                  onPress={handleVolunteerPress}
-                >
-                  <Ionicons name="chevron-forward" size={20} color="#000" />
-                  <Text>Quero ser voluntário</Text>
-                </Button>
-              </View>
-            )}
+          <View className="flex-row gap-x-1">
+            <Text className="text-muted-foreground text-sm">
+              {followersCount}
+            </Text>
+            <Text className="text-muted-foreground text-sm">
+              {`${followersCount > 1 ? 'seguidores' : 'seguidor'} `}
+            </Text>
           </View>
         </View>
       </View>
 
-      <View className="flex-row justify-center gap-x-2 py-4">
-        <Text className="text-md font-medium">
-          <Text className="text-md font-bold text-text_primary">
-            {followersCount}
-          </Text>
-          {` Seguidores`}
-        </Text>
-        {/*
-        <Text className="text-md font-medium">
-          <Text className="text-md font-bold text-text_primary">
-            {institution ? institution.donations : ''}
-          </Text>
-          {` Doadores`}
-        </Text>
-        */}
-        {/*
-        <Text className="text-md font-medium">
-          <Text className="text-md font-bold text-text_primary">
-            {institution ? institution.partnersQty : ''}
-          </Text>
-          {` Parceiros`}
-        </Text>
-        */}
+      {/* Buttons */}
+      <View className="gap-y-2">
+        {isDonor && (
+          <Button
+            onPress={() =>
+              router.push({
+                pathname: '/donate',
+                params: {
+                  institutionId: institution?.id,
+                  phone: institution?.phone,
+                },
+              })
+            }
+          >
+            <Text>Doar</Text>
+          </Button>
+        )}
+
+        <View className="flex-row gap-x-2">
+          <Button
+            size="sm"
+            className={cn('flex-1 bg-primary', isFollowing && 'bg-secondary')}
+            onPress={isFollowing ? handleUnfollow : handleFollow}
+          >
+            <Text>{isFollowing ? 'Seguindo' : 'Seguir'}</Text>
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex-2"
+            onPress={handleVolunteerPress}
+          >
+            <Text> Ser voluntário</Text>
+          </Button>
+        </View>
       </View>
     </View>
   );
-});
+};
 
-const Layout = () => {
+const renderLabel = ({
+  children,
+  focused,
+}: {
+  focused: boolean;
+  children: string;
+}) => {
+  const scale = useSharedValue(1);
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale.value }],
+    };
+  });
+
+  useEffect(() => {
+    if (focused) {
+      scale.value = withSequence(
+        withTiming(1.05, { duration: 150 }),
+        withSpring(1, {
+          stiffness: 300,
+          damping: 25,
+          mass: 0.5,
+        })
+      );
+    } else {
+      scale.value = withTiming(1, { duration: 100 });
+    }
+  }, [focused]);
+
+  return (
+    <Animated.View style={animatedStyle}>
+      <Text
+        className={cn(
+          'font-medium text-lg text-muted-foreground',
+          focused && 'font-bold text-primary'
+        )}
+      >
+        {children}
+      </Text>
+    </Animated.View>
+  );
+};
+
+export default function Layout() {
   const params = useLocalSearchParams();
   const { id } = params;
   const { getToken } = useAuth();
@@ -209,18 +236,6 @@ const Layout = () => {
 
   const [institution, setInstitution] = useState<IInstitution | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-
-  const renderLabel = useMemo(() => {
-    return ({ children, focused }: { focused: boolean; children: string }) => (
-      <Text
-        className={`font-medium text-base text-text_neutral ${
-          focused ? 'text-text_primary underline' : ''
-        }`}
-      >
-        {children}
-      </Text>
-    );
-  }, []);
 
   useEffect(() => {
     (async () => {
@@ -256,9 +271,8 @@ const Layout = () => {
   }
 
   return (
-    <ScreenContainer>
-      <Header institution={institution} loading={false} />
-
+    <ScreenContainer className="gap-y-4">
+      <Header institution={institution} loading={loading} />
       <MaterialTopTabs
         id={undefined}
         screenOptions={{
@@ -268,21 +282,27 @@ const Layout = () => {
           tabBarItemStyle: {
             width: 'auto',
             height: 'auto',
-            paddingHorizontal: 0,
-            marginRight: 16,
           },
           tabBarLabel: renderLabel,
           swipeEnabled: true,
-          tabBarIndicator: () => null,
+          tabBarIndicatorStyle: {
+            width: 0.9,
+          },
+          tabBarIndicatorContainerStyle: {
+            marginBottom: -1.5,
+          },
           tabBarStyle: {
-            backgroundColor: 'transparent',
             shadowColor: 'transparent',
+            backgroundColor: THEME['light'].background,
+            borderBottomWidth: 1,
+            borderTopWidth: 1,
+            borderColor: THEME['light'].border,
           },
           lazy: true,
         }}
       >
         <MaterialTopTabs.Screen
-          name="home-view"
+          name="home"
           options={{ title: 'Início' }}
           initialParams={{ id: institution.id }}
         />
@@ -290,12 +310,6 @@ const Layout = () => {
           name="projects"
           options={{ title: 'Projetos' }}
           initialParams={{ id: institution.id }}
-        />
-
-        <MaterialTopTabs.Screen
-          name="contacts"
-          options={{ title: 'Contatos' }}
-          initialParams={{ institution }}
         />
         <MaterialTopTabs.Screen
           name="partners"
@@ -315,6 +329,4 @@ const Layout = () => {
       </MaterialTopTabs>
     </ScreenContainer>
   );
-};
-
-export default memo(Layout);
+}
