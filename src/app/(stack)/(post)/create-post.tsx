@@ -23,7 +23,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
+import { LoadingOverlay } from '@/components/ui/loading-overlay';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from 'src/hooks/useAuth';
 import { postPublication } from 'src/services/app-core';
@@ -129,10 +129,10 @@ export default function PostCreate() {
     }
   };
 
-  return loading ? (
-    <Spinner visible={loading} />
-  ) : (
-    <SafeAreaView className="flex-1 bg-white">
+  return (
+    <>
+      <LoadingOverlay visible={loading} />
+      <SafeAreaView className="flex-1 bg-white">
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={
@@ -215,5 +215,6 @@ export default function PostCreate() {
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
+    </>
   );
 }
