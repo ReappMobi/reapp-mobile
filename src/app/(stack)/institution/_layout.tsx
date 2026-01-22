@@ -20,6 +20,7 @@ import { IInstitution } from 'src/types';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
+import { THEME } from '@/lib/theme';
 
 const { Navigator } = createMaterialTopTabNavigator();
 
@@ -177,6 +178,22 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
     </View>
   );
 });
+const renderLabel = ({
+  children,
+  focused,
+}: {
+  focused: boolean;
+  children: string;
+}) => (
+  <Text
+    className={cn(
+      `font-medium text-lg text-muted-foreground`,
+      focused && 'font-bold text-primary'
+    )}
+  >
+    {children}
+  </Text>
+);
 
 const Layout = () => {
   const params = useLocalSearchParams();
@@ -186,18 +203,6 @@ const Layout = () => {
 
   const [institution, setInstitution] = useState<IInstitution | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-
-  const renderLabel = useMemo(() => {
-    return ({ children, focused }: { focused: boolean; children: string }) => (
-      <Text
-        className={`font-medium text-base text-text_neutral ${
-          focused ? 'text-text_primary underline' : ''
-        }`}
-      >
-        {children}
-      </Text>
-    );
-  }, []);
 
   useEffect(() => {
     (async () => {
@@ -233,7 +238,7 @@ const Layout = () => {
   }
 
   return (
-    <ScreenContainer>
+    <ScreenContainer className="gap-y-4">
       <Header institution={institution} loading={loading} />
       <MaterialTopTabs
         id={undefined}
@@ -244,15 +249,21 @@ const Layout = () => {
           tabBarItemStyle: {
             width: 'auto',
             height: 'auto',
-            paddingHorizontal: 0,
-            marginRight: 16,
           },
           tabBarLabel: renderLabel,
           swipeEnabled: true,
-          tabBarIndicator: () => null,
+          tabBarIndicatorStyle: {
+            width: 0.9,
+          },
+          tabBarIndicatorContainerStyle: {
+            marginBottom: -1.5,
+          },
           tabBarStyle: {
-            backgroundColor: 'transparent',
             shadowColor: 'transparent',
+            backgroundColor: THEME['light'].background,
+            borderBottomWidth: 1,
+            borderTopWidth: 1,
+            borderColor: THEME['light'].border,
           },
           lazy: true,
         }}
@@ -266,12 +277,6 @@ const Layout = () => {
           name="projects"
           options={{ title: 'Projetos' }}
           initialParams={{ id: institution.id }}
-        />
-
-        <MaterialTopTabs.Screen
-          name="contacts"
-          options={{ title: 'Contatos' }}
-          initialParams={{ institution }}
         />
         <MaterialTopTabs.Screen
           name="partners"
