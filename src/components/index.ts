@@ -4,7 +4,6 @@ import CardSearch from './CardSearch';
 import Carousel from './Carousel';
 import DonationInformationItem from './DonationInformationItem';
 import ExploreScreenCard from './ExploreScreenCard';
-import Header from './Header';
 import HeaderStatisticsProfile from './HeaderStatisticsProfile';
 import Input from './Input';
 import LoadingBox from './LoadingBox';
@@ -19,7 +18,6 @@ export {
   Carousel,
   DonationInformationItem,
   ExploreScreenCard,
-  Header,
   HeaderStatisticsProfile,
   Input,
   LoadingBox,

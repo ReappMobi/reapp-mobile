@@ -5,7 +5,7 @@ import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, Image, ScrollView, View } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
+import { LoadingOverlay } from '@/components/ui/loading-overlay';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Input } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
@@ -108,11 +108,7 @@ export default function ProjectCreate() {
   return (
     <ScrollView>
       <SafeAreaView className="flex-1 px-4">
-        <Spinner
-          visible={loading}
-          textContent="Carregando..."
-          textStyle={{ color: '#FFF' }}
-        />
+        <LoadingOverlay visible={loading} />
         <View className="gap-3">
           <View>
             <Text className="text-md font-regular">Nome do Projeto</Text>
