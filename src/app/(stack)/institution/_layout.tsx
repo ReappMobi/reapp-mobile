@@ -1,4 +1,3 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
 import {
   createMaterialTopTabNavigator,
   MaterialTopTabNavigationEventMap,
@@ -7,7 +6,7 @@ import {
 import { ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, withLayoutContext } from 'expo-router';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Alert, Linking, View } from 'react-native';
 import { LoadingBox, ScreenContainer } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
@@ -21,6 +20,13 @@ import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 import { THEME } from '@/lib/theme';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 
 const { Navigator } = createMaterialTopTabNavigator();
 
@@ -36,7 +42,7 @@ type HeaderProps = {
   loading: boolean;
 };
 
-const Header = memo<HeaderProps>(({ institution, loading }) => {
+const Header = ({ institution, loading }: HeaderProps) => {
   const { isDonor, token } = useAuth();
 
   const [isFollowing, setIsFollowing] = useState<boolean>(
@@ -177,25 +183,52 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
       </View>
     </View>
   );
-});
+};
+
 const renderLabel = ({
   children,
   focused,
 }: {
   focused: boolean;
   children: string;
-}) => (
-  <Text
-    className={cn(
-      `font-medium text-lg text-muted-foreground`,
-      focused && 'font-bold text-primary'
-    )}
-  >
-    {children}
-  </Text>
-);
+}) => {
+  const scale = useSharedValue(1);
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale.value }],
+    };
+  });
 
-const Layout = () => {
+  useEffect(() => {
+    if (focused) {
+      scale.value = withSequence(
+        withTiming(1.05, { duration: 150 }),
+        withSpring(1, {
+          stiffness: 300,
+          damping: 25,
+          mass: 0.5,
+        })
+      );
+    } else {
+      scale.value = withTiming(1, { duration: 100 });
+    }
+  }, [focused]);
+
+  return (
+    <Animated.View style={animatedStyle}>
+      <Text
+        className={cn(
+          'font-medium text-lg text-muted-foreground',
+          focused && 'font-bold text-primary'
+        )}
+      >
+        {children}
+      </Text>
+    </Animated.View>
+  );
+};
+
+export default function Layout() {
   const params = useLocalSearchParams();
   const { id } = params;
   const { getToken } = useAuth();
@@ -269,7 +302,7 @@ const Layout = () => {
         }}
       >
         <MaterialTopTabs.Screen
-          name="home-view"
+          name="home"
           options={{ title: 'Início' }}
           initialParams={{ id: institution.id }}
         />
@@ -296,6 +329,4 @@ const Layout = () => {
       </MaterialTopTabs>
     </ScreenContainer>
   );
-};
-
-export default memo(Layout);
+}
