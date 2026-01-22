@@ -7,7 +7,7 @@ import {
 import { ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, withLayoutContext } from 'expo-router';
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { Alert, Linking, View } from 'react-native';
 import { LoadingBox, ScreenContainer } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
@@ -19,6 +19,7 @@ import {
 import { IInstitution } from 'src/types';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
+import { cn } from '@/lib/utils';
 
 const { Navigator } = createMaterialTopTabNavigator();
 
@@ -95,8 +96,8 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
   }, [institution.phone]);
 
   return (
-    <View className="bg-white">
-      <View className="mt-4 flex-row items-center gap-x-2 py-4">
+    <View className="mb-2 gap-y-3">
+      <View className="flex-row-reverse gap-x-2">
         <Image
           className="h-16 w-16 rounded-full"
           source={
@@ -113,7 +114,7 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
           transition={500}
         />
         <View className="w-full flex-1 gap-y-0 pt-4">
-          <Text className="font-bold text-lg">
+          <Text className="font-bold text-xl">
             {institution?.account?.name ?? ''}
           </Text>
 
@@ -121,81 +122,57 @@ const Header = memo<HeaderProps>(({ institution, loading }) => {
             <LoadingBox customStyle="h-2.5 w-20 mt-2 mb-3 rounded-md bg-slate-400" />
           ) : (
             <View>
-              <Text className="text-md pb-2 font-medium">
+              <Text className="text-sm">
                 {institution?.category?.name ?? ''}
               </Text>
-              {/*
-                <Text className="text-md pb-2 font-medium">
-                  {institution ? `${institution.city}/${institution.state}` : ''}
-                </Text>
-              */}
             </View>
           )}
-
-          <View className="gap-y-2">
-            <Button
-              size="sm"
-              className={`${isFollowing ? 'bg-gray-400' : 'bg-primary'}`}
-              onPress={isFollowing ? handleUnfollow : handleFollow}
-            >
-              <Text>{isFollowing ? 'Seguindo' : 'Seguir'}</Text>
-            </Button>
-
-            {isDonor && (
-              <View className="flex-row">
-                <Button
-                  size="sm"
-                  className="mr-2 w-20"
-                  onPress={() =>
-                    router.push({
-                      pathname: '/donate',
-                      params: {
-                        institutionId: institution?.id,
-                        phone: institution?.phone,
-                      },
-                    })
-                  }
-                >
-                  <Text>Doar</Text>
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex-1 justify-start"
-                  onPress={handleVolunteerPress}
-                >
-                  <Ionicons name="chevron-forward" size={20} color="#000" />
-                  <Text>Quero ser voluntário</Text>
-                </Button>
-              </View>
-            )}
+          <View className="flex-row gap-x-1">
+            <Text className="text-muted-foreground text-sm">
+              {followersCount}
+            </Text>
+            <Text className="text-muted-foreground text-sm">
+              {`${followersCount > 1 ? 'seguidores' : 'seguidor'} `}
+            </Text>
           </View>
         </View>
       </View>
 
-      <View className="flex-row justify-center gap-x-2 py-4">
-        <Text className="text-md font-medium">
-          <Text className="text-md font-bold text-text_primary">
-            {followersCount}
-          </Text>
-          {` Seguidores`}
-        </Text>
-        {/*
-        <Text className="text-md font-medium">
-          <Text className="text-md font-bold text-text_primary">
-            {institution ? institution.donations : ''}
-          </Text>
-          {` Doadores`}
-        </Text>
-        */}
-        {/*
-        <Text className="text-md font-medium">
-          <Text className="text-md font-bold text-text_primary">
-            {institution ? institution.partnersQty : ''}
-          </Text>
-          {` Parceiros`}
-        </Text>
-        */}
+      {/* Buttons */}
+      <View className="gap-y-2">
+        {isDonor && (
+          <Button
+            onPress={() =>
+              router.push({
+                pathname: '/donate',
+                params: {
+                  institutionId: institution?.id,
+                  phone: institution?.phone,
+                },
+              })
+            }
+          >
+            <Text>Doar</Text>
+          </Button>
+        )}
+
+        <View className="flex-row gap-x-2">
+          <Button
+            size="sm"
+            className={cn('flex-1 bg-primary', isFollowing && 'bg-secondary')}
+            onPress={isFollowing ? handleUnfollow : handleFollow}
+          >
+            <Text>{isFollowing ? 'Seguindo' : 'Seguir'}</Text>
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex-2"
+            onPress={handleVolunteerPress}
+          >
+            <Text> Ser voluntário</Text>
+          </Button>
+        </View>
       </View>
     </View>
   );
@@ -257,8 +234,7 @@ const Layout = () => {
 
   return (
     <ScreenContainer>
-      <Header institution={institution} loading={false} />
-
+      <Header institution={institution} loading={loading} />
       <MaterialTopTabs
         id={undefined}
         screenOptions={{
