@@ -1,4 +1,3 @@
-import '../styles/global.css';
 import {
   Roboto_100Thin,
   Roboto_300Light,
@@ -8,6 +7,7 @@ import {
   Roboto_900Black,
   useFonts,
 } from '@expo-google-fonts/roboto';
+import { ThemeProvider } from '@react-navigation/native';
 import { PortalHost } from '@rn-primitives/portal';
 import * as Sentry from '@sentry/react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -20,6 +20,8 @@ import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AuthProvider } from 'src/contexts/auth';
 import DrawerContent from './(stack)/(drawer)/profile';
+import { NAV_THEME } from '@/lib/theme';
+import '@/styles/global.css';
 
 cssInterop(Image, { className: 'style' });
 
@@ -55,23 +57,25 @@ function RootLayout() {
   const queryClient = new QueryClient();
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <ThemeProvider value={NAV_THEME['light']}>
       <StatusBar style="dark" />
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <Drawer
-            drawerContent={DrawerContent}
-            screenOptions={{
-              headerShown: false,
-              swipeEnabled: true,
-              swipeEdgeWidth: 0,
-              drawerStyle: { width: '78%' },
-            }}
-          />
-          <PortalHost />
-        </AuthProvider>
-      </QueryClientProvider>
-    </GestureHandlerRootView>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <Drawer
+              drawerContent={DrawerContent}
+              screenOptions={{
+                headerShown: false,
+                swipeEnabled: true,
+                swipeEdgeWidth: 0,
+                drawerStyle: { width: '78%' },
+              }}
+            />
+            <PortalHost />
+          </AuthProvider>
+        </QueryClientProvider>
+      </GestureHandlerRootView>
+    </ThemeProvider>
   );
 }
 
