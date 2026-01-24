@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { router } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ActivityIndicator, Alert, View } from 'react-native';
@@ -65,6 +65,10 @@ export default function SignIn() {
 
       {/* TODO: enable password recovery */}
       <View className="gap-y-2">
+        <Link href="password-recovery/">
+          <Text>Esqueci minha senha</Text>
+        </Link>
+
         <Button
           size="lg"
           onPress={form.handleSubmit(onSubmit)}
