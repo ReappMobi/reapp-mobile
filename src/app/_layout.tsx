@@ -29,7 +29,7 @@ SplashScreen.preventAutoHideAsync();
 
 Sentry.init({
   dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
-  debug: true,
+  debug: process.env.NODE_ENV !== 'production',
 });
 
 function RootLayout() {
