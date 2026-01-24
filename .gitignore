@@ -29,7 +29,8 @@ yarn-error.*
 *.pem
 
 # local env files
-.env*.local
+.env*.
+.env.*
 
 # typescript
 *.tsbuildinfo
@@ -46,5 +47,3 @@ ios/
 
 # build
 build/
-
-.env.local
