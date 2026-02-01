@@ -13,7 +13,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     version: '2.2.1',
     orientation: 'portrait',
     icon: './assets/icon.png',
-    userInterfaceStyle: 'automatic',
     newArchEnabled: true,
     splash: {
       image: './assets/splash.png',
@@ -57,9 +56,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       [
         '@sentry/react-native/expo',
         {
-          url: 'http://reapp-glitchtip-57a32f-212-85-0-19.traefik.me/',
-          project: 'reapp',
-          organization: 'reapp',
+          url: process.env.SENTRY_URL,
+          project: process.env.SENTRY_PROJECT,
+          organization: process.env.SENTRY_ORG,
         },
       ],
 

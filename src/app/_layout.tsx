@@ -19,9 +19,12 @@ import { cssInterop } from 'nativewind';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AuthProvider } from 'src/contexts/auth';
-import DrawerContent from './(stack)/(drawer)/profile';
 import { NAV_THEME } from '@/lib/theme';
+import DrawerContent from './(stack)/(drawer)/profile';
 import '@/styles/global.css';
+
+import Toast from 'react-native-toast-message';
+import { toastConfig } from '@/lib/toast-config';
 
 cssInterop(Image, { className: 'style' });
 
@@ -29,7 +32,7 @@ SplashScreen.preventAutoHideAsync();
 
 Sentry.init({
   dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
-  debug: true,
+  debug: process.env.NODE_ENV !== 'production',
 });
 
 function RootLayout() {
@@ -71,6 +74,7 @@ function RootLayout() {
                 drawerStyle: { width: '78%' },
               }}
             />
+            <Toast config={toastConfig} />
             <PortalHost />
           </AuthProvider>
         </QueryClientProvider>

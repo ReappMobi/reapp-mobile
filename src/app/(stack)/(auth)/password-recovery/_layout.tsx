@@ -1,16 +1,14 @@
 import { Stack } from 'expo-router';
-import { headerDefault } from 'src/constants/header';
 
-export default function AuxLayout() {
+export default function Layout() {
   return (
     <Stack
       screenOptions={{
-        title: 'REAPP',
-        ...headerDefault,
+        headerShown: false,
       }}
     >
       <Stack.Screen
-        name="password-recovery"
+        name="index"
         options={{
           title: 'Recuperar senha',
         }}

@@ -49,13 +49,10 @@ export function AuthProvider({ children }) {
           throw new Error('Token expired');
         }
 
-        console.log(storagedUser);
-
         setUser(JSON.parse(storagedUser));
         setIsDonor(JSON.parse(storagedIsDonor));
         setToken(storagedToken);
-      } catch (e) {
-        console.log(e);
+      } catch {
         await AsyncStorage.clear();
         setUser(null);
         setIsDonor(null);
