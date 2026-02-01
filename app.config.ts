@@ -61,7 +61,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           organization: process.env.SENTRY_ORG,
         },
       ],
-
     ],
     extra: {
       router: {
