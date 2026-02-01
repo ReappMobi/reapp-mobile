@@ -28,7 +28,12 @@ export const ControlledInput = forwardRef<TextInput, ControlledInputProps>(
     return (
       <View className={cn('w-full', className)}>
         {label && (
-          <Label className="text-sm font-bold text-foreground mb-1">
+          <Label
+            className={cn(
+              'text-sm font-bold text-muted-foreground',
+              error && 'text-rose-400'
+            )}
+          >
             {label}
           </Label>
         )}
@@ -41,9 +46,9 @@ export const ControlledInput = forwardRef<TextInput, ControlledInputProps>(
               ref={ref}
               placeholder={placeholder}
               className={cn(
-                'border-primary/60  focus:border-primary rounded-sm h-12',
-                error && 'border-rose-500',
-                inputClassName
+                'border-primary/60 focus:border-primary rounded-sm h-12',
+                inputClassName,
+                error && 'border-rose-400 focus:border-rose-600'
               )}
               onBlur={onBlur}
               onChangeText={onChange}
@@ -54,7 +59,7 @@ export const ControlledInput = forwardRef<TextInput, ControlledInputProps>(
         />
 
         {error && (
-          <Text className="text-rose-500 mt-1 text-sm">
+          <Text className="text-rose-400 mt-1 text-sm">
             {error.message?.toString()}
           </Text>
         )}
