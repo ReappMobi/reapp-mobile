@@ -10,7 +10,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     name: isProduction ? 'Reapp' : 'Reapp (Dev)',
     slug: 'reapp',
     scheme: 'reapp',
-    version: '2.2.1',
+    version: '2.3.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
     newArchEnabled: true,
@@ -61,7 +61,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           organization: process.env.SENTRY_ORG,
         },
       ],
-
     ],
     extra: {
       router: {
