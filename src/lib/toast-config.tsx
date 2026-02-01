@@ -1,6 +1,6 @@
 import { Check, LucideIcon } from 'lucide-react-native';
 import { View } from 'react-native';
-import type { ToastConfig } from 'react-native-toast-message';
+import type { ToastConfig, ToastShowParams } from 'react-native-toast-message';
 import Toast from 'react-native-toast-message';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { cn } from './utils';
@@ -44,7 +44,7 @@ export const toastConfig: ToastConfig = {
   ),
 };
 
-type ShowToastProps = {
+type ShowToastProps = ToastShowParams & {
   type: 'error' | 'success' | 'info';
   header: string;
   description: string;
@@ -57,6 +57,7 @@ export const showToast = ({
   header,
   description,
   icon,
+  ...rest
 }: ShowToastProps) => {
   Toast.show({
     visibilityTime,
@@ -66,5 +67,6 @@ export const showToast = ({
     props: {
       icon,
     },
+    ...rest,
   });
 };
