@@ -8,7 +8,7 @@ export default function Layout() {
       }}
     >
       <Stack.Screen
-        name="password-recovery"
+        name="index"
         options={{
           title: 'Recuperar senha',
         }}
