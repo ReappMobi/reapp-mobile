@@ -63,12 +63,12 @@ export default function SignIn() {
         />
       </Form>
 
-      {/* TODO: enable password recovery */}
       <View className="gap-y-2">
-        <Link href="password-recovery/">
-          <Text>Esqueci minha senha</Text>
+        <Link href="password-recovery">
+          <Text className="underline text-sm text-secondary">
+            Esqueceu sua senha?
+          </Text>
         </Link>
-
         <Button
           size="lg"
           onPress={form.handleSubmit(onSubmit)}
@@ -80,17 +80,14 @@ export default function SignIn() {
             <Text> Entrar </Text>
           )}
         </Button>
-        <Text className="text-center text-xs font-bold"> ou se preferir </Text>
-        <Button
-          size="default"
-          onPress={() => router.push('/profile-selector')}
-          disabled={loading}
-          variant="outline"
-        >
-          <Text className="text-foreground font-semibold text-md">
-            Cadastre-se
-          </Text>
-        </Button>
+        <Text className="text-center text-xs font-medium text-muted-foreground">
+          ou se preferir
+        </Text>
+        <Link href="/profile-selector" asChild>
+          <Button size="default" disabled={loading} variant="outline">
+            <Text>Cadastre-se</Text>
+          </Button>
+        </Link>
       </View>
     </View>
   );
