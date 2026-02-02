@@ -1,6 +1,6 @@
 {
   "name": "reapp-frontend",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
@@ -53,6 +53,7 @@
     "react-native": "0.81.5",
     "react-native-currency-input": "^1.1.1",
     "react-native-gesture-handler": "~2.28.0",
+    "react-native-keyboard-controller": "1.18.5",
     "react-native-masked-text": "^1.13.0",
     "react-native-modalize": "^2.1.1",
     "react-native-pager-view": "6.9.1",

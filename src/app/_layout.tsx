@@ -23,6 +23,7 @@ import { NAV_THEME } from '@/lib/theme';
 import DrawerContent from './(stack)/(drawer)/profile';
 import '@/styles/global.css';
 
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 import Toast from 'react-native-toast-message';
 import { toastConfig } from '@/lib/toast-config';
 
@@ -65,17 +66,19 @@ function RootLayout() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
-            <Drawer
-              drawerContent={DrawerContent}
-              screenOptions={{
-                headerShown: false,
-                swipeEnabled: true,
-                swipeEdgeWidth: 0,
-                drawerStyle: { width: '78%' },
-              }}
-            />
-            <Toast config={toastConfig} />
-            <PortalHost />
+            <KeyboardProvider>
+              <Drawer
+                drawerContent={DrawerContent}
+                screenOptions={{
+                  headerShown: false,
+                  swipeEnabled: true,
+                  swipeEdgeWidth: 0,
+                  drawerStyle: { width: '78%' },
+                }}
+              />
+              <Toast config={toastConfig} />
+              <PortalHost />
+            </KeyboardProvider>
           </AuthProvider>
         </QueryClientProvider>
       </GestureHandlerRootView>
