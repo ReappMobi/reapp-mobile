@@ -3,6 +3,7 @@ import { Link, router } from 'expo-router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ActivityIndicator, Alert, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { Button } from 'src/components/ui/button';
 import { Text } from 'src/components/ui/text';
 import { useAuth } from 'src/hooks/useAuth';
@@ -47,60 +48,65 @@ export default function SignIn() {
   };
 
   return (
-    <ScreenContainer className="pt-12">
-      <Card>
-        <CardHeader>
-          <Text variant="h3">Entre na sua conta</Text>
-          <Text variant="muted" className="text-muted-foreground">
-            Faça login na sua conta para continuar
-          </Text>
-        </CardHeader>
-        <CardContent>
-          <Form form={form} onSubmit={onSubmit} className="gap-y-4">
-            <ControlledInput
-              name="email"
-              label="Email"
-              placeholder="Digite seu email"
-              autoCapitalize="none"
-              autoCorrect={false}
-              autoFocus
-            />
-            <ControlledInput
-              name="password"
-              label="Senha"
-              placeholder="Digite sua senha"
-              secureTextEntry
-            />
-          </Form>
-
-          <View className="gap-y-2 mt-2">
-            <Link href="password-recovery">
-              <Text className="underline text-sm text-secondary">
-                Esqueceu sua senha?
-              </Text>
-            </Link>
-            <Button
-              size="lg"
-              onPress={form.handleSubmit(onSubmit)}
-              disabled={loading}
-            >
-              {loading ? (
-                <ActivityIndicator size="small" color="white" />
-              ) : (
-                <Text> Entrar </Text>
-              )}
-            </Button>
-            <Text className="text-center text-xs font-medium text-muted-foreground">
-              ou se preferir
+    <KeyboardAwareScrollView
+      style={{ flex: 1 }}
+      contentContainerClassName="flex-1"
+    >
+      <ScreenContainer className="items-center justify-center">
+        <Card>
+          <CardHeader>
+            <Text variant="h3">Entre na sua conta</Text>
+            <Text variant="muted" className="text-muted-foreground">
+              Faça login na sua conta para continuar
             </Text>
-            <Link href="/profile-selector" asChild>
-              <Button size="default" disabled={loading} variant="outline">
-                <Text>Criar uma conta</Text>
+          </CardHeader>
+          <CardContent>
+            <Form form={form} onSubmit={onSubmit} className="gap-y-4">
+              <ControlledInput
+                name="email"
+                label="Email"
+                placeholder="Digite seu email"
+                autoCapitalize="none"
+                autoCorrect={false}
+                autoFocus
+              />
+              <ControlledInput
+                name="password"
+                label="Senha"
+                placeholder="Digite sua senha"
+                secureTextEntry
+              />
+            </Form>
+
+            <View className="gap-y-2 mt-2">
+              <Link href="password-recovery">
+                <Text className="underline text-sm text-secondary">
+                  Esqueceu sua senha?
+                </Text>
+              </Link>
+              <Button
+                size="lg"
+                onPress={form.handleSubmit(onSubmit)}
+                disabled={loading}
+              >
+                {loading ? (
+                  <ActivityIndicator size="small" color="white" />
+                ) : (
+                  <Text> Entrar </Text>
+                )}
               </Button>
-            </Link>
-          </View>
-        </CardContent>
-      </Card>
-    </ScreenContainer>
+              <Text className="text-center text-xs font-medium text-muted-foreground">
+                ou se preferir
+              </Text>
+              <Link href="/profile-selector" asChild>
+                <Button size="default" disabled={loading} variant="outline">
+                  <Text>Criar uma conta</Text>
+                </Button>
+              </Link>
+            </View>
+          </CardContent>
+        </Card>
+      </ScreenContainer>
+    </KeyboardAwareScrollView>
   );
 }
