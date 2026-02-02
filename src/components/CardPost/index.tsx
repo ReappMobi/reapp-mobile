@@ -1,7 +1,9 @@
 import { debounce } from 'es-toolkit/function';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
-import { Bookmark, Heart, MessageCircle } from 'lucide-react-native';
+import Bookmark from 'lucide-react-native/dist/esm/icons/bookmark';
+import Heart from 'lucide-react-native/dist/esm/icons/heart';
+import MessageCircle from 'lucide-react-native/dist/esm/icons/message-circle';
 import { useCallback, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { useLike } from 'src/hooks/useLike';

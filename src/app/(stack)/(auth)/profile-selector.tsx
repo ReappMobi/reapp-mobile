@@ -1,5 +1,6 @@
 import { router } from 'expo-router';
-import { HandHeart, University } from 'lucide-react-native';
+import HandHeart from 'lucide-react-native/dist/esm/icons/hand-heart';
+import University from 'lucide-react-native/dist/esm/icons/university';
 import { View } from 'react-native';
 import ProfileSelectorPageImage from 'src/assets/images/ProfileSelectorPageImage.svg';
 import { Button } from 'src/components/ui/button';

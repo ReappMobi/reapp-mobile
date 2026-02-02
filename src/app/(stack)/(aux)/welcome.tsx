@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { ChevronRight } from 'lucide-react-native';
+import ChevronRight from 'lucide-react-native/dist/esm/icons/chevron-right';
 import { View } from 'react-native';
 import WelcomePageImage from 'src/assets/images/WelcomePageImage.svg';
 import { Button } from '@/components/ui/button';
