@@ -4,6 +4,7 @@ import MailCheck from 'lucide-react-native/dist/esm/icons/mail-check';
 import MailX from 'lucide-react-native/dist/esm/icons/mail-x';
 import { useForm } from 'react-hook-form';
 import { ActivityIndicator, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { z } from 'zod';
 import { ScreenContainer } from '@/components';
 import { SafeKeyboardAvoidView } from '@/components/app/containers/keyboard-avoid-view';
@@ -77,7 +78,10 @@ export default function Page() {
   };
 
   return (
-    <SafeKeyboardAvoidView>
+    <KeyboardAwareScrollView
+      style={{ flex: 1 }}
+      contentContainerClassName="flex-1"
+    >
       <ScreenContainer className="items-center justify-center">
         <Card className="w-full max-w-sm">
           <CardHeader className="flex-row">
@@ -120,6 +124,6 @@ export default function Page() {
           </CardContent>
         </Card>
       </ScreenContainer>
-    </SafeKeyboardAvoidView>
+    </KeyboardAwareScrollView>
   );
 }
