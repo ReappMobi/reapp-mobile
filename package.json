@@ -1,6 +1,6 @@
 {
   "name": "reapp-frontend",
-  "version": "2.3.2",
+  "version": "2.4.0",
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
