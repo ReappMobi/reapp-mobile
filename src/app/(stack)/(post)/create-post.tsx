@@ -10,7 +10,8 @@ import {
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 import { router } from 'expo-router';
-import { CameraIcon, Images } from 'lucide-react-native';
+import CameraIcon from 'lucide-react-native/dist/esm/icons/camera';
+import Images from 'lucide-react-native/dist/esm/icons/images';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
@@ -23,7 +24,6 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { LoadingOverlay } from '@/components/ui/loading-overlay';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from 'src/hooks/useAuth';
 import { postPublication } from 'src/services/app-core';
@@ -31,6 +31,7 @@ import { POSTS_PREFIX_KEY } from 'src/services/posts/post.service';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { LoadingOverlay } from '@/components/ui/loading-overlay';
 import { Text } from '@/components/ui/text';
 
 const postCreateFormSchema = z.object({
@@ -133,88 +134,92 @@ export default function PostCreate() {
     <>
       <LoadingOverlay visible={loading} />
       <SafeAreaView className="flex-1 bg-white">
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={
-          Platform.OS === 'ios' ? headerHeight : androidHeaderHeight.current
-        }
-        style={{ flex: 1 }}
-      >
-        <ScrollView className="px-4 pt-2">
-          <View className="flex-row">
-            <View className="items-center mr-3">
-              <Image
-                source={{ uri: userAvatarUrl }}
-                className="h-10 w-10 rounded-full bg-gray-200"
-              />
-              <View className="w-[2px] flex-1 bg-gray-200 my-2 rounded-full" />
-              <View className="h-4 w-4 rounded-full bg-gray-200 opacity-50" />
-            </View>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={
+            Platform.OS === 'ios' ? headerHeight : androidHeaderHeight.current
+          }
+          style={{ flex: 1 }}
+        >
+          <ScrollView className="px-4 pt-2">
+            <View className="flex-row">
+              <View className="items-center mr-3">
+                <Image
+                  source={{ uri: userAvatarUrl }}
+                  className="h-10 w-10 rounded-full bg-gray-200"
+                />
+                <View className="w-[2px] flex-1 bg-gray-200 my-2 rounded-full" />
+                <View className="h-4 w-4 rounded-full bg-gray-200 opacity-50" />
+              </View>
 
-            <View className="flex-1 pb-20">
-              <Text className="font-semibold text-base text-black mb-1">
-                {username}
-              </Text>
-
-              <TextInput
-                placeholder="Compartilhe com a rede suas ações..."
-                placeholderTextColor="#999"
-                multiline
-                autoFocus
-                textAlignVertical="top"
-                className="text-base text-black mb-2 min-h-[40px]"
-                onChangeText={(text) =>
-                  setValue('description', text, { shouldValidate: true })
-                }
-                value={watch('description')}
-                {...register('description')}
-              />
-
-              {errors.description && (
-                <Text className="mb-2 text-xs text-rose-500">
-                  {errors.description.message}
+              <View className="flex-1 pb-20">
+                <Text className="font-semibold text-base text-black mb-1">
+                  {username}
                 </Text>
-              )}
 
-              {media && (
-                <View className="mb-4 relative">
-                  <Image
-                    source={{ uri: media }}
-                    className="w-full h-64 rounded-xl bg-gray-100"
-                    resizeMode="cover"
-                  />
-                  <Pressable
-                    onPress={() => setMedia(null)}
-                    className="absolute top-2 right-2 bg-black/50 rounded-full p-1"
-                  >
-                    <Ionicons name="close" size={16} color="white" />
-                  </Pressable>
-                </View>
-              )}
+                <TextInput
+                  placeholder="Compartilhe com a rede suas ações..."
+                  placeholderTextColor="#999"
+                  multiline
+                  autoFocus
+                  textAlignVertical="top"
+                  className="text-base text-black mb-2 min-h-[40px]"
+                  onChangeText={(text) =>
+                    setValue('description', text, { shouldValidate: true })
+                  }
+                  value={watch('description')}
+                  {...register('description')}
+                />
+
+                {errors.description && (
+                  <Text className="mb-2 text-xs text-rose-500">
+                    {errors.description.message}
+                  </Text>
+                )}
+
+                {media && (
+                  <View className="mb-4 relative">
+                    <Image
+                      source={{ uri: media }}
+                      className="w-full h-64 rounded-xl bg-gray-100"
+                      resizeMode="cover"
+                    />
+                    <Pressable
+                      onPress={() => setMedia(null)}
+                      className="absolute top-2 right-2 bg-black/50 rounded-full p-1"
+                    >
+                      <Ionicons name="close" size={16} color="white" />
+                    </Pressable>
+                  </View>
+                )}
+              </View>
             </View>
-          </View>
-        </ScrollView>
+          </ScrollView>
 
-        <View className="flex-row items-center justify-between px-4 py-3 bg-white">
-          <View className="flex-row gap-4 mt-2">
-            <Pressable onPress={pickImage}>
-              <Icon as={Images} size={22} className="stroke-text-neutral" />
-            </Pressable>
-            <Pressable onPress={takePicture}>
-              <Icon as={CameraIcon} size={24} className="stroke-text-neutral" />
-            </Pressable>
-          </View>
+          <View className="flex-row items-center justify-between px-4 py-3 bg-white">
+            <View className="flex-row gap-4 mt-2">
+              <Pressable onPress={pickImage}>
+                <Icon as={Images} size={22} className="stroke-text-neutral" />
+              </Pressable>
+              <Pressable onPress={takePicture}>
+                <Icon
+                  as={CameraIcon}
+                  size={24}
+                  className="stroke-text-neutral"
+                />
+              </Pressable>
+            </View>
 
-          <Button
-            onPress={handleSubmit(onSubmit)}
-            disabled={isPostEmpty}
-            className="rounded-full px-5 py-2"
-          >
-            <Text className="font-semibold">Postar</Text>
-          </Button>
-        </View>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+            <Button
+              onPress={handleSubmit(onSubmit)}
+              disabled={isPostEmpty}
+              className="rounded-full px-5 py-2"
+            >
+              <Text className="font-semibold">Postar</Text>
+            </Button>
+          </View>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     </>
   );
 }
