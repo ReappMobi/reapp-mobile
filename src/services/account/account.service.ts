@@ -1,15 +1,29 @@
 import { type UseMutationOptions, useMutation } from '@tanstack/react-query';
 import {
-  RecoveryPasswordData,
-  RecoveryPasswordResponse,
-  type ResetPasswordData,
-  ResetPasswordResponse,
+  createAccount,
   recoveryPassword,
   resetPassword,
-  type SendRecoveryEmailData,
-  SendRecoveryEmailResponse,
   sendRecoveryEmail,
 } from './account.requests';
+import type {
+  CreateAccountData,
+  CreateAccountResponse,
+  RecoveryPasswordData,
+  RecoveryPasswordResponse,
+  ResetPasswordData,
+  ResetPasswordResponse,
+  SendRecoveryEmailData,
+  SendRecoveryEmailResponse,
+} from './account.types';
+
+export function useCreateAccount(
+  options?: UseMutationOptions<CreateAccountResponse, Error, CreateAccountData>
+) {
+  return useMutation({
+    mutationFn: createAccount,
+    ...options,
+  });
+}
 
 export function useResetPassword(
   options?: UseMutationOptions<ResetPasswordResponse, Error, ResetPasswordData>

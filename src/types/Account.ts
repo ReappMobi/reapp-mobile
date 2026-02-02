@@ -1,8 +1,14 @@
 export enum AccountType {
-  ADMIN,
-  DONOR,
-  INSTITUTION,
+  ADMIN = 'ADMIN',
+  DONOR = 'DONOR',
+  INSTITUTION = 'INSTITUTION',
 }
+
+export interface AccountField {
+  name: string;
+  value: string;
+}
+
 export enum AccountStatus {
   ACTIVE,
   INACTIVE,
