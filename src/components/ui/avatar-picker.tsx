@@ -3,6 +3,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 import { Image, Pressable, View } from 'react-native';
 
+import DefaultAvatar from '@/assets/images/avatar.png';
 import { cn } from '@/lib/utils';
 import { RequestMedia } from '@/services/account';
 
@@ -60,13 +61,7 @@ export function AvatarPicker({
       onPress={pickImage}
     >
       <Image
-        source={
-          media?.uri
-            ? { uri: media.uri }
-            : {
-                uri: 'https://drive.google.com/uc?id=1HH1UMVe2sSSW4bnNREHJpcVCRGWo589e',
-              }
-        }
+        source={media?.uri ? { uri: media.uri } : DefaultAvatar}
         className="h-full w-full rounded-full border-2 border-border"
         resizeMode="cover"
       />
