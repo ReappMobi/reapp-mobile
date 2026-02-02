@@ -9,8 +9,8 @@ import { Text } from 'src/components/ui/text';
 import { Separator } from '@/components/ui/separator';
 
 export default function ProfileSelector() {
-  const handleButtonClick = (to: 'donor' | 'institution') => {
-    router.replace({ pathname: `sign-up-${to}` });
+  const handleButtonClick = (type: 'donor' | 'institution') => {
+    router.replace({ pathname: 'sign-up', params: { type } });
   };
 
   return (
