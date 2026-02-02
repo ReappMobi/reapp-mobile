@@ -12,9 +12,6 @@ const api = axios.create({
   },
   timeout: MAX_TIMEOUT,
   timeoutErrorMessage: TIMEOUT_ERROR_MESSAGE,
-  validateStatus() {
-    return true;
-  },
 });
 
 export default api;
