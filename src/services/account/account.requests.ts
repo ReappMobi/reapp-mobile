@@ -1,30 +1,24 @@
+import { buildFormData } from '@/utils/form-data';
 import api from '../api';
+import {
+  CreateAccountData,
+  CreateAccountResponse,
+  RecoveryPasswordData,
+  RecoveryPasswordResponse,
+  ResetPasswordData,
+  ResetPasswordResponse,
+  SendRecoveryEmailData,
+  SendRecoveryEmailResponse,
+} from './account.types';
 
-export interface SendRecoveryEmailData {
-  email: string;
-}
-export interface SendRecoveryEmailResponse {
-  message: string;
-  token: string;
-}
-
-export interface RecoveryPasswordData {
-  token: string;
-  code: string;
-}
-export interface RecoveryPasswordResponse {
-  message: string;
-  token: string;
-}
-
-export interface ResetPasswordData {
-  token: string;
-  password: string;
-  passwordConfirmation: string;
-}
-export interface ResetPasswordResponse {
-  message: string;
-}
+export const createAccount = async (payload: CreateAccountData) => {
+  const formData = buildFormData(payload as unknown as Record<string, unknown>);
+  const { data } = await api.postForm<CreateAccountResponse>(
+    '/account',
+    formData
+  );
+  return data;
+};
 
 export const sendRecoveryEmail = async (payload: SendRecoveryEmailData) => {
   const { data, status } = await api.post<SendRecoveryEmailResponse>(
