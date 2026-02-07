@@ -19,8 +19,8 @@ import { cssInterop } from 'nativewind';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AuthProvider } from 'src/contexts/auth';
+import { DrawerContent } from '@/components/app/drawer/drawer-content';
 import { NAV_THEME } from '@/lib/theme';
-import DrawerContent from './(stack)/(drawer)/profile';
 import '@/styles/global.css';
 
 import { KeyboardProvider } from 'react-native-keyboard-controller';
