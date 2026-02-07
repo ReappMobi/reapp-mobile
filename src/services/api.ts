@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 const MAX_TIMEOUT = 5 * 1000; // 5 seconds
@@ -12,6 +13,12 @@ const api = axios.create({
   },
   timeout: MAX_TIMEOUT,
   timeoutErrorMessage: TIMEOUT_ERROR_MESSAGE,
+});
+
+api.interceptors.request.use(async (config) => {
+  const token = await AsyncStorage.getItem('@RNAuth:token');
+  config.headers.Authorization = `Bearer ${token}`;
+  return config;
 });
 
 export default api;
