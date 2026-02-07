@@ -61,7 +61,6 @@ export const createProject = async (
   try {
     const response = await api.post('/project', formData, {
       headers: {
-        Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
       },
     });

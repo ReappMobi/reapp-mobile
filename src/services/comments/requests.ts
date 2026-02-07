@@ -11,12 +11,7 @@ export const getPostComments = async ({
   page,
 }: GetPostCommentsParams) => {
   const { data } = await api.get<GetPostCommentsResponse>(
-    `/post/${postId}/comments?page=${page}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+    `/post/${postId}/comments?page=${page}`
   );
   return data;
 };
@@ -26,13 +21,5 @@ export const addComment = async ({
   postId,
   content,
 }: AddCommentData) => {
-  return await api.post<void>(
-    `/post/${postId}/comment`,
-    { body: content },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  return await api.post<void>(`/post/${postId}/comment`, { body: content });
 };

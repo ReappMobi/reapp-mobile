@@ -6,15 +6,9 @@ export const addComment = async (
   content: string
 ) => {
   try {
-    const response = await api.post(
-      `/post/${postId}/comment`,
-      { body: content },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await api.post(`/post/${postId}/comment`, {
+      body: content,
+    });
 
     if (response.status !== 201) {
       throw new Error(
@@ -33,11 +27,7 @@ export const getPostComments = async (
   page: number
 ) => {
   try {
-    const response = await api.get(`/post/${postId}/comments?page=${page}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await api.get(`/post/${postId}/comments?page=${page}`);
 
     if (response.status !== 200) {
       throw new Error(
