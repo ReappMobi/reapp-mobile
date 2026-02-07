@@ -1,8 +1,10 @@
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { router, Stack } from 'expo-router';
-import React from 'react';
+import { X } from 'lucide-react-native';
 import { Pressable } from 'react-native';
 import { ProjectProvider } from 'src/contexts/project';
+import { Icon } from '@/components/ui/icon';
+import { THEME } from '@/lib/theme';
 
 const Layout = () => {
   return (
@@ -21,11 +23,17 @@ const Layout = () => {
         <Stack.Screen
           name="create"
           options={{
-            title: null,
+            title: 'Novo projeto',
+            headerTitleAlign: 'center',
+            headerTintColor: THEME['light'].primary,
             headerBackVisible: false,
             headerLeft: () => (
               <Pressable onPress={() => router.dismiss()}>
-                <AntDesign name="close" size={26} color="black" />
+                <Icon
+                  as={X}
+                  color={THEME['light'].primary}
+                  className="w-6 h-6"
+                />
               </Pressable>
             ),
           }}
@@ -34,7 +42,16 @@ const Layout = () => {
           name="categories"
           options={{
             title: 'Selecionar categoria',
+            headerTintColor: THEME['light'].primary,
             headerBackVisible: true,
+          }}
+        />
+        <Stack.Screen
+          name="index"
+          options={{
+            headerTintColor: THEME['light'].primary,
+            headerBackVisible: true,
+            headerTitle: () => null,
           }}
         />
       </Stack>
