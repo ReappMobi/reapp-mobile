@@ -1,6 +1,7 @@
 import { Stack, useNavigation } from 'expo-router';
 import React from 'react';
 import colors from 'src/constants/colors';
+import { THEME } from '@/lib/theme';
 
 export default function AuxLayout() {
   const navigation = useNavigation();
@@ -13,7 +14,7 @@ export default function AuxLayout() {
       screenOptions={{
         title: 'REAPP',
         headerShown: true,
-        headerTintColor: colors.primary,
+        headerTintColor: THEME['light'].primary,
         headerShadowVisible: false,
         headerBackVisible: false,
         headerTitleStyle: {
