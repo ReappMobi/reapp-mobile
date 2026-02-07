@@ -2170,7 +2170,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-dialog@npm:^1.1.1":
+"@radix-ui/react-dialog@npm:^1.1.1, @radix-ui/react-dialog@npm:^1.1.14":
   version: 1.1.15
   resolution: "@radix-ui/react-dialog@npm:1.1.15"
   dependencies:
@@ -2917,6 +2917,46 @@ __metadata:
   dependencies:
     nanoid: "npm:^3.3.11"
   checksum: 10c0/2efdbaf265e25bd1ea6d283a5a16d772eb24846e4a4554c8164091707b9289f02063a8999f8337d24ae3a33c3d2adaebabcb96bedb588aca8efb54fcab46286a
+  languageName: node
+  linkType: hard
+
+"@rn-primitives/dialog@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@rn-primitives/dialog@npm:1.2.0"
+  dependencies:
+    "@radix-ui/react-dialog": "npm:^1.1.14"
+    "@rn-primitives/hooks": "npm:1.3.0"
+    "@rn-primitives/slot": "npm:1.2.0"
+    "@rn-primitives/types": "npm:1.2.0"
+  peerDependencies:
+    "@rn-primitives/portal": "*"
+    react: "*"
+    react-native: "*"
+    react-native-web: "*"
+  peerDependenciesMeta:
+    react-native:
+      optional: true
+    react-native-web:
+      optional: true
+  checksum: 10c0/b902392236c9940f94977dcd93ada5d882e6c737e666a31c412ca38161543cfb8ae9968fbe2a2d7d7d62329dbb93241f7a89f52341ad5e1bd75abbc101261d48
+  languageName: node
+  linkType: hard
+
+"@rn-primitives/hooks@npm:1.3.0":
+  version: 1.3.0
+  resolution: "@rn-primitives/hooks@npm:1.3.0"
+  dependencies:
+    "@rn-primitives/types": "npm:1.2.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-web: "*"
+  peerDependenciesMeta:
+    react-native:
+      optional: true
+    react-native-web:
+      optional: true
+  checksum: 10c0/49f5676b97f1adb8a1c39dfe7a976df905aafb7dcec9eaba6bb1aa10f5abda9676fcd972565b0dc9aece39f4d4bda2f7d40e4292ff71d2dabddcbf5d0ec1c473
   languageName: node
   linkType: hard
 
@@ -9376,6 +9416,7 @@ __metadata:
     "@react-navigation/drawer": "npm:^7.5.0"
     "@react-navigation/material-top-tabs": "npm:^7.0.18"
     "@react-navigation/native": "npm:^7.1.8"
+    "@rn-primitives/dialog": "npm:^1.2.0"
     "@rn-primitives/label": "npm:^1.2.0"
     "@rn-primitives/portal": "npm:^1.3.0"
     "@rn-primitives/separator": "npm:^1.2.0"
