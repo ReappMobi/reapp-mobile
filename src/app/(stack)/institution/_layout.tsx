@@ -1,13 +1,8 @@
-import {
-  createMaterialTopTabNavigator,
-  MaterialTopTabNavigationEventMap,
-  MaterialTopTabNavigationOptions,
-} from '@react-navigation/material-top-tabs';
-import { ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams, withLayoutContext } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { Alert, Linking, View } from 'react-native';
+
 import { LoadingBox, ScreenContainer } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import {
@@ -18,24 +13,8 @@ import {
 import { IInstitution } from 'src/types';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
+import { MaterialTopTabs, TopTabs } from '@/components/ui/top-tab';
 import { cn } from '@/lib/utils';
-import { THEME } from '@/lib/theme';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  withSequence,
-  withTiming,
-} from 'react-native-reanimated';
-
-const { Navigator } = createMaterialTopTabNavigator();
-
-export const MaterialTopTabs = withLayoutContext<
-  MaterialTopTabNavigationOptions,
-  typeof Navigator,
-  TabNavigationState<ParamListBase>,
-  MaterialTopTabNavigationEventMap
->(Navigator);
 
 type HeaderProps = {
   institution: IInstitution;
@@ -145,7 +124,6 @@ const Header = ({ institution, loading }: HeaderProps) => {
         </View>
       </View>
 
-      {/* Buttons */}
       <View className="gap-y-2">
         {isDonor && (
           <Button
@@ -182,49 +160,6 @@ const Header = ({ institution, loading }: HeaderProps) => {
         </View>
       </View>
     </View>
-  );
-};
-
-const renderLabel = ({
-  children,
-  focused,
-}: {
-  focused: boolean;
-  children: string;
-}) => {
-  const scale = useSharedValue(1);
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ scale: scale.value }],
-    };
-  });
-
-  useEffect(() => {
-    if (focused) {
-      scale.value = withSequence(
-        withTiming(1.05, { duration: 150 }),
-        withSpring(1, {
-          stiffness: 300,
-          damping: 25,
-          mass: 0.5,
-        })
-      );
-    } else {
-      scale.value = withTiming(1, { duration: 100 });
-    }
-  }, [focused]);
-
-  return (
-    <Animated.View style={animatedStyle}>
-      <Text
-        className={cn(
-          'font-medium text-lg text-muted-foreground',
-          focused && 'font-bold text-primary'
-        )}
-      >
-        {children}
-      </Text>
-    </Animated.View>
   );
 };
 
@@ -273,34 +208,7 @@ export default function Layout() {
   return (
     <ScreenContainer className="gap-y-4">
       <Header institution={institution} loading={loading} />
-      <MaterialTopTabs
-        id={undefined}
-        screenOptions={{
-          tabBarScrollEnabled: true,
-          tabBarBounces: true,
-          tabBarPressColor: 'transparent',
-          tabBarItemStyle: {
-            width: 'auto',
-            height: 'auto',
-          },
-          tabBarLabel: renderLabel,
-          swipeEnabled: true,
-          tabBarIndicatorStyle: {
-            width: 0.9,
-          },
-          tabBarIndicatorContainerStyle: {
-            marginBottom: -1.5,
-          },
-          tabBarStyle: {
-            shadowColor: 'transparent',
-            backgroundColor: THEME['light'].background,
-            borderBottomWidth: 1,
-            borderTopWidth: 1,
-            borderColor: THEME['light'].border,
-          },
-          lazy: true,
-        }}
-      >
+      <TopTabs>
         <MaterialTopTabs.Screen
           name="home"
           options={{ title: 'Início' }}
@@ -326,7 +234,7 @@ export default function Layout() {
           options={{ title: 'Voluntários' }}
           initialParams={{ id: institution.id }}
         />
-      </MaterialTopTabs>
+      </TopTabs>
     </ScreenContainer>
   );
 }
