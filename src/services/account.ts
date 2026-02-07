@@ -9,6 +9,15 @@ export type RequestMedia = {
   height: number;
 };
 
+export const deleteAccount = async (accountId: number, token: string) => {
+  const response = await api.delete(`/account/${accountId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
 type UpdateAccountRequest = {
   name?: string;
   email?: string;

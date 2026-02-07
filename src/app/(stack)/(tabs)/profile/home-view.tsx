@@ -117,6 +117,7 @@ function PostList({ institutionId }) {
         updatedAt={item.updatedAt}
         isSavedInitial={isSaved}
         isLikedInitial={isLiked}
+        institutionAccountId={item.institution?.account?.id}
         onPressDelete={() => handleDeletePost(item.id)}
       />
     ) : (
