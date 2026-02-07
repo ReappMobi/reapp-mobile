@@ -50,7 +50,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       [
         'expo-image-picker',
         {
-          photosPermission: 'Permitir que Reapp acesse suas fotos',
+          photosPermission: 'O Reapp precisa acessar sua biblioteca de fotos para que você possa escolher uma foto de perfil ou enviar imagens em suas publicações.',
         },
       ],
       [

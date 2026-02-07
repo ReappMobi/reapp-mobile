@@ -15,12 +15,19 @@ export default function AuxLayout() {
         headerShown: true,
         headerTintColor: THEME['light'].primary,
         headerShadowVisible: false,
-        headerBackVisible: false,
+        headerBackVisible: true,
         headerTitleStyle: {
           fontSize: 24,
           fontFamily: 'reapp_bold',
         },
       }}
-    />
+    >
+      <Stack.Screen
+        name="welcome"
+        options={{
+          headerBackVisible: false,
+        }}
+      />
+    </Stack>
   );
 }

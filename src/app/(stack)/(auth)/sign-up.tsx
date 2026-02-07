@@ -1,9 +1,10 @@
+import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { router, useLocalSearchParams } from 'expo-router';
 import { CircleCheck, CircleX } from 'lucide-react-native';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ActivityIndicator, Image, View } from 'react-native';
+import { ActivityIndicator, Image, Pressable, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import DefaultAvatar from '@/assets/images/avatar.png';
 import { ScreenContainer } from '@/components';
@@ -41,6 +42,7 @@ export default function SignUpPage() {
   const isInstitution = type === 'institution';
   const [step, setStep] = useState(1);
   const [media, setMedia] = useState<RequestMediaExtended | null>(null);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const { mutate: createAccount, isPending: loading } = useCreateAccount({
     onSuccess: ({ name }) => {
       showToast({
@@ -204,6 +206,32 @@ export default function SignUpPage() {
                 </>
               )}
 
+              {(!isInstitution || step === 2) && (
+                <Pressable
+                  className="mt-4 flex-row items-start gap-x-2"
+                  onPress={() => setAcceptedTerms(!acceptedTerms)}
+                >
+                  <Ionicons
+                    name={
+                      acceptedTerms
+                        ? 'checkbox-outline'
+                        : 'square-outline'
+                    }
+                    size={22}
+                    color={acceptedTerms ? '#7B9D7C' : '#909090'}
+                  />
+                  <Text className="flex-1 text-sm text-gray-700">
+                    Li e aceito os{' '}
+                    <Text
+                      className="text-sm text-primary underline"
+                      onPress={() => router.push('/terms-of-use')}
+                    >
+                      Termos de Uso
+                    </Text>
+                  </Text>
+                </Pressable>
+              )}
+
               <View className="mt-4 gap-y-2">
                 {isInstitution && step === 1 ? (
                   <Button size="lg" onPress={handleNextStep}>
@@ -213,7 +241,7 @@ export default function SignUpPage() {
                   <Button
                     size="lg"
                     onPress={form.handleSubmit(onSubmit)}
-                    disabled={loading}
+                    disabled={loading || !acceptedTerms}
                   >
                     {loading ? (
                       <ActivityIndicator color="white" />

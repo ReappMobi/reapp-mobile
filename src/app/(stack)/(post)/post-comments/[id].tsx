@@ -2,8 +2,9 @@ import { useHeaderHeight } from '@react-navigation/elements';
 import { useQueryClient } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import { useLocalSearchParams } from 'expo-router';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
+  ActionSheetIOS,
   ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
@@ -14,6 +15,7 @@ import {
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useAuth } from 'src/hooks/useAuth';
+import { reportContent } from 'src/services/report';
 import {
   COMMENTS_PREFIX_KEY,
   useAddComment,
@@ -24,28 +26,90 @@ import { ScreenContainer } from '@/components';
 import { Button } from '@/components/ui/button';
 import colors from '@/constants/colors';
 
-const renderItem = ({ item }) => (
-  <View className="flex-row gap-3 px-4 py-3 border-b border-gray-50">
-    <Image
-      source={{ uri: item.account.media?.remoteUrl }}
-      className="h-9 w-9 rounded-full bg-gray-200"
-    />
-    <View className="flex-1 gap-1">
-      <View className="flex-row items-center justify-between">
-        <Text className="font-semibold text-sm text-black">
-          {item.account.name}
-        </Text>
-        <Text className="text-xs text-gray-400">
-          {timeAgo(item.createdAt.toString())}
-        </Text>
-      </View>
-      <Text className="text-sm text-gray-800 leading-5">{item.body}</Text>
-    </View>
-  </View>
-);
-
 const Page = () => {
   const { token } = useAuth();
+
+  const handleReportComment = useCallback(
+    (commentId: number) => {
+      const doReport = () => {
+        Alert.prompt(
+          'Denunciar comentário',
+          'Descreva o motivo da denúncia:',
+          [
+            { text: 'Cancelar', style: 'cancel' },
+            {
+              text: 'Enviar',
+              onPress: async (reason) => {
+                if (!reason?.trim()) { return; }
+                try {
+                  await reportContent({
+                    targetType: 'COMMENT',
+                    targetId: commentId,
+                    reason,
+                    token,
+                  });
+                  Alert.alert('Sucesso', 'Denúncia enviada com sucesso.');
+                } catch {
+                  Alert.alert('Erro', 'Não foi possível enviar a denúncia.');
+                }
+              },
+            },
+          ],
+          'plain-text'
+        );
+      };
+
+      if (Platform.OS === 'ios') {
+        ActionSheetIOS.showActionSheetWithOptions(
+          {
+            options: ['Cancelar', 'Denunciar comentário'],
+            destructiveButtonIndex: 1,
+            cancelButtonIndex: 0,
+          },
+          (buttonIndex) => {
+            if (buttonIndex === 1) { doReport(); }
+          }
+        );
+      } else {
+        Alert.alert('Opções', undefined, [
+          { text: 'Cancelar', style: 'cancel' },
+          { text: 'Denunciar comentário', onPress: doReport },
+        ]);
+      }
+    },
+    [token]
+  );
+
+  const renderItem = useCallback(
+    ({ item }) => (
+      <View
+        className="flex-row gap-3 px-4 py-3 border-b border-gray-50"
+        onStartShouldSetResponder={() => true}
+      >
+        <Image
+          source={{ uri: item.account.media?.remoteUrl }}
+          className="h-9 w-9 rounded-full bg-gray-200"
+        />
+        <View className="flex-1 gap-1">
+          <View className="flex-row items-center justify-between">
+            <Text className="font-semibold text-sm text-black">
+              {item.account.name}
+            </Text>
+            <Text className="text-xs text-gray-400">
+              {timeAgo(item.createdAt.toString())}
+            </Text>
+          </View>
+          <Text
+            className="text-sm text-gray-800 leading-5"
+            onLongPress={() => handleReportComment(item.id)}
+          >
+            {item.body}
+          </Text>
+        </View>
+      </View>
+    ),
+    [handleReportComment]
+  );
   const { id } = useLocalSearchParams<{ id: string }>();
   const [page, setPage] = useState(1);
   const [comment, setComment] = useState('');

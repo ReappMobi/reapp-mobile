@@ -1,14 +1,22 @@
 import { debounce } from 'es-toolkit/function';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
-import { Bookmark, Heart, MessageCircle } from 'lucide-react-native';
+import {
+  Bookmark,
+  EllipsisVertical,
+  Heart,
+  MessageCircle,
+} from 'lucide-react-native';
 import { useCallback, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { ActionSheetIOS, Alert, Platform, Pressable, View } from 'react-native';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
+import { useAuth } from '@/hooks/useAuth';
 import { useLike } from '@/hooks/useLike';
 import { useSave } from '@/hooks/useSave';
 import { cn } from '@/lib/utils';
+import { blockUser } from '@/services/block';
+import { reportContent } from '@/services/report';
 import { timeAgo } from '@/utils/time-ago';
 
 interface CardPostProps {
@@ -23,7 +31,10 @@ interface CardPostProps {
   isLikedInitial?: boolean;
   isSavedInitial?: boolean;
   mediaAspect?: number;
+  institutionAccountId?: number;
   onPressInstitutionProfile?: () => void;
+  onPressDelete?: () => void;
+  onBlockUser?: () => void;
 }
 
 export function CardPost({
@@ -38,11 +49,14 @@ export function CardPost({
   updatedAt,
   isLikedInitial,
   isSavedInitial,
+  institutionAccountId,
   onPressInstitutionProfile,
+  onBlockUser,
 }: CardPostProps) {
   const [expanded, setExpanded] = useState(false);
   const { isLiked, toggleLike } = useLike(postId, isLikedInitial);
   const { isSaved, toggleSave } = useSave(postId, isSavedInitial);
+  const { token } = useAuth();
 
   const canExpandContent = description?.length
     ? description.length > 100
@@ -56,6 +70,95 @@ export function CardPost({
     }, 170),
     [postId]
   );
+
+  const handleReport = useCallback(() => {
+    if (!token) {
+      Alert.alert('Erro', 'Você precisa estar autenticado para denunciar.');
+      return;
+    }
+
+    Alert.prompt(
+      'Denunciar publicação',
+      'Descreva o motivo da denúncia:',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Enviar',
+          onPress: async (reason) => {
+            if (!reason?.trim()) {
+              return;
+            }
+            try {
+              await reportContent({
+                targetType: 'POST',
+                targetId: Number(postId),
+                reason,
+                token,
+              });
+              Alert.alert('Sucesso', 'Denúncia enviada com sucesso.');
+            } catch {
+              Alert.alert('Erro', 'Não foi possível enviar a denúncia.');
+            }
+          },
+        },
+      ],
+      'plain-text'
+    );
+  }, [postId, token]);
+
+  const handleBlock = useCallback(async () => {
+    if (!token || !institutionAccountId) {
+      return;
+    }
+
+    Alert.alert(
+      'Bloquear usuário',
+      `Deseja bloquear ${name}? Você não verá mais as publicações deste perfil.`,
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Bloquear',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await blockUser(institutionAccountId, token);
+              Alert.alert('Sucesso', 'Usuário bloqueado com sucesso.');
+              onBlockUser?.();
+            } catch {
+              Alert.alert('Erro', 'Não foi possível bloquear o usuário.');
+            }
+          },
+        },
+      ]
+    );
+  }, [institutionAccountId, name, onBlockUser, token]);
+
+  const handleOptionsPress = useCallback(() => {
+    if (Platform.OS === 'ios') {
+      ActionSheetIOS.showActionSheetWithOptions(
+        {
+          options: ['Cancelar', 'Denunciar publicação', 'Bloquear usuário'],
+          destructiveButtonIndex: 2,
+          cancelButtonIndex: 0,
+        },
+        (buttonIndex) => {
+          if (buttonIndex === 1) {
+            handleReport();
+          }
+          if (buttonIndex === 2) {
+            handleBlock();
+          }
+        }
+      );
+      return;
+    }
+
+    Alert.alert('Opções', undefined, [
+      { text: 'Cancelar', style: 'cancel' },
+      { text: 'Denunciar publicação', onPress: handleReport },
+      { text: 'Bloquear usuário', style: 'destructive', onPress: handleBlock },
+    ]);
+  }, [handleBlock, handleReport]);
 
   return (
     <View className="w-full bg-background py-3">
@@ -73,20 +176,28 @@ export function CardPost({
             </View>
           </Pressable>
         </View>
+
         <View className="w-full flex-1">
-          <View className="flex-row items-center gap-x-2">
-            <Text
-              onPress={onPressInstitutionProfile}
-              className="font-medium text-base text-slate-900"
-            >
-              {name}
-            </Text>
-            <Text>
-              <Text className="font-ligth text-xs text-slate-500">
-                {postedIn}
+          <View className="flex-row items-center justify-between">
+            <View className="flex-row items-center gap-x-2 flex-1">
+              <Text
+                onPress={onPressInstitutionProfile}
+                className="font-medium text-base text-slate-900"
+              >
+                {name}
               </Text>
-            </Text>
+              <Text>
+                <Text className="font-ligth text-xs text-slate-500">
+                  {postedIn}
+                </Text>
+              </Text>
+            </View>
+
+            <Pressable onPress={handleOptionsPress} hitSlop={8}>
+              <Icon as={EllipsisVertical} size={18} className="stroke-gray-400" />
+            </Pressable>
           </View>
+
           <View>
             <View className="pb-2">
               <Text
@@ -104,6 +215,7 @@ export function CardPost({
                 </Pressable>
               )}
             </View>
+
             {mediaUrl && (
               <View className="h-max w-full items-center justify-center rounded-lg">
                 <Image
@@ -116,6 +228,7 @@ export function CardPost({
                 />
               </View>
             )}
+
             <View className="flex-row gap-x-5 mt-3">
               <Pressable onPress={toggleLike}>
                 <Icon
@@ -132,10 +245,7 @@ export function CardPost({
                 <Icon
                   as={Bookmark}
                   size={22}
-                  className={cn(
-                    'stroke-foreground mt-0.5',
-                    isSaved && ' fill-slate-900'
-                  )}
+                  className={cn('stroke-foreground mt-0.5', isSaved && ' fill-slate-900')}
                 />
               </Pressable>
 
