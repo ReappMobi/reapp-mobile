@@ -11,11 +11,12 @@ import { useCallback } from 'react';
 import { Pressable, View } from 'react-native';
 import colors from 'src/constants/colors';
 import { PostProvider } from 'src/contexts/posts';
-import { SearchProvider } from 'src/contexts/search';
 import { useAuth } from 'src/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { SearchInput } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
+import { useSearch } from '@/hooks/use-search';
 
 const TabIcon = ({
   focused,
@@ -91,6 +92,7 @@ const HeaderCreateButton = () => {
 
 const TabLayout = () => {
   const { isDonor, token, user } = useAuth();
+  const { updateSearchQuery, updateSearchActive } = useSearch();
 
   if (!user || !token) {
     return <Redirect href="welcome" />;
@@ -98,90 +100,103 @@ const TabLayout = () => {
 
   return (
     <PostProvider token={token}>
-      <SearchProvider>
-        <Tabs
-          screenOptions={{
-            tabBarShowLabel: false,
-            tabBarActiveTintColor: colors.primary,
-            tabBarInactiveTintColor: 'rgb(46 56 77 / 0.8)',
-            tabBarStyle: { borderTopWidth: 1, paddingTop: 4 },
+      <Tabs
+        screenOptions={{
+          tabBarShowLabel: false,
+          tabBarActiveTintColor: colors.primary,
+          tabBarInactiveTintColor: 'rgb(46 56 77 / 0.8)',
+          tabBarStyle: { borderTopWidth: 1, paddingTop: 4 },
+        }}
+      >
+        <Tabs.Screen
+          name="index"
+          options={{
+            headerTitle: () => (
+              <Text className="text-2xl font-bold text-primary">REAPP</Text>
+            ),
+            headerTitleAlign: 'center',
+            headerShadowVisible: false,
+            headerLeftContainerStyle: { paddingLeft: 16 },
+            headerRightContainerStyle: { paddingRight: 16 },
+            headerLeft: () => <HeaderAvatar user={user} />,
+            headerRight: () => (!isDonor ? <HeaderCreateButton /> : null),
+            tabBarIcon: ({ color, size, focused }) =>
+              focused ? (
+                <View
+                  style={{ width: 3 * size, height: size + 8 }}
+                  className="items-center justify-center bg-green-700/20 rounded-full"
+                >
+                  <Octicons name="home-fill" size={size} color={color} />
+                </View>
+              ) : (
+                <Octicons name="home" size={size} color={color} />
+              ),
           }}
-        >
-          <Tabs.Screen
-            name="index"
-            options={{
-              headerTitle: () => (
-                <Text className="text-2xl font-bold text-primary">REAPP</Text>
-              ),
-              headerTitleAlign: 'center',
-              headerShadowVisible: false,
-              headerLeftContainerStyle: { paddingLeft: 16 },
-              headerRightContainerStyle: { paddingRight: 16 },
-              headerLeft: () => <HeaderAvatar user={user} />,
-              headerRight: () => (!isDonor ? <HeaderCreateButton /> : null),
-              tabBarIcon: ({ color, size, focused }) =>
-                focused ? (
-                  <View
-                    style={{ width: 3 * size, height: size + 8 }}
-                    className="items-center justify-center bg-green-700/20 rounded-full"
-                  >
-                    <Octicons name="home-fill" size={size} color={color} />
-                  </View>
-                ) : (
-                  <Octicons name="home" size={size} color={color} />
-                ),
-            }}
-          />
+        />
 
-          <Tabs.Screen
-            name="explore"
-            options={{
-              headerShown: true,
-              tabBarIcon: ({ size, color, focused }) => (
-                <TabIcon
-                  focused={focused}
-                  size={size}
-                  color={color}
-                  icon={Globe}
-                  fill={false}
-                />
-              ),
-            }}
-          />
+        <Tabs.Screen
+          name="explore"
+          options={{
+            headerShown: true,
+            headerShadowVisible: false,
+            headerTitle: () => (
+              <SearchInput
+                onChangeText={debounce(
+                  (text: string) => updateSearchQuery(text),
+                  300
+                )}
+                onFocus={() => updateSearchActive(true)}
+                onDimiss={() => {
+                  updateSearchActive(false);
+                  updateSearchQuery('');
+                }}
+              />
+            ),
 
-          <Tabs.Screen
-            name="favorites"
-            options={{
-              href: !isDonor && null,
-              headerShown: isDonor,
-              tabBarIcon: ({ size, color, focused }) => (
-                <TabIcon
-                  focused={focused}
-                  size={size}
-                  color={color}
-                  icon={Star}
-                />
-              ),
-            }}
-          />
+            tabBarIcon: ({ size, color, focused }) => (
+              <TabIcon
+                focused={focused}
+                size={size}
+                color={color}
+                icon={Globe}
+                fill={false}
+              />
+            ),
+          }}
+        />
 
-          <Tabs.Screen
-            name="profile"
-            options={{
-              href: isDonor && null,
-              headerShown: false,
-              tabBarIcon: ({ size, color, focused }) => (
-                <TabIcon
-                  focused={focused}
-                  size={size}
-                  color={color}
-                  icon={UserRound}
-                />
-              ),
-            }}
-          />
-        </Tabs>
-      </SearchProvider>
+        <Tabs.Screen
+          name="favorites"
+          options={{
+            href: !isDonor && null,
+            headerShown: isDonor,
+            tabBarIcon: ({ size, color, focused }) => (
+              <TabIcon
+                focused={focused}
+                size={size}
+                color={color}
+                icon={Star}
+              />
+            ),
+          }}
+        />
+
+        <Tabs.Screen
+          name="profile"
+          options={{
+            href: isDonor && null,
+            headerShown: false,
+            tabBarIcon: ({ size, color, focused }) => (
+              <TabIcon
+                focused={focused}
+                size={size}
+                color={color}
+                icon={UserRound}
+              />
+            ),
+          }}
+        />
+      </Tabs>
     </PostProvider>
   );
 };
