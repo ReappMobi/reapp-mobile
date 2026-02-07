@@ -8,7 +8,6 @@ import HeaderStatisticsProfile from './HeaderStatisticsProfile';
 import Input from './Input';
 import LoadingBox from './LoadingBox';
 import ScreenContainer from './ScreenContainer';
-import SearchInput from './SearchInput';
 import TabViewWrapper from './TabViewWrapper';
 
 export {
@@ -22,6 +21,5 @@ export {
   Input,
   LoadingBox,
   ScreenContainer,
-  SearchInput,
   TabViewWrapper,
 };
