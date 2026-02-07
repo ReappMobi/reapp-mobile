@@ -1,15 +1,15 @@
 import { DrawerContentComponentProps } from '@react-navigation/drawer';
-import React from 'react';
 import { View } from 'react-native';
-import { HeaderStatisticsProfile } from 'src/components';
-import { DrawerMenu } from 'src/components/DrawerMenu';
-import { useAuth } from 'src/hooks/useAuth';
+
+import { useAuth } from '@/hooks/useAuth';
+import { DrawerMenu } from './drawer-menu';
+import { HeaderStatisticsProfile } from './header-statistics-profile';
 
 const DrawerContent = ({ navigation }: DrawerContentComponentProps) => {
   const { user, token } = useAuth();
 
   if (!user || !token) {
-    return null;
+    return;
   }
 
   return (
@@ -34,4 +34,4 @@ const DrawerContent = ({ navigation }: DrawerContentComponentProps) => {
   );
 };
 
-export default DrawerContent;
+export { DrawerContent };

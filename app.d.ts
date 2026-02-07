@@ -9,3 +9,7 @@ declare module '*.png' {
   const uri: string;
   export default { uri };
 }
+
+declare module '@react-navigation/drawer/lib/typescript/src/types' {
+  export * from 'node_modules/@react-navigation/drawer/src/types';
+}
