@@ -1,8 +1,11 @@
+import { IInstitution } from '@/types';
 import { buildFormData } from '@/utils/form-data';
 import api from '../api';
 import {
   CreateAccountData,
   CreateAccountResponse,
+  FollowAccountResponse,
+  GetInstitutionsResponse,
   RecoveryPasswordData,
   RecoveryPasswordResponse,
   ResetPasswordData,
@@ -47,14 +50,32 @@ export const recoveryPassword = async (payload: RecoveryPasswordData) => {
 };
 
 export const resetPassword = async (payload: ResetPasswordData) => {
-  const { data, status } = await api.post<ResetPasswordResponse>(
+  const { data } = await api.post<ResetPasswordResponse>(
     'account/reset-password',
     payload
   );
 
-  if (status !== 200 && status !== 201 && status !== 204) {
-    throw new Error(data.message || 'Erro ao redefinir senha');
-  }
+  return data;
+};
 
+export const followAccount = async (id: number) => {
+  const { data } = await api.post<FollowAccountResponse>(
+    `/account/follow/${id}`,
+    {}
+  );
+  return data;
+};
+
+export const unfollowAccount = async (id: number) => {
+  const { data } = await api.delete<FollowAccountResponse>(
+    `/account/unfollow/${id}`
+  );
+  return data;
+};
+
+export const getInstitutions = async () => {
+  const { data } = await api.get<GetInstitutionsResponse>(
+    '/account/institution'
+  );
   return data;
 };

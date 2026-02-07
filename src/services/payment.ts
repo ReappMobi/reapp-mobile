@@ -10,15 +10,7 @@ export const requestPaymentUrl = async (
   token: string
 ) => {
   try {
-    const response = await api.post('/donation/request', data, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      validateStatus() {
-        return true;
-      },
-    });
+    const response = await api.post('/donation/request', data);
 
     return response.data;
   } catch (error) {

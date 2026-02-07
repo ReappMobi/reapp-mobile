@@ -1,3 +1,4 @@
+import { IInstitution } from '@/types';
 import { AccountField, AccountType } from '@/types/Account';
 import { Donation } from '@/types/IDonation';
 import { MediaAttachment } from '@/types/MediaAttatchment';
@@ -65,3 +66,9 @@ export interface CreateAccountResponse {
     };
   };
 }
+
+export interface FollowAccountResponse {
+  message: string;
+}
+
+export type GetInstitutionsResponse = IInstitution[];

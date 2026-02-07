@@ -4,15 +4,7 @@ import api from './api';
 
 export async function getFavoritesProjects(_donorId: number, token) {
   try {
-    const response = await api.get(`/project/favorite/`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      validateStatus() {
-        return true;
-      },
-    });
+    const response = await api.get(`/project/favorite/`);
 
     return response.data;
   } catch (error) {

@@ -10,8 +10,7 @@ export const getDonationsByDonor = async (
 ) => {
   try {
     const response = await api.get(
-      `/donation/donor/${donorId}?page=${page}&limit=${DONATIONS_LIST_LIMIT}&period=${period}`,
-      { headers: { Authorization: `Bearer ${token}` } }
+      `/donation/donor/${donorId}?page=${page}&limit=${DONATIONS_LIST_LIMIT}&period=${period}`
     );
 
     if (response.status !== 200) {
@@ -33,8 +32,7 @@ export const getInstitutionDonations = async (
 ) => {
   try {
     const response = await api.get(
-      `/donation/institution?page=${page}&limit=${DONATIONS_LIST_LIMIT}&period=${period}`,
-      { headers: { Authorization: `Bearer ${token}` } }
+      `/donation/institution?page=${page}&limit=${DONATIONS_LIST_LIMIT}&period=${period}`
     );
 
     if (response.status !== 200) {
@@ -56,8 +54,7 @@ export const getGeneralDonations = async (
 ) => {
   try {
     const response = await api.get(
-      `/donation/institution/general?page=${page}&limit=${DONATIONS_LIST_LIMIT}&period=${period}`,
-      { headers: { Authorization: `Bearer ${token}` } }
+      `/donation/institution/general?page=${page}&limit=${DONATIONS_LIST_LIMIT}&period=${period}`
     );
 
     if (response.status !== 200) {
@@ -79,8 +76,7 @@ export const getProjectDonations = async (
 ) => {
   try {
     const response = await api.get(
-      `/donation/institution/projects?page=${page}&limit=${DONATIONS_LIST_LIMIT}&period=${period}`,
-      { headers: { Authorization: `Bearer ${token}` } }
+      `/donation/institution/projects?page=${page}&limit=${DONATIONS_LIST_LIMIT}&period=${period}`
     );
 
     if (response.status !== 200) {

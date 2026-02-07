@@ -6,10 +6,6 @@ export type GetCategoriesReponse = {
 }[];
 
 export const getCategories = async () => {
-  const { data } = await api.get<GetCategoriesReponse>('/account/categories', {
-    validateStatus() {
-      return true;
-    },
-  });
+  const { data } = await api.get<GetCategoriesReponse>('/account/categories');
   return data;
 };

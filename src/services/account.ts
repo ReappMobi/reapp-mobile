@@ -40,7 +40,6 @@ export const updateAccount = async (
     const response = await api.put(`/account/${accountId}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${token}`,
       },
     });
 

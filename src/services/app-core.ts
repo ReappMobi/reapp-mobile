@@ -167,14 +167,7 @@ export async function getInstitutionByAccountId(
   token: string
 ) {
   try {
-    const response = await api.get(`/account/institution/${accountId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      validateStatus() {
-        return true;
-      },
-    });
+    const response = await api.get(`/account/institution/${accountId}`);
     return response.data;
   } catch (error) {
     return { error: error.message };
@@ -246,10 +239,6 @@ export async function postInstitutionMember(
     const response = await api.post('/institution-members', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${token}`,
-      },
-      validateStatus() {
-        return true;
       },
     });
     return response.data;
@@ -264,15 +253,7 @@ export async function getPartnerByInstitutionId(
 ) {
   try {
     const response = await api.get(
-      `/institution-members/partners/${institutionId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        validateStatus() {
-          return true;
-        },
-      }
+      `/institution-members/partners/${institutionId}`
     );
     return response.data;
   } catch (error) {
@@ -286,15 +267,7 @@ export async function getCollaboratorByInstitutionId(
 ) {
   try {
     const response = await api.get(
-      `/institution-members/collaborators/${institutionId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        validateStatus() {
-          return true;
-        },
-      }
+      `/institution-members/collaborators/${institutionId}`
     );
     return response.data;
   } catch (error) {
@@ -308,15 +281,7 @@ export async function getVolunteersByInstitutionId(
 ) {
   try {
     const response = await api.get(
-      `/institution-members/volunteers/${institutionId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        validateStatus() {
-          return true;
-        },
-      }
+      `/institution-members/volunteers/${institutionId}`
     );
     return response.data;
   } catch (error) {
@@ -403,10 +368,6 @@ export async function getProjects(token: string) {
     const response = await api.get(`/project`, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      validateStatus() {
-        return true;
       },
     });
     return response.data;
@@ -417,14 +378,7 @@ export async function getProjects(token: string) {
 
 export async function getProjectById(projectId: number, token: string) {
   try {
-    const response = await api.get(`/project/${projectId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      validateStatus() {
-        return true;
-      },
-    });
+    const response = await api.get(`/project/${projectId}`);
     return response.data;
   } catch (error) {
     return { error: error.message };
@@ -436,14 +390,7 @@ export async function getProjectByInstitutionId(
   token: string
 ) {
   try {
-    const response = await api.get(`/project/institution/${institutionId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      validateStatus() {
-        return true;
-      },
-    });
+    const response = await api.get(`/project/institution/${institutionId}`);
     return response.data;
   } catch (error) {
     return { error: error.message };
@@ -475,10 +422,6 @@ export async function getInstituitionPosts(
     const response = await api.get(`/post/institution/${institutionId}`, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${token}`,
-      },
-      validateStatus() {
-        return true;
       },
     });
     return response.data;
@@ -512,17 +455,6 @@ export async function getInstitutionCategories() {
 }
 
 export async function getVolunteerById(institutionId, token) {
-  try {
-    const response = await api.get(`/volunteer/${institutionId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      validateStatus() {
-        return true;
-      },
-    });
-    return response.data;
-  } catch (error) {
-    return { error: error.message };
-  }
+  const response = await api.get(`/volunteer/${institutionId}`);
+  return response.data;
 }
