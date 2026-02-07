@@ -26,6 +26,8 @@ import type {
   SendRecoveryEmailResponse,
 } from './account.types';
 
+export const GET_INSTITUIONS_KEY = 'get-institutions';
+
 export function useCreateAccount(
   options?: UseMutationOptions<CreateAccountResponse, Error, CreateAccountData>
 ) {
@@ -57,7 +59,7 @@ export function useGetInstitutions(
   options?: UseQueryOptions<GetInstitutionsResponse, Error>
 ) {
   return useQuery({
-    queryKey: ['institutions'],
+    queryKey: [GET_INSTITUIONS_KEY],
     queryFn: getInstitutions,
     ...options,
   });
