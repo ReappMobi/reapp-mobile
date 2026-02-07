@@ -1,8 +1,9 @@
-import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { router, useLocalSearchParams } from 'expo-router';
+import { Link, router, useLocalSearchParams } from 'expo-router';
 import CircleCheck from 'lucide-react-native/dist/esm/icons/circle-check';
 import CircleX from 'lucide-react-native/dist/esm/icons/circle-x';
+import Square from 'lucide-react-native/dist/esm/icons/square';
+import SquareCheck from 'lucide-react-native/dist/esm/icons/square-check';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ActivityIndicator, Image, Pressable, View } from 'react-native';
@@ -25,7 +26,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
+import { THEME } from '@/lib/theme';
 import { showToast } from '@/lib/toast-config';
 import {
   CreateAccountFormData,
@@ -210,23 +213,22 @@ export default function SignUpPage() {
                   className="mt-4 flex-row items-start gap-x-2"
                   onPress={() => setAcceptedTerms(!acceptedTerms)}
                 >
-                  <Ionicons
-                    name={
-                      acceptedTerms
-                        ? 'checkbox-outline'
-                        : 'square-outline'
-                    }
+                  <Icon
+                    as={acceptedTerms ? SquareCheck : Square}
                     size={22}
-                    color={acceptedTerms ? '#7B9D7C' : '#909090'}
+                    className={
+                      acceptedTerms
+                        ? 'text-primary'
+                        : 'text-gray-400'
+                    }
                   />
                   <Text className="flex-1 text-sm text-gray-700">
                     Li e aceito os{' '}
-                    <Text
-                      className="text-sm text-primary underline"
-                      onPress={() => router.push('/terms-of-use')}
-                    >
-                      Termos de Uso
-                    </Text>
+                    <Link href="/terms-of-use" asChild>
+                      <Text className="text-sm text-primary underline">
+                        Termos de Uso
+                      </Text>
+                    </Link>
                   </Text>
                 </Pressable>
               )}

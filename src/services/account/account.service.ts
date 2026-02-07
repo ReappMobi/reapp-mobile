@@ -6,6 +6,7 @@ import {
 } from '@tanstack/react-query';
 import {
   createAccount,
+  deleteAccount,
   followAccount,
   getInstitutions,
   recoveryPassword,
@@ -16,6 +17,8 @@ import {
 import type {
   CreateAccountData,
   CreateAccountResponse,
+  DeleteAccountData,
+  DeleteAccountResponse,
   FollowAccountResponse,
   GetInstitutionsResponse,
   RecoveryPasswordData,
@@ -96,6 +99,15 @@ export function useSendRecoveryEmail(
 ) {
   return useMutation({
     mutationFn: sendRecoveryEmail,
+    ...options,
+  });
+}
+
+export function useDeleteAccount(
+  options?: UseMutationOptions<DeleteAccountResponse, Error, DeleteAccountData>
+) {
+  return useMutation({
+    mutationFn: deleteAccount,
     ...options,
   });
 }

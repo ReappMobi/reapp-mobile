@@ -3,6 +3,15 @@ import { AccountField, AccountType } from '@/types/Account';
 import { Donation } from '@/types/IDonation';
 import { MediaAttachment } from '@/types/MediaAttatchment';
 
+export interface DeleteAccountData {
+  accountId: number;
+  token: string;
+}
+
+export interface DeleteAccountResponse {
+  message: string;
+}
+
 export interface SendRecoveryEmailData {
   email: string;
 }
