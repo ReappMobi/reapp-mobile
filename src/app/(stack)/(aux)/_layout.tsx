@@ -13,7 +13,7 @@ export default function AuxLayout() {
       screenOptions={{
         title: 'REAPP',
         headerShown: true,
-        headerTintColor: THEME['light'].primary,
+        headerTintColor: THEME.light.primary,
         headerShadowVisible: false,
         headerBackVisible: true,
         headerTitleStyle: {
@@ -26,6 +26,20 @@ export default function AuxLayout() {
         name="welcome"
         options={{
           headerBackVisible: false,
+        }}
+      />
+      <Stack.Screen
+        name="terms-of-use"
+        options={{
+          title: 'Termos de Uso',
+          headerTitleStyle: { fontSize: 18, fontFamily: 'reapp_medium' },
+        }}
+      />
+      <Stack.Screen
+        name="settings"
+        options={{
+          title: 'Configurações',
+          headerTitleStyle: { fontSize: 18, fontFamily: 'reapp_medium' },
         }}
       />
     </Stack>

@@ -4,6 +4,8 @@ import api from '../api';
 import {
   CreateAccountData,
   CreateAccountResponse,
+  DeleteAccountData,
+  DeleteAccountResponse,
   FollowAccountResponse,
   GetInstitutionsResponse,
   RecoveryPasswordData,
@@ -80,6 +82,21 @@ export const unfollowAccount = async (id: number) => {
 export const getInstitutions = async () => {
   const { data } = await api.get<GetInstitutionsResponse>(
     '/account/institution'
+  );
+  return data;
+};
+
+export const deleteAccount = async ({
+  accountId,
+  token,
+}: DeleteAccountData) => {
+  const { data } = await api.delete<DeleteAccountResponse>(
+    `/account/${accountId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
   );
   return data;
 };
