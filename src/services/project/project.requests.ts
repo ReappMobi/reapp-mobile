@@ -1,8 +1,12 @@
+import { buildFormData } from '@/utils/form-data';
 import api from '../api';
 import {
+  CreateProjectData,
+  CreateProjectResponse,
   GetProjectByIdResponse,
   GetProjectsByInstitutionIdResponse,
   GetProjectsResponse,
+  ProjectCategory,
   ToggleFavoriteProjectResponse,
 } from './project.types';
 
@@ -29,4 +33,30 @@ export const toggleFavoriteProject = async (id: number) => {
     {}
   );
   return data;
+};
+
+export const deleteProject = async (id: number) => {
+  const { data } = await api.delete<{ message: string }>(`/project/${id}`);
+  return data;
+};
+
+export const getProjectCategories = async (
+  query?: string
+): Promise<ProjectCategory[]> => {
+  const { data } = await api.get('/project/categories', {
+    params: {
+      search: query,
+    },
+  });
+  return data;
+};
+
+export const createProject = async (
+  data: CreateProjectData
+): Promise<CreateProjectResponse> => {
+  const formData = buildFormData(data as unknown as Record<string, unknown>);
+
+  const response = await api.postForm('/project', formData);
+
+  return response.data;
 };
