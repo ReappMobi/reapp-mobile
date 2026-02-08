@@ -1,6 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import Banknote from 'lucide-react-native/dist/esm/icons/banknote';
-import Package from 'lucide-react-native/dist/esm/icons/package';
+import { Banknote, Package } from 'lucide-react-native';
 import { Alert, Linking, View } from 'react-native';
 import DonationScreenImage from 'src/assets/images/DonationScreenImage.svg';
 import { Button } from '@/components/ui/button';

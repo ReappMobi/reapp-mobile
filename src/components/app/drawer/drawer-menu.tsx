@@ -1,9 +1,9 @@
 import type { DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript/src/types';
 import { Link, router } from 'expo-router';
 import {
-  AlertCircle,
   ChevronDown,
   ChevronUp,
+  CircleAlert,
   LogOut,
   MessageCircle,
   ShieldCheck,
@@ -50,7 +50,7 @@ const DrawerMenu = ({ navigation }: DrawerMenuProps) => {
         visibilityTime: 1500,
         description:
           'Não foi possível abrir o WhatsApp. Verifique se ele está instalado no dispositivo.',
-        icon: AlertCircle,
+        icon: CircleAlert,
       });
     });
   };

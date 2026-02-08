@@ -1,9 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import CircleCheck from 'lucide-react-native/dist/esm/icons/circle-check';
-import CircleX from 'lucide-react-native/dist/esm/icons/circle-x';
-import MailX from 'lucide-react-native/dist/esm/icons/mail-x';
+import { CircleCheck, CircleX, MailX } from 'lucide-react-native';
 
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';

@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { router, useLocalSearchParams } from 'expo-router';
-import CircleCheck from 'lucide-react-native/dist/esm/icons/circle-check';
-import CircleX from 'lucide-react-native/dist/esm/icons/circle-x';
+import { CircleCheck, CircleX } from 'lucide-react-native';
 import { useForm } from 'react-hook-form';
 import { ActivityIndicator, View } from 'react-native';
 import z from 'zod';

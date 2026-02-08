@@ -10,8 +10,7 @@ import {
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 import { router } from 'expo-router';
-import CameraIcon from 'lucide-react-native/dist/esm/icons/camera';
-import Images from 'lucide-react-native/dist/esm/icons/images';
+import { Camera as CameraIcon, Images } from 'lucide-react-native';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {

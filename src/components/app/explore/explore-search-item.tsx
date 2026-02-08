@@ -1,6 +1,5 @@
 import { Image } from 'expo-image';
-import Building2 from 'lucide-react-native/dist/esm/icons/building-2';
-import Sprout from 'lucide-react-native/dist/esm/icons/sprout';
+import { Building2, Sprout } from 'lucide-react-native';
 import { View } from 'react-native';
 
 import { Button } from '@/components/ui/button';

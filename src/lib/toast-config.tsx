@@ -1,5 +1,4 @@
-import { LucideIcon } from 'lucide-react-native';
-import Check from 'lucide-react-native/dist/esm/icons/check';
+import { Check, type LucideIcon } from 'lucide-react-native';
 import { View } from 'react-native';
 import type { ToastConfig, ToastShowParams } from 'react-native-toast-message';
 import Toast from 'react-native-toast-message';
