@@ -1,6 +1,6 @@
 import { View } from 'react-native';
-import LoadingBox from '@/components/LoadingBox';
-import ScreenContainer from '@/components/ScreenContainer';
+import { LoadingBox } from '@/components/LoadingBox';
+import { ScreenContainer } from '@/components/ScreenContainer';
 
 const ExplorerLoadingPlaceholder = () => {
   return (

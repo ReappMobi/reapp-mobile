@@ -1,41 +1,12 @@
-import { useRef } from 'react';
-import { Animated } from 'react-native';
+import { View } from 'react-native';
+import { cn } from '@/lib/utils';
 
-type LoadingBoxProps = {
-  customStyle: string;
-};
+interface LoadingBoxProps {
+  customStyle?: string;
+}
 
-const LoadingBox = ({ customStyle }: LoadingBoxProps) => {
-  const pulseValue = useRef(new Animated.Value(0.2)).current;
-
-  const pulseAnimation = Animated.loop(
-    Animated.sequence([
-      Animated.timing(pulseValue, {
-        toValue: 1,
-        duration: 500,
-        useNativeDriver: true,
-      }),
-      Animated.timing(pulseValue, {
-        toValue: 0.2,
-        duration: 1000,
-        useNativeDriver: true,
-      }),
-    ])
-  );
-
-  pulseAnimation.start();
-
+export function LoadingBox({ customStyle }: LoadingBoxProps) {
   return (
-    <Animated.View
-      className={customStyle}
-      style={{
-        opacity: pulseValue.interpolate({
-          inputRange: [0.2, 1],
-          outputRange: [0.5, 1],
-        }),
-      }}
-    />
+    <View className={cn('h-20 w-full animate-pulse rounded-lg bg-slate-200', customStyle)} />
   );
-};
-
-export default LoadingBox;
+}
