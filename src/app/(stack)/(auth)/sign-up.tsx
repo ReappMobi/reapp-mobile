@@ -24,6 +24,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Text } from '@/components/ui/text';
+import { ReappException } from '@/errors/ReappException';
 import { showToast } from '@/lib/toast-config';
 import {
   CreateAccountFormData,
@@ -33,7 +34,7 @@ import {
 import { useCreateAccount } from '@/services/account/account.service';
 import { CreateAccountData } from '@/services/account/account.types';
 import { AccountType } from '@/types/Account';
-import { getReappBackendError } from '@/utils/error';
+import { BackendErrorCodes } from '@/types/errors';
 
 export default function SignUpPage() {
   const { type } = useLocalSearchParams<{ type: 'donor' | 'institution' }>();
@@ -51,17 +52,18 @@ export default function SignUpPage() {
       router.dismissAll();
     },
     onError: (error) => {
-      const reappError = getReappBackendError(error);
-
       if (
-        reappError?.code === 'AVATAR_MUST_BE_IMAGE' ||
-        reappError?.code === 'EMAIL_ALREADY_REGISTERED' ||
-        reappError?.code === 'CNPJ_ALREADY_REGISTERED'
+        ReappException.isCode(error, BackendErrorCodes.AVATAR_MUST_BE_IMAGE) ||
+        ReappException.isCode(
+          error,
+          BackendErrorCodes.EMAIL_ALREADY_REGISTERED
+        ) ||
+        ReappException.isCode(error, BackendErrorCodes.CNPJ_ALREADY_REGISTERED)
       ) {
         showToast({
           type: 'error',
           header: 'Erro ou criar conta',
-          description: reappError.message,
+          description: error.message,
           icon: CircleX,
         });
       } else {

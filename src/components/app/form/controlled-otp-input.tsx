@@ -35,7 +35,7 @@ export const ControlledOTPInput = forwardRef<
             value={value}
             onChange={onChange}
             onBlur={onBlur}
-            error={error ? (error.message?.toString() || true) : false}
+            error={error ? error.message?.toString() || true : false}
             {...otpProps}
           />
         )}
