@@ -60,6 +60,7 @@ function PostList({ institutionId }) {
         updatedAt={item.updatedAt}
         isSavedInitial={isSaved}
         isLikedInitial={isLiked}
+        institutionAccountId={item.institution?.account?.id}
       />
     ) : (
       <View className="flex-1 items-center justify-center p-4">
