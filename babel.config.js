@@ -16,7 +16,10 @@ module.exports = function (api) {
                 return 'lucide-react-native';
               }
               return `lucide-react-native/dist/esm/icons/${name
-                .replace(/([A-Z0-9])/g, (matches) => `-${matches[0].toLowerCase()}`)
+                .replace(
+                  /([A-Z0-9])/g,
+                  (matches) => `-${matches[0].toLowerCase()}`
+                )
                 .replace(/^-/, '')
                 .replace(/-icon$/, '')}`;
             },
