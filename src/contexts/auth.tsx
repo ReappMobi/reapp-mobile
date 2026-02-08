@@ -1,16 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
 import { createContext, useEffect, useState } from 'react';
-import { ActivityIndicator } from 'react-native';
-import { ScreenContainer } from 'react-native-screens';
 import type { AccountType } from 'src/types';
-import { THEME } from '@/lib/theme';
 
 interface AuthContextData {
   signed: boolean;
   user: AccountType | null;
   isDonor: boolean | null;
   token: string | null;
+  loading: boolean;
   signOut(): Promise<void>;
   saveUserAndToken(user: AccountType, token: string): Promise<void>;
 }
@@ -23,6 +21,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState<AccountType | null>(null);
   const [isDonor, setIsDonor] = useState<boolean | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadStorageData() {
@@ -43,9 +42,7 @@ export function AuthProvider({ children }) {
           }
 
           setUser(JSON.parse(storagedUser));
-
           setIsDonor(storagedIsDonor ? JSON.parse(storagedIsDonor) : null);
-
           setToken(storagedToken);
         }
       } catch {
@@ -54,6 +51,8 @@ export function AuthProvider({ children }) {
           '@RNAuth:isDonor',
           '@RNAuth:token',
         ]);
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -93,6 +92,7 @@ export function AuthProvider({ children }) {
         user,
         isDonor,
         token,
+        loading,
         signOut,
         saveUserAndToken,
       }}
