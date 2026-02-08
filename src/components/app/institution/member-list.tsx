@@ -1,22 +1,19 @@
-import { Link, router } from 'expo-router';
+import { router } from 'expo-router';
 import { ChevronRight } from 'lucide-react-native';
 import {
   ActivityIndicator,
   FlatList,
-  ListRenderItem,
   RefreshControl,
   TouchableOpacity,
-  View,
 } from 'react-native';
 
 import { ScreenContainer } from '@/components/ScreenContainer';
-import { Button } from '@/components/ui/button';
-import { Icon } from '@/components/ui/icon';
 import { Separator } from '@/components/ui/separator';
 import { Text } from '@/components/ui/text';
 import { THEME } from '@/lib/theme';
 import { useMembersByInstitutionId } from '@/services/members/members.service';
-import { IMember, MemberType } from '@/services/members/members.types';
+import { MemberType } from '@/services/members/members.types';
+import { ListHeeader } from './list-header';
 import { MemberCard } from './member-card';
 
 interface MemberListProps {
@@ -40,30 +37,6 @@ export function MemberList({ institutionId, type, isMe }: MemberListProps) {
     error,
   } = useMembersByInstitutionId(institutionId, type);
 
-  const renderHeader = () => {
-    if (!isMe) {
-      return null;
-    }
-    return (
-      <View className="mb-3 items-center justify-center">
-        <Link href={{ pathname: 'member/create', params: { type } }} asChild>
-          <Button
-            variant="outline"
-            size="lg"
-            className="w-full flex-row justify-between"
-          >
-            <Text>Cadastrar {MEMBER_LABELS[type]}</Text>
-            <Icon
-              as={ChevronRight}
-              className="h-6 w-6"
-              color={THEME.light.foreground}
-            />
-          </Button>
-        </Link>
-      </View>
-    );
-  };
-
   if (loading) {
     return (
       <ScreenContainer className="items-center justify-center">
@@ -85,18 +58,6 @@ export function MemberList({ institutionId, type, isMe }: MemberListProps) {
     );
   }
 
-  const renderItem: ListRenderItem<IMember> = ({ item }) => {
-    return (
-      <MemberCard
-        key={item.id}
-        id={item.id}
-        name={item.name}
-        mediaUrl={item.media?.remoteUrl}
-        mediaBlurhash={item.media?.blurhash}
-      />
-    );
-  };
-
   return (
     <FlatList
       className="flex-1 bg-white"
@@ -104,8 +65,28 @@ export function MemberList({ institutionId, type, isMe }: MemberListProps) {
       maxToRenderPerBatch={10}
       data={members}
       keyExtractor={(item) => item.id.toString()}
-      renderItem={renderItem}
-      ListHeaderComponent={renderHeader}
+      renderItem={({ item }) => (
+        <MemberCard
+          key={item.id}
+          id={item.id}
+          name={item.name}
+          mediaUrl={item.media?.remoteUrl}
+          mediaBlurhash={item.media?.blurhash}
+        />
+      )}
+      ListHeaderComponent={() => (
+        <ListHeeader
+          icon={ChevronRight}
+          title={`Adicionar ${MEMBER_LABELS[type]}`}
+          isMe={isMe}
+          onPressActionButton={() =>
+            router.push({
+              pathname: 'member/create',
+              params: { type },
+            })
+          }
+        />
+      )}
       refreshControl={
         <RefreshControl
           refreshing={refreshing}

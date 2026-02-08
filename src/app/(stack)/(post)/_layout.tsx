@@ -1,9 +1,11 @@
-import { Ionicons } from '@expo/vector-icons';
 import { router, Stack } from 'expo-router';
+import { ChevronLeft, CircleEllipsis, X } from 'lucide-react-native';
 import { Pressable } from 'react-native';
+
+import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 
-const Layout = () => {
+export default function Layout() {
   return (
     <Stack>
       <Stack.Screen
@@ -11,22 +13,20 @@ const Layout = () => {
         options={{
           headerShown: true,
           headerTitle: () => (
-            <Text className="font-bold text-lg text-black">Nova postagem</Text>
+            <Text className="font-bold text-lg text-primary">
+              Nova postagem
+            </Text>
           ),
           headerTitleAlign: 'center',
           headerShadowVisible: false,
           headerLeft: () => (
             <Pressable onPress={() => router.dismissAll()}>
-              <Ionicons name="close" size={28} color="black" />
+              <Icon as={X} size={28} className="text-primary" />
             </Pressable>
           ),
           headerRight: () => (
             <Pressable>
-              <Ionicons
-                name="ellipsis-horizontal-circle-outline"
-                size={24}
-                color="#ccc"
-              />
+              <Icon as={CircleEllipsis} size={24} className="text-gray-300" />
             </Pressable>
           ),
         }}
@@ -36,19 +36,17 @@ const Layout = () => {
         options={{
           headerShown: true,
           headerTitle: () => (
-            <Text className="font-bold text-lg text-black">Comentários</Text>
+            <Text className="font-bold text-lg text-primary">Comentários</Text>
           ),
           headerTitleAlign: 'center',
           headerShadowVisible: false,
           headerLeft: () => (
             <Pressable onPress={() => router.dismissAll()}>
-              <Ionicons name="chevron-back" size={28} color="black" />
+              <Icon as={ChevronLeft} size={28} className="text-primary" />
             </Pressable>
           ),
         }}
       />
     </Stack>
   );
-};
-
-export default Layout;
+}

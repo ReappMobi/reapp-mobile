@@ -17,7 +17,7 @@ export default function Layout() {
               headerStyle: {
                 backgroundColor: THEME['light'].background,
               },
-              headerTintColor: THEME['light'].foreground,
+              headerTintColor: THEME['light'].primary,
             }}
           />
         </Stack>

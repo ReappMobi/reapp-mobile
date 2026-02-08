@@ -24,7 +24,6 @@ interface CardPostProps {
   isSavedInitial?: boolean;
   mediaAspect?: number;
   onPressInstitutionProfile?: () => void;
-  onPressDelete?: () => void;
 }
 
 export function CardPost({
@@ -123,7 +122,7 @@ export function CardPost({
                   as={Heart}
                   size={23}
                   className={cn(
-                    'stroke-slate-900',
+                    'stroke-foreground',
                     isLiked && 'stroke-rose-500 fill-rose-500'
                   )}
                 />
@@ -134,7 +133,7 @@ export function CardPost({
                   as={Bookmark}
                   size={22}
                   className={cn(
-                    ' stroke-slate-900 mt-0.5',
+                    'stroke-foreground mt-0.5',
                     isSaved && ' fill-slate-900'
                   )}
                 />
@@ -144,7 +143,7 @@ export function CardPost({
                 <Icon
                   as={MessageCircle}
                   size={22}
-                  className="stroke-slate-900 mt-0.5"
+                  className="stroke-foreground mt-0.5"
                 />
               </Pressable>
             </View>

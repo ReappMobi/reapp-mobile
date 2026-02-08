@@ -15,7 +15,7 @@ function Input({
   return (
     <TextInput
       className={cn(
-        'dark:bg-input/30 border-input bg-background text-foreground flex h-12 w-full min-w-0 flex-row items-center rounded-md border px-3 py-1 text-base leading-5 shadow-sm shadow-black/5 sm:h-9',
+        'border-input bg-background text-foreground flex h-12 w-full min-w-0 flex-row items-center rounded-md border px-3 py-1 text-base leading-5 shadow-sm shadow-black/5 sm:h-9',
         props.editable === false && 'opacity-50',
         'placeholder:text-muted-foreground/50',
         className
@@ -34,7 +34,7 @@ function MaskedInput({
   return (
     <TextInputMask
       className={cn(
-        'dark:bg-input/30 border-input bg-background text-foreground flex h-12 w-full min-w-0 flex-row items-center rounded-md border px-3 py-1 text-base leading-5 shadow-sm shadow-black/5 sm:h-9',
+        'border-input bg-background text-foreground flex h-12 w-full min-w-0 flex-row items-center rounded-md border px-3 py-1 text-base leading-5 shadow-sm shadow-black/5 sm:h-9',
         props.editable === false && 'opacity-50',
         'placeholder:text-muted-foreground/50',
         className
@@ -72,7 +72,7 @@ const SearchInput = ({
     <View className="flex-row">
       <View
         className={cn(
-          'dark:bg-input/30 border-input bg-background text-foreground flex h-12 w-full min-w-0 flex-row items-center rounded-md border text-base leading-5 shadow-sm shadow-black/5 sm:h-9',
+          'border-input bg-background text-foreground flex h-12 w-full min-w-0 flex-row items-center rounded-md border text-base leading-5 shadow-sm shadow-black/5 sm:h-9',
           editable === false && 'opacity-50',
           'placeholder:text-muted-foreground/50',
           focused && 'border-primary',
@@ -81,7 +81,7 @@ const SearchInput = ({
       >
         <Input
           ref={textInputRef}
-          className="font-regular flex-1 text-base text-foreground bg-transparent shadow-transparent border-0 dark:bg-transparent"
+          className="font-regular flex-1 text-base text-foreground bg-transparent shadow-transparent border-0"
           placeholder="O que você está procurando?"
           onChangeText={onChangeText}
           onFocus={(e) => {

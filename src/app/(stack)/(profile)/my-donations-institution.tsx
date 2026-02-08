@@ -1,4 +1,4 @@
-import { MaterialIcons } from '@expo/vector-icons';
+import { CircleDollarSign } from 'lucide-react-native';
 import { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -17,6 +17,7 @@ import { getInstitutionDonations } from 'src/services/donations';
 import { Donation } from 'src/types/IDonation';
 import { timeAgo } from 'src/utils/time-ago';
 import { DonationInformationItem } from '@/components/app/donations/donation-information-item';
+import { Icon } from '@/components/ui/icon';
 import { THEME } from '@/lib/theme';
 
 type Period = 'week' | 'month' | '6months' | 'year' | 'all';
@@ -31,7 +32,7 @@ const PERIODS = [
 
 const renderInstitutionDonations = (donation: Donation) => {
   const origin = donation.donor.account.name;
-  const media = donation.donor.account.media.remoteUrl;
+  const media = donation.donor.account.media?.remoteUrl;
   const formatedAmount = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
@@ -117,11 +118,7 @@ const MyDonationsInstitution = () => {
             <Text className="font-medium text-lg text-gray-700">
               Total arrecadado
             </Text>
-            <MaterialIcons
-              name="attach-money"
-              size={24}
-              color={THEME.light.primary}
-            />
+            <Icon as={CircleDollarSign} size={24} className="text-primary" />
           </View>
           <Text className="font-bold text-3xl text-gray-900">
             {new Intl.NumberFormat('pt-BR', {
