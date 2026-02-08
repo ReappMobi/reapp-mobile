@@ -31,7 +31,7 @@ function HeaderStatisticsProfile({
   return (
     <View className="flex w-full flex-col justify-start">
       <Link
-        href={isDonor ? '/edit-donor-profile' : '/edit-institution-profile'}
+        href="/edit-profile"
         asChild
         onPress={() => navigation.closeDrawer()}
       >

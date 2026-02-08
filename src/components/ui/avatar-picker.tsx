@@ -5,7 +5,7 @@ import { Image, Pressable, View } from 'react-native';
 
 import DefaultAvatar from '@/assets/images/avatar.png';
 import { cn } from '@/lib/utils';
-import { RequestMedia } from '@/services/account';
+import type { RequestMedia } from '@/services/account/account.types';
 
 export type RequestMediaExtended = RequestMedia & {
   uri: string;
@@ -14,11 +14,13 @@ export type RequestMediaExtended = RequestMedia & {
 };
 
 interface AvatarPickerProps {
+  initialImage?: string;
   onImageSelected: (image: RequestMediaExtended | null) => void;
   className?: string;
 }
 
 export function AvatarPicker({
+  initialImage,
   onImageSelected,
   className,
 }: AvatarPickerProps) {
@@ -55,13 +57,19 @@ export function AvatarPicker({
     }
   };
 
+  const imageSource = media?.uri
+    ? { uri: media.uri }
+    : initialImage
+      ? { uri: initialImage }
+      : DefaultAvatar;
+
   return (
     <Pressable
       className={cn('relative h-20 w-20 rounded-full bg-secondary', className)}
       onPress={pickImage}
     >
       <Image
-        source={media?.uri ? { uri: media.uri } : DefaultAvatar}
+        source={imageSource}
         className="h-full w-full rounded-full border-2 border-border"
         resizeMode="cover"
       />

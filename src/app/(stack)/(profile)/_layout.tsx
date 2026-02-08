@@ -10,15 +10,7 @@ const Layout = () => (
     }}
   >
     <Stack.Screen
-      name="edit-donor-profile"
-      options={{
-        headerTitle: 'Editar perfil',
-        ...headerDefault,
-        headerTitleStyle: headerTitleStyleSmall,
-      }}
-    />
-    <Stack.Screen
-      name="edit-institution-profile"
+      name="edit-profile"
       options={{
         headerTitle: 'Editar perfil',
         ...headerDefault,
