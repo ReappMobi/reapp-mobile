@@ -1,6 +1,5 @@
 import { Stack, useNavigation } from 'expo-router';
 import React from 'react';
-import colors from 'src/constants/colors';
 import { THEME } from '@/lib/theme';
 
 export default function AuxLayout() {

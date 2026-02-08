@@ -1,127 +1,13 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { useRoute } from '@react-navigation/native';
-import { router } from 'expo-router';
-import { memo } from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  ListRenderItem,
-  RefreshControl,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import VolunteerCard from 'src/components/VolunteerCard';
-import colors from 'src/constants/colors';
-import { useVolunteersByInstitution } from 'src/hooks/useVolunteersByInstitution';
-import { IVolunteer } from 'src/types/IVolunteer';
-import { Button } from '@/components/ui/button';
-import { Text } from '@/components/ui/text';
+import { useLocalSearchParams } from 'expo-router';
+import { ScreenContainer } from '@/components';
+import { MemberList } from '@/components/app/institution/member-list';
 
-type VolunteerItemProps = {
-  item: IVolunteer;
-};
-
-const renderHeader = () => (
-  <View className="mb-3 items-center justify-center">
-    <Button
-      variant="outline"
-      className="w-64"
-      onPress={() => {
-        router.push({
-          pathname: 'volunteer-create',
-        });
-      }}
-    >
-      <Text>Cadastrar Voluntário</Text>
-      <Ionicons name="chevron-forward" size={20} color={colors.text_neutral} />
-    </Button>
-  </View>
-);
-
-const VolunteerItem = memo<VolunteerItemProps>(({ item }) => {
-  return (
-    <VolunteerCard
-      name={item.name}
-      blurhash={item.media?.blurhash}
-      image={item.media?.remoteUrl}
-    />
-  );
-});
-
-function VolunteerList({ institutionId }: { institutionId: number }) {
-  const { volunteers, token, error, loading, refreshing, onRefresh } =
-    useVolunteersByInstitution(institutionId);
-
-  if (loading && !token) {
-    return (
-      <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#000" />
-      </View>
-    );
-  }
-
-  if (!loading && error) {
-    return (
-      <View className="flex-1 items-center justify-center p-4">
-        <Text className="mb-2 text-lg font-bold text-red-500">
-          Ocorreu um erro!
-        </Text>
-        <Text>{error.message}</Text>
-        <TouchableOpacity onPress={onRefresh}>
-          <Text className="mt-4 text-blue-500">Tentar novamente</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
-  const renderItem: ListRenderItem<IVolunteer> = ({ item }) =>
-    volunteers.length > 0 ? (
-      <VolunteerItem item={item} />
-    ) : (
-      <View className="flex-1 items-center justify-center p-4">
-        <Text className="font-medium text-base">
-          Nenhum voluntário encontrado.
-        </Text>
-      </View>
-    );
+export default function Volunteers() {
+  const { id } = useLocalSearchParams<{ id: string }>();
 
   return (
-    <FlatList
-      data={volunteers}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id.toString()}
-      ListHeaderComponent={renderHeader}
-      ItemSeparatorComponent={() => <View className="h-2" />}
-      // Pull-to-refresh
-      refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-          colors={['#ff0000']} // Android
-          tintColor="#0000ff" // iOS
-          title="Recarregando..." // iOS
-        />
-      }
-      ListEmptyComponent={
-        <View className="flex-1 items-center justify-center p-4">
-          <Text className="font-medium text-base">
-            Nenhum voluntário encontrado.
-          </Text>
-        </View>
-      }
-    />
+    <ScreenContainer className="p-4">
+      <MemberList institutionId={Number(id)} type="VOLUNTEER" isMe={true} />
+    </ScreenContainer>
   );
 }
-
-function Volunteers() {
-  const route = useRoute();
-  const { id } = route.params as { id: number };
-
-  return (
-    <View className="flex-1 py-4 bg-white">
-      <VolunteerList institutionId={id} />
-    </View>
-  );
-}
-
-export default Volunteers;

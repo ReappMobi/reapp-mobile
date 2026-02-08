@@ -2,8 +2,8 @@ import { debounce } from 'es-toolkit/function';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native';
-import { Input } from 'src/components';
-import { useProject } from 'src/hooks/useProject';
+import { Input } from '@/components/ui/input';
+import { useProject } from '@/hooks/useProject';
 
 const Page = () => {
   const [searchQuery, setSearchQuery] = useState('');

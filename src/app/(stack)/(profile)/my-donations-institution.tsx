@@ -11,12 +11,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { DonationInformationItem } from 'src/components';
 import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { getInstitutionDonations } from 'src/services/donations';
 import { Donation } from 'src/types/IDonation';
 import { timeAgo } from 'src/utils/time-ago';
+import { DonationInformationItem } from '@/components/app/donations/donation-information-item';
+import { THEME } from '@/lib/theme';
 
 type Period = 'week' | 'month' | '6months' | 'year' | 'all';
 
@@ -119,7 +120,7 @@ const MyDonationsInstitution = () => {
             <MaterialIcons
               name="attach-money"
               size={24}
-              color={colors.primary}
+              color={THEME.light.primary}
             />
           </View>
           <Text className="font-bold text-3xl text-gray-900">
