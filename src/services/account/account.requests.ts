@@ -12,12 +12,26 @@ import {
   ResetPasswordResponse,
   SendRecoveryEmailData,
   SendRecoveryEmailResponse,
+  UpdateAccountData,
+  UpdateAccountResponse,
 } from './account.types';
 
 export const createAccount = async (payload: CreateAccountData) => {
   const formData = buildFormData(payload as unknown as Record<string, unknown>);
   const { data } = await api.postForm<CreateAccountResponse>(
     '/account',
+    formData
+  );
+  return data;
+};
+
+export const updateAccount = async ({
+  id,
+  ...payload
+}: UpdateAccountData & { id: number }) => {
+  const formData = buildFormData(payload as unknown as Record<string, unknown>);
+  const { data } = await api.putForm<UpdateAccountResponse>(
+    `/account/${id}`,
     formData
   );
   return data;

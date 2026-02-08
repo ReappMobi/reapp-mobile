@@ -13,6 +13,7 @@ import {
   resetPassword,
   sendRecoveryEmail,
   unfollowAccount,
+  updateAccount,
 } from './account.requests';
 import type {
   CreateAccountData,
@@ -25,6 +26,8 @@ import type {
   ResetPasswordResponse,
   SendRecoveryEmailData,
   SendRecoveryEmailResponse,
+  UpdateAccountData,
+  UpdateAccountResponse,
 } from './account.types';
 
 export const GET_INSTITUIONS_KEY = 'get-institutions';
@@ -38,6 +41,19 @@ export function useCreateAccount(
 ) {
   return useMutation({
     mutationFn: createAccount,
+    ...options,
+  });
+}
+
+export function useUpdateAccount(
+  options?: UseMutationOptions<
+    UpdateAccountResponse,
+    ReappException | Error,
+    UpdateAccountData & { id: number }
+  >
+) {
+  return useMutation({
+    mutationFn: updateAccount,
     ...options,
   });
 }
