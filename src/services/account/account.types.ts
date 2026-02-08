@@ -5,7 +5,6 @@ import { MediaAttachment } from '@/types/MediaAttatchment';
 
 export interface DeleteAccountData {
   accountId: number;
-  token: string;
 }
 
 export interface DeleteAccountResponse {

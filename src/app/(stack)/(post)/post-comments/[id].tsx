@@ -6,7 +6,6 @@ import CircleCheck from 'lucide-react-native/dist/esm/icons/circle-check';
 import CircleX from 'lucide-react-native/dist/esm/icons/circle-x';
 import { useEffect, useRef, useState } from 'react';
 import {
-  ActionSheetIOS,
   ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
@@ -34,12 +33,14 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { THEME } from '@/lib/theme';
 import { showToast } from '@/lib/toast-config';
 
 export default function PostCommentsPage() {
   const { token } = useAuth();
+  const [optionsDialogOpen, setOptionsDialogOpen] = useState(false);
   const [reportDialogOpen, setReportDialogOpen] = useState(false);
   const [reportReason, setReportReason] = useState('');
   const [reportCommentId, setReportCommentId] = useState<number | null>(null);
@@ -64,52 +65,22 @@ export default function PostCommentsPage() {
   });
 
   const handleReportComment = (commentId: number) => {
-    const openReportDialog = () => {
-      setReportCommentId(commentId);
-      setReportReason('');
-      setReportDialogOpen(true);
-    };
-
-    if (Platform.OS === 'ios') {
-      ActionSheetIOS.showActionSheetWithOptions(
-        {
-          options: ['Cancelar', 'Denunciar comentário'],
-          destructiveButtonIndex: 1,
-          cancelButtonIndex: 0,
-        },
-        (buttonIndex) => {
-          if (buttonIndex === 1) {
-            openReportDialog();
-          }
-        }
-      );
-    } else {
-      Alert.alert('Opções', undefined, [
-        { text: 'Cancelar', style: 'cancel' },
-        { text: 'Denunciar comentário', onPress: openReportDialog },
-      ]);
-    }
+    setReportCommentId(commentId);
+    setOptionsDialogOpen(true);
   };
 
   const handleReportConfirm = () => {
-    if (!token) { return; }
     if (!reportReason.trim()) { return; }
     if (!reportCommentId) { return; }
     reportMutate({
-      data: {
-        targetType: 'COMMENT',
-        targetId: reportCommentId,
-        reason: reportReason,
-      },
-      token,
+      targetType: 'COMMENT',
+      targetId: reportCommentId,
+      reason: reportReason,
     });
   };
 
   const renderItem = ({ item }) => (
-    <View
-      className="flex-row gap-3 px-4 py-3 border-b border-gray-50"
-      onStartShouldSetResponder={() => true}
-    >
+    <View className="flex-row gap-3 px-4 py-3 border-b border-gray-50">
       <Image
         source={{ uri: item.account.media?.remoteUrl }}
         placeholder={{ blurhash: item.account.media?.blurhash }}
@@ -290,6 +261,28 @@ export default function PostCommentsPage() {
         </View>
       </KeyboardAvoidingView>
 
+      <AlertDialog open={optionsDialogOpen} onOpenChange={setOptionsDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Opções</AlertDialogTitle>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>
+              <Text>Cancelar</Text>
+            </AlertDialogCancel>
+            <AlertDialogAction
+              variant="destructive"
+              onPress={() => {
+                setReportReason('');
+                setReportDialogOpen(true);
+              }}
+            >
+              <Text>Denunciar comentário</Text>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <AlertDialog open={reportDialogOpen} onOpenChange={setReportDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -298,8 +291,7 @@ export default function PostCommentsPage() {
               Descreva o motivo da denúncia:
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <TextInput
-            className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground"
+          <Input
             placeholder="Motivo da denúncia"
             placeholderTextColor="#9ca3af"
             value={reportReason}

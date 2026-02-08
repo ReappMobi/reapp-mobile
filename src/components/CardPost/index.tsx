@@ -8,10 +8,9 @@ import EllipsisVertical from 'lucide-react-native/dist/esm/icons/ellipsis-vertic
 import Heart from 'lucide-react-native/dist/esm/icons/heart';
 import MessageCircle from 'lucide-react-native/dist/esm/icons/message-circle';
 import { useCallback, useState } from 'react';
-import { ActionSheetIOS, Platform, Pressable, TextInput, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { useLike } from 'src/hooks/useLike';
 import { useSave } from 'src/hooks/useSave';
-import { useAuth } from 'src/hooks/useAuth';
 import { useBlockUser } from '@/services/block/block.service';
 import { useReportContent } from '@/services/report/report.service';
 import {
@@ -25,6 +24,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { showToast } from '@/lib/toast-config';
 import { cn } from '@/lib/utils';
@@ -66,12 +66,12 @@ function CardPost({
   onBlockUser,
 }: CardPostProps) {
   const [expanded, setExpanded] = useState(false);
+  const [optionsDialogOpen, setOptionsDialogOpen] = useState(false);
   const [reportDialogOpen, setReportDialogOpen] = useState(false);
   const [reportReason, setReportReason] = useState('');
   const [blockDialogOpen, setBlockDialogOpen] = useState(false);
   const { isLiked, toggleLike } = useLike(postId, isLikedInitial);
   const { isSaved, toggleSave } = useSave(postId, isSavedInitial);
-  const { token } = useAuth();
 
   const { mutate: reportMutate } = useReportContent({
     onSuccess: () => {
@@ -129,15 +129,11 @@ function CardPost({
   };
 
   const handleReportConfirm = () => {
-    if (!token) { return; }
     if (!reportReason.trim()) { return; }
     reportMutate({
-      data: {
-        targetType: 'POST',
-        targetId: Number(postId),
-        reason: reportReason,
-      },
-      token,
+      targetType: 'POST',
+      targetId: Number(postId),
+      reason: reportReason,
     });
   };
 
@@ -147,48 +143,12 @@ function CardPost({
   };
 
   const handleBlockConfirm = () => {
-    if (!token) { return; }
     if (!institutionAccountId) { return; }
-    blockMutate({ userId: institutionAccountId, token });
+    blockMutate({ userId: institutionAccountId });
   };
 
   const handleOptionsPress = () => {
-    const options: { label: string; action: () => void; destructive?: boolean }[] = [
-      { label: 'Denunciar publicação', action: handleReport },
-    ];
-
-    if (institutionAccountId) {
-      options.push({
-        label: 'Bloquear usuário',
-        action: handleBlock,
-        destructive: true,
-      });
-    }
-
-    if (Platform.OS === 'ios') {
-      ActionSheetIOS.showActionSheetWithOptions(
-        {
-          options: ['Cancelar', ...options.map((o) => o.label)],
-          destructiveButtonIndex: institutionAccountId ? 2 : undefined,
-          cancelButtonIndex: 0,
-        },
-        (buttonIndex) => {
-          if (buttonIndex > 0) {
-            options[buttonIndex - 1].action();
-          }
-        }
-      );
-    } else {
-      const { Alert } = require('react-native');
-      Alert.alert('Opções', undefined, [
-        { text: 'Cancelar', style: 'cancel' },
-        ...options.map((o) => ({
-          text: o.label,
-          onPress: o.action,
-          style: o.destructive ? ('destructive' as const) : ('default' as const),
-        })),
-      ]);
-    }
+    setOptionsDialogOpen(true);
   };
 
   return (
@@ -294,6 +254,27 @@ function CardPost({
         </View>
       </View>
 
+      <AlertDialog open={optionsDialogOpen} onOpenChange={setOptionsDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Opções</AlertDialogTitle>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex-col gap-2">
+            <AlertDialogAction onPress={handleReport}>
+              <Text>Denunciar publicação</Text>
+            </AlertDialogAction>
+            {institutionAccountId && (
+              <AlertDialogAction variant="destructive" onPress={handleBlock}>
+                <Text>Bloquear usuário</Text>
+              </AlertDialogAction>
+            )}
+            <AlertDialogCancel>
+              <Text>Cancelar</Text>
+            </AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <AlertDialog open={reportDialogOpen} onOpenChange={setReportDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -302,8 +283,7 @@ function CardPost({
               Descreva o motivo da denúncia:
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <TextInput
-            className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground"
+          <Input
             placeholder="Motivo da denúncia"
             placeholderTextColor="#9ca3af"
             value={reportReason}

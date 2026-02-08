@@ -3,7 +3,7 @@ import CircleCheck from 'lucide-react-native/dist/esm/icons/circle-check';
 import CircleX from 'lucide-react-native/dist/esm/icons/circle-x';
 import Trash2 from 'lucide-react-native/dist/esm/icons/trash-2';
 import { useState } from 'react';
-import { TextInput, View } from 'react-native';
+import { View } from 'react-native';
 import { useAuth } from 'src/hooks/useAuth';
 import { ScreenContainer } from '@/components';
 import {
@@ -18,12 +18,13 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { showToast } from '@/lib/toast-config';
 import { useDeleteAccount } from '@/services/account/account.service';
 
 export default function SettingsScreen() {
-  const { signOut, user, token } = useAuth();
+  const { signOut, user } = useAuth();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [confirmText, setConfirmText] = useState('');
 
@@ -58,8 +59,7 @@ export default function SettingsScreen() {
       });
       return;
     }
-    if (!token) { return; }
-    deleteAccountMutate({ accountId: user.id, token });
+    deleteAccountMutate({ accountId: user.id });
   };
 
   return (
@@ -88,8 +88,7 @@ export default function SettingsScreen() {
               desfeita. Digite EXCLUIR para confirmar.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <TextInput
-            className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground"
+          <Input
             placeholder="Digite EXCLUIR"
             placeholderTextColor="#9ca3af"
             value={confirmText}
