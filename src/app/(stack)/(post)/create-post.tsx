@@ -1,4 +1,3 @@
-import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { useQueryClient } from '@tanstack/react-query';
@@ -10,7 +9,13 @@ import {
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 import { router } from 'expo-router';
-import { Camera as CameraIcon, Images } from 'lucide-react-native';
+import {
+  Camera as CameraIcon,
+  CircleAlert,
+  CircleCheck,
+  Images,
+  X,
+} from 'lucide-react-native';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
@@ -24,14 +29,18 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAuth } from 'src/hooks/useAuth';
-import { postPublication } from 'src/services/app-core';
-import { POSTS_PREFIX_KEY } from 'src/services/posts/post.service';
 import { z } from 'zod';
+
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { LoadingOverlay } from '@/components/ui/loading-overlay';
 import { Text } from '@/components/ui/text';
+import { useAuth } from '@/hooks/useAuth';
+import { showToast } from '@/lib/toast-config';
+import {
+  POSTS_PREFIX_KEY,
+  useCreatePost,
+} from '@/services/posts/post.service';
 
 const postCreateFormSchema = z.object({
   description: z
@@ -39,12 +48,11 @@ const postCreateFormSchema = z.object({
     .max(200, 'O conteúdo da postagem deve ter no máximo 200 caracteres.'),
 });
 
-type postCreateFormData = z.infer<typeof postCreateFormSchema>;
+type PostCreateFormData = z.infer<typeof postCreateFormSchema>;
 
 export default function PostCreate() {
-  const { token, ...auth } = useAuth();
+  const { ...auth } = useAuth();
   const [media, setMedia] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
   const mediaTypes: MediaType[] = ['images'];
   const queryClient = useQueryClient();
   const headerHeight = useHeaderHeight();
@@ -60,32 +68,46 @@ export default function PostCreate() {
     watch,
     handleSubmit,
     formState: { errors },
-  } = useForm<postCreateFormData>({
+  } = useForm<PostCreateFormData>({
     resolver: zodResolver(postCreateFormSchema),
     mode: 'onChange',
+  });
+
+  const { mutate, isPending } = useCreatePost({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [POSTS_PREFIX_KEY] });
+      queryClient.invalidateQueries({
+        queryKey: [POSTS_PREFIX_KEY, 'institution', auth.user.id],
+      });
+
+      showToast({
+        type: 'success',
+        header: 'Postagem realizada',
+        description: 'Sua postagem foi publicada com sucesso.',
+        icon: CircleCheck,
+      });
+
+      router.replace('/');
+    },
+    onError: (error) => {
+      showToast({
+        type: 'error',
+        header: 'Erro na postagem',
+        description:
+          error.message || 'Não foi possível publicar sua postagem.',
+        icon: CircleAlert,
+      });
+    },
   });
 
   const descriptionValue = watch('description');
   const isPostEmpty = !descriptionValue && !media;
 
-  const onSubmit = async (data: postCreateFormData) => {
-    setLoading(true);
-
-    const dataReq = {
+  const onSubmit = (data: PostCreateFormData) => {
+    mutate({
       content: data.description,
       media,
-      token,
-    };
-
-    const res = await postPublication(dataReq);
-
-    queryClient.invalidateQueries({ queryKey: [POSTS_PREFIX_KEY] });
-    setLoading(false);
-    if (res.error) {
-      Alert.alert('Erro no cadastro da postagem', res.error);
-    } else {
-      router.replace('/');
-    }
+    });
   };
 
   const requestGalleryPermission = async () => {
@@ -130,7 +152,7 @@ export default function PostCreate() {
 
   return (
     <>
-      <LoadingOverlay visible={loading} />
+      <LoadingOverlay visible={isPending} />
       <SafeAreaView className="flex-1 bg-white">
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -186,7 +208,7 @@ export default function PostCreate() {
                       onPress={() => setMedia(null)}
                       className="absolute top-2 right-2 bg-black/50 rounded-full p-1"
                     >
-                      <Ionicons name="close" size={16} color="white" />
+                      <Icon as={X} size={16} className="text-white" />
                     </Pressable>
                   </View>
                 )}
@@ -194,7 +216,7 @@ export default function PostCreate() {
             </View>
           </ScrollView>
 
-          <View className="flex-row items-center justify-between px-4 py-3 bg-white">
+          <View className="flex-row items-center justify-between px-4 py-3 bg-white border-t border-gray-100">
             <View className="flex-row gap-4 mt-2">
               <Pressable onPress={pickImage}>
                 <Icon as={Images} size={22} className="stroke-text-neutral" />
@@ -210,7 +232,7 @@ export default function PostCreate() {
 
             <Button
               onPress={handleSubmit(onSubmit)}
-              disabled={isPostEmpty}
+              disabled={isPostEmpty || isPending}
               className="rounded-full px-5 py-2"
             >
               <Text className="font-semibold">Postar</Text>

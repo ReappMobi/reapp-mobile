@@ -6,7 +6,7 @@ import { ActivityIndicator, Alert, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
 import { ControlledInput, Form } from '@/components/app/form';
-import ScreenContainer from '@/components/ScreenContainer';
+import { ScreenContainer } from '@/components/ScreenContainer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Text } from '@/components/ui/text';

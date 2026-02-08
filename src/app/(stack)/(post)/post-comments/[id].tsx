@@ -20,6 +20,7 @@ import {
   useGetPostComments,
 } from 'src/services/comments/comments.service';
 import { timeAgo } from 'src/utils/time-ago';
+import { ScreenContainer } from '@/components';
 import { Button } from '@/components/ui/button';
 import colors from '@/constants/colors';
 
@@ -126,7 +127,7 @@ const Page = () => {
   };
 
   return (
-    <View className="flex-1 bg-white">
+    <ScreenContainer>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={
@@ -198,7 +199,7 @@ const Page = () => {
           </View>
         </View>
       </KeyboardAvoidingView>
-    </View>
+    </ScreenContainer>
   );
 };
 

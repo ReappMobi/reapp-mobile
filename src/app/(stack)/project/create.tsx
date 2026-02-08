@@ -1,252 +1,257 @@
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import { MediaType } from 'expo-image-picker';
 import { router } from 'expo-router';
-import React from 'react';
-import { useForm } from 'react-hook-form';
 import {
-  ActivityIndicator,
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  View,
-} from 'react-native';
+  Camera,
+  CircleAlert,
+  CircleCheck,
+  CircleX,
+  Image as ImageIcon,
+  Plus,
+} from 'lucide-react-native';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { ActivityIndicator, Pressable, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Modalize } from 'react-native-modalize';
-import { Input } from 'src/components';
-import { useAuth } from 'src/hooks/useAuth';
-import { useCamera } from 'src/hooks/useCamera';
-import { useGallery } from 'src/hooks/useGallery';
-import { useProject } from 'src/hooks/useProject';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
+
+import { ScreenContainer } from '@/components';
+import { ControlledInput, Form } from '@/components/app/form';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Icon } from '@/components/ui/icon';
+import { Text } from '@/components/ui/text';
+import { useAuth } from '@/hooks/useAuth';
+import { useCamera } from '@/hooks/useCamera';
+import { useGallery } from '@/hooks/useGallery';
+import { useProject } from '@/hooks/useProject';
+import { THEME } from '@/lib/theme';
+import { showToast } from '@/lib/toast-config';
 import {
   CreateProjectFormData,
   createProjectSchema,
-} from 'src/schemas/create-project.schema';
-import { Button } from '@/components/ui/button';
-import { Text } from '@/components/ui/text';
+} from '@/schemas/create-project.schema';
+import {
+  GET_PROJECTS_BY_INSTITUTION_ID_KEY,
+  GET_PROJECTS_KEY,
+  useCreateProject,
+} from '@/services/project/project.service';
+import { CreateProjectData } from '@/services/project/project.types';
 
-type ModalOptionsProps = {
-  selectGallery: () => void;
-  selectCamera: () => void;
-};
+export default function Page() {
+  const mediaTypes: MediaType[] = ['images'];
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
 
-const ModalOptions: React.FC<ModalOptionsProps> = React.memo(
-  ({ selectGallery, selectCamera }) => {
-    return (
-      <View className="h-54 gap-y-4 p-4">
-        <Text className="text-lg font-bold">Selecionar Mídia</Text>
-        <Pressable onPress={selectGallery}>
-          <View className="flex-row items-center gap-x-4">
-            <Ionicons name="images-outline" size={24} color="black" />
-            <View>
-              <Text className="text-md font-medium">Galeria</Text>
-              <Text className="text-sm">Selecione uma imagem da galeria</Text>
-            </View>
-          </View>
-        </Pressable>
-
-        <Pressable onPress={selectCamera}>
-          <View className="flex-row items-center gap-x-4">
-            <Feather name="camera" size={24} color="black" />
-            <View>
-              <Text className="text-md font-medium">Câmera</Text>
-              <Text className="text-sm">Tire uma foto com a câmera</Text>
-            </View>
-          </View>
-        </Pressable>
-      </View>
-    );
-  }
-);
-
-// TODO: Migrate the react state context to a global state management library like Zustand or Redux
-const Page: React.FC = () => {
-  const mediaTypes: MediaType[] = ['images', 'videos'];
-
-  const { token } = useAuth();
   const { takePicture } = useCamera();
   const { pickMedia } = useGallery();
-  const { saveProject, loading, category } = useProject();
+  const { category, setCurrentCategory } = useProject();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const {
-    register,
-    setValue,
-    watch,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<CreateProjectFormData>({
+  const form = useForm<CreateProjectFormData>({
     resolver: zodResolver(createProjectSchema),
+    defaultValues: {
+      name: '',
+      subtitle: '',
+      description: '',
+      category: '',
+      media: undefined,
+    },
   });
 
-  const modalizeRef = React.useRef<Modalize>(null);
-  const onOpenModal = React.useCallback(() => {
-    modalizeRef.current?.open();
-  }, []);
+  const { mutate: createProject, isPending } = useCreateProject({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [GET_PROJECTS_KEY] });
+      queryClient.invalidateQueries({
+        queryKey: [GET_PROJECTS_BY_INSTITUTION_ID_KEY, user?.institution?.id],
+      });
+
+      showToast({
+        type: 'success',
+        header: 'Projeto criado',
+        description: 'Seu projeto foi criado com sucesso.',
+        icon: CircleCheck,
+      });
+
+      setCurrentCategory(null);
+      router.back();
+    },
+    onError: (error) => {
+      showToast({
+        type: 'error',
+        header: 'Erro ao criar projeto',
+        description:
+          error.message || 'Não foi possível criar o seu projeto agora.',
+        icon: CircleAlert,
+      });
+    },
+  });
+
+  useEffect(() => {
+    if (category) {
+      form.setValue('category', category.name);
+    }
+  }, [category, form]);
 
   const selectGallery = async () => {
-    await pickMedia(mediaTypes, (media) => setValue('media', media));
-    modalizeRef.current?.close();
+    await pickMedia(mediaTypes, (media) => form.setValue('media', media));
+    setIsDialogOpen(false);
   };
 
   const selectCamera = async () => {
-    await takePicture(mediaTypes, (media) => setValue('media', media));
-    modalizeRef.current?.close();
+    await takePicture(mediaTypes, (media) => form.setValue('media', media));
+    setIsDialogOpen(false);
   };
 
-  const handleSaveButtonClick = async () => {
-    const [result, error] = await saveProject(token, {
-      name: watch('name'),
-      subtitle: watch('subtitle'),
-      description: watch('description'),
-      category: watch('category'),
-      media: watch('media'),
-    });
-    if (error) {
-      Alert.alert('Erro', error.message);
-      return;
-    }
-    Alert.alert('Sucesso', `Projeto ${result.name} criado com sucesso!`);
-    router.dismissTo('/');
+  const handleSaveButtonClick = (data: CreateProjectData) => {
+    createProject(data);
   };
 
-  React.useEffect(() => {
-    setValue('category', category?.name);
-  }, [category]);
+  const media = form.watch('media');
 
   return (
-    <View className="flex-1 bg-white px-4 pt-2">
-      <KeyboardAvoidingView
-        className="flex-1"
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
+    <ScreenContainer>
+      <KeyboardAwareScrollView style={{ flex: 1 }}>
         <View>
           <Text className="font-bold text-xl">Adicionar projeto</Text>
-          <Text className="mt-3 text-xs">* item obrigatório</Text>
+          <Text className="mt-3 text-xs text-muted-foreground">
+            * item obrigatório
+          </Text>
         </View>
-        <ScrollView className="mt-2 gap-y-4">
-          <View className="mt-4">
-            <Text className="mb-1 font-medium text-sm">Nome do projeto*</Text>
-            <Input
-              {...register('name')}
-              value={watch('name')}
-              onChangeText={(text) => setValue('name', text)}
-              autoFocus
-              placeholder="Ex.: Projeto Ilumina"
-            />
-            {errors.name && (
-              <Text className="text-sm text-red-500">
-                {errors.name.message}
-              </Text>
-            )}
-          </View>
-          <View className="mt-4">
-            <Text className="mb-1 font-medium text-sm">
-              Subtitulo para o projeto*
-            </Text>
-            <Input
-              {...register('subtitle')}
-              value={watch('subtitle')}
-              onChangeText={(text) => setValue('subtitle', text)}
-              placeholder="Ex.: Projeto de ajuda ao meio ambiente."
-            />
-            {errors.subtitle && (
-              <Text className="text-sm text-red-500">
-                {errors.subtitle.message}
-              </Text>
-            )}
-          </View>
-          <View className="mt-4">
-            <Text className="mb-1 font-medium text-sm">Descrição*</Text>
-            <Input
-              {...register('description')}
-              value={watch('description')}
-              onChangeText={(text) => setValue('description', text)}
-              multiline
-              placeholder="Descreva seu projeto aqui"
-            />
-            {errors.description && (
-              <Text className="text-sm text-red-500">
-                {errors.description.message}
-              </Text>
-            )}
-          </View>
-          <View className="mt-4">
-            <Text className="mb-1 font-medium text-sm">Categoria*</Text>
-            <Pressable onPress={() => router.push('project/categories')}>
-              <Input
-                placeholder="Ex.: Meio ambiente"
-                editable={false}
-                value={watch('category')}
-                {...register('category')}
+
+        <Form form={form} onSubmit={handleSaveButtonClick} className="flex-1">
+          <ScrollView
+            className="mt-2"
+            contentContainerStyle={{ paddingBottom: 20 }}
+            showsVerticalScrollIndicator={false}
+          >
+            <View className="gap-y-4">
+              <ControlledInput
+                name="name"
+                label="Nome do projeto*"
+                placeholder="Ex.: Projeto Ilumina"
+                autoFocus
               />
-            </Pressable>
-            {errors.category && (
-              <Text className="text-sm text-red-500">
-                {errors.category.message}
-              </Text>
-            )}
-          </View>
 
-          <View className="mt-4">
-            <Text className="text-md mb-2 font-semibold">Conteúdo de mída</Text>
-            <Button
-              variant="outline"
-              className="justify-start rounded-full"
-              onPress={onOpenModal}
-            >
-              <AntDesign name="plus" size={24} color="#6b7280" />
-              <Text className="text-sm text-gray-800">Adicionar mídia</Text>
-            </Button>
+              <ControlledInput
+                name="subtitle"
+                label="Subtitulo para o projeto*"
+                placeholder="Ex.: Projeto de ajuda ao meio ambiente."
+              />
 
-            {errors.media && (
-              <Text className="text-sm text-red-500">
-                {errors.media.message}
-              </Text>
-            )}
-          </View>
+              <ControlledInput
+                name="description"
+                label="Descrição*"
+                placeholder="Descreva seu projeto aqui"
+                multiline
+                numberOfLines={4}
+                textAlignVertical="top"
+                inputClassName="h-32 pt-3"
+              />
 
-          {watch('media') && (
-            <View className="mt-8">
-              <View className="items- relative w-40 items-end px-1">
-                <Pressable onPress={() => setValue('media', null)}>
-                  <Ionicons name="close-circle" size={26} color="#646464" />
-                </Pressable>
-                <Image
-                  source={{ uri: watch('media') }}
-                  style={{ width: 150, height: 150, borderRadius: 2 }}
-                />
+              <Pressable onPress={() => router.push('project/categories')}>
+                <View pointerEvents="none">
+                  <ControlledInput
+                    name="category"
+                    label="Categoria*"
+                    placeholder="Ex.: Meio ambiente"
+                    editable={false}
+                  />
+                </View>
+              </Pressable>
+
+              <View>
+                <Text className="text-sm font-bold text-muted-foreground mb-2">
+                  Conteúdo de mída*
+                </Text>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="justify-start border-dashed"
+                  onPress={() => setIsDialogOpen(true)}
+                >
+                  <Icon as={Plus} size={24} className="text-gray-500" />
+                  <Text className="text-sm text-gray-800 ml-2">
+                    Adicionar mídia
+                  </Text>
+                </Button>
+
+                {form.formState.errors.media && (
+                  <Text className="text-sm text-red-500 mt-1">
+                    {form.formState.errors.media.message}
+                  </Text>
+                )}
               </View>
+
+              {media && (
+                <View className="mt-4">
+                  <View className="relative w-40">
+                    <Pressable
+                      onPress={() => form.setValue('media', '')}
+                      className="absolute -top-3 -right-3 z-10"
+                    >
+                      <Icon as={CircleX} size={26} className="text-gray-500" />
+                    </Pressable>
+                    <Image
+                      source={{ uri: media }}
+                      style={{ width: 150, height: 150, borderRadius: 8 }}
+                    />
+                  </View>
+                </View>
+              )}
             </View>
-          )}
-        </ScrollView>
+          </ScrollView>
 
-        <Button
-          className="my-4 rounded-xl bg-green-600"
-          onPress={handleSubmit(handleSaveButtonClick)}
-          disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator className="h-6" color="#fff" />
-          ) : (
-            <Text className="text-md font-semibold text-white">Salvar</Text>
-          )}
-        </Button>
+          <Button
+            onPress={form.handleSubmit(handleSaveButtonClick)}
+            disabled={isPending}
+          >
+            {isPending ? (
+              <ActivityIndicator
+                size="small"
+                color={THEME.light.primaryForeground}
+              />
+            ) : (
+              <Text className="text-md font-semibold text-white">Salvar</Text>
+            )}
+          </Button>
+        </Form>
+      </KeyboardAwareScrollView>
 
-        <Modalize
-          ref={modalizeRef}
-          adjustToContentHeight
-          children={
-            <ModalOptions
-              selectGallery={selectGallery}
-              selectCamera={selectCamera}
-            />
-          }
-        />
-      </KeyboardAvoidingView>
-    </View>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Escolher mídia</DialogTitle>
+          </DialogHeader>
+          <View className="gap-y-4">
+            <Button
+              size="lg"
+              variant="outline"
+              className="flex-row justify-start gap-x-3"
+              onPress={selectCamera}
+            >
+              <Icon as={Camera} className="text-foreground/90 h-5 w-5" />
+              <Text>Tirar foto ou vídeo</Text>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="flex-row justify-start gap-x-3"
+              onPress={selectGallery}
+            >
+              <Icon as={ImageIcon} className="text-foreground/90 h-5 w-5" />
+              <Text>Escolher da galeria</Text>
+            </Button>
+          </View>
+        </DialogContent>
+      </Dialog>
+    </ScreenContainer>
   );
-};
-
-export default Page;
+}
