@@ -1,20 +1,21 @@
-import { formatDistanceToNowStrict } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
+dayjs.locale('pt-br');
 
 export const timeAgo = (dateString: string): string => {
-  const date = new Date(dateString);
-  const now = new Date();
+  const date = dayjs(dateString);
+  const now = dayjs();
 
-  if (date > now) {
+  if (date.isAfter(now)) {
     return 'Agora mesmo';
   }
 
-  const distance = formatDistanceToNowStrict(date, {
-    locale: ptBR,
-    addSuffix: false,
-  });
+  const distance = date.fromNow(true);
 
-  if (distance === '0 segundos') {
+  if (distance === 'alguns segundos' || distance === '0 segundos') {
     return 'Agora mesmo';
   }
 
