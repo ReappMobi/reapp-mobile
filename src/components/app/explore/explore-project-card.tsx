@@ -64,7 +64,7 @@ const ExploreProjectCard = ({
             <View className="w-20 h-20 rounded-full bg-muted items-center justify-center">
               <Image
                 source={image}
-                placeholder={placeholder}
+                placeholder={{ blurhash: placeholder }}
                 className="w-full h-full rounded-full"
                 contentFit="cover"
               />
