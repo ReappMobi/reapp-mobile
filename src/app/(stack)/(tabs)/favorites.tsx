@@ -10,7 +10,7 @@ import { IProject } from 'src/types';
 
 const Page = () => {
   const navigation = useNavigation();
-  const auth = useAuth();
+  const { token, ...auth } = useAuth();
   const [favoritesProjects, setFavoritesProjects] = useState<IProject[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
@@ -18,7 +18,7 @@ const Page = () => {
     setRefreshing(true);
 
     try {
-      const token = await auth.getToken();
+      if (!token) return;
       const res = await getFavoritesProjects(auth.user.id, token);
       setFavoritesProjects(res);
     } catch (error) {
@@ -26,7 +26,7 @@ const Page = () => {
     } finally {
       setRefreshing(false);
     }
-  }, [auth]);
+  }, [auth, token]);
 
   useEffect(() => {
     (async () => {
@@ -40,19 +40,19 @@ const Page = () => {
         },
       });
       try {
-        const token = await auth.getToken();
+        if (!token) return;
         const res = await getFavoritesProjects(auth.user.id, token);
         setFavoritesProjects(res);
       } catch (error) {
         console.error('Erro ao buscar projetos favoritos:', error);
       }
     })();
-  }, [navigation, auth]);
+  }, [navigation, auth, token]);
 
   const handleFavoriteClick = useCallback(
     async (item: IProject) => {
       try {
-        const token = await auth.getToken();
+        if (!token) return;
         await toggleFavoriteProject({
           projectId: item.id,
           token,

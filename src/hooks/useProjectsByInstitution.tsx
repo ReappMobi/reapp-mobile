@@ -16,10 +16,9 @@ export const useProjectsByInstitution = (institutionId: number) => {
       setLoading(true);
       setError(null);
 
-      const token = await auth.getToken();
-      setToken(token);
+      if (!auth.token) return;
 
-      const projects = await getProjectByInstitutionId(institutionId, token);
+      const projects = await getProjectByInstitutionId(institutionId, auth.token);
       setProjects(projects);
     } catch (err) {
       setError(err as Error);

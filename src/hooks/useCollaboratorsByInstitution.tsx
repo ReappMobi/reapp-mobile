@@ -15,11 +15,10 @@ export const useCollaboratorsByInstitution = (institutionId: number) => {
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
-      const token = await auth.getToken();
-      setToken(token);
+      if (!auth.token) return;
       const collaborators = await getCollaboratorByInstitutionId(
         institutionId,
-        token
+        auth.token
       );
       setCollaborators(collaborators);
     } catch (error) {

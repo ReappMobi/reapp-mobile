@@ -42,7 +42,7 @@ const postCreateFormSchema = z.object({
 type postCreateFormData = z.infer<typeof postCreateFormSchema>;
 
 export default function PostCreate() {
-  const auth = useAuth();
+  const { token, ...auth } = useAuth();
   const [media, setMedia] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const mediaTypes: MediaType[] = ['images'];
@@ -70,7 +70,6 @@ export default function PostCreate() {
 
   const onSubmit = async (data: postCreateFormData) => {
     setLoading(true);
-    const token = await auth.getToken();
 
     const dataReq = {
       content: data.description,

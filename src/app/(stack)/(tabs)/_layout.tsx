@@ -92,6 +92,8 @@ const TabLayout = () => {
   const { updateSearchQuery, updateSearchActive } = useSearch();
 
   if (!user || !token) {
+    console.log(token);
+
     return <Redirect href="welcome" />;
   }
 

@@ -6,7 +6,6 @@ import { ActivityIndicator, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { z } from 'zod';
 import { ScreenContainer } from '@/components';
-import { SafeKeyboardAvoidView } from '@/components/app/containers/keyboard-avoid-view';
 import { ControlledInput, Form } from '@/components/app/form';
 import { Button } from '@/components/ui/button';
 import {

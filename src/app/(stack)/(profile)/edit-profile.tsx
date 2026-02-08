@@ -2,13 +2,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  View,
-} from 'react-native';
+import { Alert, ScrollView, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { ControlledInput } from '@/components/app/form/controlled-input';
 import { Form } from '@/components/app/form/form';
 import { AvatarPicker } from '@/components/ui/avatar-picker';
@@ -61,9 +56,9 @@ export default function EditProfileScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1 bg-background"
+    <KeyboardAwareScrollView
+      style={{ flex: 1 }}
+      contentContainerClassName="flex-1 bg-red-400"
     >
       <ScrollView contentContainerClassName="p-6">
         <View className="items-center mb-8">
@@ -122,6 +117,6 @@ export default function EditProfileScreen() {
           </Button>
         </Form>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 }

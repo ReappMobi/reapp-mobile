@@ -21,7 +21,6 @@ export const AuthContext = createContext<AuthContextData>(
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState<AccountType | null>(null);
-  const [loading, setLoading] = useState(true);
   const [isDonor, setIsDonor] = useState<boolean | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
@@ -55,8 +54,6 @@ export function AuthProvider({ children }) {
           '@RNAuth:isDonor',
           '@RNAuth:token',
         ]);
-      } finally {
-        setLoading(false);
       }
     }
 
@@ -87,14 +84,6 @@ export function AuthProvider({ children }) {
     setUser(null);
     setIsDonor(null);
     setToken(null);
-  }
-
-  if (loading) {
-    return (
-      <ScreenContainer>
-        <ActivityIndicator size="large" color={THEME.light.primary} />
-      </ScreenContainer>
-    );
   }
 
   return (

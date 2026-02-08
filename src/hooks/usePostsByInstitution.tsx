@@ -16,10 +16,9 @@ export const usePostsByInstitution = (institutionId: number) => {
       setLoading(true);
       setError(null);
 
-      const token = await auth.getToken();
-      setToken(token);
+      if (!auth.token) return;
 
-      const posts = await getInstituitionPosts(institutionId, token);
+      const posts = await getInstituitionPosts(institutionId, auth.token);
       setPosts(posts);
     } catch (err) {
       setError(err as Error);

@@ -93,12 +93,12 @@ const Layout = () => {
 
   useEffect(() => {
     (async () => {
-      const token = await auth.getToken();
-      const institution = await getInstitutionByAccountId(idNumber, token);
+      if (!auth.token) return;
+      const institution = await getInstitutionByAccountId(idNumber, auth.token);
       setInstitution(institution);
       setLoading(false);
     })();
-  }, []);
+  }, [auth.token]);
 
   const renderLabel = useMemo(() => {
     return ({ children, focused }: { focused: boolean; children: string }) => (

@@ -18,10 +18,9 @@ export const useSavedPosts = () => {
       setLoading(true);
       setError(null);
 
-      const token = await auth.getToken();
-      setToken(token);
+      if (!auth.token) return;
 
-      const posts = await getSavedPosts({ token });
+      const posts = await getSavedPosts({ token: auth.token });
       setPosts(posts);
     } catch (err) {
       setError(err as Error);
