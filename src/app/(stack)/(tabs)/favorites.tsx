@@ -1,92 +1,52 @@
-import { router, useNavigation } from 'expo-router';
-import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, RefreshControl, Text, View } from 'react-native';
+import { useQueryClient } from '@tanstack/react-query';
+import { router } from 'expo-router';
+import { FlatList, RefreshControl, View } from 'react-native';
 import { ProjectCard } from '@/components/app/institution/project-card';
-import colors from '@/constants/colors';
-import { useAuth } from '@/hooks/useAuth';
-import { toggleFavoriteProject } from '@/services/app-core';
-import { getFavoritesProjects } from '@/services/user';
+import { Text } from '@/components/ui/text';
+import {
+  GET_FAVORITE_PROJECTS_KEY,
+  useGetFavoriteProjects,
+  useToggleFavoriteProject,
+} from '@/services/project/project.service';
 import { IProject } from '@/types';
 
-const Page = () => {
-  const navigation = useNavigation();
-  const { token, ...auth } = useAuth();
-  const [favoritesProjects, setFavoritesProjects] = useState<IProject[]>([]);
-  const [refreshing, setRefreshing] = useState<boolean>(false);
+export default function Page() {
+  const queryClient = useQueryClient();
 
-  const onRefresh = useCallback(async () => {
-    setRefreshing(true);
+  const {
+    data: favoritesProjects,
+    isLoading,
+    isRefetching,
+    refetch,
+  } = useGetFavoriteProjects();
 
-    try {
-      if (!token) return;
-      const res = await getFavoritesProjects(auth.user.id, token);
-      setFavoritesProjects(res);
-    } catch (error) {
-      console.error('Erro ao atualizar projetos favoritos:', error);
-    } finally {
-      setRefreshing(false);
-    }
-  }, [auth, token]);
-
-  useEffect(() => {
-    (async () => {
-      navigation.setOptions({
-        headerTitle: 'Favoritos',
-        headerTitleAlign: 'center',
-        headerTitleStyle: {
-          fontSize: 20,
-          fontFamily: 'reapp_bold',
-          color: colors.primary,
-        },
-      });
-      try {
-        if (!token) return;
-        const res = await getFavoritesProjects(auth.user.id, token);
-        setFavoritesProjects(res);
-      } catch (error) {
-        console.error('Erro ao buscar projetos favoritos:', error);
-      }
-    })();
-  }, [navigation, auth, token]);
-
-  const handleFavoriteClick = useCallback(
-    async (item: IProject) => {
-      try {
-        if (!token) return;
-        await toggleFavoriteProject({
-          projectId: item.id,
-          token,
-        });
-
-        setFavoritesProjects((prevFavoriteProjects) => {
-          return prevFavoriteProjects.filter(
-            (project) => project.id !== item.id
-          );
-        });
-      } catch (error) {
-        console.error('Erro ao alternar favorito do projeto:', error);
-      }
+  const { mutate: toggleFavorite } = useToggleFavoriteProject({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [GET_FAVORITE_PROJECTS_KEY] });
     },
-    [auth]
-  );
+  });
 
-  // Componente para exibir quando a lista estiver vazia
+  const handleFavoriteClick = (item: IProject) => {
+    toggleFavorite(item.id);
+  };
+
   const EmptyListMessage = () => (
     <View className="flex-1 items-center justify-center p-4">
       <Text className="text-center text-lg text-gray-500">
-        Você ainda não tem nenhum projeto favoritado.
+        {!isLoading && 'Você ainda não tem nenhum projeto favoritado.'}
       </Text>
     </View>
   );
 
   return (
     <FlatList
-      className="flex-1 gap-y-4"
+      className="flex-1 gap-y-4 bg-white"
       data={favoritesProjects}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
         <ProjectCard
-          mediaUrl={item.media.remoteUrl}
+          id={item.id}
+          mediaUrl={item.media?.remoteUrl}
           title={item.name}
           textButton="Ver"
           isFavoriteCard
@@ -103,12 +63,10 @@ const Page = () => {
       )}
       ItemSeparatorComponent={() => <View className="mb-2.5" />}
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
       }
       ListEmptyComponent={EmptyListMessage}
       contentContainerStyle={{ flexGrow: 1 }}
     />
   );
-};
-
-export default Page;
+}
