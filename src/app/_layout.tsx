@@ -25,8 +25,8 @@ import '@/styles/global.css';
 
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import Toast from 'react-native-toast-message';
-import { toastConfig } from '@/lib/toast-config';
 import { useAuth } from 'src/hooks/useAuth';
+import { toastConfig } from '@/lib/toast-config';
 
 cssInterop(Image, { className: 'style' });
 
@@ -41,7 +41,13 @@ Sentry.init({
   sendDefaultPii: true,
 });
 
-function RootContent({ fontsLoaded, fontError }: { fontsLoaded: boolean; fontError: any }) {
+function RootContent({
+  fontsLoaded,
+  fontError,
+}: {
+  fontsLoaded: boolean;
+  fontError: Error;
+}) {
   const { loading: authLoading } = useAuth();
 
   useEffect(() => {
@@ -86,7 +92,7 @@ function RootLayout() {
   const queryClient = new QueryClient();
 
   return (
-    <ThemeProvider value={NAV_THEME['light']}>
+    <ThemeProvider value={NAV_THEME.light}>
       <StatusBar style="dark" />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <QueryClientProvider client={queryClient}>

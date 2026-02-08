@@ -3,7 +3,7 @@ import { jwtDecode } from 'jwt-decode';
 import { createContext, useEffect, useState } from 'react';
 import type { AccountType } from 'src/types';
 
-interface AuthContextData {
+interface IAuthContextData {
   signed: boolean;
   user: AccountType | null;
   isDonor: boolean | null;
@@ -13,8 +13,8 @@ interface AuthContextData {
   saveUserAndToken(user: AccountType, token: string): Promise<void>;
 }
 
-export const AuthContext = createContext<AuthContextData>(
-  {} as AuthContextData
+export const AuthContext = createContext<IAuthContextData>(
+  {} as IAuthContextData
 );
 
 export function AuthProvider({ children }) {
