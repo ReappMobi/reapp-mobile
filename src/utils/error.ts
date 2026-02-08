@@ -1,35 +1,47 @@
 import axios from 'axios';
+import { ReappException } from '@/errors/ReappException';
+import { BackendErrorCodes } from '@/types/errors';
 
 export interface ReappBackendErrorResponse {
-  code: string;
+  code: BackendErrorCodes;
   message: string;
   data?: Record<string, unknown>;
 }
 
 export const getReappBackendError = (
   error: unknown
-): ReappBackendErrorResponse | null => {
-  if (axios.isAxiosError(error) && error.response?.data) {
-    const backendData = error.response?.data as
-      | ReappBackendErrorResponse
-      | undefined;
-    if (
-      typeof backendData === 'object' &&
-      backendData !== null &&
-      'code' in backendData &&
-      'message' in backendData
-    ) {
-      return backendData;
+): ReappException | Error => {
+  if (axios.isAxiosError(error)) {
+    if (error.response?.data) {
+      const backendData = error.response?.data as
+        | ReappBackendErrorResponse
+        | undefined;
+
+      if (
+        typeof backendData === 'object' &&
+        backendData !== null &&
+        'code' in backendData &&
+        'message' in backendData
+      ) {
+        return new ReappException(
+          backendData.code,
+          backendData.message,
+          error.response.status,
+          backendData.data
+        );
+      }
     }
-  }
-  if (
-    typeof error === 'object' &&
-    error !== null &&
-    'code' in error &&
-    'message' in error
-  ) {
-    return error as ReappBackendErrorResponse;
+
+    return new Error(error.message || 'Erro de conexão com o servidor');
   }
 
-  return null;
+  if (error instanceof ReappException) {
+    return error;
+  }
+
+  if (error instanceof Error) {
+    return error;
+  }
+
+  return new Error('Ocorreu um erro inesperado');
 };
