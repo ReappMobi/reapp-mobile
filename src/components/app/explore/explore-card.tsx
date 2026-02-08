@@ -73,10 +73,16 @@ const ExploreInstitutionCard = ({
             <View className="w-20 h-20 rounded-full bg-muted items-center justify-center">
               <Image
                 source={image}
-                placeholder={placeholder}
-                className="rouded-full"
+                placeholder={{ blurhash: placeholder }}
+                className="w-full h-full rounded-full"
+                contentFit="cover"
               />
-              <Icon as={Building2} className="w-7 h-7 text-muted-foreground" />
+              {!image && (
+                <Icon
+                  as={Building2}
+                  className="w-7 h-7 text-muted-foreground absolute"
+                />
+              )}
             </View>
           </CardHeader>
           <CardContent className="p-0.5 w-full">

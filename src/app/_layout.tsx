@@ -39,6 +39,8 @@ const dsn =
 Sentry.init({
   dsn,
   sendDefaultPii: true,
+  enableInExpoDevelopment: true,
+  debug: __DEV__,
 });
 
 function RootContent({

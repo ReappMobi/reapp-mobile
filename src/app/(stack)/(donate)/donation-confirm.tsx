@@ -1,13 +1,12 @@
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br';
 import { useLocalSearchParams } from 'expo-router';
 import { Text, View } from 'react-native';
 import DonationConfirmScreenImage from 'src/assets/images/DonationConfirmScreenImage.svg';
 import { useAuth } from 'src/hooks/useAuth';
 
 const formatDate = () => {
-  const now = new Date();
-  const formatedDate = format(now, 'dd MMM yyyy, HH:mm', { locale: ptBR });
+  const formatedDate = dayjs().locale('pt-br').format('DD MMM YYYY, HH:mm');
   return formatedDate.toUpperCase();
 };
 
