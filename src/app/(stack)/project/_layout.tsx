@@ -1,4 +1,3 @@
-import AntDesign from '@expo/vector-icons/AntDesign';
 import { router, Stack } from 'expo-router';
 import { X } from 'lucide-react-native';
 import { Pressable } from 'react-native';

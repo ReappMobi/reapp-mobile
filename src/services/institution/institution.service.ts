@@ -2,7 +2,7 @@ import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { getInstitutionByAccountId } from './institution.requests';
 import { InstitutionResponse } from './institution.types';
 
-export const useInstitutionByAccountId = (
+export const useGetInstitutionByAccountId = (
   accountId: number,
   options?: Omit<
     UseQueryOptions<InstitutionResponse, Error>,

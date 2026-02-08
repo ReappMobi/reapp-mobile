@@ -9,22 +9,22 @@ import {
   View,
 } from 'react-native';
 import { CardPost } from '@/components/app/post/card-post';
-import { useAuth } from 'src/hooks/useAuth';
-import { useGetPosts } from 'src/services/posts/post.service';
-import { IPost } from 'src/types';
+import { useAuth } from '@/hooks/useAuth';
+import { useGetPosts } from '@/services/posts/post.service';
+import { IPost } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Text } from '@/components/ui/text';
 
 function PostList() {
-  const { user, token } = useAuth();
+  const { user } = useAuth();
   const {
     data: posts,
     isLoading: loading,
     error,
     isRefetching: refreshing,
     refetch: onRefresh,
-  } = useGetPosts(token || '', 1);
+  } = useGetPosts(1);
 
   const handleInstitutionProfileClick = useCallback((item: IPost) => {
     router.push({

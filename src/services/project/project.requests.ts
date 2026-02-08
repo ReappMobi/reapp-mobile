@@ -51,10 +51,26 @@ export const getProjectCategories = async (
   return data;
 };
 
+export const getFavoriteProjects = async () => {
+  const { data } = await api.get<GetProjectsResponse>('/project/favorite');
+  return data;
+};
+
 export const createProject = async (
   data: CreateProjectData
 ): Promise<CreateProjectResponse> => {
   const formData = buildFormData(data as unknown as Record<string, unknown>);
+
+  // Special handling for media in React Native
+  if (data.media) {
+    formData.delete('media');
+    const timestamp = Date.now();
+    formData.append('media', {
+      uri: data.media,
+      name: `${timestamp}.jpg`,
+      type: 'image/jpeg',
+    } as any);
+  }
 
   const response = await api.postForm('/project', formData);
 

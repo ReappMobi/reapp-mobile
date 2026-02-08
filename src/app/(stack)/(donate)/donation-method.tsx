@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { ActivityIndicator, Alert, View } from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 import DonationTaxReceiptImage from 'src/assets/images/DonationTaxReceiptImage.svg';
-import { Input } from 'src/components';
 import { useAuth } from 'src/hooks/useAuth';
 import { requestPaymentUrl } from 'src/services/payment';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 
 const DonationMethodPage = () => {
@@ -18,7 +18,6 @@ const DonationMethodPage = () => {
   const { token } = useAuth();
 
   const requestPayment = async () => {
-    console.log(value);
     if (value < 10 || description.length > 25) {
       Alert.alert('Por favor, preencha os campos corretamente.');
       return;
@@ -41,7 +40,6 @@ const DonationMethodPage = () => {
         await openBrowserAsync(response);
       }
     } catch (error) {
-      console.log(error);
       Alert.alert('Ocorreu um erro ao processar sua doação.');
     } finally {
       setLoading(false);
@@ -78,7 +76,7 @@ const DonationMethodPage = () => {
         <View>
           <Input
             placeholder="Adicionar Descrição"
-            customStyle="text-center text-xl"
+            className="text-center text-xl"
             value={description}
             onChangeText={setDescription}
             maxLength={25}

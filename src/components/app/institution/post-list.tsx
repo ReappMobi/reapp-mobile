@@ -1,28 +1,23 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
-import { useCallback } from 'react';
+import { ChevronRight } from 'lucide-react-native';
 import {
   ActivityIndicator,
-  Alert,
   FlatList,
   ListRenderItem,
   RefreshControl,
   TouchableOpacity,
   View,
 } from 'react-native';
+
 import { CardPost } from '@/components/app/post/card-post';
-import { Button } from '@/components/ui/button';
+import { ScreenContainer } from '@/components/ScreenContainer';
 import { Separator } from '@/components/ui/separator';
 import { Text } from '@/components/ui/text';
-import colors from '@/constants/colors';
 import { useAuth } from '@/hooks/useAuth';
-import {
-  POSTS_PREFIX_KEY,
-  useDeletePost,
-  useGetPostsByInstitution,
-} from '@/services/posts/post.service';
+import { THEME } from '@/lib/theme';
+import { useGetPostsByInstitution } from '@/services/posts/post.service';
 import { IPost } from '@/types';
+import { ListHeeader } from './list-header';
 
 interface PostListProps {
   institutionId: number;
@@ -31,7 +26,6 @@ interface PostListProps {
 
 export function PostList({ institutionId, isMe }: PostListProps) {
   const { user } = useAuth();
-  const queryClient = useQueryClient();
 
   const {
     data: posts,
@@ -41,84 +35,24 @@ export function PostList({ institutionId, isMe }: PostListProps) {
     error,
   } = useGetPostsByInstitution(institutionId);
 
-  const { mutate: deletePostMutation } = useDeletePost({
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [POSTS_PREFIX_KEY, 'institution', institutionId],
-      });
-    },
-    onError: (error) => {
-      Alert.alert('Erro', 'Não foi possível excluir a postagem');
-      console.error(error);
-    },
-  });
-
-  const handleDeletePost = useCallback(
-    (postId: number) => {
-      Alert.alert(
-        'Confirmar exclusão',
-        'Tem certeza que deseja excluir esta postagem?',
-        [
-          {
-            text: 'Cancelar',
-            style: 'cancel',
-          },
-          {
-            text: 'Confirmar',
-            onPress: () => deletePostMutation(postId),
-            style: 'destructive',
-          },
-        ],
-        { cancelable: true }
-      );
-    },
-    [deletePostMutation]
-  );
-
-  const renderHeader = () => {
-    if (!isMe) {
-      return null;
-    }
-    return (
-      <View className="mb-3 items-center justify-center bg-white">
-        <Button
-          variant="outline"
-          onPress={() => {
-            router.push({
-              pathname: 'create-post',
-            });
-          }}
-        >
-          <Text>Cadastrar Nova Postagem</Text>
-          <Ionicons
-            name="chevron-forward"
-            size={20}
-            color={colors.text_neutral}
-          />
-        </Button>
-      </View>
-    );
-  };
-
   if (loading) {
     return (
-      <View className="flex-1 items-center justify-center py-10">
-        <ActivityIndicator size="large" color={colors.primary} />
-      </View>
+      <ScreenContainer className="items-center justify-center">
+        <ActivityIndicator size="large" color={THEME.light.primary} />
+      </ScreenContainer>
     );
   }
 
   if (error) {
     return (
-      <View className="flex-1 items-center justify-center p-4">
+      <ScreenContainer className="items-center justify-center">
         <Text className="mb-2 text-lg font-bold text-red-500">
           Ocorreu um erro!
         </Text>
-        <Text>{error.message}</Text>
         <TouchableOpacity onPress={() => onRefresh()}>
           <Text className="mt-4 text-blue-500">Tentar novamente</Text>
         </TouchableOpacity>
-      </View>
+      </ScreenContainer>
     );
   }
 
@@ -138,7 +72,6 @@ export function PostList({ institutionId, isMe }: PostListProps) {
         updatedAt={item.updatedAt}
         isSavedInitial={isSaved}
         isLikedInitial={isLiked}
-        onPressDelete={isMe ? () => handleDeletePost(item.id) : undefined}
       />
     );
   };
@@ -151,19 +84,29 @@ export function PostList({ institutionId, isMe }: PostListProps) {
       data={posts}
       keyExtractor={(item) => item.id.toString()}
       renderItem={renderItem}
-      ListHeaderComponent={renderHeader}
+      ListHeaderComponent={() => (
+        <ListHeeader
+          icon={ChevronRight}
+          title="Adicionar post"
+          isMe={isMe}
+          onPressActionButton={() =>
+            router.push({
+              pathname: 'create-post',
+            })
+          }
+        />
+      )}
       refreshControl={
         <RefreshControl
           refreshing={refreshing}
           onRefresh={onRefresh}
-          colors={[colors.primary]}
-          tintColor={colors.primary}
+          colors={[THEME.light.primary]}
         />
       }
-      ItemSeparatorComponent={() => <Separator />}
+      ItemSeparatorComponent={Separator}
       ListEmptyComponent={
         <View className="flex-1 items-center justify-center p-4">
-          <Text className="font-medium text-base text-slate-500">
+          <Text className="font-medium text-base">
             Nenhuma postagem encontrada.
           </Text>
         </View>

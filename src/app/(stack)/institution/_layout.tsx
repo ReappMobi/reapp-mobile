@@ -5,7 +5,7 @@ import { InstitutionHeader } from '@/components/app/institution/institution-head
 import { Text } from '@/components/ui/text';
 import { MaterialTopTabs, TopTabs } from '@/components/ui/top-tab';
 import { useAuth } from '@/hooks/useAuth';
-import { useInstitutionByAccountId } from '@/services/institution/institution.service';
+import { useGetInstitutionByAccountId } from '@/services/institution/institution.service';
 
 export default function Layout() {
   const params = useLocalSearchParams();
@@ -17,7 +17,7 @@ export default function Layout() {
     data: institution,
     isLoading: loading,
     isError,
-  } = useInstitutionByAccountId(idNumber);
+  } = useGetInstitutionByAccountId(idNumber);
 
   const isMe = user?.id === idNumber;
 

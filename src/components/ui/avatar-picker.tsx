@@ -1,8 +1,9 @@
-import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import { Camera } from 'lucide-react-native';
 import { useState } from 'react';
 import { Image, Pressable, View } from 'react-native';
 
+import { Icon } from '@/components/ui/icon';
 import DefaultAvatar from '@/assets/images/avatar.png';
 import { cn } from '@/lib/utils';
 import type { RequestMedia } from '@/services/account/account.types';
@@ -75,7 +76,7 @@ export function AvatarPicker({
       />
 
       <View className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full bg-primary border border-white">
-        <Ionicons name="camera" size={16} color="white" />
+        <Icon as={Camera} size={16} className="text-white" />
       </View>
     </Pressable>
   );

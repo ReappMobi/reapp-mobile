@@ -3,17 +3,17 @@ import { DrawerActions } from '@react-navigation/native';
 import { debounce } from 'es-toolkit/function';
 import { Image } from 'expo-image';
 import { Redirect, Tabs, useNavigation, useRouter } from 'expo-router';
-import { CopyPlus, Globe, Star, UserRound } from 'lucide-react-native';
+import { CopyPlus, Globe, House, Star, UserRound } from 'lucide-react-native';
 import { useCallback } from 'react';
 import { Pressable, View } from 'react-native';
-import colors from 'src/constants/colors';
-import { PostProvider } from 'src/contexts/posts';
-import { useAuth } from 'src/hooks/useAuth';
+
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { SearchInput } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
+import { PostProvider } from '@/contexts/posts';
 import { useSearch } from '@/hooks/use-search';
+import { useAuth } from '@/hooks/useAuth';
 import { THEME } from '@/lib/theme';
 
 const TabIcon = ({
@@ -30,7 +30,7 @@ const TabIcon = ({
         as={IconComponent}
         size={size}
         color={color}
-        className={focused && fill ? 'fill-primary' : ''}
+        className={focused && fill ? 'fill-primary stroke-primary' : ''}
       />
     ) : (
       <IconComponent name={(props) => props.name} size={size} color={color} />
@@ -93,8 +93,6 @@ const TabLayout = () => {
   const { updateSearchQuery, updateSearchActive } = useSearch();
 
   if (!user || !token) {
-    console.log(token);
-
     return <Redirect href="welcome" />;
   }
 
@@ -103,7 +101,7 @@ const TabLayout = () => {
       <Tabs
         screenOptions={{
           tabBarShowLabel: false,
-          tabBarActiveTintColor: colors.primary,
+          tabBarActiveTintColor: THEME.light.primary,
           tabBarInactiveTintColor: 'rgb(46 56 77 / 0.8)',
           tabBarStyle: { borderTopWidth: 1, paddingTop: 4 },
         }}
@@ -170,6 +168,13 @@ const TabLayout = () => {
           options={{
             href: !isDonor && null,
             headerShown: isDonor,
+            headerTitle: 'Favoritos',
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              fontSize: 20,
+              fontFamily: 'reapp_bold',
+              color: THEME.light.primary,
+            },
             tabBarIcon: ({ size, color, focused }) => (
               <TabIcon
                 focused={focused}

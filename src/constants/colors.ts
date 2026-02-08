@@ -1,3 +1,6 @@
+/**
+ * @deprecated Use THEME instead
+ */
 const colors = {
   primary: '#7B9D7C',
   color_secundary: '#566E58',
@@ -18,5 +21,7 @@ const colors = {
   text_white: '#ffffff',
   input_background: '#f4f5f2',
 };
-
+/**
+ * @deprecated Use THEME instead
+ */
 export default colors;
