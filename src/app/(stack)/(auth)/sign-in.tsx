@@ -4,18 +4,19 @@ import { CircleX } from 'lucide-react-native';
 import { useForm } from 'react-hook-form';
 import { ActivityIndicator, Alert, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
-import { Button } from 'src/components/ui/button';
-import { Text } from 'src/components/ui/text';
-import { useAuth } from 'src/hooks/useAuth';
+
+import { ControlledInput, Form } from '@/components/app/form';
+import ScreenContainer from '@/components/ScreenContainer';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Text } from '@/components/ui/text';
+import { ReappException } from '@/errors/ReappException';
+import { useAuth } from '@/hooks/useAuth';
+import { showToast } from '@/lib/toast-config';
 import {
   SignInFormData,
   signInFormSchema,
-} from 'src/schemas/auth/sign-in.schema';
-import { ControlledInput, Form } from '@/components/app/form';
-import ScreenContainer from '@/components/ScreenContainer';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { ReappException } from '@/errors/ReappException';
-import { showToast } from '@/lib/toast-config';
+} from '@/schemas/auth/sign-in.schema';
 import { useLogin } from '@/services/auth/auth.service';
 import { LoginData } from '@/services/auth/auth.types';
 
