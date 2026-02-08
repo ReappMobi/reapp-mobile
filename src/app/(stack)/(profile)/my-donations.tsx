@@ -11,12 +11,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { DonationInformationItem } from 'src/components';
 import colors from 'src/constants/colors';
 import { useAuth } from 'src/hooks/useAuth';
 import { getDonationsByDonor } from 'src/services/donations';
 import { Donation } from 'src/types/IDonation';
 import { timeAgo } from 'src/utils/time-ago';
+import { DonationInformationItem } from '@/components/app/donations/donation-information-item';
 
 type Period = 'week' | 'month' | '6months' | 'year' | 'all';
 

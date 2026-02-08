@@ -1,12 +1,12 @@
 import { router, useNavigation } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, RefreshControl, Text, View } from 'react-native';
-import { CardInstitutionProject } from 'src/components';
-import colors from 'src/constants/colors';
-import { useAuth } from 'src/hooks/useAuth';
-import { toggleFavoriteProject } from 'src/services/app-core';
-import { getFavoritesProjects } from 'src/services/user';
-import { IProject } from 'src/types';
+import { ProjectCard } from '@/components/app/institution/project-card';
+import colors from '@/constants/colors';
+import { useAuth } from '@/hooks/useAuth';
+import { toggleFavoriteProject } from '@/services/app-core';
+import { getFavoritesProjects } from '@/services/user';
+import { IProject } from '@/types';
 
 const Page = () => {
   const navigation = useNavigation();
@@ -85,8 +85,8 @@ const Page = () => {
       data={favoritesProjects}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
-        <CardInstitutionProject
-          imagePath={item.media.remoteUrl}
+        <ProjectCard
+          mediaUrl={item.media.remoteUrl}
           title={item.name}
           textButton="Ver"
           isFavoriteCard

@@ -4,14 +4,14 @@ import { router } from 'expo-router';
 import { Bookmark, Heart, MessageCircle } from 'lucide-react-native';
 import { useCallback, useState } from 'react';
 import { Pressable, View } from 'react-native';
-import { useLike } from 'src/hooks/useLike';
-import { useSave } from 'src/hooks/useSave';
+import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
+import { useLike } from '@/hooks/useLike';
+import { useSave } from '@/hooks/useSave';
 import { cn } from '@/lib/utils';
 import { timeAgo } from '@/utils/time-ago';
-import { Icon } from '../ui/icon';
 
-type CardPostProps = {
+interface CardPostProps {
   postId: string | number;
   userImageUrl?: string;
   userImageBlurhash?: string;
@@ -25,9 +25,9 @@ type CardPostProps = {
   mediaAspect?: number;
   onPressInstitutionProfile?: () => void;
   onPressDelete?: () => void;
-};
+}
 
-function CardPost({
+export function CardPost({
   postId,
   userImageUrl,
   userImageBlurhash,
@@ -45,7 +45,9 @@ function CardPost({
   const { isLiked, toggleLike } = useLike(postId, isLikedInitial);
   const { isSaved, toggleSave } = useSave(postId, isSavedInitial);
 
-  const canExpandContent = description.length > 100;
+  const canExpandContent = description?.length
+    ? description.length > 100
+    : false;
 
   const postedIn = timeAgo(updatedAt);
 
@@ -57,7 +59,7 @@ function CardPost({
   );
 
   return (
-    <View className="w-full bg-white py-3">
+    <View className="w-full bg-background py-3">
       <View className="flex-row w-full gap-x-3">
         <View className="max-w-10">
           <Pressable onPress={onPressInstitutionProfile}>
@@ -72,16 +74,16 @@ function CardPost({
             </View>
           </Pressable>
         </View>
-        <View className="bg- w-full flex-1">
+        <View className="w-full flex-1">
           <View className="flex-row items-center gap-x-2">
             <Text
               onPress={onPressInstitutionProfile}
-              className="font-medium text-base text-text_neutral"
+              className="font-medium text-base text-slate-900"
             >
               {name}
             </Text>
             <Text>
-              <Text className="font-ligth text-xs text-gray-500">
+              <Text className="font-ligth text-xs text-slate-500">
                 {postedIn}
               </Text>
             </Text>
@@ -90,14 +92,14 @@ function CardPost({
             <View className="pb-2">
               <Text
                 numberOfLines={expanded ? undefined : 4}
-                className="font-regular text-sm text-text-neutral"
+                className="font-regular text-sm text-slate-900"
               >
                 {description}
               </Text>
 
               {canExpandContent && (
                 <Pressable onPress={() => setExpanded(!expanded)}>
-                  <Text className="text-text_blue font-regular text-xs">
+                  <Text className="text-blue-500 font-regular text-xs">
                     {expanded ? 'Ler menos' : 'Ler mais'}
                   </Text>
                 </Pressable>
@@ -121,7 +123,7 @@ function CardPost({
                   as={Heart}
                   size={23}
                   className={cn(
-                    'stroke-text-neutral',
+                    'stroke-slate-900',
                     isLiked && 'stroke-rose-500 fill-rose-500'
                   )}
                 />
@@ -132,8 +134,8 @@ function CardPost({
                   as={Bookmark}
                   size={22}
                   className={cn(
-                    ' stroke-text-neutral mt-0.5',
-                    isSaved && ' fill-text-neutral'
+                    ' stroke-slate-900 mt-0.5',
+                    isSaved && ' fill-slate-900'
                   )}
                 />
               </Pressable>
@@ -142,7 +144,7 @@ function CardPost({
                 <Icon
                   as={MessageCircle}
                   size={22}
-                  className={cn(' stroke-text-neutral mt-0.5')}
+                  className="stroke-slate-900 mt-0.5"
                 />
               </Pressable>
             </View>
@@ -152,5 +154,3 @@ function CardPost({
     </View>
   );
 }
-
-export default CardPost;

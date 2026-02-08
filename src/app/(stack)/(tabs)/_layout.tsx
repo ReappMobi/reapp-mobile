@@ -14,6 +14,7 @@ import { Icon } from '@/components/ui/icon';
 import { SearchInput } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { useSearch } from '@/hooks/use-search';
+import { THEME } from '@/lib/theme';
 
 const TabIcon = ({
   focused,
@@ -183,8 +184,11 @@ const TabLayout = () => {
         <Tabs.Screen
           name="profile"
           options={{
+            title: 'Perfil',
+            headerTintColor: THEME.light.primary,
             href: isDonor && null,
-            headerShown: false,
+            headerShadowVisible: false,
+            headerShown: true,
             tabBarIcon: ({ size, color, focused }) => (
               <TabIcon
                 focused={focused}

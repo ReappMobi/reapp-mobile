@@ -2,7 +2,7 @@ import { Stack } from 'expo-router';
 import { useState } from 'react';
 import { ActivityIndicator, Platform, StyleSheet, View } from 'react-native';
 import { WebView } from 'react-native-webview';
-import colors from 'src/constants/colors';
+import { THEME } from '@/lib/theme';
 
 const PrivacyPolicyScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,7 +21,7 @@ const PrivacyPolicyScreen = () => {
         options={{
           title: 'Política de Privacidade',
           headerBackVisible: true,
-          headerTintColor: colors.primary,
+          headerTintColor: THEME.light.primary,
           headerShadowVisible: false,
           headerTitleStyle: {
             fontSize: 18,
@@ -42,7 +42,7 @@ const PrivacyPolicyScreen = () => {
 
         {isLoading && (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.primary} />
+            <ActivityIndicator size="large" color={THEME.light.primary} />
           </View>
         )}
       </View>

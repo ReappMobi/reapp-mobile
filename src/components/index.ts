@@ -1,19 +1,6 @@
-import CardInstitutionProject from './CardInstitutionProject';
-import CardPost from './CardPost';
-import Carousel from './Carousel';
-import DonationInformationItem from './DonationInformationItem';
-import Input from './Input';
-import LoadingBox from './LoadingBox';
-import ScreenContainer from './ScreenContainer';
-import TabViewWrapper from './TabViewWrapper';
+// Generic UI Components (v1)
+// These should ideally be moved to @/components/ui if they are primitives
+// or kept here if they are generic containers.
 
-export {
-  CardInstitutionProject,
-  CardPost,
-  Carousel,
-  DonationInformationItem,
-  Input,
-  LoadingBox,
-  ScreenContainer,
-  TabViewWrapper,
-};
+export { LoadingBox } from './LoadingBox';
+export { ScreenContainer } from './ScreenContainer';

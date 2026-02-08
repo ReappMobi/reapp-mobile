@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { CardPost } from 'src/components';
+import { CardPost } from '@/components/app/post/card-post';
 import { useAuth } from 'src/hooks/useAuth';
 import { useSavedPosts } from 'src/hooks/useSavedPosts';
 import { IPost } from 'src/types';

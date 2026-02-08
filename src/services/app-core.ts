@@ -1,6 +1,4 @@
-import { IBanner } from 'src/types';
-
-import { RequestMedia } from './account';
+import { IBanner } from '@/types';
 import api from './api';
 
 export async function getPosts(data: { token: string }) {
@@ -94,42 +92,6 @@ export async function unsavePost(data: { id: number; token: string }) {
   }
 }
 
-export async function followAccount(data: { id: number; token: string }) {
-  try {
-    const response = await api.post(
-      `/account/follow/${data.id}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${data.token}`,
-        },
-        validateStatus() {
-          return true;
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    return { error: error.message };
-  }
-}
-
-export async function unfollowAccount(data: { id: number; token: string }) {
-  try {
-    const response = await api.delete(`/account/unfollow/${data.id}`, {
-      headers: {
-        Authorization: `Bearer ${data.token}`,
-      },
-      validateStatus() {
-        return true;
-      },
-    });
-    return response.data;
-  } catch (error) {
-    return { error: error.message };
-  }
-}
-
 export async function getSavedPosts(data: { token: string }) {
   try {
     const response = await api.get(`/post/saved`, {
@@ -207,88 +169,6 @@ export async function postPublication(postData: {
   }
 }
 
-export async function deletePublication(data: { id: number; token: string }) {
-  try {
-    const response = await api.delete(`/post/${data.id}`, {
-      headers: {
-        Authorization: `Bearer ${data.token}`,
-      },
-      validateStatus() {
-        return true;
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    return { error: error.message };
-  }
-}
-
-export async function postInstitutionMember(
-  data: { name: string; media: RequestMedia | null; memberType: string },
-  token: string
-) {
-  try {
-    const formData = new FormData();
-    formData.append('name', data.name);
-    formData.append('memberType', data.memberType);
-    if (data.media) {
-      formData.append('file', data.media as any);
-    }
-
-    const response = await api.post('/institution-members', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    return response.data;
-  } catch (error) {
-    return { error: error.message };
-  }
-}
-
-export async function getPartnerByInstitutionId(
-  institutionId: number,
-  token: string
-) {
-  try {
-    const response = await api.get(
-      `/institution-members/partners/${institutionId}`
-    );
-    return response.data;
-  } catch (error) {
-    return { error: error.message };
-  }
-}
-
-export async function getCollaboratorByInstitutionId(
-  institutionId: number,
-  token: string
-) {
-  try {
-    const response = await api.get(
-      `/institution-members/collaborators/${institutionId}`
-    );
-    return response.data;
-  } catch (error) {
-    return { error: error.message };
-  }
-}
-
-export async function getVolunteersByInstitutionId(
-  institutionId: number,
-  token: string
-) {
-  try {
-    const response = await api.get(
-      `/institution-members/volunteers/${institutionId}`
-    );
-    return response.data;
-  } catch (error) {
-    return { error: error.message };
-  }
-}
-
 export async function toggleFavoriteProject(data: {
   projectId: number;
   token: string;
@@ -346,23 +226,6 @@ export async function postProject(projectData) {
   }
 }
 
-export async function deleteProject(data: { id: number; token: string }) {
-  try {
-    const response = await api.delete(`/project/${data.id}`, {
-      headers: {
-        Authorization: `Bearer ${data.token}`,
-      },
-      validateStatus() {
-        return true;
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    return { error: error.message };
-  }
-}
-
 export async function getProjects(token: string) {
   try {
     const response = await api.get(`/project`, {
@@ -406,22 +269,6 @@ export async function getProjectCategories(data) {
       },
       validateStatus() {
         return true;
-      },
-    });
-    return response.data;
-  } catch (error) {
-    return { error: error.message };
-  }
-}
-
-export async function getInstituitionPosts(
-  institutionId: number,
-  token: string
-) {
-  try {
-    const response = await api.get(`/post/institution/${institutionId}`, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
       },
     });
     return response.data;
