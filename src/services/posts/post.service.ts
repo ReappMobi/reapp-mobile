@@ -1,11 +1,17 @@
 import {
-  UseMutationOptions,
-  UseQueryOptions,
+  type UseMutationOptions,
+  type UseQueryOptions,
   useMutation,
   useQuery,
 } from '@tanstack/react-query';
 import { IPost } from '@/types';
-import { deletePost, getPosts, getPostsByInstitution } from './post.requests';
+import {
+  createPost,
+  deletePost,
+  getPosts,
+  getPostsByInstitution,
+  type CreatePostData,
+} from './post.requests';
 
 export const POSTS_PREFIX_KEY = 'posts';
 
@@ -38,6 +44,15 @@ export const useDeletePost = (
 ) => {
   return useMutation({
     mutationFn: deletePost,
+    ...options,
+  });
+};
+
+export const useCreatePost = (
+  options?: UseMutationOptions<IPost, Error, CreatePostData>
+) => {
+  return useMutation({
+    mutationFn: createPost,
     ...options,
   });
 };

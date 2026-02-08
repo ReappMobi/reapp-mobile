@@ -7,6 +7,7 @@ import {
 import {
   createProject,
   deleteProject,
+  getFavoriteProjects,
   getProjectById,
   getProjectCategories,
   getProjects,
@@ -28,6 +29,7 @@ export const GET_PROJECT_BY_ID_KEY = 'get-project-by-id';
 export const GET_PROJECTS_BY_INSTITUTION_ID_KEY =
   'get-projects-by-institution-id';
 export const GET_PROJECT_CATEGORIES_KEY = 'get-project-categories';
+export const GET_FAVORITE_PROJECTS_KEY = 'get-favorite-projects';
 
 export function useGetProjects(
   options?: UseQueryOptions<GetProjectsResponse, Error>
@@ -35,6 +37,16 @@ export function useGetProjects(
   return useQuery({
     queryKey: [GET_PROJECTS_KEY],
     queryFn: getProjects,
+    ...options,
+  });
+}
+
+export function useGetFavoriteProjects(
+  options?: UseQueryOptions<GetProjectsResponse, Error>
+) {
+  return useQuery({
+    queryKey: [GET_FAVORITE_PROJECTS_KEY],
+    queryFn: getFavoriteProjects,
     ...options,
   });
 }
