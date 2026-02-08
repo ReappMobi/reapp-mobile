@@ -10,7 +10,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     name: isProduction ? 'Reapp' : 'Reapp (Dev)',
     slug: 'reapp',
     scheme: 'reapp',
-    version: '2.5.0',
+    version: '2.6.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
     newArchEnabled: true,
