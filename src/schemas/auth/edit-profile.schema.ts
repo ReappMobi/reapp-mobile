@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-
 const MAX_LENGTH_MESSAGE = 'O campo deve ter no máximo 255 caracteres';
 const MAX_NAME_LEN = 255;
 const MAX_NOTE_LEN = 500;
