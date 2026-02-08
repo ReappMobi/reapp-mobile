@@ -11,11 +11,15 @@ module.exports = function (api) {
         'babel-plugin-transform-imports',
         {
           'lucide-react-native': {
-            transform: (name) =>
-              `lucide-react-native/dist/esm/icons/${name
-                .replace(/Icon$/, '')
-                .replace(/([a-z])([A-Z])/g, '$1-$2')
-                .toLowerCase()}`,
+            transform: (name) => {
+              if (['LucideIcon', 'LucideProps'].includes(name)) {
+                return 'lucide-react-native';
+              }
+              return `lucide-react-native/dist/esm/icons/${name
+                .replace(/([A-Z0-9])/g, (matches) => `-${matches[0].toLowerCase()}`)
+                .replace(/^-/, '')
+                .replace(/-icon$/, '')}`;
+            },
             preventFullImport: true,
           },
         },
