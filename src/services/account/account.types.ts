@@ -14,7 +14,6 @@ export interface RequestMedia {
 
 export interface DeleteAccountData {
   accountId: number;
-  token: string;
 }
 
 export interface DeleteAccountResponse {

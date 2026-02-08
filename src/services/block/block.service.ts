@@ -6,7 +6,7 @@ export function useBlockUser(
   options?: UseMutationOptions<unknown, Error, BlockUserData>
 ) {
   return useMutation({
-    mutationFn: ({ userId, token }: BlockUserData) => blockUser(userId, token),
+    mutationFn: ({ userId }: BlockUserData) => blockUser(userId),
     ...options,
   });
 }
@@ -15,8 +15,7 @@ export function useUnblockUser(
   options?: UseMutationOptions<unknown, Error, UnblockUserData>
 ) {
   return useMutation({
-    mutationFn: ({ userId, token }: UnblockUserData) =>
-      unblockUser(userId, token),
+    mutationFn: ({ userId }: UnblockUserData) => unblockUser(userId),
     ...options,
   });
 }

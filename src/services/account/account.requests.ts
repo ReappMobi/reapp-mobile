@@ -88,15 +88,9 @@ export const getInstitutions = async () => {
 
 export const deleteAccount = async ({
   accountId,
-  token,
 }: DeleteAccountData) => {
   const { data } = await api.delete<DeleteAccountResponse>(
-    `/account/${accountId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+    `/account/${accountId}`
   );
   return data;
 };
