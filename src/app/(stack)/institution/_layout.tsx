@@ -166,7 +166,7 @@ const Header = ({ institution, loading }: HeaderProps) => {
 export default function Layout() {
   const params = useLocalSearchParams();
   const { id } = params;
-  const { getToken } = useAuth();
+  const { token } = useAuth();
   const idNumber = Number(id);
 
   const [institution, setInstitution] = useState<IInstitution | null>(null);
@@ -175,7 +175,6 @@ export default function Layout() {
   useEffect(() => {
     (async () => {
       try {
-        const token = await getToken();
         const fetchedInstitution = await getInstitutionByAccountId(
           idNumber,
           token
@@ -187,7 +186,7 @@ export default function Layout() {
         setLoading(false);
       }
     })();
-  }, [idNumber, getToken]);
+  }, [idNumber]);
 
   if (loading) {
     return (

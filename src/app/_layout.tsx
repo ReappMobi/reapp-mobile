@@ -25,6 +25,7 @@ import '@/styles/global.css';
 
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import Toast from 'react-native-toast-message';
+import { useAuth } from 'src/hooks/useAuth';
 import { toastConfig } from '@/lib/toast-config';
 
 cssInterop(Image, { className: 'style' });
@@ -40,6 +41,42 @@ Sentry.init({
   sendDefaultPii: true,
 });
 
+function RootContent({
+  fontsLoaded,
+  fontError,
+}: {
+  fontsLoaded: boolean;
+  fontError: Error;
+}) {
+  const { loading: authLoading } = useAuth();
+
+  useEffect(() => {
+    if ((fontsLoaded || fontError) && !authLoading) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError, authLoading]);
+
+  if ((!fontsLoaded && !fontError) || authLoading) {
+    return null;
+  }
+
+  return (
+    <KeyboardProvider>
+      <Drawer
+        drawerContent={DrawerContent}
+        screenOptions={{
+          headerShown: false,
+          swipeEnabled: true,
+          swipeEdgeWidth: 0,
+          drawerStyle: { width: '70%' },
+        }}
+      />
+      <Toast config={toastConfig} />
+      <PortalHost />
+    </KeyboardProvider>
+  );
+}
+
 function RootLayout() {
   const fonts = {
     reapp_thin: Roboto_100Thin,
@@ -52,37 +89,15 @@ function RootLayout() {
 
   const [fontsLoaded, fontError] = useFonts(fonts);
 
-  useEffect(() => {
-    if (fontsLoaded || fontError) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded, fontError]);
-
-  if (!fontsLoaded && !fontError) {
-    return null;
-  }
-
   const queryClient = new QueryClient();
 
   return (
-    <ThemeProvider value={NAV_THEME['light']}>
+    <ThemeProvider value={NAV_THEME.light}>
       <StatusBar style="dark" />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
-            <KeyboardProvider>
-              <Drawer
-                drawerContent={DrawerContent}
-                screenOptions={{
-                  headerShown: false,
-                  swipeEnabled: true,
-                  swipeEdgeWidth: 0,
-                  drawerStyle: { width: '70%' },
-                }}
-              />
-              <Toast config={toastConfig} />
-              <PortalHost />
-            </KeyboardProvider>
+            <RootContent fontsLoaded={fontsLoaded} fontError={fontError} />
           </AuthProvider>
         </QueryClientProvider>
       </GestureHandlerRootView>

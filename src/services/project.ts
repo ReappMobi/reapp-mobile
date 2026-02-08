@@ -1,4 +1,4 @@
-import { ApiResponseError } from 'src/errors/ApiResponseError';
+import { ReappException } from '@/errors/ReappException';
 
 import api from './api';
 
@@ -44,7 +44,7 @@ export type CreateProjectResponse = {
 export const createProject = async (
   token: string,
   data: CreateProject
-): Promise<[CreateProjectResponse | null, ApiResponseError | Error | null]> => {
+): Promise<[CreateProjectResponse | null, ReappException | Error | null]> => {
   const formData = new FormData();
   for (const key in data) {
     if (key === 'media') {
@@ -64,14 +64,14 @@ export const createProject = async (
         'Content-Type': 'multipart/form-data',
       },
     });
-    if (response.status !== 201) {
-      const { error, message, statusCode } = response.data;
-      throw new ApiResponseError(error, message, statusCode);
-    }
+
     return [response.data, null];
   } catch (error) {
     console.log(error);
-    if (error instanceof ApiResponseError) {
+    if (error instanceof ReappException) {
+      return [null, error];
+    }
+    if (error instanceof Error) {
       return [null, error];
     }
     return [null, new Error('Erro ao criar projeto')];

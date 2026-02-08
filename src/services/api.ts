@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { getReappBackendError } from '@/utils/error';
 
 const MAX_TIMEOUT = 5 * 1000; // 5 seconds
 const TIMEOUT_ERROR_MESSAGE = 'Erro ao conectar com o servidor';
@@ -20,5 +21,13 @@ api.interceptors.request.use(async (config) => {
   config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const transformedError = getReappBackendError(error);
+    return Promise.reject(transformedError);
+  }
+);
 
 export default api;

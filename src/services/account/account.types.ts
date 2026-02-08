@@ -3,6 +3,15 @@ import { AccountField, AccountType } from '@/types/Account';
 import { Donation } from '@/types/IDonation';
 import { MediaAttachment } from '@/types/MediaAttatchment';
 
+export interface RequestMedia {
+  uri: string;
+  name: string;
+  type: string;
+  size: number;
+  width?: number;
+  height?: number;
+}
+
 export interface SendRecoveryEmailData {
   email: string;
 }
@@ -42,6 +51,17 @@ export interface CreateAccountData {
   media?: unknown;
 }
 
+export interface UpdateAccountData {
+  name?: string;
+  email?: string;
+  note?: string;
+  category?: string;
+  fields?: AccountField[];
+  password?: string;
+  passwordConfirmation?: string;
+  media?: unknown;
+}
+
 export interface CreateAccountResponse {
   id: string;
   email: string;
@@ -66,6 +86,8 @@ export interface CreateAccountResponse {
     };
   };
 }
+
+export type UpdateAccountResponse = CreateAccountResponse;
 
 export interface FollowAccountResponse {
   message: string;

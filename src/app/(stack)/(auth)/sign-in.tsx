@@ -1,27 +1,55 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, router } from 'expo-router';
-import { useState } from 'react';
+import { CircleX } from 'lucide-react-native';
 import { useForm } from 'react-hook-form';
 import { ActivityIndicator, Alert, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
-import { Button } from 'src/components/ui/button';
-import { Text } from 'src/components/ui/text';
-import { useAuth } from 'src/hooks/useAuth';
-import {
-  signInFormData,
-  signInFormSchema,
-} from 'src/schemas/auth/sign-in.schema';
+
 import { ControlledInput, Form } from '@/components/app/form';
 import ScreenContainer from '@/components/ScreenContainer';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { SignInData } from '@/types';
+import { Text } from '@/components/ui/text';
+import { ReappException } from '@/errors/ReappException';
+import { useAuth } from '@/hooks/useAuth';
+import { showToast } from '@/lib/toast-config';
+import {
+  SignInFormData,
+  signInFormSchema,
+} from '@/schemas/auth/sign-in.schema';
+import { useLogin } from '@/services/auth/auth.service';
+import { LoginData } from '@/services/auth/auth.types';
 
 export default function SignIn() {
-  const auth = useAuth();
+  const { saveUserAndToken } = useAuth();
 
-  const [loading, setLoading] = useState(false);
+  const { mutate: login, isPending } = useLogin({
+    onSuccess: async ({ token, user }) => {
+      await saveUserAndToken(user, token);
+      router.replace('/');
+    },
+    onError: (e) => {
+      if (ReappException.isReappException(e)) {
+        showToast({
+          type: 'error',
+          header: 'Erro ao fazer login',
+          description: e.message,
+          icon: CircleX,
+        });
+        return;
+      }
+      showToast({
+        type: 'error',
+        header: 'Erro ao fazer login',
+        description:
+          'Tivemos um problema na autenticação, tente novamente mais tarde.',
+        icon: CircleX,
+      });
+      return;
+    },
+  });
 
-  const form = useForm<signInFormData>({
+  const form = useForm<SignInFormData>({
     defaultValues: {
       email: '',
       password: '',
@@ -30,21 +58,8 @@ export default function SignIn() {
     resolver: zodResolver(signInFormSchema),
   });
 
-  const onSubmit = async (data: SignInData) => {
-    if (loading) {
-      return;
-    }
-
-    setLoading(true);
-    try {
-      await auth.signIn(data);
-      setLoading(false);
-      router.replace('/');
-    } catch (error) {
-      Alert.alert('Erro no login', error.message);
-    } finally {
-      setLoading(false);
-    }
+  const onSubmit = (data: LoginData) => {
+    login(data);
   };
 
   return (
@@ -87,9 +102,9 @@ export default function SignIn() {
               <Button
                 size="lg"
                 onPress={form.handleSubmit(onSubmit)}
-                disabled={loading}
+                disabled={isPending}
               >
-                {loading ? (
+                {isPending ? (
                   <ActivityIndicator size="small" color="white" />
                 ) : (
                   <Text> Entrar </Text>
@@ -99,7 +114,7 @@ export default function SignIn() {
                 ou se preferir
               </Text>
               <Link href="/profile-selector" asChild>
-                <Button size="default" disabled={loading} variant="outline">
+                <Button size="default" disabled={isPending} variant="outline">
                   <Text>Criar uma conta</Text>
                 </Button>
               </Link>

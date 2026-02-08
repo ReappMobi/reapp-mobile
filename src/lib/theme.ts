@@ -21,7 +21,7 @@ export const THEME = {
     input: 'hsl(122 21% 55%)',
     ring: 'hsl(0 0% 63%)',
     radius: '0.625rem',
-        
+
     tertiary: 'hsl(184 15% 55%)',
     blue: 'hsl(217 91% 60%)',
     gray: 'hsl(0 0% 56%)',
@@ -30,7 +30,7 @@ export const THEME = {
     textPrimary: 'hsl(90 11% 39%)',
     textSecondary: 'hsl(90 11% 55%)',
     textNeutral: 'hsl(220 24% 25%)',
-    
+
     chart1: 'hsl(12 76% 61%)',
     chart2: 'hsl(173 58% 39%)',
     chart3: 'hsl(197 37% 24%)',
@@ -56,5 +56,5 @@ export const NAV_THEME: Record<'light', Theme> = {
       bold: { fontFamily: 'reapp_bold', fontWeight: '700' },
       heavy: { fontFamily: 'reapp_black', fontWeight: '900' },
     },
-  }
+  },
 };

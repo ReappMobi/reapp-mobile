@@ -9,4 +9,4 @@ export const signInFormSchema = z.object({
     .min(8, { message: 'A senha deve ter no mínimo 8 caracteres.' }),
 });
 
-export type signInFormData = z.infer<typeof signInFormSchema>;
+export type SignInFormData = z.infer<typeof signInFormSchema>;

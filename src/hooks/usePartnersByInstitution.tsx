@@ -16,10 +16,9 @@ export const usePartnersByInstitution = (institutionId: number) => {
       setLoading(true);
       setError(null);
 
-      const token = await auth.getToken();
-      setToken(token);
+      if (!auth.token) return;
 
-      const partners = await getPartnerByInstitutionId(institutionId, token);
+      const partners = await getPartnerByInstitutionId(institutionId, auth.token);
       setPartners(partners);
     } catch (err) {
       setError(err as Error);

@@ -16,12 +16,11 @@ export const useVolunteersByInstitution = (institutionId: number) => {
       setLoading(true);
       setError(null);
 
-      const token = await auth.getToken();
-      setToken(token);
+      if (!auth.token) return;
 
       const volunteers = await getVolunteersByInstitutionId(
         institutionId,
-        token
+        auth.token
       );
       setVolunteers(volunteers);
     } catch (err) {

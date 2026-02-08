@@ -4,6 +4,7 @@ import {
   useMutation,
   useQuery,
 } from '@tanstack/react-query';
+import { ReappException } from '@/errors/ReappException';
 import {
   createAccount,
   followAccount,
@@ -12,6 +13,7 @@ import {
   resetPassword,
   sendRecoveryEmail,
   unfollowAccount,
+  updateAccount,
 } from './account.requests';
 import type {
   CreateAccountData,
@@ -24,12 +26,18 @@ import type {
   ResetPasswordResponse,
   SendRecoveryEmailData,
   SendRecoveryEmailResponse,
+  UpdateAccountData,
+  UpdateAccountResponse,
 } from './account.types';
 
 export const GET_INSTITUIONS_KEY = 'get-institutions';
 
 export function useCreateAccount(
-  options?: UseMutationOptions<CreateAccountResponse, Error, CreateAccountData>
+  options?: UseMutationOptions<
+    CreateAccountResponse,
+    ReappException | Error,
+    CreateAccountData
+  >
 ) {
   return useMutation({
     mutationFn: createAccount,
@@ -37,8 +45,25 @@ export function useCreateAccount(
   });
 }
 
+export function useUpdateAccount(
+  options?: UseMutationOptions<
+    UpdateAccountResponse,
+    ReappException | Error,
+    UpdateAccountData & { id: number }
+  >
+) {
+  return useMutation({
+    mutationFn: updateAccount,
+    ...options,
+  });
+}
+
 export function useFollowAccount(
-  options?: UseMutationOptions<FollowAccountResponse, Error, number>
+  options?: UseMutationOptions<
+    FollowAccountResponse,
+    ReappException | Error,
+    number
+  >
 ) {
   return useMutation({
     mutationFn: followAccount,
@@ -47,7 +72,11 @@ export function useFollowAccount(
 }
 
 export function useUnfollowAccount(
-  options?: UseMutationOptions<FollowAccountResponse, Error, number>
+  options?: UseMutationOptions<
+    FollowAccountResponse,
+    ReappException | Error,
+    number
+  >
 ) {
   return useMutation({
     mutationFn: unfollowAccount,
@@ -56,7 +85,7 @@ export function useUnfollowAccount(
 }
 
 export function useGetInstitutions(
-  options?: UseQueryOptions<GetInstitutionsResponse, Error>
+  options?: UseQueryOptions<GetInstitutionsResponse, ReappException | Error>
 ) {
   return useQuery({
     queryKey: [GET_INSTITUIONS_KEY],
@@ -66,7 +95,11 @@ export function useGetInstitutions(
 }
 
 export function useResetPassword(
-  options?: UseMutationOptions<ResetPasswordResponse, Error, ResetPasswordData>
+  options?: UseMutationOptions<
+    ResetPasswordResponse,
+    ReappException | Error,
+    ResetPasswordData
+  >
 ) {
   return useMutation({
     mutationFn: resetPassword,
@@ -77,7 +110,7 @@ export function useResetPassword(
 export function useRecoveryPassword(
   options?: UseMutationOptions<
     RecoveryPasswordResponse,
-    Error,
+    ReappException | Error,
     RecoveryPasswordData
   >
 ) {
@@ -90,7 +123,7 @@ export function useRecoveryPassword(
 export function useSendRecoveryEmail(
   options?: UseMutationOptions<
     SendRecoveryEmailResponse,
-    Error,
+    ReappException | Error,
     SendRecoveryEmailData
   >
 ) {

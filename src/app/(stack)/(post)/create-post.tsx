@@ -10,8 +10,7 @@ import {
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
 import { router } from 'expo-router';
-import CameraIcon from 'lucide-react-native/dist/esm/icons/camera';
-import Images from 'lucide-react-native/dist/esm/icons/images';
+import { Camera as CameraIcon, Images } from 'lucide-react-native';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
@@ -43,7 +42,7 @@ const postCreateFormSchema = z.object({
 type postCreateFormData = z.infer<typeof postCreateFormSchema>;
 
 export default function PostCreate() {
-  const auth = useAuth();
+  const { token, ...auth } = useAuth();
   const [media, setMedia] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const mediaTypes: MediaType[] = ['images'];
@@ -71,7 +70,6 @@ export default function PostCreate() {
 
   const onSubmit = async (data: postCreateFormData) => {
     setLoading(true);
-    const token = await auth.getToken();
 
     const dataReq = {
       content: data.description,

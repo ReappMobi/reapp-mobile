@@ -1,5 +1,4 @@
-import Search from 'lucide-react-native/dist/esm/icons/search';
-import X from 'lucide-react-native/dist/esm/icons/x';
+import { Search, X } from 'lucide-react-native';
 import { cssInterop } from 'nativewind';
 import { useRef, useState } from 'react';
 import { Keyboard, TextInput, type TextInputProps, View } from 'react-native';

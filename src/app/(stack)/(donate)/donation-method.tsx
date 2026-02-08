@@ -15,7 +15,7 @@ const DonationMethodPage = () => {
   const [value, setValue] = useState(0);
   const [loading, setLoading] = useState(false);
   const [description, setDescription] = useState('');
-  const auth = useAuth();
+  const { token } = useAuth();
 
   const requestPayment = async () => {
     console.log(value);
@@ -26,7 +26,6 @@ const DonationMethodPage = () => {
 
     setLoading(true);
     try {
-      const token = await auth.getToken();
       const data = {
         amount: value / 100,
         institutionId: Number(institutionId),

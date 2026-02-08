@@ -1,13 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, router } from 'expo-router';
-import MailCheck from 'lucide-react-native/dist/esm/icons/mail-check';
-import MailX from 'lucide-react-native/dist/esm/icons/mail-x';
+import { MailCheck, MailX } from 'lucide-react-native';
 import { useForm } from 'react-hook-form';
 import { ActivityIndicator, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { z } from 'zod';
 import { ScreenContainer } from '@/components';
-import { SafeKeyboardAvoidView } from '@/components/app/containers/keyboard-avoid-view';
 import { ControlledInput, Form } from '@/components/app/form';
 import { Button } from '@/components/ui/button';
 import {

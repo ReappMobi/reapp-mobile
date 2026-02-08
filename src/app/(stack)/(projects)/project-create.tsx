@@ -24,8 +24,8 @@ export default function ProjectCreate() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const token = await auth.getToken();
-        const res = await getProjectCategories({ token });
+        if (!auth.token) return;
+        const res = await getProjectCategories({ token: auth.token });
         if (res.error) {
           Alert.alert('Erro na aplicação. Tente novamente mais tarde!');
           router.back();
@@ -39,7 +39,7 @@ export default function ProjectCreate() {
     };
 
     fetchCategories();
-  }, []);
+  }, [auth.token]);
 
   const projectCreateFormSchema = z.object({
     name: z
@@ -67,7 +67,11 @@ export default function ProjectCreate() {
 
   const onSubmit = async (data: any) => {
     setLoading(true);
-    const token = await auth.getToken();
+    if (!auth.token) {
+      setLoading(false);
+      return;
+    }
+
     if (!image) {
       setLoading(false);
       Alert.alert('A foto de capa para o projeto é obrigatória!');
@@ -79,7 +83,7 @@ export default function ProjectCreate() {
       description: data.description,
       categoryId: selectedCategory,
       image,
-      token,
+      token: auth.token,
       institutionId: auth.user.id,
     };
     const res = await postProject(dataReq);

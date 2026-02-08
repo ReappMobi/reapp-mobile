@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { debounce } from 'es-toolkit/function';
 import { Image } from 'expo-image';
 import { Link } from 'expo-router';
-import Building2 from 'lucide-react-native/dist/esm/icons/building-2.js';
+import { Building2 } from 'lucide-react-native';
 import { View } from 'react-native';
 
 import { Button } from '@/components/ui/button';
