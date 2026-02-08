@@ -16,11 +16,11 @@ import {
   View,
 } from 'react-native';
 import { useAuth } from 'src/hooks/useAuth';
-import { RequestMedia } from 'src/services/account';
 import { postInstitutionMember } from 'src/services/app-core';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
+import type { RequestMedia } from '@/services/account/account.types';
 
 const collaboratorCreateFormSchema = z.object({
   name: z

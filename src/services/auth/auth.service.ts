@@ -1,6 +1,6 @@
 import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 import { ReappException } from '@/errors/ReappException';
-import { login, signUp } from './auth.requests';
+import { login } from './auth.requests';
 import { LoginData, LoginResponse, SignUpRequest } from './auth.types';
 
 export const useLogin = (
@@ -8,19 +8,6 @@ export const useLogin = (
 ) => {
   return useMutation({
     mutationFn: login,
-    ...options,
-  });
-};
-
-export const useSignUp = (
-  options?: UseMutationOptions<
-    LoginResponse,
-    ReappException | Error,
-    SignUpRequest
-  >
-) => {
-  return useMutation({
-    mutationFn: signUp,
     ...options,
   });
 };
