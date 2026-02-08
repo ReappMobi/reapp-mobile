@@ -1,8 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from 'expo-router';
-import React, { useState } from 'react';
+import { CircleCheck, CircleX } from 'lucide-react-native';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Alert, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { ControlledInput } from '@/components/app/form/controlled-input';
 import { Form } from '@/components/app/form/form';
@@ -10,6 +11,8 @@ import { AvatarPicker } from '@/components/ui/avatar-picker';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { useAuth } from '@/hooks/useAuth';
+import { THEME } from '@/lib/theme';
+import { showToast } from '@/lib/toast-config';
 import {
   type EditProfileFormData,
   editProfileSchema,
@@ -26,7 +29,6 @@ export default function EditProfileScreen() {
     defaultValues: {
       name: user?.name || '',
       note: user?.note || '',
-      email: user?.email || '',
     },
   });
 
@@ -34,12 +36,22 @@ export default function EditProfileScreen() {
     onSuccess: async (data) => {
       if (data && token) {
         await saveUserAndToken(data as any, token);
-        Alert.alert('Sucesso!', 'Perfil atualizado com sucesso.');
+        showToast({
+          type: 'success',
+          header: 'Sucesso!',
+          description: 'Perfil atualizado com sucesso.',
+          icon: CircleCheck,
+        });
         router.back();
       }
     },
     onError: (error) => {
-      Alert.alert('Erro ao atualizar perfil', error.message);
+      showToast({
+        type: 'error',
+        header: 'Erro ao atualizar perfil',
+        description: error.message,
+        icon: CircleX,
+      });
     },
   });
 
@@ -57,8 +69,8 @@ export default function EditProfileScreen() {
 
   return (
     <KeyboardAwareScrollView
-      style={{ flex: 1 }}
-      contentContainerClassName="flex-1 bg-red-400"
+      style={{ flex: 1, backgroundColor: THEME.light.background }}
+      contentContainerClassName="flex-1"
     >
       <ScrollView contentContainerClassName="p-6">
         <View className="items-center mb-8">
@@ -77,15 +89,7 @@ export default function EditProfileScreen() {
             placeholder="Conte um pouco sobre você"
             multiline
             numberOfLines={3}
-            inputClassName="h-24 py-2"
-          />
-
-          <ControlledInput
-            name="email"
-            label="E-mail"
-            placeholder="seu@email.com"
-            keyboardType="email-address"
-            autoCapitalize="none"
+            inputClassName="py-2"
           />
 
           <View className="mt-4 gap-4">
@@ -107,7 +111,7 @@ export default function EditProfileScreen() {
           </View>
 
           <Button
-            className="mt-6 h-12"
+            size="lg"
             onPress={form.handleSubmit(onSubmit)}
             disabled={isPending}
           >

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const INVALID_EMAIL_MESSAGE = 'E-mail inválido';
+
 const MAX_LENGTH_MESSAGE = 'O campo deve ter no máximo 255 caracteres';
 const MAX_NAME_LEN = 255;
 const MAX_NOTE_LEN = 500;
@@ -27,7 +27,6 @@ export const editProfileSchema = z
       .max(MAX_NOTE_LEN, { message: MAX_NOTE_LENGTH_MESSAGE })
       .optional()
       .or(z.literal('')),
-    email: z.string().email({ message: INVALID_EMAIL_MESSAGE }).optional(),
     password: z
       .optional(
         z
