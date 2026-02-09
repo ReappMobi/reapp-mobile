@@ -2,50 +2,111 @@ import { useHeaderHeight } from '@react-navigation/elements';
 import { useQueryClient } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import { useLocalSearchParams } from 'expo-router';
+import CircleCheck from 'lucide-react-native/dist/esm/icons/circle-check';
+import CircleX from 'lucide-react-native/dist/esm/icons/circle-x';
 import { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
   Platform,
-  Text,
   TextInput,
   View,
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useAuth } from 'src/hooks/useAuth';
+import { useReportContent } from '@/services/report/report.service';
 import {
   COMMENTS_PREFIX_KEY,
   useAddComment,
   useGetPostComments,
 } from 'src/services/comments/comments.service';
 import { timeAgo } from 'src/utils/time-ago';
-import { ScreenContainer } from '@/components';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import colors from '@/constants/colors';
+import { Input } from '@/components/ui/input';
+import { Text } from '@/components/ui/text';
+import { THEME } from '@/lib/theme';
+import { showToast } from '@/lib/toast-config';
 
-const renderItem = ({ item }) => (
-  <View className="flex-row gap-3 px-4 py-3 border-b border-gray-50">
-    <Image
-      source={{ uri: item.account.media?.remoteUrl }}
-      className="h-9 w-9 rounded-full bg-gray-200"
-    />
-    <View className="flex-1 gap-1">
-      <View className="flex-row items-center justify-between">
-        <Text className="font-semibold text-sm text-black">
-          {item.account.name}
-        </Text>
-        <Text className="text-xs text-gray-400">
-          {timeAgo(item.createdAt.toString())}
+export default function PostCommentsPage() {
+  const { token } = useAuth();
+  const [optionsDialogOpen, setOptionsDialogOpen] = useState(false);
+  const [reportDialogOpen, setReportDialogOpen] = useState(false);
+  const [reportReason, setReportReason] = useState('');
+  const [reportCommentId, setReportCommentId] = useState<number | null>(null);
+
+  const { mutate: reportMutate } = useReportContent({
+    onSuccess: () => {
+      showToast({
+        type: 'success',
+        header: 'Denúncia enviada',
+        description: 'Denúncia enviada com sucesso.',
+        icon: CircleCheck,
+      });
+    },
+    onError: () => {
+      showToast({
+        type: 'error',
+        header: 'Erro',
+        description: 'Não foi possível enviar a denúncia.',
+        icon: CircleX,
+      });
+    },
+  });
+
+  const handleReportComment = (commentId: number) => {
+    setReportCommentId(commentId);
+    setOptionsDialogOpen(true);
+  };
+
+  const handleReportConfirm = () => {
+    if (!reportReason.trim()) { return; }
+    if (!reportCommentId) { return; }
+    reportMutate({
+      targetType: 'COMMENT',
+      targetId: reportCommentId,
+      reason: reportReason,
+    });
+  };
+
+  const renderItem = ({ item }) => (
+    <View className="flex-row gap-3 px-4 py-3 border-b border-gray-50">
+      <Image
+        source={{ uri: item.account.media?.remoteUrl }}
+        placeholder={{ blurhash: item.account.media?.blurhash }}
+        className="h-9 w-9 rounded-full bg-gray-200"
+        contentFit="cover"
+        transition={500}
+      />
+      <View className="flex-1 gap-1">
+        <View className="flex-row items-center justify-between">
+          <Text className="font-semibold text-sm text-black">
+            {item.account.name}
+          </Text>
+          <Text className="text-xs text-gray-400">
+            {timeAgo(item.createdAt.toString())}
+          </Text>
+        </View>
+        <Text
+          className="text-sm text-gray-800 leading-5"
+          onLongPress={() => handleReportComment(item.id)}
+        >
+          {item.body}
         </Text>
       </View>
-      <Text className="text-sm text-gray-800 leading-5">{item.body}</Text>
     </View>
-  </View>
-);
+  );
 
-const Page = () => {
-  const { token } = useAuth();
   const { id } = useLocalSearchParams<{ id: string }>();
   const [page, setPage] = useState(1);
   const [comment, setComment] = useState('');
@@ -127,7 +188,7 @@ const Page = () => {
   };
 
   return (
-    <ScreenContainer>
+    <View className="flex-1 bg-white">
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={
@@ -191,7 +252,7 @@ const Page = () => {
               variant="ghost"
             >
               {isAddCommentLoading ? (
-                <ActivityIndicator size="small" color={colors.primary} />
+                <ActivityIndicator size="small" color={THEME.light.primary} />
               ) : (
                 <Text className="font-semibold text-primary">Publicar</Text>
               )}
@@ -199,8 +260,55 @@ const Page = () => {
           </View>
         </View>
       </KeyboardAvoidingView>
-    </ScreenContainer>
-  );
-};
 
-export default Page;
+      <AlertDialog open={optionsDialogOpen} onOpenChange={setOptionsDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Opções</AlertDialogTitle>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>
+              <Text>Cancelar</Text>
+            </AlertDialogCancel>
+            <AlertDialogAction
+              variant="destructive"
+              onPress={() => {
+                setReportReason('');
+                setReportDialogOpen(true);
+              }}
+            >
+              <Text>Denunciar comentário</Text>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={reportDialogOpen} onOpenChange={setReportDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Denunciar comentário</AlertDialogTitle>
+            <AlertDialogDescription>
+              Descreva o motivo da denúncia:
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <Input
+            placeholder="Motivo da denúncia"
+            placeholderTextColor="#9ca3af"
+            value={reportReason}
+            onChangeText={setReportReason}
+            multiline
+            maxLength={500}
+          />
+          <AlertDialogFooter>
+            <AlertDialogCancel>
+              <Text>Cancelar</Text>
+            </AlertDialogCancel>
+            <AlertDialogAction onPress={handleReportConfirm}>
+              <Text>Enviar</Text>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </View>
+  );
+}
