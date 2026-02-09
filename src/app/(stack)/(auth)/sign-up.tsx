@@ -28,7 +28,6 @@ import {
 } from '@/components/ui/card';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
-import { THEME } from '@/lib/theme';
 import { showToast } from '@/lib/toast-config';
 import {
   CreateAccountFormData,
@@ -58,11 +57,13 @@ export default function SignUpPage() {
     },
     onError: (error) => {
       const reappError = getReappBackendError(error);
+      const reappCode =
+        reappError && 'code' in reappError ? reappError.code : undefined;
 
       if (
-        reappError?.code === 'AVATAR_MUST_BE_IMAGE' ||
-        reappError?.code === 'EMAIL_ALREADY_REGISTERED' ||
-        reappError?.code === 'CNPJ_ALREADY_REGISTERED'
+        reappCode === 'AVATAR_MUST_BE_IMAGE' ||
+        reappCode === 'EMAIL_ALREADY_REGISTERED' ||
+        reappCode === 'CNPJ_ALREADY_REGISTERED'
       ) {
         showToast({
           type: 'error',
