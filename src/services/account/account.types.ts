@@ -12,6 +12,14 @@ export interface RequestMedia {
   height?: number;
 }
 
+export interface DeleteAccountData {
+  accountId: number;
+}
+
+export interface DeleteAccountResponse {
+  message: string;
+}
+
 export interface SendRecoveryEmailData {
   email: string;
 }

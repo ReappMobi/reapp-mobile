@@ -72,6 +72,7 @@ export function PostList({ institutionId, isMe }: PostListProps) {
         updatedAt={item.updatedAt}
         isSavedInitial={isSaved}
         isLikedInitial={isLiked}
+        institutionAccountId={item.institution?.account?.id}
       />
     );
   };

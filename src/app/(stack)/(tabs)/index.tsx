@@ -79,7 +79,9 @@ function PostList() {
         description={item.body || ''}
         isSavedInitial={isSaved}
         isLikedInitial={isLiked}
+        institutionAccountId={item.institution?.account?.id}
         onPressInstitutionProfile={() => handleInstitutionProfileClick(item)}
+        onBlockUser={() => onRefresh()}
       />
     );
   };

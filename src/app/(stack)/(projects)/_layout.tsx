@@ -5,7 +5,7 @@ const Layout = () => (
   <Stack
     screenOptions={{
       title: 'REAPP',
-      headerBackVisible: false,
+      headerBackVisible: true,
       headerTintColor: colors.primary,
       headerShadowVisible: false,
       headerTitleStyle: {

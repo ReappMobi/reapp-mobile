@@ -1,9 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { router, useLocalSearchParams } from 'expo-router';
-import { CircleCheck, CircleX } from 'lucide-react-native';
+import { Link, router, useLocalSearchParams } from 'expo-router';
+import CircleCheck from 'lucide-react-native/dist/esm/icons/circle-check';
+import CircleX from 'lucide-react-native/dist/esm/icons/circle-x';
+import Square from 'lucide-react-native/dist/esm/icons/square';
+import SquareCheck from 'lucide-react-native/dist/esm/icons/square-check';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ActivityIndicator, Image, View } from 'react-native';
+import { ActivityIndicator, Image, Pressable, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import DefaultAvatar from '@/assets/images/avatar.png';
 import { ScreenContainer } from '@/components';
@@ -23,8 +26,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
-import { ReappException } from '@/errors/ReappException';
 import { showToast } from '@/lib/toast-config';
 import {
   CreateAccountFormData,
@@ -34,13 +37,14 @@ import {
 import { useCreateAccount } from '@/services/account/account.service';
 import { CreateAccountData } from '@/services/account/account.types';
 import { AccountType } from '@/types/Account';
-import { BackendErrorCodes } from '@/types/errors';
+import { getReappBackendError } from '@/utils/error';
 
 export default function SignUpPage() {
   const { type } = useLocalSearchParams<{ type: 'donor' | 'institution' }>();
   const isInstitution = type === 'institution';
   const [step, setStep] = useState(1);
   const [media, setMedia] = useState<RequestMediaExtended | null>(null);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const { mutate: createAccount, isPending: loading } = useCreateAccount({
     onSuccess: ({ name }) => {
       showToast({
@@ -52,18 +56,19 @@ export default function SignUpPage() {
       router.dismissAll();
     },
     onError: (error) => {
+      const reappError = getReappBackendError(error);
+      const reappCode =
+        reappError && 'code' in reappError ? reappError.code : undefined;
+
       if (
-        ReappException.isCode(error, BackendErrorCodes.AVATAR_MUST_BE_IMAGE) ||
-        ReappException.isCode(
-          error,
-          BackendErrorCodes.EMAIL_ALREADY_REGISTERED
-        ) ||
-        ReappException.isCode(error, BackendErrorCodes.CNPJ_ALREADY_REGISTERED)
+        reappCode === 'AVATAR_MUST_BE_IMAGE' ||
+        reappCode === 'EMAIL_ALREADY_REGISTERED' ||
+        reappCode === 'CNPJ_ALREADY_REGISTERED'
       ) {
         showToast({
           type: 'error',
           header: 'Erro ou criar conta',
-          description: error.message,
+          description: reappError.message,
           icon: CircleX,
         });
       } else {
@@ -204,6 +209,31 @@ export default function SignUpPage() {
                 </>
               )}
 
+              {(!isInstitution || step === 2) && (
+                <Pressable
+                  className="mt-4 flex-row items-start gap-x-2"
+                  onPress={() => setAcceptedTerms(!acceptedTerms)}
+                >
+                  <Icon
+                    as={acceptedTerms ? SquareCheck : Square}
+                    size={22}
+                    className={
+                      acceptedTerms
+                        ? 'text-primary'
+                        : 'text-gray-400'
+                    }
+                  />
+                  <Text className="flex-1 text-sm text-gray-700">
+                    Li e aceito os{' '}
+                    <Link href="/terms-of-use" asChild>
+                      <Text className="text-sm text-primary underline">
+                        Termos de Uso
+                      </Text>
+                    </Link>
+                  </Text>
+                </Pressable>
+              )}
+
               <View className="mt-4 gap-y-2">
                 {isInstitution && step === 1 ? (
                   <Button size="lg" onPress={handleNextStep}>
@@ -213,7 +243,7 @@ export default function SignUpPage() {
                   <Button
                     size="lg"
                     onPress={form.handleSubmit(onSubmit)}
-                    disabled={loading}
+                    disabled={loading || !acceptedTerms}
                   >
                     {loading ? (
                       <ActivityIndicator color="white" />
