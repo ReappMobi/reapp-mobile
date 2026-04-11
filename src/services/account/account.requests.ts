@@ -1,4 +1,4 @@
-import { IInstitution } from '@/types';
+import { Account } from '@/types';
 import { buildFormData } from '@/utils/form-data';
 import api from '../api';
 import {
@@ -17,6 +17,11 @@ import {
   UpdateAccountData,
   UpdateAccountResponse,
 } from './account.types';
+
+export const getMe = async () => {
+  const { data } = await api.get<Account>('/account/me');
+  return data;
+};
 
 export const createAccount = async (payload: CreateAccountData) => {
   const formData = buildFormData(payload as unknown as Record<string, unknown>);
@@ -86,9 +91,7 @@ export const getInstitutions = async () => {
   return data;
 };
 
-export const deleteAccount = async ({
-  accountId,
-}: DeleteAccountData) => {
+export const deleteAccount = async ({ accountId }: DeleteAccountData) => {
   const { data } = await api.delete<DeleteAccountResponse>(
     `/account/${accountId}`
   );

@@ -1,4 +1,4 @@
-import { AccountType, SignUpData } from '@/types';
+import { Account, SignUpData } from '@/types';
 import { RequestMedia } from '../account';
 
 export interface LoginData {
@@ -8,7 +8,7 @@ export interface LoginData {
 
 export interface LoginResponse {
   token: string;
-  user: AccountType;
+  user?: Account;
 }
 
 export interface SignUpRequest extends SignUpData {

@@ -1,10 +1,23 @@
-import { useContext } from 'react';
-import { AuthContext } from 'src/contexts/auth';
+import { useAuthStore } from '@/stores/auth.store';
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  const store = useAuthStore();
+
+  const user = store.user;
+  const accountType = user?.accountType;
+
+  return {
+    ...store,
+    signed: !!user,
+    // Admin behaves like a Donor in the app
+    isDonor: accountType === 'DONOR' || accountType === 'ADMIN',
+    isInstitution: accountType === 'INSTITUTION',
+    isAdmin: accountType === 'ADMIN',
+
+    accountType,
+
+    saveUserAndToken: async (user: any, token: string) => {
+      await store.signIn(token);
+    },
+  };
 };

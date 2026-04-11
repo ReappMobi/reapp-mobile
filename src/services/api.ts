@@ -1,5 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import * as SecureStore from 'expo-secure-store';
 import { getReappBackendError } from '@/utils/error';
 
 const MAX_TIMEOUT = 5 * 1000; // 5 seconds
@@ -17,8 +17,10 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(async (config) => {
-  const token = await AsyncStorage.getItem('@RNAuth:token');
-  config.headers.Authorization = `Bearer ${token}`;
+  const token = await SecureStore.getItemAsync('@RNAuth:token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
   return config;
 });
 
