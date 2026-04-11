@@ -5608,6 +5608,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-secure-store@npm:^55.0.13":
+  version: 55.0.13
+  resolution: "expo-secure-store@npm:55.0.13"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/0f51e54070cab2e02094ade6b343c59c19a82d59fc637e9c3a40e9362eb0e8f2bdba80345b81fc7c337c43d766bbda6a0ea07ad2dd800e3f7da2ab1e6d6fb98e
+  languageName: node
+  linkType: hard
+
 "expo-server@npm:^1.0.2":
   version: 1.0.2
   resolution: "expo-server@npm:1.0.2"
@@ -9494,6 +9503,7 @@ __metadata:
     expo-image-picker: "npm:~17.0.8"
     expo-linking: "npm:~8.0.8"
     expo-router: "npm:~6.0.13"
+    expo-secure-store: "npm:^55.0.13"
     expo-splash-screen: "npm:~31.0.10"
     expo-status-bar: "npm:~3.0.8"
     expo-web-browser: "npm:~15.0.8"
@@ -9525,6 +9535,7 @@ __metadata:
     tailwindcss-animate: "npm:^1.0.7"
     typescript: "npm:~5.9.2"
     zod: "npm:^3.23.4"
+    zustand: "npm:^5.0.12"
   languageName: unknown
   linkType: soft
 
@@ -11278,6 +11289,27 @@ __metadata:
   version: 3.25.76
   resolution: "zod@npm:3.25.76"
   checksum: 10c0/5718ec35e3c40b600316c5b4c5e4976f7fee68151bc8f8d90ec18a469be9571f072e1bbaace10f1e85cf8892ea12d90821b200e980ab46916a6166a4260a983c
+  languageName: node
+  linkType: hard
+
+"zustand@npm:^5.0.12":
+  version: 5.0.12
+  resolution: "zustand@npm:5.0.12"
+  peerDependencies:
+    "@types/react": ">=18.0.0"
+    immer: ">=9.0.6"
+    react: ">=18.0.0"
+    use-sync-external-store: ">=1.2.0"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    immer:
+      optional: true
+    react:
+      optional: true
+    use-sync-external-store:
+      optional: true
+  checksum: 10c0/304c1dfb6033d758ddc7606c15df8566e6cace83ee4eeec721e8975f7813fd4cca2c68ff6b3eaa1841a9e53f0cf8486007217479785eccb845e3596de4df7f1e
   languageName: node
   linkType: hard
 
