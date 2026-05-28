@@ -20,6 +20,16 @@ export default function Layout() {
               headerTintColor: THEME['light'].primary,
             }}
           />
+          <Stack.Screen
+            name="report"
+            options={{
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: THEME['light'].background,
+              },
+              headerTintColor: THEME['light'].primary,
+            }}
+          />
         </Stack>
       </SearchProvider>
     </SafeAreaProvider>

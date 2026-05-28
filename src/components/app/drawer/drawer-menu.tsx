@@ -1,6 +1,7 @@
 import type { DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript/src/types';
 import { Link, router } from 'expo-router';
 import {
+  Braces,
   ChevronDown,
   ChevronUp,
   CircleAlert,
@@ -21,7 +22,7 @@ interface DrawerMenuProps {
 }
 
 const DrawerMenu = ({ navigation }: DrawerMenuProps) => {
-  const { signOut, isDonor } = useAuth();
+  const { signOut, isDonor, isAdmin } = useAuth();
   const [isDonationsOpen, setIsDonationsOpen] = useState(false);
 
   const handleSignOut = async () => {
@@ -53,6 +54,11 @@ const DrawerMenu = ({ navigation }: DrawerMenuProps) => {
         icon: CircleAlert,
       });
     });
+  };
+
+  const handleDevButtonPress = () => {
+    router.push('/admin-settings');
+    navigation.closeDrawer();
   };
 
   return (
@@ -152,6 +158,19 @@ const DrawerMenu = ({ navigation }: DrawerMenuProps) => {
           <Icon as={LogOut} className="text-foreground w-5 h-5" />
           <Text className="font-semibold text-base">Sair</Text>
         </Button>
+
+        {(isAdmin || __DEV__) && (
+          <Button
+            variant="ghost"
+            className="justify-start px-0"
+            onPress={handleDevButtonPress}
+          >
+            <Icon as={Braces} className="text-foreground h-5 w-5" />
+            <Button variant="ghost" className="flex-row justify-between px-0">
+              <Text className="font-semibold text-base">Opções de Dev.</Text>
+            </Button>
+          </Button>
+        )}
       </View>
     </View>
   );

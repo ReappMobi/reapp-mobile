@@ -32,14 +32,11 @@ cssInterop(Image, { className: 'style' });
 
 SplashScreen.preventAutoHideAsync();
 
-const dsn =
-  process.env.EXPO_PUBLIC_SENTRY_DSN ||
-  'https://3ccbdd44076242a8bfb19101ad14bd8d@monitoring.reapp.dev.br/1';
-
+const dsn = process.env.EXPO_PUBLIC_SENTRY_DSN;
 Sentry.init({
   dsn,
   sendDefaultPii: true,
-  debug: __DEV__,
+  debug: false,
 });
 
 function RootContent({

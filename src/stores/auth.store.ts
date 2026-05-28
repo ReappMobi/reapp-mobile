@@ -14,7 +14,7 @@ interface AuthState {
   initialize: () => Promise<void>;
 }
 
-const TOKEN_KEY = '@RNAuth:token';
+const TOKEN_KEY = 'RNAuth_token';
 
 export const useAuthStore = create<AuthState>((set, get) => {
   // Config interceptor for 401
