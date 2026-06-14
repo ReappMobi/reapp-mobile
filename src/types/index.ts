@@ -1,8 +1,8 @@
 import { IInstitution } from './IInstitution';
 import { IMedia } from './IMedia';
 
-export type AccountType = {
-  accountType: 'DONOR' | 'INSTITUTION';
+export type Account = {
+  accountType: 'DONOR' | 'INSTITUTION' | 'ADMIN';
   avatar?: string;
   createdAt: Date;
   email: string;

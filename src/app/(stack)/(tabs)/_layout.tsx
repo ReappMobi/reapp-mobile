@@ -89,7 +89,7 @@ const HeaderCreateButton = () => {
 };
 
 const TabLayout = () => {
-  const { isDonor, token, user } = useAuth();
+  const { isDonor, isInstitution, token, user } = useAuth();
   const { updateSearchQuery, updateSearchActive } = useSearch();
 
   if (!user || !token) {
@@ -117,7 +117,7 @@ const TabLayout = () => {
             headerLeftContainerStyle: { paddingLeft: 16 },
             headerRightContainerStyle: { paddingRight: 16 },
             headerLeft: () => <HeaderAvatar user={user} />,
-            headerRight: () => (!isDonor ? <HeaderCreateButton /> : null),
+            headerRight: () => (isInstitution ? <HeaderCreateButton /> : null),
             tabBarIcon: ({ color, size, focused }) =>
               focused ? (
                 <View
@@ -166,7 +166,7 @@ const TabLayout = () => {
         <Tabs.Screen
           name="favorites"
           options={{
-            href: !isDonor && null,
+            href: isInstitution && null,
             headerShown: isDonor,
             headerTitle: 'Favoritos',
             headerTitleAlign: 'center',
@@ -191,7 +191,7 @@ const TabLayout = () => {
           options={{
             title: 'Perfil',
             headerTintColor: THEME.light.primary,
-            href: isDonor && null,
+            href: !isInstitution && null,
             headerShadowVisible: false,
             headerShown: true,
             tabBarIcon: ({ size, color, focused }) => (

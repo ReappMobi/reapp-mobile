@@ -1,24 +1,31 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import * as SecureStore from 'expo-secure-store';
 import { getReappBackendError } from '@/utils/error';
 
 const MAX_TIMEOUT = 5 * 1000; // 5 seconds
 const TIMEOUT_ERROR_MESSAGE = 'Erro ao conectar com o servidor';
 
-const baseURL = process.env.EXPO_PUBLIC_API_URL || 'https://api.reapp.dev.br';
+export const DEFAULT_API_URL =
+  process.env.EXPO_PUBLIC_API_URL || 'https://api.reapp.dev.br';
 
 const api = axios.create({
-  baseURL,
+  timeout: MAX_TIMEOUT,
+  timeoutErrorMessage: TIMEOUT_ERROR_MESSAGE,
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: MAX_TIMEOUT,
-  timeoutErrorMessage: TIMEOUT_ERROR_MESSAGE,
 });
 
 api.interceptors.request.use(async (config) => {
-  const token = await AsyncStorage.getItem('@RNAuth:token');
-  config.headers.Authorization = `Bearer ${token}`;
+  // Use custom base URL if set, otherwise use default
+  const customBaseUrl = await SecureStore.getItemAsync('RNAuth_baseUrl');
+  config.baseURL = customBaseUrl || DEFAULT_API_URL;
+
+  const token = await SecureStore.getItemAsync('RNAuth_token');
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
   return config;
 });
 

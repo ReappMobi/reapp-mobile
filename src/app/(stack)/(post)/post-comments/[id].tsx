@@ -1,9 +1,7 @@
 import { useHeaderHeight } from '@react-navigation/elements';
 import { useQueryClient } from '@tanstack/react-query';
 import { Image } from 'expo-image';
-import { useLocalSearchParams } from 'expo-router';
-import CircleCheck from 'lucide-react-native/dist/esm/icons/circle-check';
-import CircleX from 'lucide-react-native/dist/esm/icons/circle-x';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -15,7 +13,6 @@ import {
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { useAuth } from 'src/hooks/useAuth';
-import { useReportContent } from '@/services/report/report.service';
 import {
   COMMENTS_PREFIX_KEY,
   useAddComment,
@@ -27,56 +24,22 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { THEME } from '@/lib/theme';
-import { showToast } from '@/lib/toast-config';
 
 export default function PostCommentsPage() {
   const { token } = useAuth();
   const [optionsDialogOpen, setOptionsDialogOpen] = useState(false);
-  const [reportDialogOpen, setReportDialogOpen] = useState(false);
-  const [reportReason, setReportReason] = useState('');
   const [reportCommentId, setReportCommentId] = useState<number | null>(null);
-
-  const { mutate: reportMutate } = useReportContent({
-    onSuccess: () => {
-      showToast({
-        type: 'success',
-        header: 'Denúncia enviada',
-        description: 'Denúncia enviada com sucesso.',
-        icon: CircleCheck,
-      });
-    },
-    onError: () => {
-      showToast({
-        type: 'error',
-        header: 'Erro',
-        description: 'Não foi possível enviar a denúncia.',
-        icon: CircleX,
-      });
-    },
-  });
 
   const handleReportComment = (commentId: number) => {
     setReportCommentId(commentId);
     setOptionsDialogOpen(true);
-  };
-
-  const handleReportConfirm = () => {
-    if (!reportReason.trim()) { return; }
-    if (!reportCommentId) { return; }
-    reportMutate({
-      targetType: 'COMMENT',
-      targetId: reportCommentId,
-      reason: reportReason,
-    });
   };
 
   const renderItem = ({ item }) => (
@@ -273,38 +236,21 @@ export default function PostCommentsPage() {
             <AlertDialogAction
               variant="destructive"
               onPress={() => {
-                setReportReason('');
-                setReportDialogOpen(true);
+                if (reportCommentId === null) {
+                  return;
+                }
+                setOptionsDialogOpen(false);
+                router.push({
+                  pathname: '/report',
+                  params: {
+                    targetType: 'COMMENT',
+                    targetId: String(reportCommentId),
+                    title: 'Denunciar comentário',
+                  },
+                });
               }}
             >
               <Text>Denunciar comentário</Text>
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
-      <AlertDialog open={reportDialogOpen} onOpenChange={setReportDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Denunciar comentário</AlertDialogTitle>
-            <AlertDialogDescription>
-              Descreva o motivo da denúncia:
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <Input
-            placeholder="Motivo da denúncia"
-            placeholderTextColor="#9ca3af"
-            value={reportReason}
-            onChangeText={setReportReason}
-            multiline
-            maxLength={500}
-          />
-          <AlertDialogFooter>
-            <AlertDialogCancel>
-              <Text>Cancelar</Text>
-            </AlertDialogCancel>
-            <AlertDialogAction onPress={handleReportConfirm}>
-              <Text>Enviar</Text>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

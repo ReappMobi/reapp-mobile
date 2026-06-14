@@ -18,7 +18,6 @@ import { StatusBar } from 'expo-status-bar';
 import { cssInterop } from 'nativewind';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { AuthProvider } from 'src/contexts/auth';
 import { DrawerContent } from '@/components/app/drawer/drawer-content';
 import { NAV_THEME } from '@/lib/theme';
 import '@/styles/global.css';
@@ -27,20 +26,17 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 import Toast from 'react-native-toast-message';
 import { useAuth } from 'src/hooks/useAuth';
 import { toastConfig } from '@/lib/toast-config';
+import { useAuthStore } from '@/stores/auth.store';
 
 cssInterop(Image, { className: 'style' });
 
 SplashScreen.preventAutoHideAsync();
 
-const dsn =
-  process.env.EXPO_PUBLIC_SENTRY_DSN ||
-  'https://3ccbdd44076242a8bfb19101ad14bd8d@monitoring.reapp.dev.br/1';
-
+const dsn = process.env.EXPO_PUBLIC_SENTRY_DSN;
 Sentry.init({
   dsn,
   sendDefaultPii: true,
-  enableInExpoDevelopment: true,
-  debug: __DEV__,
+  debug: false,
 });
 
 function RootContent({
@@ -90,6 +86,11 @@ function RootLayout() {
   };
 
   const [fontsLoaded, fontError] = useFonts(fonts);
+  const initialize = useAuthStore((state) => state.initialize);
+
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
 
   const queryClient = new QueryClient();
 
@@ -98,9 +99,7 @@ function RootLayout() {
       <StatusBar style="dark" />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <RootContent fontsLoaded={fontsLoaded} fontError={fontError} />
-          </AuthProvider>
+          <RootContent fontsLoaded={fontsLoaded} fontError={fontError} />
         </QueryClientProvider>
       </GestureHandlerRootView>
     </ThemeProvider>
